@@ -7,13 +7,26 @@ public class Button_Press_Script : MonoBehaviour {
     private Renderer buttonTopRenderer;
     Animator anim;
 
-	// Use this for initialization
-	void Start () {
+    public int rCommand = -1;
+
+    // Use this for initialization
+    void Start () {
         anim = GetComponent<Animator>();
-        GameObject buttonTopObj = GameObject.Find("Button/Top/Sphere_001_MeshPart0");
+        GameObject buttonTopObj = getChildGameObject("Top");
         buttonTopRenderer = buttonTopObj.GetComponent<Renderer>();
     }
-    
+
+    private GameObject getChildGameObject(string withName)
+    {
+        GameObject childObj = null;
+        foreach (Transform child in transform)
+        {
+            if (child.name == withName)
+                childObj = child.gameObject;
+        }
+        return childObj;
+    }
+
     void OnMouseEnter()
     {
         startcolor = buttonTopRenderer.material.color;
@@ -30,7 +43,7 @@ public class Button_Press_Script : MonoBehaviour {
         GameObject consoleText = GameObject.Find("Console_Text");
         Console_Text_Script consoleTextScript = consoleText.GetComponent<Console_Text_Script>();
         //send command tapped to the Console_Text_Script
-        consoleTextScript.tappedWaitForSecondsOrTap(Console_Text_Script.buttonCommand);
+        consoleTextScript.tappedWaitForSecondsOrTap(rCommand);
 
         anim.Play("Button_Press_Anim");
     }

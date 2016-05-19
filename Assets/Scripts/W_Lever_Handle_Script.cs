@@ -12,6 +12,7 @@ public class W_Lever_Handle_Script : MonoBehaviour {
     private int lastHandlePosition;
 
     public bool isWLeverUp = true;
+    public int rCommand = -1;
 
     private Color startcolor;
     private Renderer wLeverTopRenderer;
@@ -22,9 +23,20 @@ public class W_Lever_Handle_Script : MonoBehaviour {
         m_HingeJoint = GetComponent<HingeJoint>();
         isWLeverUp = true;
         lastHandlePosition = upPosition;
-        GameObject wLeverTopObj = GameObject.Find("W_Lever/Handle/Top");
+        GameObject wLeverTopObj = getChildGameObject("Top");
         wLeverTopRenderer = wLeverTopObj.GetComponent<Renderer>();
         startcolor = wLeverTopRenderer.material.color;
+    }
+
+    private GameObject getChildGameObject(string withName)
+    {
+        GameObject childObj = null;
+        foreach (Transform child in transform)
+        {
+            if (child.name == withName)
+                childObj = child.gameObject;
+        }
+        return childObj;
     }
 
     void OnMouseEnter()
@@ -61,7 +73,8 @@ public class W_Lever_Handle_Script : MonoBehaviour {
                 //send command tapped to the Console_Text_Script with wLeverUpCommand
                 GameObject consoleText = GameObject.Find("Console_Text");
                 Console_Text_Script consoleTextScript = consoleText.GetComponent<Console_Text_Script>();
-                consoleTextScript.tappedWaitForSecondsOrTap(Console_Text_Script.wLeverUpCommand);
+                int rCommandUp = (rCommand * 100) + 1;
+                consoleTextScript.tappedWaitForSecondsOrTap(rCommandUp);
                 //Lever changed positions
                 isWLeverUp = true;
             }
@@ -83,7 +96,8 @@ public class W_Lever_Handle_Script : MonoBehaviour {
                 //send command tapped to the Console_Text_Script with wLeverDownCommand
                 GameObject consoleText = GameObject.Find("Console_Text");
                 Console_Text_Script consoleTextScript = consoleText.GetComponent<Console_Text_Script>();
-                consoleTextScript.tappedWaitForSecondsOrTap(Console_Text_Script.wLeverDownCommand);
+                int rCommandDown = (rCommand * 100) + 2;
+                consoleTextScript.tappedWaitForSecondsOrTap(rCommandDown);
                 //Lever changed positions
                 isWLeverUp = false;
             }

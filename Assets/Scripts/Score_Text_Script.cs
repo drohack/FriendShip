@@ -29,11 +29,13 @@ public class Score_Text_Script : MonoBehaviour {
     {
         score++;
         GetComponent<TextMesh>().text = "Score = " + score;
+        GetComponent<MeshRenderer>().material.color = Color.black;
     }
 
     public void scoreDown()
     {
         score--;
-        GetComponent<TextMesh>().text = "Score = <color=#ff0000ff>" + score + "</color>";
+        GetComponent<TextMesh>().text = "Score = " + score;
+        GetComponent<MeshRenderer>().material.color = Color.red;
     }
 }
