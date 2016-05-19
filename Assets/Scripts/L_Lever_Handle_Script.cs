@@ -18,6 +18,8 @@ public class L_Lever_Handle_Script : MonoBehaviour {
     private Renderer lLeverTopRenderer;
     private bool isMouseOver = false;
 
+    Mastermind_Script mastermindScript;
+
     void Start()
     {
         m_HingeJoint = GetComponent<HingeJoint>();
@@ -27,6 +29,7 @@ public class L_Lever_Handle_Script : MonoBehaviour {
         lLeverTopRenderer = lLeverTopObj.GetComponent<Renderer>();
         isMouseOver = false;
         startcolor = lLeverTopRenderer.material.color;
+        mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
 
     private GameObject getChildGameObject(string withName)
@@ -72,10 +75,8 @@ public class L_Lever_Handle_Script : MonoBehaviour {
             if(lastHandlePosition == middlePosition)
             {
                 //send command tapped to the Console_Text_Script with the lLeverUpCommand
-                GameObject consoleText = GameObject.Find("Console_Text");
-                Console_Text_Script consoleTextScript = consoleText.GetComponent<Console_Text_Script>();
                 int rCommandUp = (rCommand * 100) + 1;
-                consoleTextScript.tappedWaitForSecondsOrTap(rCommandUp);
+                mastermindScript.TappedWaitForSecondsOrTap(rCommandUp);
                 //Lever changed positions
                 isLLeverUp = true;
             }
@@ -98,7 +99,7 @@ public class L_Lever_Handle_Script : MonoBehaviour {
                 GameObject consoleText = GameObject.Find("Console_Text");
                 Console_Text_Script consoleTextScript = consoleText.GetComponent<Console_Text_Script>();
                 int rCommandDown = (rCommand * 100) + 2;
-                consoleTextScript.tappedWaitForSecondsOrTap(rCommandDown);
+                mastermindScript.TappedWaitForSecondsOrTap(rCommandDown);
                 //Lever changed positions
                 isLLeverUp = false;
             }

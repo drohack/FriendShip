@@ -18,6 +18,8 @@ public class W_Lever_Handle_Script : MonoBehaviour {
     private Renderer wLeverTopRenderer;
     private bool isMouseOver = false;
 
+    Mastermind_Script mastermindScript;
+
     void Start()
     {
         m_HingeJoint = GetComponent<HingeJoint>();
@@ -26,6 +28,7 @@ public class W_Lever_Handle_Script : MonoBehaviour {
         GameObject wLeverTopObj = getChildGameObject("Top");
         wLeverTopRenderer = wLeverTopObj.GetComponent<Renderer>();
         startcolor = wLeverTopRenderer.material.color;
+        mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
 
     private GameObject getChildGameObject(string withName)
@@ -71,10 +74,8 @@ public class W_Lever_Handle_Script : MonoBehaviour {
             if (lastHandlePosition == middlePosition)
             {
                 //send command tapped to the Console_Text_Script with wLeverUpCommand
-                GameObject consoleText = GameObject.Find("Console_Text");
-                Console_Text_Script consoleTextScript = consoleText.GetComponent<Console_Text_Script>();
                 int rCommandUp = (rCommand * 100) + 1;
-                consoleTextScript.tappedWaitForSecondsOrTap(rCommandUp);
+                mastermindScript.TappedWaitForSecondsOrTap(rCommandUp);
                 //Lever changed positions
                 isWLeverUp = true;
             }
@@ -94,10 +95,8 @@ public class W_Lever_Handle_Script : MonoBehaviour {
             if (lastHandlePosition == middlePosition)
             {
                 //send command tapped to the Console_Text_Script with wLeverDownCommand
-                GameObject consoleText = GameObject.Find("Console_Text");
-                Console_Text_Script consoleTextScript = consoleText.GetComponent<Console_Text_Script>();
                 int rCommandDown = (rCommand * 100) + 2;
-                consoleTextScript.tappedWaitForSecondsOrTap(rCommandDown);
+                mastermindScript.TappedWaitForSecondsOrTap(rCommandDown);
                 //Lever changed positions
                 isWLeverUp = false;
             }

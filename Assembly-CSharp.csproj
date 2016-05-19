@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{BCBCDBC7-AA39-19BC-6100-A8056AFD2846}</ProjectGuid>
+    <ProjectGuid>{CA51FC43-D469-A606-7AE6-85358E73A4B4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -47,11 +47,15 @@
   <ItemGroup>
      <Compile Include="Assets\Multiplayer\Simple Multiplayer\My Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\Button_Press_Script.cs" />
+     <Compile Include="Assets\Scripts\Command_Array.cs" />
      <Compile Include="Assets\Scripts\Console_Text_Script.cs" />
      <Compile Include="Assets\Scripts\Drag_Rigid_Body_Script.cs" />
      <Compile Include="Assets\Scripts\L_Lever_Handle_Script.cs" />
+     <Compile Include="Assets\Scripts\L_Lever_Script.cs" />
+     <Compile Include="Assets\Scripts\Mastermind_Script.cs" />
      <Compile Include="Assets\Scripts\Score_Text_Script.cs" />
      <Compile Include="Assets\Scripts\W_Lever_Handle_Script.cs" />
+     <Compile Include="Assets\Scripts\W_Lever_Script.cs" />
      <None Include="Assets\Standard Assets\Prototyping\Shaders\WorldCoordDiffuse.shader" />
      <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Simple.shader" />
      <None Include="Assets\Standard Assets\Environment\Water (Basic)\Shaders\FXWaterBasic.shader" />
@@ -70,7 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{B055F43A-2FF6-A26B-56C8-57EF53D40A39}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+      <Project>{FFD09484-A002-12DE-ABDD-4AFC4A4C8F21}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
