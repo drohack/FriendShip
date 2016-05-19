@@ -3,12 +3,26 @@ using System.Collections;
 
 public class Button_Press_Script : MonoBehaviour {
 
+    private Color startcolor;
+    private Renderer buttonTopRenderer;
     Animator anim;
 
 	// Use this for initialization
 	void Start () {
         anim = GetComponent<Animator>();
-	}
+        GameObject buttonTopObj = GameObject.Find("Button/Top/Sphere_001_MeshPart0");
+        buttonTopRenderer = buttonTopObj.GetComponent<Renderer>();
+    }
+    
+    void OnMouseEnter()
+    {
+        startcolor = buttonTopRenderer.material.color;
+        buttonTopRenderer.material.color = Color.yellow;
+    }
+    void OnMouseExit()
+    {
+        buttonTopRenderer.material.color = startcolor;
+    }
 
     void OnMouseDown()
     {

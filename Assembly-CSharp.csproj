@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{9492D609-E5D4-763A-45C4-AC24C78106D5}</ProjectGuid>
+    <ProjectGuid>{7B6728B2-37AB-0059-E8D9-472B69CE04DF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -46,10 +46,11 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Button_Press_Script.cs" />
-     <Compile Include="Assets\Scripts\Canvas_Text_Script.cs" />
      <Compile Include="Assets\Scripts\Console_Text_Script.cs" />
-     <Compile Include="Assets\Scripts\L_Lever_Script.cs" />
-     <Compile Include="Assets\Scripts\W_Lever_Script.cs" />
+     <Compile Include="Assets\Scripts\Drag_Rigid_Body_Script.cs" />
+     <Compile Include="Assets\Scripts\L_Lever_Handle_Script.cs" />
+     <Compile Include="Assets\Scripts\Score_Text_Script.cs" />
+     <Compile Include="Assets\Scripts\W_Lever_Handle_Script.cs" />
      <None Include="Assets\Standard Assets\Prototyping\Shaders\WorldCoordDiffuse.shader" />
      <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Simple.shader" />
      <None Include="Assets\Standard Assets\Environment\Water (Basic)\Shaders\FXWaterBasic.shader" />
@@ -68,7 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{709E1A78-6E54-A872-4AE4-B0E118A386EC}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+      <Project>{1C834045-75CC-328E-3FBB-9C2005B18D8A}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -15,9 +15,15 @@ public class Console_Text_Script : MonoBehaviour {
     private bool isTapped = false;
     private TextMesh textMesh;
 
+    private int commandTimeoutSeconds = 10;
+
     public const int buttonCommand = 0;
     public const int lLeverCommand = 1;
+    public const int lLeverUpCommand = lLeverCommand * 10 + 1;
+    public const int lLeverDownCommand = lLeverCommand * 10 + 2;
     public const int wLeverCommand = 2;
+    public const int wLeverUpCommand = wLeverCommand * 10 + 1;
+    public const int wLeverDownCommand = wLeverCommand * 10 + 2;
 
     // Use this for initialization
     void Start ()
@@ -27,6 +33,7 @@ public class Console_Text_Script : MonoBehaviour {
         StartCoroutine(DisplayStartText());
     }
 
+    //Display "START!" for 2 seconds
     IEnumerator DisplayStartText()
     {
         isDisplayStart = true;
@@ -38,10 +45,15 @@ public class Console_Text_Script : MonoBehaviour {
 
     void Update()
     {
+        //if we are NOT typing "START!" including waiting the 2 seconds
+        //AND if we are NOT currently typing a command
+        //AND if we are NOT currently waiting the 10 seconds for a command to pass
+        //generate and display a new random command
         if (!isDisplayStart && !isTyping && !isDisplayingCommand)
             StartCoroutine(DisplayRandomCommand());
     }
 
+    //Type out the text that is loaded into the "message" variable
     IEnumerator TypeText()
     {
         isTyping = true;
@@ -66,31 +78,31 @@ public class Console_Text_Script : MonoBehaviour {
         //lower score if time reached (button was not tapped)
         if (!isTapped)
         {
-            GameObject canvasTextObj = GameObject.Find("Canvas_Text");
-            Canvas_Text_Script canvasTextScript = canvasTextObj.GetComponent<Canvas_Text_Script>();
-            canvasTextScript.scoreDown();
+            GameObject scoreTextObj = GameObject.Find("Score_Text");
+            Score_Text_Script scoreTextScript = scoreTextObj.GetComponent<Score_Text_Script>();
+            scoreTextScript.scoreDown();
         }
 
         //reset isTapped
         isTapped = false;
     }
 
-    // End the waitForSeconds by setting the timer to zero
+    // End the waitForSeconds by setting the timer to zero AND signal that a button was tapped
     public void tappedWaitForSecondsOrTap(int inputCommand)
     {
         isTapped = true;
 
         //Update score in Canvas
-        GameObject canvasTextObj = GameObject.Find("Canvas_Text");
-        Canvas_Text_Script canvasTextScript = canvasTextObj.GetComponent<Canvas_Text_Script>();
-        //Check to see if the current comman is the correct button pressed. Update score accordingly
+        GameObject scoreTextObj = GameObject.Find("Score_Text");
+        Score_Text_Script scoreTextScript = scoreTextObj.GetComponent<Score_Text_Script>();
+        //Check to see if the current command is the correct button pressed. Update score accordingly
         if (rCommand == inputCommand)
         {
-            canvasTextScript.scoreUp();
+            scoreTextScript.scoreUp();
         }
         else
         {
-            canvasTextScript.scoreDown();
+            scoreTextScript.scoreDown();
         }
 
         //Set timer to 0 to get next command (Always)
@@ -118,31 +130,35 @@ public class Console_Text_Script : MonoBehaviour {
                 break;
             case lLeverCommand:
                 //L_Lever
-                GameObject L_Lever = GameObject.Find("L_Lever");
-                L_Lever_Script lLeverScript = L_Lever.GetComponent<L_Lever_Script>();
+                GameObject L_Lever_Handle = GameObject.Find("L_Lever/Handle");
+                L_Lever_Handle_Script lLeverHandleScript = L_Lever_Handle.GetComponent<L_Lever_Handle_Script>();
                 message = "Turn ";
-                if(lLeverScript.isLLeverUp)
+                if(lLeverHandleScript.isLLeverUp)
                 {
                     message += "OFF";
+                    rCommand = lLeverDownCommand;
                 }
                 else
                 {
                     message += "ON";
+                    rCommand = lLeverUpCommand;
                 }
                 message += " the lights";
                 break;
             case wLeverCommand:
                 //W_Lever
-                GameObject W_Lever = GameObject.Find("W_Lever");
-                W_Lever_Script wLeverScript = W_Lever.GetComponent<W_Lever_Script>();
+                GameObject W_Lever_Handle = GameObject.Find("W_Lever/Handle");
+                W_Lever_Handle_Script wLeverHandleScript = W_Lever_Handle.GetComponent<W_Lever_Handle_Script>();
                 message = "";
-                if(wLeverScript.isWLeverUp)
+                if(wLeverHandleScript.isWLeverUp)
                 {
                     message += "Lower";
+                    rCommand = wLeverDownCommand;
                 }
                 else
                 {
                     message += "Raise";
+                    rCommand = wLeverUpCommand;
                 }
                 message += " the shields";
                 break;
@@ -150,9 +166,11 @@ public class Console_Text_Script : MonoBehaviour {
                 break;
         }
 
+        //Type out new command to console
         StartCoroutine(TypeText());
 
-        yield return WaitForSecondsOrTap(10);
+        //Wait for the commandTimeoutSeconds or if a button gets tapped
+        yield return WaitForSecondsOrTap(commandTimeoutSeconds);
         isDisplayingCommand = false;
     }
 
