@@ -70,11 +70,18 @@ public class Console_Text_Script : MonoBehaviour {
 
         //Create a grid to hold all of the random game objects
         grid = new GameObject[gridX,gridY];
-        GameObject button = GameObject.Find("Button");
-        GameObject lLever = GameObject.Find("L_Lever");
-        GameObject wLever = GameObject.Find("W_Lever");
         int commandIndex;
         string newCommandText;
+
+        float xBQuaternion = ((GameObject)Resources.Load("Prefabs/Button")).transform.rotation.eulerAngles.x + transform.parent.parent.transform.rotation.eulerAngles.x;
+        float yBQuaternion = ((GameObject)Resources.Load("Prefabs/Button")).transform.rotation.eulerAngles.y + transform.parent.parent.transform.rotation.eulerAngles.y;
+        float zBQuaternion = ((GameObject)Resources.Load("Prefabs/Button")).transform.rotation.eulerAngles.z + transform.parent.parent.transform.rotation.eulerAngles.z;
+        float xLQuaternion = ((GameObject)Resources.Load("Prefabs/L_Lever")).transform.rotation.eulerAngles.x + transform.parent.parent.transform.rotation.eulerAngles.x;
+        float yLQuaternion = ((GameObject)Resources.Load("Prefabs/L_Lever")).transform.rotation.eulerAngles.y + transform.parent.parent.transform.rotation.eulerAngles.y;
+        float zLQuaternion = ((GameObject)Resources.Load("Prefabs/L_Lever")).transform.rotation.eulerAngles.z + transform.parent.parent.transform.rotation.eulerAngles.z;
+        float xWQuaternion = ((GameObject)Resources.Load("Prefabs/W_Lever")).transform.rotation.eulerAngles.x + transform.parent.parent.transform.rotation.eulerAngles.x;
+        float yWQuaternion = ((GameObject)Resources.Load("Prefabs/W_Lever")).transform.rotation.eulerAngles.y + transform.parent.parent.transform.rotation.eulerAngles.y;
+        float zWQuaternion = ((GameObject)Resources.Load("Prefabs/W_Lever")).transform.rotation.eulerAngles.z + transform.parent.parent.transform.rotation.eulerAngles.z;
 
         //for each grid position generate a random object and add it to the grid
         for (int x=0; x<gridX; x++)
@@ -95,7 +102,10 @@ public class Console_Text_Script : MonoBehaviour {
                         //remove selected button command from buttonCommandArray so it won't be used again
                         buttonCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
-                        randObject = (GameObject)Instantiate(button, new Vector3(-3 + (3 * x), 3 + (4 * y), button.transform.position.z), button.transform.rotation);
+                        randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"), 
+                            new Vector3(transform.parent.parent.transform.position.x - 3 + (3 * x), 3 + (4 * y), transform.position.z), 
+                            Quaternion.Euler(new Vector3(xBQuaternion, yBQuaternion, zBQuaternion)));
+                        randObject.transform.parent = transform.parent.parent.transform;
                         //add new command text to the new randomObject
                         randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
                         //set randObject's rCommand in it's Script
@@ -108,7 +118,10 @@ public class Console_Text_Script : MonoBehaviour {
                         //remove selected button command from lLeverCommandArray so it won't be used again
                         lLeverCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
-                        randObject = (GameObject)Instantiate(lLever, new Vector3(-3 + (3 * x), 3 + (4 * y), lLever.transform.position.z), lLever.transform.rotation);
+                        randObject = (GameObject)Instantiate(Resources.Load("Prefabs/L_Lever"), 
+                            new Vector3(transform.parent.parent.transform.position.x - 3 + (3 * x), 3 + (4 * y), (transform.position.z - 0.711737f)),
+                            Quaternion.Euler(new Vector3(xLQuaternion, yLQuaternion, zLQuaternion)));
+                        randObject.transform.parent = transform.parent.parent.transform;
                         //add new command text to the new randomObject
                         randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
                         //set randObject's rCommand in it's Script
@@ -121,7 +134,10 @@ public class Console_Text_Script : MonoBehaviour {
                         //remove selected button command from wLeverCommandArray so it won't be used again
                         wLeverCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
-                        randObject = (GameObject)Instantiate(wLever, new Vector3(-3 + (3 * x), 3 + (4 * y), wLever.transform.position.z), wLever.transform.rotation);
+                        randObject = (GameObject)Instantiate(Resources.Load("Prefabs/W_Lever"), 
+                            new Vector3(transform.parent.parent.transform.position.x - 3 + (3 * x), 3 + (4 * y), (transform.position.z - 0.763737f)),
+                            Quaternion.Euler(new Vector3(xWQuaternion, yWQuaternion, zWQuaternion)));
+                        randObject.transform.parent = transform.parent.parent.transform;
                         //add new command text to the new randomObject
                         randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
                         //set randObject's rCommand in it's Script
@@ -134,7 +150,10 @@ public class Console_Text_Script : MonoBehaviour {
                         //remove selected button command from buttonCommandArray so it won't be used again
                         buttonCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
-                        randObject = (GameObject)Instantiate(button, new Vector3(-3 + (3 * x), 3 + (4 * y), button.transform.position.z), button.transform.rotation);
+                        randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
+                            new Vector3(transform.parent.parent.transform.position.x - 3 + (3 * x), 3 + (4 * y), transform.position.z),
+                            Quaternion.Euler(new Vector3(xBQuaternion, yBQuaternion, zBQuaternion)));
+                        randObject.transform.parent = transform.parent.parent.transform;
                         //add new command text to the new randomObject
                         randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
                         //set randObject's rCommand in it's Script

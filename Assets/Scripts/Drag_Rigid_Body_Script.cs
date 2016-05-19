@@ -41,6 +41,7 @@ public class Drag_Rigid_Body_Script : MonoBehaviour {
         {
             var go = new GameObject("Rigidbody dragger");
             Rigidbody body = go.AddComponent<Rigidbody>();
+            go.transform.parent = GameObject.Find("Player(Clone)").transform;
             m_SpringJoint = go.AddComponent<SpringJoint>();
             body.isKinematic = true;
         }
@@ -86,6 +87,6 @@ public class Drag_Rigid_Body_Script : MonoBehaviour {
             return GetComponent<Camera>();
         }
 
-        return Camera.main;
+        return GameObject.Find("Player(Clone)/Camera").GetComponent<Camera>();
     }
 }

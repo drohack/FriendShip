@@ -1,0 +1,218 @@
+fileFormatVersion: 2
+guid: dccbb67eb29492d4a81d62d326cc51e4
+timeCreated: 1463458743
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: BezierCurve
+    100002: BezierCurve_001
+    100004: //RootNode
+    100006: Cube
+    100008: Cube_001
+    100010: Cube_002
+    100012: Cube_003
+    100014: Cube_004
+    100016: Cube_005
+    100018: Cube_006
+    100020: Cylinder
+    100022: Cylinder_001
+    100024: Cylinder_002
+    100026: Cylinder_003
+    100028: Cylinder_004
+    100030: Empty
+    100032: Empty_001
+    100034: Empty_002
+    100036: Mod-Regulator
+    100038: Mod-Regulator_001
+    100040: Mod-Switch_15A
+    100042: Mod-Switch_15A_001
+    100044: Mod-Switch_15A_002
+    100046: Plane
+    100048: Plane_001
+    100050: Plane_002
+    100052: Plane_003
+    100054: Sphere
+    100056: Sphere_001
+    100058: Sphere_001_MeshPart0
+    100060: Sphere_001_MeshPart1
+    100062: Sphere_002
+    400000: BezierCurve
+    400002: BezierCurve_001
+    400004: //RootNode
+    400006: Cube
+    400008: Cube_001
+    400010: Cube_002
+    400012: Cube_003
+    400014: Cube_004
+    400016: Cube_005
+    400018: Cube_006
+    400020: Cylinder
+    400022: Cylinder_001
+    400024: Cylinder_002
+    400026: Cylinder_003
+    400028: Cylinder_004
+    400030: Empty
+    400032: Empty_001
+    400034: Empty_002
+    400036: Mod-Regulator
+    400038: Mod-Regulator_001
+    400040: Mod-Switch_15A
+    400042: Mod-Switch_15A_001
+    400044: Mod-Switch_15A_002
+    400046: Plane
+    400048: Plane_001
+    400050: Plane_002
+    400052: Plane_003
+    400054: Sphere
+    400056: Sphere_001
+    400058: Sphere_001_MeshPart0
+    400060: Sphere_001_MeshPart1
+    400062: Sphere_002
+    2300000: BezierCurve
+    2300002: BezierCurve_001
+    2300004: Cube
+    2300006: Cube_001
+    2300008: Cube_002
+    2300010: Cube_003
+    2300012: Cube_004
+    2300014: Cube_005
+    2300016: Cube_006
+    2300018: Cylinder
+    2300020: Cylinder_001
+    2300022: Cylinder_002
+    2300024: Cylinder_003
+    2300026: Cylinder_004
+    2300028: Mod-Regulator
+    2300030: Mod-Regulator_001
+    2300032: Mod-Switch_15A
+    2300034: Mod-Switch_15A_001
+    2300036: Mod-Switch_15A_002
+    2300038: Plane
+    2300040: Plane_001
+    2300042: Plane_002
+    2300044: Plane_003
+    2300046: Sphere
+    2300048: Sphere_001_MeshPart0
+    2300050: Sphere_001_MeshPart1
+    2300052: Sphere_002
+    3300000: BezierCurve
+    3300002: BezierCurve_001
+    3300004: Cube
+    3300006: Cube_001
+    3300008: Cube_002
+    3300010: Cube_003
+    3300012: Cube_004
+    3300014: Cube_005
+    3300016: Cube_006
+    3300018: Cylinder
+    3300020: Cylinder_001
+    3300022: Cylinder_002
+    3300024: Cylinder_003
+    3300026: Cylinder_004
+    3300028: Mod-Regulator
+    3300030: Mod-Regulator_001
+    3300032: Mod-Switch_15A
+    3300034: Mod-Switch_15A_001
+    3300036: Mod-Switch_15A_002
+    3300038: Plane
+    3300040: Plane_001
+    3300042: Plane_002
+    3300044: Plane_003
+    3300046: Sphere
+    3300048: Sphere_001_MeshPart0
+    3300050: Sphere_001_MeshPart1
+    3300052: Sphere_002
+    4300000: Plane_003
+    4300002: Plane_002
+    4300004: Plane_001
+    4300006: Cube_006
+    4300008: Cylinder_004
+    4300010: BezierCurve_001
+    4300012: BezierCurve
+    4300014: Cylinder_003
+    4300016: Cylinder_002
+    4300018: Cylinder_001
+    4300020: Mod-Switch_15A_002
+    4300022: Mod-Switch_15A_001
+    4300024: Plane
+    4300026: Mod-Regulator_001
+    4300028: Mod-Regulator
+    4300030: Mod-Switch_15A
+    4300032: Cube_005
+    4300034: Cube_001
+    4300036: Cube
+    4300038: Cube_004
+    4300040: Cube_003
+    4300042: Cube_002
+    4300044: Sphere_002
+    4300046: Sphere_001_MeshPart0
+    4300048: Sphere_001_MeshPart1
+    4300050: Sphere
+    4300052: Cylinder
+    7400000: Default Take
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

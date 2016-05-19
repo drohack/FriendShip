@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{5E683037-D82D-8346-5625-DA2434C84B5C}</ProjectGuid>
+    <ProjectGuid>{BCBCDBC7-AA39-19BC-6100-A8056AFD2846}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Multiplayer\Simple Multiplayer\My Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\Button_Press_Script.cs" />
      <Compile Include="Assets\Scripts\Console_Text_Script.cs" />
      <Compile Include="Assets\Scripts\Drag_Rigid_Body_Script.cs" />
@@ -69,7 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{5D4886B4-801C-16BC-B894-E629579F69F0}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+      <Project>{B055F43A-2FF6-A26B-56C8-57EF53D40A39}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
