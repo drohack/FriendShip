@@ -34,7 +34,6 @@ public class Mastermind_Script : MonoBehaviour {
     /** P1 VARIABLES **/
     public  int     p1_rCommand = -1;
     private bool    p1_isDisplayStart = true;
-    private bool    p1_isTyping = false;
     public  bool    p1_isDisplayingCommand = false;
     private float   p1_gWaitSystem;         // Variables for the custom WaitForSeconds function
     private int     p1_gridX = 3;           // The grid which the random game objects get placed
@@ -43,30 +42,24 @@ public class Mastermind_Script : MonoBehaviour {
     /** P2 VARIABLES **/
     public int      p2_rCommand = -1;
     private bool    p2_isDisplayStart = true;
-    private bool    p2_isTyping = false;
     public bool     p2_isDisplayingCommand = false;
     private float   p2_gWaitSystem;         // Variables for the custom WaitForSeconds function
-    private bool    p2_isTapped = false;    // Variables for the custom WaitForSeconds function
     private int     p2_gridX = 3;           // The grid which the random game objects get placed
     private int     p2_gridY = 3;           // The grid which the random game objects get placed
 
     /** P3 VARIABLES **/
     public int      p3_rCommand = -1;
     private bool    p3_isDisplayStart = true;
-    private bool    p3_isTyping = false;
     public bool     p3_isDisplayingCommand = false;
     private float   p3_gWaitSystem;         // Variables for the custom WaitForSeconds function
-    private bool    p3_isTapped = false;    // Variables for the custom WaitForSeconds function
     private int     p3_gridX = 3;           // The grid which the random game objects get placed
     private int     p3_gridY = 3;           // The grid which the random game objects get placed
 
     /** P4 VARIABLES **/
     public int      p4_rCommand = -1;
     private bool    p4_isDisplayStart = true;
-    private bool    p4_isTyping = false;
     public bool     p4_isDisplayingCommand = false;
     private float   p4_gWaitSystem;         // Variables for the custom WaitForSeconds function
-    private bool    p4_isTapped = false;    // Variables for the custom WaitForSeconds function
     private int     p4_gridX = 3;           // The grid which the random game objects get placed
     private int     p4_gridY = 3;           // The grid which the random game objects get placed
 
@@ -125,28 +118,60 @@ public class Mastermind_Script : MonoBehaviour {
         if (numPlayers > 3)
             rObjListSize += (p4_gridX * p4_gridY);
         rObjList = new GameObject[rObjListSize];
+
+        //Generate rObjList objects for PLAYER 1
+        rObjList = GenerateRandomObjects(rObjList, 0, p1_PlayerControlDeck, p1_gridX, p1_gridY, 1);
+
+        if (numPlayers > 1)
+        {
+            //Generate rObjList objects for PLAYER 2
+            rObjList = GenerateRandomObjects(rObjList, (p2_gridX * p2_gridY), p2_PlayerControlDeck, p2_gridX, p2_gridY, 2);
+        }
+        if (numPlayers > 2)
+        {
+             //Generate rObjList objects for PLAYER 3
+             rObjList = GenerateRandomObjects(rObjList, (p3_gridX * p3_gridY) + (p2_gridX * p2_gridY), p3_PlayerControlDeck, p3_gridX, p3_gridY, 3);
+        }
+        if (numPlayers > 3)
+        {
+            //Generate rObjList objects for PLAYER 4
+            rObjList = GenerateRandomObjects(rObjList, (p4_gridX * p4_gridY) + (p2_gridX * p2_gridY) + (p3_gridX * p3_gridY), p4_PlayerControlDeck, p4_gridX, p4_gridY, 4);
+        }
+    }
+
+    GameObject[] GenerateRandomObjects(GameObject[] inRObjList, int intRObjListSize, GameObject playerControlDeck, int gridX, int gridY, int playerNum)
+    {
+        GameObject[] outRObjList = inRObjList;
+
         int commandIndex;
         string newCommandText;
 
-        float xBQuaternion = ((GameObject)Resources.Load("Prefabs/Button")).transform.rotation.eulerAngles.x + p1_PlayerControlDeck.transform.rotation.eulerAngles.x;
-        float yBQuaternion = ((GameObject)Resources.Load("Prefabs/Button")).transform.rotation.eulerAngles.y + p1_PlayerControlDeck.transform.rotation.eulerAngles.y;
-        float zBQuaternion = ((GameObject)Resources.Load("Prefabs/Button")).transform.rotation.eulerAngles.z + p1_PlayerControlDeck.transform.rotation.eulerAngles.z;
-        float xLQuaternion = ((GameObject)Resources.Load("Prefabs/L_Lever")).transform.rotation.eulerAngles.x + p1_PlayerControlDeck.transform.rotation.eulerAngles.x;
-        float yLQuaternion = ((GameObject)Resources.Load("Prefabs/L_Lever")).transform.rotation.eulerAngles.y + p1_PlayerControlDeck.transform.rotation.eulerAngles.y;
-        float zLQuaternion = ((GameObject)Resources.Load("Prefabs/L_Lever")).transform.rotation.eulerAngles.z + p1_PlayerControlDeck.transform.rotation.eulerAngles.z;
-        float xWQuaternion = ((GameObject)Resources.Load("Prefabs/W_Lever")).transform.rotation.eulerAngles.x + p1_PlayerControlDeck.transform.rotation.eulerAngles.x;
-        float yWQuaternion = ((GameObject)Resources.Load("Prefabs/W_Lever")).transform.rotation.eulerAngles.y + p1_PlayerControlDeck.transform.rotation.eulerAngles.y;
-        float zWQuaternion = ((GameObject)Resources.Load("Prefabs/W_Lever")).transform.rotation.eulerAngles.z + p1_PlayerControlDeck.transform.rotation.eulerAngles.z;
+        GameObject buttonInstance = (GameObject)Resources.Load("Prefabs/Button");
+        GameObject lLeverInstance = (GameObject)Resources.Load("Prefabs/L_Lever");
+        GameObject wLeverInstance = (GameObject)Resources.Load("Prefabs/W_Lever");
+
+        float xBQuaternion = buttonInstance.transform.rotation.eulerAngles.x + playerControlDeck.transform.rotation.eulerAngles.x;
+        float yBQuaternion = buttonInstance.transform.rotation.eulerAngles.y + playerControlDeck.transform.rotation.eulerAngles.y;
+        float zBQuaternion = buttonInstance.transform.rotation.eulerAngles.z + playerControlDeck.transform.rotation.eulerAngles.z;
+        float xLQuaternion = lLeverInstance.transform.rotation.eulerAngles.x + playerControlDeck.transform.rotation.eulerAngles.x;
+        float yLQuaternion = lLeverInstance.transform.rotation.eulerAngles.y + playerControlDeck.transform.rotation.eulerAngles.y;
+        float zLQuaternion = lLeverInstance.transform.rotation.eulerAngles.z + playerControlDeck.transform.rotation.eulerAngles.z;
+        float xWQuaternion = wLeverInstance.transform.rotation.eulerAngles.x + playerControlDeck.transform.rotation.eulerAngles.x;
+        float yWQuaternion = wLeverInstance.transform.rotation.eulerAngles.y + playerControlDeck.transform.rotation.eulerAngles.y;
+        float zWQuaternion = wLeverInstance.transform.rotation.eulerAngles.z + playerControlDeck.transform.rotation.eulerAngles.z;
 
         //for each grid position generate a random object and add it to the random object list
-        for (int x = 0; x < p1_gridX; x++)
+        for (int x = 0; x < gridX; x++)
         {
-            for (int y = 0; y < p1_gridY; y++)
+            for (int y = 0; y < gridY; y++)
             {
                 GameObject randObject;
                 //roll for a random game object
                 int objNum = Random.Range(0, numOfDiffGameObjects);
 
+                Vector3 buttonVector3 = new Vector3();
+                Vector3 lLeverVector3 = new Vector3();
+                Vector3 wLeverVector3 = new Vector3();
                 //for the given random game object create a copy of it to randObject
                 switch (objNum)
                 {
@@ -157,14 +182,22 @@ public class Mastermind_Script : MonoBehaviour {
                         //remove selected button command from buttonCommandArray so it won't be used again
                         buttonCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
+                        if (playerNum == 1)
+                            buttonVector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z - 0.7f);
+                        if (playerNum == 2)
+                            buttonVector3 = new Vector3(playerControlDeck.transform.position.x + 0.7f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                        if (playerNum == 3)
+                            buttonVector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z + 0.7f);
+                        if (playerNum == 4)
+                            buttonVector3 = new Vector3(playerControlDeck.transform.position.x - 0.7f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
-                            new Vector3(p1_PlayerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), p1_PlayerControlDeck.transform.position.z - 0.7f),
+                            buttonVector3,
                             Quaternion.Euler(new Vector3(xBQuaternion, yBQuaternion, zBQuaternion)));
-                        randObject.transform.parent = p1_PlayerControlDeck.transform;
+                        randObject.transform.parent = playerControlDeck.transform;
                         //add new command text to the new randomObject
                         randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
                         //set randObject's rCommand in it's Script
-                        randObject.GetComponent<Button_Press_Script>().rCommand = (x * p1_gridX) + y;
+                        randObject.GetComponent<Button_Press_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
                     case lLeverCommand:
                         //roll for a random Button command from the lLeverCommandArray
@@ -173,14 +206,22 @@ public class Mastermind_Script : MonoBehaviour {
                         //remove selected button command from lLeverCommandArray so it won't be used again
                         lLeverCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
+                        if (playerNum == 1)
+                            lLeverVector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z - 1.47f);
+                        if (playerNum == 2)
+                            lLeverVector3 = new Vector3(playerControlDeck.transform.position.x + 1.47f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                        if (playerNum == 3)
+                            lLeverVector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z + 1.47f);
+                        if (playerNum == 4)
+                            lLeverVector3 = new Vector3(playerControlDeck.transform.position.x - 1.47f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/L_Lever"),
-                            new Vector3(p1_PlayerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), p1_PlayerControlDeck.transform.position.z - 1.47f),
+                            lLeverVector3,
                             Quaternion.Euler(new Vector3(xLQuaternion, yLQuaternion, zLQuaternion)));
-                        randObject.transform.parent = p1_PlayerControlDeck.transform;
+                        randObject.transform.parent = playerControlDeck.transform;
                         //add new command text to the new randomObject
                         randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
                         //set randObject's rCommand in it's Script
-                        randObject.transform.GetChild(2).GetComponent<L_Lever_Handle_Script>().rCommand = (x * p1_gridX) + y;
+                        randObject.transform.GetChild(2).GetComponent<L_Lever_Handle_Script>().rCommand = intRObjListSize + (p3_gridX * p3_gridY) + ((x * gridX) + y);
                         break;
                     case wLeverCommand:
                         //roll for a random Button command from the wLeverCommandArray
@@ -189,14 +230,22 @@ public class Mastermind_Script : MonoBehaviour {
                         //remove selected button command from wLeverCommandArray so it won't be used again
                         wLeverCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
+                        if (playerNum == 1)
+                            wLeverVector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z - 1.52f);
+                        if (playerNum == 2)
+                            wLeverVector3 = new Vector3(playerControlDeck.transform.position.x + 1.52f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                        if (playerNum == 3)
+                            wLeverVector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z + 1.52f);
+                        if (playerNum == 4)
+                            wLeverVector3 = new Vector3(playerControlDeck.transform.position.x - 1.52f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/W_Lever"),
-                            new Vector3(p1_PlayerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), p1_PlayerControlDeck.transform.position.z - 1.52f),
+                            wLeverVector3,
                             Quaternion.Euler(new Vector3(xWQuaternion, yWQuaternion, zWQuaternion)));
-                        randObject.transform.parent = p1_PlayerControlDeck.transform;
+                        randObject.transform.parent = playerControlDeck.transform;
                         //add new command text to the new randomObject
                         randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
                         //set randObject's rCommand in it's Script
-                        randObject.transform.GetChild(2).GetComponent<W_Lever_Handle_Script>().rCommand = (x * p1_gridX) + y;
+                        randObject.transform.GetChild(2).GetComponent<W_Lever_Handle_Script>().rCommand = intRObjListSize + (p3_gridX * p3_gridY) + ((x * gridX) + y);
                         break;
                     default:
                         //roll for a random Button command from the buttonCommandArray
@@ -205,307 +254,31 @@ public class Mastermind_Script : MonoBehaviour {
                         //remove selected button command from buttonCommandArray so it won't be used again
                         buttonCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
+                        if (playerNum == 1)
+                            buttonVector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z - 0.7f);
+                        if (playerNum == 2)
+                            buttonVector3 = new Vector3(playerControlDeck.transform.position.x + 0.7f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                        if (playerNum == 3)
+                            buttonVector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z + 0.7f);
+                        if (playerNum == 4)
+                            buttonVector3 = new Vector3(playerControlDeck.transform.position.x - 0.7f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
-                            new Vector3(p1_PlayerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), p1_PlayerControlDeck.transform.position.z - 0.7f),
+                            buttonVector3,
                             Quaternion.Euler(new Vector3(xBQuaternion, yBQuaternion, zBQuaternion)));
-                        randObject.transform.parent = p1_PlayerControlDeck.transform;
+                        randObject.transform.parent = playerControlDeck.transform;
                         //add new command text to the new randomObject
                         randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
                         //set randObject's rCommand in it's Script
-                        randObject.GetComponent<Button_Press_Script>().rCommand = (x * p1_gridX) + y;
+                        randObject.GetComponent<Button_Press_Script>().rCommand = intRObjListSize + (p3_gridX * p3_gridY) + ((x * gridX) + y);
                         break;
                 }
 
                 //add randomObject to grid
-                rObjList[(x * p1_gridX) + y] = randObject;
+                outRObjList[intRObjListSize + ((x * gridX) + y)] = randObject;
             }
         }
 
-        if (numPlayers > 1)
-        {
-            xBQuaternion = ((GameObject)Resources.Load("Prefabs/Button")).transform.rotation.eulerAngles.x + p2_PlayerControlDeck.transform.rotation.eulerAngles.x;
-            yBQuaternion = ((GameObject)Resources.Load("Prefabs/Button")).transform.rotation.eulerAngles.y + p2_PlayerControlDeck.transform.rotation.eulerAngles.y;
-            zBQuaternion = ((GameObject)Resources.Load("Prefabs/Button")).transform.rotation.eulerAngles.z + p2_PlayerControlDeck.transform.rotation.eulerAngles.z;
-            xLQuaternion = ((GameObject)Resources.Load("Prefabs/L_Lever")).transform.rotation.eulerAngles.x + p2_PlayerControlDeck.transform.rotation.eulerAngles.x;
-            yLQuaternion = ((GameObject)Resources.Load("Prefabs/L_Lever")).transform.rotation.eulerAngles.y + p2_PlayerControlDeck.transform.rotation.eulerAngles.y;
-            zLQuaternion = ((GameObject)Resources.Load("Prefabs/L_Lever")).transform.rotation.eulerAngles.z + p2_PlayerControlDeck.transform.rotation.eulerAngles.z;
-            xWQuaternion = ((GameObject)Resources.Load("Prefabs/W_Lever")).transform.rotation.eulerAngles.x + p2_PlayerControlDeck.transform.rotation.eulerAngles.x;
-            yWQuaternion = ((GameObject)Resources.Load("Prefabs/W_Lever")).transform.rotation.eulerAngles.y + p2_PlayerControlDeck.transform.rotation.eulerAngles.y;
-            zWQuaternion = ((GameObject)Resources.Load("Prefabs/W_Lever")).transform.rotation.eulerAngles.z + p2_PlayerControlDeck.transform.rotation.eulerAngles.z;
-
-            //for each grid position generate a random object and add it to the random object list
-            for (int x = 0; x < p2_gridX; x++)
-            {
-                for (int y = 0; y < p2_gridY; y++)
-                {
-                    GameObject randObject;
-                    //roll for a random game object
-                    int objNum = Random.Range(0, numOfDiffGameObjects);
-
-                    //for the given random game object create a copy of it to randObject
-                    switch (objNum)
-                    {
-                        case buttonCommand:
-                            //roll for a random Button command from the buttonCommandArray
-                            commandIndex = Random.Range(0, buttonCommandArray.Count);
-                            newCommandText = (string)buttonCommandArray[commandIndex];
-                            //remove selected button command from buttonCommandArray so it won't be used again
-                            buttonCommandArray.RemoveAt(commandIndex);
-                            //copy randomObject from the default wLever
-                            randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
-                                new Vector3(p2_PlayerControlDeck.transform.position.x + 0.7f, 3 + (4 * y), p2_PlayerControlDeck.transform.position.z - 3 + (3 * x)),
-                                Quaternion.Euler(new Vector3(xBQuaternion, yBQuaternion, zBQuaternion)));
-                            randObject.transform.parent = p2_PlayerControlDeck.transform;
-                            //add new command text to the new randomObject
-                            randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
-                            //set randObject's rCommand in it's Script
-                            randObject.GetComponent<Button_Press_Script>().rCommand = (p1_gridX * p1_gridY) + ((x * p2_gridX) + y);
-                            break;
-                        case lLeverCommand:
-                            //roll for a random Button command from the lLeverCommandArray
-                            commandIndex = Random.Range(0, lLeverCommandArray.Count);
-                            newCommandText = (string)lLeverCommandArray[commandIndex];
-                            //remove selected button command from lLeverCommandArray so it won't be used again
-                            lLeverCommandArray.RemoveAt(commandIndex);
-                            //copy randomObject from the default wLever
-                            randObject = (GameObject)Instantiate(Resources.Load("Prefabs/L_Lever"),
-                                new Vector3(p2_PlayerControlDeck.transform.position.x + 1.47f, 3 + (4 * y), p2_PlayerControlDeck.transform.position.z - 3 + (3 * x)),
-                                Quaternion.Euler(new Vector3(xLQuaternion, yLQuaternion, zLQuaternion)));
-                            randObject.transform.parent = p2_PlayerControlDeck.transform;
-                            //add new command text to the new randomObject
-                            randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
-                            //set randObject's rCommand in it's Script
-                            randObject.transform.GetChild(2).GetComponent<L_Lever_Handle_Script>().rCommand = (p1_gridX * p1_gridY) + ((x * p2_gridX) + y);
-                            break;
-                        case wLeverCommand:
-                            //roll for a random Button command from the wLeverCommandArray
-                            commandIndex = Random.Range(0, wLeverCommandArray.Count);
-                            newCommandText = (string)wLeverCommandArray[commandIndex];
-                            //remove selected button command from wLeverCommandArray so it won't be used again
-                            wLeverCommandArray.RemoveAt(commandIndex);
-                            //copy randomObject from the default wLever
-                            randObject = (GameObject)Instantiate(Resources.Load("Prefabs/W_Lever"),
-                                new Vector3(p2_PlayerControlDeck.transform.position.x + 1.52f, 3 + (4 * y), p2_PlayerControlDeck.transform.position.z - 3 + (3 * x)),
-                                Quaternion.Euler(new Vector3(xWQuaternion, yWQuaternion, zWQuaternion)));
-                            randObject.transform.parent = p2_PlayerControlDeck.transform;
-                            //add new command text to the new randomObject
-                            randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
-                            //set randObject's rCommand in it's Script
-                            randObject.transform.GetChild(2).GetComponent<W_Lever_Handle_Script>().rCommand = (p1_gridX * p1_gridY) + ((x * p2_gridX) + y);
-                            break;
-                        default:
-                            //roll for a random Button command from the buttonCommandArray
-                            commandIndex = Random.Range(0, buttonCommandArray.Count);
-                            newCommandText = (string)buttonCommandArray[commandIndex];
-                            //remove selected button command from buttonCommandArray so it won't be used again
-                            buttonCommandArray.RemoveAt(commandIndex);
-                            //copy randomObject from the default wLever
-                            randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
-                                new Vector3(p2_PlayerControlDeck.transform.position.x + 0.7f, 3 + (4 * y), p2_PlayerControlDeck.transform.position.z - 3 + (3 * x)),
-                                Quaternion.Euler(new Vector3(xBQuaternion, yBQuaternion, zBQuaternion)));
-                            randObject.transform.parent = p2_PlayerControlDeck.transform;
-                            //add new command text to the new randomObject
-                            randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
-                            //set randObject's rCommand in it's Script
-                            randObject.GetComponent<Button_Press_Script>().rCommand = (p1_gridX * p1_gridY) + ((x * p2_gridX) + y);
-                            break;
-                    }
-
-                    //add randomObject to grid
-                    rObjList[(p1_gridX * p1_gridY) + ((x * p2_gridX) + y)] = randObject;
-                }
-            }
-        }
-        if (numPlayers > 2)
-        {
-            xBQuaternion = ((GameObject)Resources.Load("Prefabs/Button")).transform.rotation.eulerAngles.x + p3_PlayerControlDeck.transform.rotation.eulerAngles.x;
-            yBQuaternion = ((GameObject)Resources.Load("Prefabs/Button")).transform.rotation.eulerAngles.y + p3_PlayerControlDeck.transform.rotation.eulerAngles.y;
-            zBQuaternion = ((GameObject)Resources.Load("Prefabs/Button")).transform.rotation.eulerAngles.z + p3_PlayerControlDeck.transform.rotation.eulerAngles.z;
-            xLQuaternion = ((GameObject)Resources.Load("Prefabs/L_Lever")).transform.rotation.eulerAngles.x + p3_PlayerControlDeck.transform.rotation.eulerAngles.x;
-            yLQuaternion = ((GameObject)Resources.Load("Prefabs/L_Lever")).transform.rotation.eulerAngles.y + p3_PlayerControlDeck.transform.rotation.eulerAngles.y;
-            zLQuaternion = ((GameObject)Resources.Load("Prefabs/L_Lever")).transform.rotation.eulerAngles.z + p3_PlayerControlDeck.transform.rotation.eulerAngles.z;
-            xWQuaternion = ((GameObject)Resources.Load("Prefabs/W_Lever")).transform.rotation.eulerAngles.x + p3_PlayerControlDeck.transform.rotation.eulerAngles.x;
-            yWQuaternion = ((GameObject)Resources.Load("Prefabs/W_Lever")).transform.rotation.eulerAngles.y + p3_PlayerControlDeck.transform.rotation.eulerAngles.y;
-            zWQuaternion = ((GameObject)Resources.Load("Prefabs/W_Lever")).transform.rotation.eulerAngles.z + p3_PlayerControlDeck.transform.rotation.eulerAngles.z;
-
-            //for each grid position generate a random object and add it to the random object list
-            for (int x = 0; x < p3_gridX; x++)
-            {
-                for (int y = 0; y < p3_gridY; y++)
-                {
-                    GameObject randObject;
-                    //roll for a random game object
-                    int objNum = Random.Range(0, numOfDiffGameObjects);
-
-                    //for the given random game object create a copy of it to randObject
-                    switch (objNum)
-                    {
-                        case buttonCommand:
-                            //roll for a random Button command from the buttonCommandArray
-                            commandIndex = Random.Range(0, buttonCommandArray.Count);
-                            newCommandText = (string)buttonCommandArray[commandIndex];
-                            //remove selected button command from buttonCommandArray so it won't be used again
-                            buttonCommandArray.RemoveAt(commandIndex);
-                            //copy randomObject from the default wLever
-                            randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
-                                new Vector3(p3_PlayerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), p3_PlayerControlDeck.transform.position.z + 0.7f),
-                                Quaternion.Euler(new Vector3(xBQuaternion, yBQuaternion, zBQuaternion)));
-                            randObject.transform.parent = p3_PlayerControlDeck.transform;
-                            //add new command text to the new randomObject
-                            randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
-                            //set randObject's rCommand in it's Script
-                            randObject.GetComponent<Button_Press_Script>().rCommand = (p1_gridX * p1_gridY) + (p2_gridX * p2_gridY) + ((x * p3_gridX) + y);
-                            break;
-                        case lLeverCommand:
-                            //roll for a random Button command from the lLeverCommandArray
-                            commandIndex = Random.Range(0, lLeverCommandArray.Count);
-                            newCommandText = (string)lLeverCommandArray[commandIndex];
-                            //remove selected button command from lLeverCommandArray so it won't be used again
-                            lLeverCommandArray.RemoveAt(commandIndex);
-                            //copy randomObject from the default wLever
-                            randObject = (GameObject)Instantiate(Resources.Load("Prefabs/L_Lever"),
-                                new Vector3(p3_PlayerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), p3_PlayerControlDeck.transform.position.z + 1.47f),
-                                Quaternion.Euler(new Vector3(xLQuaternion, yLQuaternion, zLQuaternion)));
-                            randObject.transform.parent = p3_PlayerControlDeck.transform;
-                            //add new command text to the new randomObject
-                            randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
-                            //set randObject's rCommand in it's Script
-                            randObject.transform.GetChild(2).GetComponent<L_Lever_Handle_Script>().rCommand = (p1_gridX * p1_gridY) + (p2_gridX * p2_gridY) + ((x * p3_gridX) + y);
-                            break;
-                        case wLeverCommand:
-                            //roll for a random Button command from the wLeverCommandArray
-                            commandIndex = Random.Range(0, wLeverCommandArray.Count);
-                            newCommandText = (string)wLeverCommandArray[commandIndex];
-                            //remove selected button command from wLeverCommandArray so it won't be used again
-                            wLeverCommandArray.RemoveAt(commandIndex);
-                            //copy randomObject from the default wLever
-                            randObject = (GameObject)Instantiate(Resources.Load("Prefabs/W_Lever"),
-                                new Vector3(p3_PlayerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), p3_PlayerControlDeck.transform.position.z + 1.52f),
-                                Quaternion.Euler(new Vector3(xWQuaternion, yWQuaternion, zWQuaternion)));
-                            randObject.transform.parent = p3_PlayerControlDeck.transform;
-                            //add new command text to the new randomObject
-                            randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
-                            //set randObject's rCommand in it's Script
-                            randObject.transform.GetChild(2).GetComponent<W_Lever_Handle_Script>().rCommand = (p1_gridX * p1_gridY) + (p2_gridX * p2_gridY) + ((x * p3_gridX) + y);
-                            break;
-                        default:
-                            //roll for a random Button command from the buttonCommandArray
-                            commandIndex = Random.Range(0, buttonCommandArray.Count);
-                            newCommandText = (string)buttonCommandArray[commandIndex];
-                            //remove selected button command from buttonCommandArray so it won't be used again
-                            buttonCommandArray.RemoveAt(commandIndex);
-                            //copy randomObject from the default wLever
-                            randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
-                                new Vector3(p3_PlayerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), p3_PlayerControlDeck.transform.position.z + 0.7f),
-                                Quaternion.Euler(new Vector3(xBQuaternion, yBQuaternion, zBQuaternion)));
-                            randObject.transform.parent = p3_PlayerControlDeck.transform;
-                            //add new command text to the new randomObject
-                            randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
-                            //set randObject's rCommand in it's Script
-                            randObject.GetComponent<Button_Press_Script>().rCommand = (p1_gridX * p1_gridY) + (p2_gridX * p2_gridY) + ((x * p3_gridX) + y);
-                            break;
-                    }
-
-                    //add randomObject to grid
-                    rObjList[(p1_gridX * p1_gridY) + (p2_gridX * p2_gridY) + ((x * p3_gridX) + y)] = randObject;
-                }
-            }
-        }
-        if (numPlayers > 3)
-        {
-            xBQuaternion = ((GameObject)Resources.Load("Prefabs/Button")).transform.rotation.eulerAngles.x + p4_PlayerControlDeck.transform.rotation.eulerAngles.x;
-            yBQuaternion = ((GameObject)Resources.Load("Prefabs/Button")).transform.rotation.eulerAngles.y + p4_PlayerControlDeck.transform.rotation.eulerAngles.y;
-            zBQuaternion = ((GameObject)Resources.Load("Prefabs/Button")).transform.rotation.eulerAngles.z + p4_PlayerControlDeck.transform.rotation.eulerAngles.z;
-            xLQuaternion = ((GameObject)Resources.Load("Prefabs/L_Lever")).transform.rotation.eulerAngles.x + p4_PlayerControlDeck.transform.rotation.eulerAngles.x;
-            yLQuaternion = ((GameObject)Resources.Load("Prefabs/L_Lever")).transform.rotation.eulerAngles.y + p4_PlayerControlDeck.transform.rotation.eulerAngles.y;
-            zLQuaternion = ((GameObject)Resources.Load("Prefabs/L_Lever")).transform.rotation.eulerAngles.z + p4_PlayerControlDeck.transform.rotation.eulerAngles.z;
-            xWQuaternion = ((GameObject)Resources.Load("Prefabs/W_Lever")).transform.rotation.eulerAngles.x + p4_PlayerControlDeck.transform.rotation.eulerAngles.x;
-            yWQuaternion = ((GameObject)Resources.Load("Prefabs/W_Lever")).transform.rotation.eulerAngles.y + p4_PlayerControlDeck.transform.rotation.eulerAngles.y;
-            zWQuaternion = ((GameObject)Resources.Load("Prefabs/W_Lever")).transform.rotation.eulerAngles.z + p4_PlayerControlDeck.transform.rotation.eulerAngles.z;
-
-            //for each grid position generate a random object and add it to the random object list
-            for (int x = 0; x < p4_gridX; x++)
-            {
-                for (int y = 0; y < p4_gridY; y++)
-                {
-                    GameObject randObject;
-                    //roll for a random game object
-                    int objNum = Random.Range(0, numOfDiffGameObjects);
-
-                    //for the given random game object create a copy of it to randObject
-                    switch (objNum)
-                    {
-                        case buttonCommand:
-                            //roll for a random Button command from the buttonCommandArray
-                            commandIndex = Random.Range(0, buttonCommandArray.Count);
-                            newCommandText = (string)buttonCommandArray[commandIndex];
-                            //remove selected button command from buttonCommandArray so it won't be used again
-                            buttonCommandArray.RemoveAt(commandIndex);
-                            //copy randomObject from the default wLever
-                            randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
-                                new Vector3(p4_PlayerControlDeck.transform.position.x - 0.7f, 3 + (4 * y), p4_PlayerControlDeck.transform.position.z - 3 + (3 * x)),
-                                Quaternion.Euler(new Vector3(xBQuaternion, yBQuaternion, zBQuaternion)));
-                            randObject.transform.parent = p4_PlayerControlDeck.transform;
-                            //add new command text to the new randomObject
-                            randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
-                            //set randObject's rCommand in it's Script
-                            randObject.GetComponent<Button_Press_Script>().rCommand = (p1_gridX * p1_gridY) + (p2_gridX * p2_gridY) + (p3_gridX * p3_gridY) + ((x * p4_gridX) + y);
-                            break;
-                        case lLeverCommand:
-                            //roll for a random Button command from the lLeverCommandArray
-                            commandIndex = Random.Range(0, lLeverCommandArray.Count);
-                            newCommandText = (string)lLeverCommandArray[commandIndex];
-                            //remove selected button command from lLeverCommandArray so it won't be used again
-                            lLeverCommandArray.RemoveAt(commandIndex);
-                            //copy randomObject from the default wLever
-                            randObject = (GameObject)Instantiate(Resources.Load("Prefabs/L_Lever"),
-                                new Vector3(p4_PlayerControlDeck.transform.position.x - 1.47f, 3 + (4 * y), p4_PlayerControlDeck.transform.position.z - 3 + (3 * x)),
-                                Quaternion.Euler(new Vector3(xLQuaternion, yLQuaternion, zLQuaternion)));
-                            randObject.transform.parent = p4_PlayerControlDeck.transform;
-                            //add new command text to the new randomObject
-                            randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
-                            //set randObject's rCommand in it's Script
-                            randObject.transform.GetChild(2).GetComponent<L_Lever_Handle_Script>().rCommand = (p1_gridX * p1_gridY) + (p2_gridX * p2_gridY) + (p3_gridX * p3_gridY) + ((x * p4_gridX) + y);
-                            break;
-                        case wLeverCommand:
-                            //roll for a random Button command from the wLeverCommandArray
-                            commandIndex = Random.Range(0, wLeverCommandArray.Count);
-                            newCommandText = (string)wLeverCommandArray[commandIndex];
-                            //remove selected button command from wLeverCommandArray so it won't be used again
-                            wLeverCommandArray.RemoveAt(commandIndex);
-                            //copy randomObject from the default wLever
-                            randObject = (GameObject)Instantiate(Resources.Load("Prefabs/W_Lever"),
-                                new Vector3(p4_PlayerControlDeck.transform.position.x - 1.52f, 3 + (4 * y), p4_PlayerControlDeck.transform.position.z - 3 + (3 * x)),
-                                Quaternion.Euler(new Vector3(xWQuaternion, yWQuaternion, zWQuaternion)));
-                            randObject.transform.parent = p4_PlayerControlDeck.transform;
-                            //add new command text to the new randomObject
-                            randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
-                            //set randObject's rCommand in it's Script
-                            randObject.transform.GetChild(2).GetComponent<W_Lever_Handle_Script>().rCommand = (p1_gridX * p1_gridY) + (p2_gridX * p2_gridY) + (p3_gridX * p3_gridY) + ((x * p4_gridX) + y);
-                            break;
-                        default:
-                            //roll for a random Button command from the buttonCommandArray
-                            commandIndex = Random.Range(0, buttonCommandArray.Count);
-                            newCommandText = (string)buttonCommandArray[commandIndex];
-                            //remove selected button command from buttonCommandArray so it won't be used again
-                            buttonCommandArray.RemoveAt(commandIndex);
-                            //copy randomObject from the default wLever
-                            randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
-                                new Vector3(p4_PlayerControlDeck.transform.position.x - 0.7f, 3 + (4 * y), p4_PlayerControlDeck.transform.position.z - 3 + (3 * x)),
-                                Quaternion.Euler(new Vector3(xBQuaternion, yBQuaternion, zBQuaternion)));
-                            randObject.transform.parent = p4_PlayerControlDeck.transform;
-                            //add new command text to the new randomObject
-                            randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
-                            //set randObject's rCommand in it's Script
-                            randObject.GetComponent<Button_Press_Script>().rCommand = (p1_gridX * p1_gridY) + (p2_gridX * p2_gridY) + (p3_gridX * p3_gridY) + ((x * p4_gridX) + y);
-                            break;
-                    }
-
-                    //add randomObject to grid
-                    rObjList[(p1_gridX * p1_gridY) + (p2_gridX * p2_gridY) + (p3_gridX * p3_gridY) + ((x * p4_gridX) + y)] = randObject;
-                }
-            }
-        }
+        return outRObjList;
     }
 
     // Update is called once per frame

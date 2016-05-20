@@ -96,8 +96,6 @@ public class L_Lever_Handle_Script : MonoBehaviour {
             if (lastHandlePosition == middlePosition)
             {
                 //send command tapped to the Console_Text_Script with the lLeverDownCommand
-                GameObject consoleText = GameObject.Find("Console_Text");
-                Console_Text_Script consoleTextScript = consoleText.GetComponent<Console_Text_Script>();
                 int rCommandDown = (rCommand * 100) + 2;
                 mastermindScript.TappedWaitForSecondsOrTap(rCommandDown);
                 //Lever changed positions
