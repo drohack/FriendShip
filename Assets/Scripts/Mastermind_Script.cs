@@ -15,6 +15,7 @@ public class Mastermind_Script : MonoBehaviour {
     private ArrayList lLeverCommandArray;
     private ArrayList wLeverCommandArray;
     private GameObject[] rObjList; // The list of all random game objects get placed in current round
+    private bool  isTapped = false;    // Variables for the custom WaitForSeconds function
 
     // Player Objects
     GameObject          p1_PlayerControlDeck;
@@ -36,7 +37,6 @@ public class Mastermind_Script : MonoBehaviour {
     private bool    p1_isTyping = false;
     public  bool    p1_isDisplayingCommand = false;
     private float   p1_gWaitSystem;         // Variables for the custom WaitForSeconds function
-    private bool    p1_isTapped = false;    // Variables for the custom WaitForSeconds function
     private int     p1_gridX = 3;           // The grid which the random game objects get placed
     private int     p1_gridY = 3;           // The grid which the random game objects get placed
 
@@ -602,42 +602,89 @@ public class Mastermind_Script : MonoBehaviour {
 
     // Custom WaitForSeconds
     // This will either wait for the given seconds, or until the isTapped boolean is set to TRUE
-    IEnumerator WaitForSecondsOrTap(float seconds)
+    IEnumerator WaitForSecondsOrTap(int player, float seconds)
     {
-        p1_gWaitSystem = seconds;
-        while (p1_gWaitSystem > 0.0)
+        if (player == 1)
         {
-            p1_gWaitSystem -= Time.deltaTime;
-            yield return 0;
+            p1_gWaitSystem = seconds;
+            while (p1_gWaitSystem > 0.0)
+            {
+                p1_gWaitSystem -= Time.deltaTime;
+                yield return 0;
+            }
+        }
+        else if (player == 2)
+        {
+            p2_gWaitSystem = seconds;
+            while (p2_gWaitSystem > 0.0)
+            {
+                p2_gWaitSystem -= Time.deltaTime;
+                yield return 0;
+            }
+        }
+        else if (player == 3)
+        {
+            p3_gWaitSystem = seconds;
+            while (p3_gWaitSystem > 0.0)
+            {
+                p3_gWaitSystem -= Time.deltaTime;
+                yield return 0;
+            }
+        }
+        else if (player == 4)
+        {
+            p4_gWaitSystem = seconds;
+            while (p4_gWaitSystem > 0.0)
+            {
+                p4_gWaitSystem -= Time.deltaTime;
+                yield return 0;
+            }
         }
 
         //lower score if time reached (button was not tapped)
-        if (!p1_isTapped)
+        if (!isTapped)
         {
             ScoreDown();
         }
 
         //reset isTapped
-        p1_isTapped = false;
+        isTapped = false;
     }
 
     // End the waitForSeconds by setting the timer to zero AND signal that a button was tapped (isTapped = true)
     public void TappedWaitForSecondsOrTap(int inputCommand)
     {
-        p1_isTapped = true;
+        isTapped = true;
         
         //Check to see if the current command is the correct button pressed. Update score accordingly
         if (p1_rCommand == inputCommand)
         {
             ScoreUp();
+            //Set timer for that player to 0 to get next command
+            p1_gWaitSystem = 0.0f;
+        }
+        else if (p2_rCommand == inputCommand)
+        {
+            ScoreUp();
+            //Set timer for that player to 0 to get next command
+            p2_gWaitSystem = 0.0f;
+        }
+        else if (p3_rCommand == inputCommand)
+        {
+            ScoreUp();
+            //Set timer for that player to 0 to get next command
+            p3_gWaitSystem = 0.0f;
+        }
+        else if (p4_rCommand == inputCommand)
+        {
+            ScoreUp();
+            //Set timer for that player to 0 to get next command
+            p4_gWaitSystem = 0.0f;
         }
         else
         {
             ScoreDown();
         }
-
-        //Set timer to 0 to get next command (Always)
-        p1_gWaitSystem = 0.0f;
     }
 
     IEnumerator P1_DisplayRandomCommand()
@@ -663,7 +710,7 @@ public class Mastermind_Script : MonoBehaviour {
         StartCoroutine(p1_consoleTextScript.TypeText(message));
 
         //Wait for the commandTimeoutSeconds or if a button gets tapped
-        yield return WaitForSecondsOrTap(commandTimeoutSeconds);
+        yield return WaitForSecondsOrTap(1, commandTimeoutSeconds);
         p1_isDisplayingCommand = false;
     }
 
@@ -690,7 +737,7 @@ public class Mastermind_Script : MonoBehaviour {
         StartCoroutine(p2_consoleTextScript.TypeText(message));
 
         //Wait for the commandTimeoutSeconds or if a button gets tapped
-        yield return WaitForSecondsOrTap(commandTimeoutSeconds);
+        yield return WaitForSecondsOrTap(2, commandTimeoutSeconds);
         p2_isDisplayingCommand = false;
     }
 
@@ -717,7 +764,7 @@ public class Mastermind_Script : MonoBehaviour {
         StartCoroutine(p3_consoleTextScript.TypeText(message));
 
         //Wait for the commandTimeoutSeconds or if a button gets tapped
-        yield return WaitForSecondsOrTap(commandTimeoutSeconds);
+        yield return WaitForSecondsOrTap(3, commandTimeoutSeconds);
         p3_isDisplayingCommand = false;
     }
 
@@ -744,7 +791,7 @@ public class Mastermind_Script : MonoBehaviour {
         StartCoroutine(p4_consoleTextScript.TypeText(message));
 
         //Wait for the commandTimeoutSeconds or if a button gets tapped
-        yield return WaitForSecondsOrTap(commandTimeoutSeconds);
+        yield return WaitForSecondsOrTap(4, commandTimeoutSeconds);
         p4_isDisplayingCommand = false;
     }
 
