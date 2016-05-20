@@ -655,6 +655,7 @@ public class Mastermind_Script : MonoBehaviour {
     public void TappedWaitForSecondsOrTap(int inputCommand)
     {
         isTapped = true;
+        bool foundCommand = false;
         
         //Check to see if the current command is the correct button pressed. Update score accordingly
         if (p1_rCommand == inputCommand)
@@ -662,26 +663,32 @@ public class Mastermind_Script : MonoBehaviour {
             ScoreUp();
             //Set timer for that player to 0 to get next command
             p1_gWaitSystem = 0.0f;
+            foundCommand = true;
         }
-        else if (p2_rCommand == inputCommand)
+        if (p2_rCommand == inputCommand)
         {
             ScoreUp();
             //Set timer for that player to 0 to get next command
             p2_gWaitSystem = 0.0f;
+            foundCommand = true;
         }
-        else if (p3_rCommand == inputCommand)
+        if (p3_rCommand == inputCommand)
         {
             ScoreUp();
             //Set timer for that player to 0 to get next command
             p3_gWaitSystem = 0.0f;
+            foundCommand = true;
         }
-        else if (p4_rCommand == inputCommand)
+        if (p4_rCommand == inputCommand)
         {
             ScoreUp();
             //Set timer for that player to 0 to get next command
             p4_gWaitSystem = 0.0f;
+            foundCommand = true;
         }
-        else
+
+        // If no command matched lower score
+        if (!foundCommand)
         {
             ScoreDown();
         }
