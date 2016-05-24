@@ -197,7 +197,7 @@ public class Mastermind_Script : MonoBehaviour {
                         //add new command text to the new randomObject
                         randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
                         //set randObject's rCommand in it's Script
-                        randObject.GetComponent<Button_Press_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
+                        randObject.GetComponent<Button_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
                     case lLeverCommand:
                         //roll for a random Button command from the lLeverCommandArray
@@ -221,7 +221,7 @@ public class Mastermind_Script : MonoBehaviour {
                         //add new command text to the new randomObject
                         randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
                         //set randObject's rCommand in it's Script
-                        randObject.transform.GetChild(2).GetComponent<L_Lever_Handle_Script>().rCommand = intRObjListSize + (p3_gridX * p3_gridY) + ((x * gridX) + y);
+                        randObject.GetComponent<L_Lever_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
                     case wLeverCommand:
                         //roll for a random Button command from the wLeverCommandArray
@@ -245,7 +245,7 @@ public class Mastermind_Script : MonoBehaviour {
                         //add new command text to the new randomObject
                         randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
                         //set randObject's rCommand in it's Script
-                        randObject.transform.GetChild(2).GetComponent<W_Lever_Handle_Script>().rCommand = intRObjListSize + (p3_gridX * p3_gridY) + ((x * gridX) + y);
+                        randObject.GetComponent<W_Lever_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
                     default:
                         //roll for a random Button command from the buttonCommandArray
@@ -269,7 +269,7 @@ public class Mastermind_Script : MonoBehaviour {
                         //add new command text to the new randomObject
                         randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
                         //set randObject's rCommand in it's Script
-                        randObject.GetComponent<Button_Press_Script>().rCommand = intRObjListSize + (p3_gridX * p3_gridY) + ((x * gridX) + y);
+                        randObject.GetComponent<Button_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
                 }
 
@@ -598,7 +598,7 @@ public class Mastermind_Script : MonoBehaviour {
             case lLeverCommand:
                 //L_Lever
                 string lLeverText = rObj.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text;
-                L_Lever_Handle_Script lLeverHandleScript = rObj.transform.GetChild(2).GetComponent<L_Lever_Handle_Script>();
+                L_Lever_Script lLeverHandleScript = rObj.GetComponent<L_Lever_Script>();
                 message = "Turn ";
                 if (lLeverHandleScript.isLLeverUp)
                 {
@@ -615,7 +615,7 @@ public class Mastermind_Script : MonoBehaviour {
             case wLeverCommand:
                 //W_Lever
                 string wLeverText = rObj.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text;
-                W_Lever_Handle_Script wLeverHandleScript = rObj.transform.GetChild(2).GetComponent<W_Lever_Handle_Script>();
+                W_Lever_Script wLeverHandleScript = rObj.GetComponent<W_Lever_Script>();
                 message = "";
                 if (wLeverHandleScript.isWLeverUp)
                 {

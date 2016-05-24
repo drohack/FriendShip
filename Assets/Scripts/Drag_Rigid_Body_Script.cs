@@ -41,7 +41,13 @@ public class Drag_Rigid_Body_Script : MonoBehaviour {
         {
             var go = new GameObject("Rigidbody dragger");
             Rigidbody body = go.AddComponent<Rigidbody>();
-            go.transform.parent = transform.parent.parent.transform;
+            if(transform.parent.parent == null)
+            {
+                go.transform.parent = transform.parent.transform;
+            } else
+            {
+                go.transform.parent = transform.parent.parent.transform;
+            }
             m_SpringJoint = go.AddComponent<SpringJoint>();
             body.isKinematic = true;
         }

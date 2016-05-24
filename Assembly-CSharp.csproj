@@ -45,16 +45,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Multiplayer\Simple Multiplayer\My Scripts\PlayerController.cs" />
-     <Compile Include="Assets\Scripts\Button_Press_Script.cs" />
+     <Compile Include="Assets\Scripts\Button_Script.cs" />
      <Compile Include="Assets\Scripts\Command_Array.cs" />
      <Compile Include="Assets\Scripts\Console_Text_Script.cs" />
+     <Compile Include="Assets\Scripts\Dial_Script.cs" />
      <Compile Include="Assets\Scripts\Drag_Rigid_Body_Script.cs" />
-     <Compile Include="Assets\Scripts\L_Lever_Handle_Script.cs" />
+     <Compile Include="Assets\Scripts\Highlight_Handle_Top_Script.cs" />
      <Compile Include="Assets\Scripts\L_Lever_Script.cs" />
+     <Compile Include="Assets\Scripts\Lightswitch_Script.cs" />
      <Compile Include="Assets\Scripts\Mastermind_Script.cs" />
+     <Compile Include="Assets\Scripts\Pullcord_Script.cs" />
      <Compile Include="Assets\Scripts\Score_Text_Script.cs" />
-     <Compile Include="Assets\Scripts\W_Lever_Handle_Script.cs" />
+     <Compile Include="Assets\Scripts\Shifter_Script.cs" />
+     <Compile Include="Assets\Scripts\Slider_Script.cs" />
+     <Compile Include="Assets\Scripts\Valve_Script.cs" />
      <Compile Include="Assets\Scripts\W_Lever_Script.cs" />
      <None Include="Assets\Standard Assets\Prototyping\Shaders\WorldCoordDiffuse.shader" />
      <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Simple.shader" />
@@ -63,8 +67,11 @@
      <None Include="Assets\Fonts\3DTextOneSided.shader" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
      <None Include="Assets\Standard Assets\Environment\Water\Water\Shaders\FXWaterPro.shader" />
+     <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
+     <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
      <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\WaterInclude.cginc" />
      <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Advanced.shader" />
+     <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

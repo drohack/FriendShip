@@ -1,35 +1,102 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class L_Lever_Script : MonoBehaviour {
+public class L_Lever_Script : NetworkBehaviour {
 
-    public bool isLLeverUp;
-    Animator anim;
+    Transform handleTransform;
+    private HingeJoint handleJoint;
+
+    const int upPosition = 1;
+    const int middlePosition = 0;
+    const int downPosition = -1;
+    
+    private int lastHandlePosition = upPosition;
+
+    public bool isLLeverUp = true;
+    public int rCommand = -1;
 
     Mastermind_Script mastermindScript;
 
-    void Start ()
+    [SyncVar(hook = "UpdateName")]
+    public string newName;
+
+    private void UpdateName(string name)
     {
-        anim = GetComponent<Animator>();
+        transform.Find("Labels/Name").GetComponent<TextMesh>().text = name;
+    }
+
+    void Start()
+    {
+        handleTransform = transform.Find("Handle");
+        handleJoint = handleTransform.GetComponent<HingeJoint>();
         isLLeverUp = true;
+        lastHandlePosition = upPosition;
         mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
 
-	void OnMouseDown()
+    private void Update()
     {
-        //Check to see if the command is to pull the L_Lever (rCommand == 1)
-        //send command tapped to the Console_Text_Script
-        mastermindScript.TappedWaitForSecondsOrTap(Mastermind_Script.lLeverCommand);
-
-        if (isLLeverUp)
+        //snap lever into place near edges (on = handleTransform.eulerAngles.x == 0; off = handleTransform.eulerAngles.x == 45)
+        if (handleTransform.eulerAngles.x < 1.5)
         {
-            anim.Play("L_Lever_Down_Anim");
-            isLLeverUp = false;
+            handleTransform.eulerAngles = new Vector3(
+                0,
+                handleTransform.eulerAngles.y,
+                handleTransform.eulerAngles.z
+            );
+
+            //If the last position of the handle was in the middle, and now we are at the up position, then send the command that the L_Lever is now Up
+            if(lastHandlePosition == middlePosition)
+            {
+                //send command tapped to the Console_Text_Script with the lLeverUpCommand
+                int rCommandUp = (rCommand * 100) + 1;
+                mastermindScript.TappedWaitForSecondsOrTap(rCommandUp);
+                //Lever changed positions
+                isLLeverUp = true;
+            }
+
+            //update last handle position
+            lastHandlePosition = upPosition;
+        }
+        else if (handleTransform.eulerAngles.x > 43.5)
+        {
+            handleTransform.eulerAngles = new Vector3(
+                45,
+                handleTransform.eulerAngles.y,
+                handleTransform.eulerAngles.z
+            );
+
+            //If the last position of the handle was in the middle, and now we are at the down position, then send the command that the L_Lever is now Down
+            if (lastHandlePosition == middlePosition)
+            {
+                //send command tapped to the Console_Text_Script with the lLeverDownCommand
+                int rCommandDown = (rCommand * 100) + 2;
+                mastermindScript.TappedWaitForSecondsOrTap(rCommandDown);
+                //Lever changed positions
+                isLLeverUp = false;
+            }
+
+            //update last handle position
+            lastHandlePosition = downPosition;
         }
         else
         {
-            anim.Play("L_Lever_Up_Anim");
-            isLLeverUp = true;
+            lastHandlePosition = middlePosition;
+        }
+
+        //push lever in direction to go towards edges
+        if (handleTransform.eulerAngles.x < 22.5)
+        {
+            JointMotor motor = handleJoint.motor;
+            motor.targetVelocity = 20;
+            handleJoint.motor = motor;
+        }
+        else
+        {
+            JointMotor motor = handleJoint.motor;
+            motor.targetVelocity = -20;
+            handleJoint.motor = motor;
         }
     }
 }

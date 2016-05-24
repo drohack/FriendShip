@@ -37,6 +37,7 @@ ModelImporter:
     100058: Sphere_001_MeshPart0
     100060: Sphere_001_MeshPart1
     100062: Sphere_002
+    100064: Cylinder_005
     400000: BezierCurve
     400002: BezierCurve_001
     400004: //RootNode
@@ -69,6 +70,7 @@ ModelImporter:
     400058: Sphere_001_MeshPart0
     400060: Sphere_001_MeshPart1
     400062: Sphere_002
+    400064: Cylinder_005
     2300000: BezierCurve
     2300002: BezierCurve_001
     2300004: Cube
@@ -96,6 +98,7 @@ ModelImporter:
     2300048: Sphere_001_MeshPart0
     2300050: Sphere_001_MeshPart1
     2300052: Sphere_002
+    2300054: Cylinder_005
     3300000: BezierCurve
     3300002: BezierCurve_001
     3300004: Cube
@@ -123,6 +126,7 @@ ModelImporter:
     3300048: Sphere_001_MeshPart0
     3300050: Sphere_001_MeshPart1
     3300052: Sphere_002
+    3300054: Cylinder_005
     4300000: Plane_003
     4300002: Plane_002
     4300004: Plane_001
@@ -150,6 +154,7 @@ ModelImporter:
     4300048: Sphere_001_MeshPart1
     4300050: Sphere
     4300052: Cylinder
+    4300054: Cylinder_005
     7400000: Default Take
     9500000: //RootNode
   materials:
