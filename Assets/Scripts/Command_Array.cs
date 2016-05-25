@@ -32,6 +32,36 @@ public class Command_Array : MonoBehaviour {
     private const string button28Text = "Button28";
     private const string button29Text = "Button29";
     private const string button30Text = "Button30";
+    private const string dial1Text = "Radio 1";
+    private const string dial2Text = "Radio 2";
+    private const string dial3Text = "Radio 3";
+    private const string dial4Text = "Radio 4";
+    private const string dial5Text = "Radio 5";
+    private const string dial6Text = "Radio 6";
+    private const string dial7Text = "Radio 7";
+    private const string dial8Text = "Radio 8";
+    private const string dial9Text = "Radio 9";
+    private const string dial10Text = "Radio 10";
+    private const string dial11Text = "Radio 11";
+    private const string dial12Text = "Radio 12";
+    private const string dial13Text = "Radio 13";
+    private const string dial14Text = "Radio 14";
+    private const string dial15Text = "Radio 15";
+    private const string dial16Text = "Radio 16";
+    private const string dial17Text = "Radio 17";
+    private const string dial18Text = "Radio 18";
+    private const string dial19Text = "Radio 19";
+    private const string dial20Text = "Radio 20";
+    private const string dial21Text = "Radio 21";
+    private const string dial22Text = "Radio 22";
+    private const string dial23Text = "Radio 23";
+    private const string dial24Text = "Radio 24";
+    private const string dial25Text = "Radio 25";
+    private const string dial26Text = "Radio 26";
+    private const string dial27Text = "Radio 27";
+    private const string dial28Text = "Radio 28";
+    private const string dial29Text = "Radio 29";
+    private const string dial30Text = "Radio 30";
     private const string lLever1Text = "L 1";
     private const string lLever2Text = "L 2";
     private const string lLever3Text = "L 3";
@@ -62,6 +92,126 @@ public class Command_Array : MonoBehaviour {
     private const string lLever28Text = "L 28";
     private const string lLever29Text = "L 29";
     private const string lLever30Text = "L 30";
+    private const string lightswitch1Text = "Bulb 1";
+    private const string lightswitch2Text = "Bulb 2";
+    private const string lightswitch3Text = "Bulb 3";
+    private const string lightswitch4Text = "Bulb 4";
+    private const string lightswitch5Text = "Bulb 5";
+    private const string lightswitch6Text = "Bulb 6";
+    private const string lightswitch7Text = "Bulb 7";
+    private const string lightswitch8Text = "Bulb 8";
+    private const string lightswitch9Text = "Bulb 9";
+    private const string lightswitch10Text = "Bulb 10";
+    private const string lightswitch11Text = "Bulb 11";
+    private const string lightswitch12Text = "Bulb 12";
+    private const string lightswitch13Text = "Bulb 13";
+    private const string lightswitch14Text = "Bulb 14";
+    private const string lightswitch15Text = "Bulb 15";
+    private const string lightswitch16Text = "Bulb 16";
+    private const string lightswitch17Text = "Bulb 17";
+    private const string lightswitch18Text = "Bulb 18";
+    private const string lightswitch19Text = "Bulb 19";
+    private const string lightswitch20Text = "Bulb 20";
+    private const string lightswitch21Text = "Bulb 21";
+    private const string lightswitch22Text = "Bulb 22";
+    private const string lightswitch23Text = "Bulb 23";
+    private const string lightswitch24Text = "Bulb 24";
+    private const string lightswitch25Text = "Bulb 25";
+    private const string lightswitch26Text = "Bulb 26";
+    private const string lightswitch27Text = "Bulb 27";
+    private const string lightswitch28Text = "Bulb 28";
+    private const string lightswitch29Text = "Bulb 29";
+    private const string lightswitch30Text = "Bulb 30";
+    private const string shifter1Text = "Engine 1";
+    private const string shifter2Text = "Engine 2";
+    private const string shifter3Text = "Engine 3";
+    private const string shifter4Text = "Engine 4";
+    private const string shifter5Text = "Engine 5";
+    private const string shifter6Text = "Engine 6";
+    private const string shifter7Text = "Engine 7";
+    private const string shifter8Text = "Engine 8";
+    private const string shifter9Text = "Engine 9";
+    private const string shifter10Text = "Engine 10";
+    private const string shifter11Text = "Engine 11";
+    private const string shifter12Text = "Engine 12";
+    private const string shifter13Text = "Engine 13";
+    private const string shifter14Text = "Engine 14";
+    private const string shifter15Text = "Engine 15";
+    private const string shifter16Text = "Engine 16";
+    private const string shifter17Text = "Engine 17";
+    private const string shifter18Text = "Engine 18";
+    private const string shifter19Text = "Engine 19";
+    private const string shifter20Text = "Engine 20";
+    private const string shifter21Text = "Engine 21";
+    private const string shifter22Text = "Engine 22";
+    private const string shifter23Text = "Engine 23";
+    private const string shifter24Text = "Engine 24";
+    private const string shifter25Text = "Engine 25";
+    private const string shifter26Text = "Engine 26";
+    private const string shifter27Text = "Engine 27";
+    private const string shifter28Text = "Engine 28";
+    private const string shifter29Text = "Engine 29";
+    private const string shifter30Text = "Engine 30";
+    private const string slider1Text = "Speaker 1";
+    private const string slider2Text = "Speaker 2";
+    private const string slider3Text = "Speaker 3";
+    private const string slider4Text = "Speaker 4";
+    private const string slider5Text = "Speaker 5";
+    private const string slider6Text = "Speaker 6";
+    private const string slider7Text = "Speaker 7";
+    private const string slider8Text = "Speaker 8";
+    private const string slider9Text = "Speaker 9";
+    private const string slider10Text = "Speaker 10";
+    private const string slider11Text = "Speaker 11";
+    private const string slider12Text = "Speaker 12";
+    private const string slider13Text = "Speaker 13";
+    private const string slider14Text = "Speaker 14";
+    private const string slider15Text = "Speaker 15";
+    private const string slider16Text = "Speaker 16";
+    private const string slider17Text = "Speaker 17";
+    private const string slider18Text = "Speaker 18";
+    private const string slider19Text = "Speaker 19";
+    private const string slider20Text = "Speaker 20";
+    private const string slider21Text = "Speaker 21";
+    private const string slider22Text = "Speaker 22";
+    private const string slider23Text = "Speaker 23";
+    private const string slider24Text = "Speaker 24";
+    private const string slider25Text = "Speaker 25";
+    private const string slider26Text = "Speaker 26";
+    private const string slider27Text = "Speaker 27";
+    private const string slider28Text = "Speaker 28";
+    private const string slider29Text = "Speaker 29";
+    private const string slider30Text = "Speaker 30";
+    private const string valve1Text = "Pipe 1";
+    private const string valve2Text = "Pipe 2";
+    private const string valve3Text = "Pipe 3";
+    private const string valve4Text = "Pipe 4";
+    private const string valve5Text = "Pipe 5";
+    private const string valve6Text = "Pipe 6";
+    private const string valve7Text = "Pipe 7";
+    private const string valve8Text = "Pipe 8";
+    private const string valve9Text = "Pipe 9";
+    private const string valve10Text = "Pipe 10";
+    private const string valve11Text = "Pipe 11";
+    private const string valve12Text = "Pipe 12";
+    private const string valve13Text = "Pipe 13";
+    private const string valve14Text = "Pipe 14";
+    private const string valve15Text = "Pipe 15";
+    private const string valve16Text = "Pipe 16";
+    private const string valve17Text = "Pipe 17";
+    private const string valve18Text = "Pipe 18";
+    private const string valve19Text = "Pipe 19";
+    private const string valve20Text = "Pipe 20";
+    private const string valve21Text = "Pipe 21";
+    private const string valve22Text = "Pipe 22";
+    private const string valve23Text = "Pipe 23";
+    private const string valve24Text = "Pipe 24";
+    private const string valve25Text = "Pipe 25";
+    private const string valve26Text = "Pipe 26";
+    private const string valve27Text = "Pipe 27";
+    private const string valve28Text = "Pipe 28";
+    private const string valve29Text = "Pipe 29";
+    private const string valve30Text = "Pipe 30";
     private const string wLever1Text = "W 1";
     private const string wLever2Text = "W 2";
     private const string wLever3Text = "W 3";
@@ -93,6 +243,8 @@ public class Command_Array : MonoBehaviour {
     private const string wLever29Text = "W 29";
     private const string wLever30Text = "W 30";
 
+    public const string pullcordText = "(Everyone Pull Down)";
+
     public ArrayList buttonCommandArray = new ArrayList { button1Text, button2Text, button3Text, button4Text, button5Text, button6Text, button7Text, button8Text, button9Text, button10Text,
     button11Text, button12Text, button13Text, button14Text, button15Text, button16Text, button17Text, button18Text, button19Text, button20Text,
     button21Text, button22Text, button23Text, button24Text, button25Text, button26Text, button27Text, button28Text, button29Text, button30Text };
@@ -102,4 +254,19 @@ public class Command_Array : MonoBehaviour {
     public ArrayList wLeverCommandArray = new ArrayList { wLever1Text, wLever2Text, wLever3Text, wLever4Text, wLever5Text, wLever6Text, wLever7Text, wLever8Text, wLever9Text, wLever10Text,
     wLever11Text, wLever12Text, wLever13Text, wLever14Text, wLever15Text, wLever16Text, wLever17Text, wLever18Text, wLever19Text, wLever20Text,
     wLever21Text, wLever22Text, wLever23Text, wLever24Text, wLever25Text, wLever26Text, wLever27Text, wLever28Text, wLever29Text, wLever30Text };
+    public ArrayList dialCommandArray = new ArrayList { dial1Text, dial2Text, dial3Text, dial4Text, dial5Text, dial6Text, dial7Text, dial8Text, dial9Text, dial10Text,
+    dial11Text, dial12Text, dial13Text, dial14Text, dial15Text, dial16Text, dial17Text, dial18Text, dial19Text, dial20Text,
+    dial21Text, dial22Text, dial23Text, dial24Text, dial25Text, dial26Text, dial27Text, dial28Text, dial29Text, dial30Text };
+    public ArrayList lightswitchCommandArray = new ArrayList { lightswitch1Text, lightswitch2Text, lightswitch3Text, lightswitch4Text, lightswitch5Text, lightswitch6Text, lightswitch7Text, lightswitch8Text, lightswitch9Text, lightswitch10Text,
+    lightswitch11Text, lightswitch12Text, lightswitch13Text, lightswitch14Text, lightswitch15Text, lightswitch16Text, lightswitch17Text, lightswitch18Text, lightswitch19Text, lightswitch20Text,
+    lightswitch21Text, lightswitch22Text, lightswitch23Text, lightswitch24Text, lightswitch25Text, lightswitch26Text, lightswitch27Text, lightswitch28Text, lightswitch29Text, lightswitch30Text };
+    public ArrayList shifterCommandArray = new ArrayList { shifter1Text, shifter2Text, shifter3Text, shifter4Text, shifter5Text, shifter6Text, shifter7Text, shifter8Text, shifter9Text, shifter10Text,
+    shifter11Text, shifter12Text, shifter13Text, shifter14Text, shifter15Text, shifter16Text, shifter17Text, shifter18Text, shifter19Text, shifter20Text,
+    shifter21Text, shifter22Text, shifter23Text, shifter24Text, shifter25Text, shifter26Text, shifter27Text, shifter28Text, shifter29Text, shifter30Text };
+    public ArrayList sliderCommandArray = new ArrayList { slider1Text, slider2Text, slider3Text, slider4Text, slider5Text, slider6Text, slider7Text, slider8Text, slider9Text, slider10Text,
+    slider11Text, slider12Text, slider13Text, slider14Text, slider15Text, slider16Text, slider17Text, slider18Text, slider19Text, slider20Text,
+    slider21Text, slider22Text, slider23Text, slider24Text, slider25Text, slider26Text, slider27Text, slider28Text, slider29Text, slider30Text };
+    public ArrayList valveCommandArray = new ArrayList { valve1Text, valve2Text, valve3Text, valve4Text, valve5Text, valve6Text, valve7Text, valve8Text, valve9Text, valve10Text,
+    valve11Text, valve12Text, valve13Text, valve14Text, valve15Text, valve16Text, valve17Text, valve18Text, valve19Text, valve20Text,
+    valve21Text, valve22Text, valve23Text, valve24Text, valve25Text, valve26Text, valve27Text, valve28Text, valve29Text, valve30Text };
 }

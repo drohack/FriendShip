@@ -6,16 +6,28 @@ public class Mastermind_Script : MonoBehaviour {
     /** SINGLE VARIABLES **/
     private         int numPlayers = 2;
     private         int score = 0;
-    private         int numOfDiffGameObjects = 3; // The number of different type of game objects total to be used for random rolling of said game objects
+    private         int numOfDiffGameObjects = 8; // The number of different type of game objects total to be used for random rolling of said game objects
     private const   int commandTimeoutSeconds = 10;
     public const    int buttonCommand = 0;
-    public const    int lLeverCommand = 1;
-    public const    int wLeverCommand = 2;
+    public const    int dialCommand = 1;
+    public const    int lLeverCommand = 2;
+    public const    int lightswitchCommand = 3;
+    public const    int shifterCommand = 4;
+    public const    int sliderCommand = 5;
+    public const    int valveCommand = 6;
+    public const    int wLeverCommand = 7;
     private ArrayList buttonCommandArray;
+    private ArrayList dialCommandArray;
     private ArrayList lLeverCommandArray;
+    private ArrayList lightswitchCommandArray;
+    private string pullcordCommandText;
+    private ArrayList shifterCommandArray;
+    private ArrayList sliderCommandArray;
+    private ArrayList valveCommandArray;
     private ArrayList wLeverCommandArray;
     private GameObject[] rObjList; // The list of all random game objects get placed in current round
-    private bool  isTapped = false;    // Variables for the custom WaitForSeconds function
+    private bool  isTapped = false; // Variables for the custom WaitForSeconds function
+    private int numFufilled = 0;
 
     // Player Objects
     GameObject          p1_PlayerControlDeck;
@@ -79,7 +91,13 @@ public class Mastermind_Script : MonoBehaviour {
         // Set command arrays from Command_Array.cs
         Command_Array commandArray = GetComponent<Command_Array>();
         buttonCommandArray = commandArray.buttonCommandArray;
+        dialCommandArray = commandArray.dialCommandArray;
         lLeverCommandArray = commandArray.lLeverCommandArray;
+        lightswitchCommandArray = commandArray.lightswitchCommandArray;
+        pullcordCommandText = Command_Array.pullcordText;
+        shifterCommandArray = commandArray.shifterCommandArray;
+        sliderCommandArray = commandArray.sliderCommandArray;
+        valveCommandArray = commandArray.valveCommandArray;
         wLeverCommandArray = commandArray.wLeverCommandArray;
 
         // Set player objects
@@ -147,18 +165,10 @@ public class Mastermind_Script : MonoBehaviour {
         string newCommandText;
 
         GameObject buttonInstance = (GameObject)Resources.Load("Prefabs/Button");
-        GameObject lLeverInstance = (GameObject)Resources.Load("Prefabs/L_Lever");
-        GameObject wLeverInstance = (GameObject)Resources.Load("Prefabs/W_Lever");
 
-        float xBQuaternion = buttonInstance.transform.rotation.eulerAngles.x + playerControlDeck.transform.rotation.eulerAngles.x;
-        float yBQuaternion = buttonInstance.transform.rotation.eulerAngles.y + playerControlDeck.transform.rotation.eulerAngles.y;
-        float zBQuaternion = buttonInstance.transform.rotation.eulerAngles.z + playerControlDeck.transform.rotation.eulerAngles.z;
-        float xLQuaternion = lLeverInstance.transform.rotation.eulerAngles.x + playerControlDeck.transform.rotation.eulerAngles.x;
-        float yLQuaternion = lLeverInstance.transform.rotation.eulerAngles.y + playerControlDeck.transform.rotation.eulerAngles.y;
-        float zLQuaternion = lLeverInstance.transform.rotation.eulerAngles.z + playerControlDeck.transform.rotation.eulerAngles.z;
-        float xWQuaternion = wLeverInstance.transform.rotation.eulerAngles.x + playerControlDeck.transform.rotation.eulerAngles.x;
-        float yWQuaternion = wLeverInstance.transform.rotation.eulerAngles.y + playerControlDeck.transform.rotation.eulerAngles.y;
-        float zWQuaternion = wLeverInstance.transform.rotation.eulerAngles.z + playerControlDeck.transform.rotation.eulerAngles.z;
+        float xQuaternion = buttonInstance.transform.rotation.eulerAngles.x + playerControlDeck.transform.rotation.eulerAngles.x;
+        float yQuaternion = buttonInstance.transform.rotation.eulerAngles.y + playerControlDeck.transform.rotation.eulerAngles.y;
+        float zQuaternion = buttonInstance.transform.rotation.eulerAngles.z + playerControlDeck.transform.rotation.eulerAngles.z;
 
         //for each grid position generate a random object and add it to the random object list
         for (int x = 0; x < gridX; x++)
@@ -169,9 +179,7 @@ public class Mastermind_Script : MonoBehaviour {
                 //roll for a random game object
                 int objNum = Random.Range(0, numOfDiffGameObjects);
 
-                Vector3 buttonVector3 = new Vector3();
-                Vector3 lLeverVector3 = new Vector3();
-                Vector3 wLeverVector3 = new Vector3();
+                Vector3 vector3 = new Vector3();
                 //for the given random game object create a copy of it to randObject
                 switch (objNum)
                 {
@@ -183,21 +191,47 @@ public class Mastermind_Script : MonoBehaviour {
                         buttonCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            buttonVector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z - 0.7f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z - 0.7f);
                         if (playerNum == 2)
-                            buttonVector3 = new Vector3(playerControlDeck.transform.position.x + 0.7f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.7f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
                         if (playerNum == 3)
-                            buttonVector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z + 0.7f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z + 0.7f);
                         if (playerNum == 4)
-                            buttonVector3 = new Vector3(playerControlDeck.transform.position.x - 0.7f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.7f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
-                            buttonVector3,
-                            Quaternion.Euler(new Vector3(xBQuaternion, yBQuaternion, zBQuaternion)));
+                            vector3,
+                            Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
                         randObject.transform.parent = playerControlDeck.transform;
                         //add new command text to the new randomObject
-                        randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
+                        randObject.GetComponent<Button_Script>().newName = newCommandText;
+                        randObject.transform.Find("Labels/Name").GetComponent<TextMesh>().text = newCommandText;
                         //set randObject's rCommand in it's Script
                         randObject.GetComponent<Button_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
+                        break;
+                    case dialCommand:
+                        //roll for a random Button command from the buttonCommandArray
+                        commandIndex = Random.Range(0, dialCommandArray.Count);
+                        newCommandText = (string)dialCommandArray[commandIndex];
+                        //remove selected button command from buttonCommandArray so it won't be used again
+                        dialCommandArray.RemoveAt(commandIndex);
+                        //copy randomObject from the default wLever
+                        if (playerNum == 1)
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z - 0.5f);
+                        if (playerNum == 2)
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.5f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                        if (playerNum == 3)
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z + 0.5f);
+                        if (playerNum == 4)
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.5f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                        randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Dial"),
+                            vector3,
+                            Quaternion.Euler(new Vector3(xQuaternion - 90, yQuaternion + 90, zQuaternion)));
+                        randObject.transform.parent = playerControlDeck.transform;
+                        //add new command text to the new randomObject
+                        randObject.GetComponent<Dial_Script>().newName = newCommandText;
+                        randObject.transform.Find("Labels/Name").GetComponent<TextMesh>().text = newCommandText;
+                        //set randObject's rCommand in it's Script
+                        randObject.GetComponent<Dial_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
                     case lLeverCommand:
                         //roll for a random Button command from the lLeverCommandArray
@@ -207,21 +241,122 @@ public class Mastermind_Script : MonoBehaviour {
                         lLeverCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            lLeverVector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z - 1.47f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z - 1.47f);
                         if (playerNum == 2)
-                            lLeverVector3 = new Vector3(playerControlDeck.transform.position.x + 1.47f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 1.47f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
                         if (playerNum == 3)
-                            lLeverVector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z + 1.47f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z + 1.47f);
                         if (playerNum == 4)
-                            lLeverVector3 = new Vector3(playerControlDeck.transform.position.x - 1.47f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 1.47f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/L_Lever"),
-                            lLeverVector3,
-                            Quaternion.Euler(new Vector3(xLQuaternion, yLQuaternion, zLQuaternion)));
+                            vector3,
+                            Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
                         randObject.transform.parent = playerControlDeck.transform;
                         //add new command text to the new randomObject
-                        randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
+                        randObject.GetComponent<L_Lever_Script>().newName = newCommandText;
+                        randObject.transform.Find("Labels/Name").GetComponent<TextMesh>().text = newCommandText;
                         //set randObject's rCommand in it's Script
                         randObject.GetComponent<L_Lever_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
+                        break;
+                    case lightswitchCommand:
+                        //roll for a random Button command from the lLeverCommandArray
+                        commandIndex = Random.Range(0, lightswitchCommandArray.Count);
+                        newCommandText = (string)lightswitchCommandArray[commandIndex];
+                        //remove selected button command from lLeverCommandArray so it won't be used again
+                        lightswitchCommandArray.RemoveAt(commandIndex);
+                        //copy randomObject from the default wLever
+                        if (playerNum == 1)
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x) + 0.3f, 3 + (4 * y), playerControlDeck.transform.position.z - 0.5f);
+                        if (playerNum == 2)
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.5f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x) + 0.3f);
+                        if (playerNum == 3)
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x) + 0.3f, 3 + (4 * y), playerControlDeck.transform.position.z + 0.5f);
+                        if (playerNum == 4)
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.5f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x) + 0.3f);
+                        randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Lightswitch"),
+                            vector3,
+                            Quaternion.Euler(new Vector3(xQuaternion, yQuaternion + 90, zQuaternion)));
+                        randObject.transform.parent = playerControlDeck.transform;
+                        //add new command text to the new randomObject
+                        randObject.GetComponent<Lightswitch_Script>().newName = newCommandText;
+                        randObject.transform.Find("Labels/Name").GetComponent<TextMesh>().text = newCommandText;
+                        //set randObject's rCommand in it's Script
+                        randObject.GetComponent<Lightswitch_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
+                        break;
+                    case shifterCommand:
+                        //roll for a random Button command from the lLeverCommandArray
+                        commandIndex = Random.Range(0, shifterCommandArray.Count);
+                        newCommandText = (string)shifterCommandArray[commandIndex];
+                        //remove selected button command from lLeverCommandArray so it won't be used again
+                        shifterCommandArray.RemoveAt(commandIndex);
+                        //copy randomObject from the default wLever
+                        if (playerNum == 1)
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z - 0.5f);
+                        if (playerNum == 2)
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.5f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                        if (playerNum == 3)
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z + 0.5f);
+                        if (playerNum == 4)
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.5f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                        randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Shifter"),
+                            vector3,
+                            Quaternion.Euler(new Vector3(xQuaternion + 180, yQuaternion + 90, zQuaternion)));
+                        randObject.transform.parent = playerControlDeck.transform;
+                        //add new command text to the new randomObject
+                        randObject.GetComponent<Shifter_Script>().newName = newCommandText;
+                        randObject.transform.Find("Labels/Name").GetComponent<TextMesh>().text = newCommandText;
+                        //set randObject's rCommand in it's Script
+                        randObject.GetComponent<Shifter_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
+                        break;
+                    case sliderCommand:
+                        //roll for a random Button command from the lLeverCommandArray
+                        commandIndex = Random.Range(0, sliderCommandArray.Count);
+                        newCommandText = (string)sliderCommandArray[commandIndex];
+                        //remove selected button command from lLeverCommandArray so it won't be used again
+                        sliderCommandArray.RemoveAt(commandIndex);
+                        //copy randomObject from the default wLever
+                        if (playerNum == 1)
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z - 0.5f);
+                        if (playerNum == 2)
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.5f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                        if (playerNum == 3)
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z + 0.5f);
+                        if (playerNum == 4)
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.5f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                        randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Slider"),
+                            vector3,
+                            Quaternion.Euler(new Vector3(xQuaternion + 270, yQuaternion + 90, zQuaternion)));
+                        randObject.transform.parent = playerControlDeck.transform;
+                        //add new command text to the new randomObject
+                        randObject.GetComponent<Slider_Script>().newName = newCommandText;
+                        randObject.transform.Find("Labels/Name").GetComponent<TextMesh>().text = newCommandText;
+                        //set randObject's rCommand in it's Script
+                        randObject.GetComponent<Slider_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
+                        break;
+                    case valveCommand:
+                        //roll for a random Button command from the lLeverCommandArray
+                        commandIndex = Random.Range(0, valveCommandArray.Count);
+                        newCommandText = (string)valveCommandArray[commandIndex];
+                        //remove selected button command from lLeverCommandArray so it won't be used again
+                        valveCommandArray.RemoveAt(commandIndex);
+                        //copy randomObject from the default wLever
+                        if (playerNum == 1)
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z - 0.94f);
+                        if (playerNum == 2)
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.94f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                        if (playerNum == 3)
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z + 0.94f);
+                        if (playerNum == 4)
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.94f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                        randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Valve"),
+                            vector3,
+                            Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion + 90)));
+                        randObject.transform.parent = playerControlDeck.transform;
+                        //add new command text to the new randomObject
+                        randObject.GetComponent<Valve_Script>().newName = newCommandText;
+                        randObject.transform.Find("Labels/Name").GetComponent<TextMesh>().text = newCommandText;
+                        //set randObject's rCommand in it's Script
+                        randObject.GetComponent<Valve_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
                     case wLeverCommand:
                         //roll for a random Button command from the wLeverCommandArray
@@ -231,19 +366,20 @@ public class Mastermind_Script : MonoBehaviour {
                         wLeverCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            wLeverVector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z - 1.52f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z - 1.52f);
                         if (playerNum == 2)
-                            wLeverVector3 = new Vector3(playerControlDeck.transform.position.x + 1.52f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 1.52f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
                         if (playerNum == 3)
-                            wLeverVector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z + 1.52f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z + 1.52f);
                         if (playerNum == 4)
-                            wLeverVector3 = new Vector3(playerControlDeck.transform.position.x - 1.52f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 1.52f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/W_Lever"),
-                            wLeverVector3,
-                            Quaternion.Euler(new Vector3(xWQuaternion, yWQuaternion, zWQuaternion)));
+                            vector3,
+                            Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
                         randObject.transform.parent = playerControlDeck.transform;
                         //add new command text to the new randomObject
-                        randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
+                        randObject.GetComponent<W_Lever_Script>().newName = newCommandText;
+                        randObject.transform.Find("Labels/Name").GetComponent<TextMesh>().text = newCommandText;
                         //set randObject's rCommand in it's Script
                         randObject.GetComponent<W_Lever_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
@@ -255,19 +391,20 @@ public class Mastermind_Script : MonoBehaviour {
                         buttonCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            buttonVector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z - 0.7f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z - 0.7f);
                         if (playerNum == 2)
-                            buttonVector3 = new Vector3(playerControlDeck.transform.position.x + 0.7f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.7f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
                         if (playerNum == 3)
-                            buttonVector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z + 0.7f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z + 0.7f);
                         if (playerNum == 4)
-                            buttonVector3 = new Vector3(playerControlDeck.transform.position.x - 0.7f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.7f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
-                            buttonVector3,
-                            Quaternion.Euler(new Vector3(xBQuaternion, yBQuaternion, zBQuaternion)));
+                            vector3,
+                            Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
                         randObject.transform.parent = playerControlDeck.transform;
                         //add new command text to the new randomObject
-                        randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
+                        randObject.GetComponent<Button_Script>().newName = newCommandText;
+                        randObject.transform.Find("Labels/Name").GetComponent<TextMesh>().text = newCommandText;
                         //set randObject's rCommand in it's Script
                         randObject.GetComponent<Button_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
@@ -415,9 +552,13 @@ public class Mastermind_Script : MonoBehaviour {
         }
 
         //lower score if time reached (button was not tapped)
-        if (!isTapped)
+        if (numFufilled == 0)
         {
             ScoreDown();
+        }
+        else
+        {
+            numFufilled -= 1;
         }
 
         //reset isTapped
@@ -428,40 +569,40 @@ public class Mastermind_Script : MonoBehaviour {
     public void TappedWaitForSecondsOrTap(int inputCommand)
     {
         isTapped = true;
-        bool foundCommand = false;
-        
+        numFufilled = 0;
+                
         //Check to see if the current command is the correct button pressed. Update score accordingly
         if (p1_rCommand == inputCommand)
         {
             ScoreUp();
             //Set timer for that player to 0 to get next command
             p1_gWaitSystem = 0.0f;
-            foundCommand = true;
+            numFufilled += 1;
         }
         if (p2_rCommand == inputCommand)
         {
             ScoreUp();
             //Set timer for that player to 0 to get next command
             p2_gWaitSystem = 0.0f;
-            foundCommand = true;
+            numFufilled += 1;
         }
         if (p3_rCommand == inputCommand)
         {
             ScoreUp();
             //Set timer for that player to 0 to get next command
             p3_gWaitSystem = 0.0f;
-            foundCommand = true;
+            numFufilled += 1;
         }
         if (p4_rCommand == inputCommand)
         {
             ScoreUp();
             //Set timer for that player to 0 to get next command
             p4_gWaitSystem = 0.0f;
-            foundCommand = true;
+            numFufilled += 1;
         }
 
         // If no command matched lower score
-        if (!foundCommand)
+        if (numFufilled == 0)
         {
             ScoreDown();
         }
@@ -580,37 +721,136 @@ public class Mastermind_Script : MonoBehaviour {
         int commandType = buttonCommand;
         if (rObj.name.Contains("Button"))
             commandType = buttonCommand;
+        else if (rObj.name.Contains("Dial"))
+            commandType = dialCommand;
         else if (rObj.name.Contains("L_Lever"))
             commandType = lLeverCommand;
+        else if (rObj.name.Contains("Lightswitch"))
+            commandType = lightswitchCommand;
+        else if (rObj.name.Contains("Shifter"))
+            commandType = shifterCommand;
+        else if (rObj.name.Contains("Slider"))
+            commandType = sliderCommand;
+        else if (rObj.name.Contains("Valve"))
+            commandType = valveCommand;
         else if (rObj.name.Contains("W_Lever"))
             commandType = wLeverCommand;
 
-
         string message = "";
+        int newRCommand;
         //Get new command
         switch (commandType)
         {
             case buttonCommand:
                 //Button
-                string buttonText = rObj.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text;
+                string buttonText = rObj.GetComponent<Button_Script>().newName;
                 message = "Engage " + buttonText;
+                break;
+            case dialCommand:
+                //Dial
+                Dial_Script dialScript = rObj.GetComponent<Dial_Script>();
+                string dialText = dialScript.newName;
+                newRCommand = Random.Range(0, 5);
+                while (newRCommand == dialScript.dialPosition)
+                {
+                    newRCommand = Random.Range(0, 5);
+                }
+                message = "Change " + dialText + " to Ch. " + newRCommand;
+                rCommand = (rCommand * 100) + newRCommand;
                 break;
             case lLeverCommand:
                 //L_Lever
-                string lLeverText = rObj.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text;
-                L_Lever_Script lLeverHandleScript = rObj.GetComponent<L_Lever_Script>();
+                L_Lever_Script lLeverScript = rObj.GetComponent<L_Lever_Script>();
+                string lLeverText = lLeverScript.newName;
                 message = "Turn ";
-                if (lLeverHandleScript.isLLeverUp)
+                if (lLeverScript.isLLeverUp)
                 {
                     message += "OFF ";
-                    rCommand = (rCommand * 100) + 2;
+                    rCommand = (rCommand * 100) + 1;
                 }
                 else
                 {
                     message += "ON ";
-                    rCommand = (rCommand * 100) + 1;
+                    rCommand = (rCommand * 100) + 2;
                 }
                 message += lLeverText;
+                break;
+            case lightswitchCommand:
+                //L_Lever
+                Lightswitch_Script lightswitchScript = rObj.GetComponent<Lightswitch_Script>();
+                string lightswitchText = lightswitchScript.newName;
+                message = "Turn ";
+                if (lightswitchScript.isLightswitchOn)
+                {
+                    message += "OFF ";
+                    rCommand = (rCommand * 100) + 1;
+                }
+                else
+                {
+                    message += "ON ";
+                    rCommand = (rCommand * 100) + 2;
+                }
+                message += lightswitchText;
+                break;
+            case shifterCommand:
+                //Dial
+                Shifter_Script shifterScript = rObj.GetComponent<Shifter_Script>();
+                string shifterText = shifterScript.newName;
+                newRCommand = Random.Range(0, 3);
+                while (newRCommand == shifterScript.shifterPosition)
+                {
+                    newRCommand = Random.Range(0, 3);
+                }
+                message = "";
+                if (newRCommand < shifterScript.shifterPosition)
+                {
+                    message += "Decrease ";
+                }
+                else
+                {
+                    message += "Increase ";
+                }
+                message += shifterText + " to " + newRCommand;
+                rCommand = (rCommand * 100) + newRCommand;
+                break;
+            case sliderCommand:
+                //Dial
+                Slider_Script sliderScript = rObj.GetComponent<Slider_Script>();
+                string sliderText = sliderScript.newName;
+                newRCommand = Random.Range(0, 4);
+                while (newRCommand == sliderScript.sliderPosition)
+                {
+                    newRCommand = Random.Range(0, 4);
+                }
+                message = "";
+                if (newRCommand < sliderScript.sliderPosition)
+                {
+                    message += "Reduce ";
+                }
+                else
+                {
+                    message += "Boost ";
+                }
+                message += sliderText + " to " + newRCommand;
+                rCommand = (rCommand * 100) + newRCommand;
+                break;
+            case valveCommand:
+                //Valve
+                Valve_Script valveScript = rObj.GetComponent<Valve_Script>();
+                string valveText = valveScript.newName;
+                newRCommand = Random.Range(0, 1);
+                message = "";
+                if (newRCommand == 0)
+                {
+                    message += "Tighten ";
+                    rCommand = (rCommand * 100) + 1;
+                }
+                else
+                {
+                    message += "Loosen ";
+                    rCommand = (rCommand * 100) + 2;
+                }
+                message += valveText;
                 break;
             case wLeverCommand:
                 //W_Lever
@@ -620,16 +860,17 @@ public class Mastermind_Script : MonoBehaviour {
                 if (wLeverHandleScript.isWLeverUp)
                 {
                     message += "Lower ";
-                    rCommand = (rCommand * 100) + 2;
+                    rCommand = (rCommand * 100) + 1;
                 }
                 else
                 {
                     message += "Raise ";
-                    rCommand = (rCommand * 100) + 1;
+                    rCommand = (rCommand * 100) + 2;
                 }
                 message += wLeverText;
                 break;
             default:
+                Debug.LogError("Error - name: " + rObj.name);
                 break;
         }
 

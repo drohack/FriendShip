@@ -51,7 +51,7 @@ public class W_Lever_Script : NetworkBehaviour
             if (lastHandlePosition == middlePosition)
             {
                 //send command tapped to the Console_Text_Script with wLeverUpCommand
-                int rCommandUp = (rCommand * 100) + 1;
+                int rCommandUp = (rCommand * 100) + 2;
                 mastermindScript.TappedWaitForSecondsOrTap(rCommandUp);
                 //Lever changed positions
                 isWLeverUp = true;
@@ -72,7 +72,7 @@ public class W_Lever_Script : NetworkBehaviour
             if (lastHandlePosition == middlePosition)
             {
                 //send command tapped to the Console_Text_Script with wLeverDownCommand
-                int rCommandDown = (rCommand * 100) + 2;
+                int rCommandDown = (rCommand * 100) + 1;
                 mastermindScript.TappedWaitForSecondsOrTap(rCommandDown);
                 //Lever changed positions
                 isWLeverUp = false;

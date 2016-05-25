@@ -14,6 +14,7 @@ public class Highlight_Handle_Top_Script : MonoBehaviour {
     void Start () {
         Transform topTransform = transform.Find("Top");
         topRenderer = topTransform.GetComponent<Renderer>();
+        startcolor = topRenderer.material.color;
         isMouseOver = false;
         isGrabbing = false;
     }
@@ -23,7 +24,6 @@ public class Highlight_Handle_Top_Script : MonoBehaviour {
         isMouseOver = true;
         if (!Input.GetMouseButton(0))
         {
-            startcolor = topRenderer.material.color;
             topRenderer.material.color = highlightColor;
         }
     }
