@@ -45,6 +45,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Lobby\Scripts\DraggablePanel.cs" />
+     <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyCountdownPanel.cs" />
+     <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyHook.cs" />
+     <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyInfoPanel.cs" />
+     <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyMainMenu.cs" />
+     <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyManager.cs" />
+     <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyPlayer.cs" />
+     <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyPlayerList.cs" />
+     <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyServerEntry.cs" />
+     <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyServerList.cs" />
+     <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyTopPanel.cs" />
      <Compile Include="Assets\Scripts\Button_Script.cs" />
      <Compile Include="Assets\Scripts\Command_Array.cs" />
      <Compile Include="Assets\Scripts\Console_Text_Script.cs" />
@@ -54,6 +65,7 @@
      <Compile Include="Assets\Scripts\L_Lever_Script.cs" />
      <Compile Include="Assets\Scripts\Lightswitch_Script.cs" />
      <Compile Include="Assets\Scripts\Mastermind_Script.cs" />
+     <Compile Include="Assets\Scripts\Player_NetworkSetup.cs" />
      <Compile Include="Assets\Scripts\Pullcord_Script.cs" />
      <Compile Include="Assets\Scripts\Score_Text_Script.cs" />
      <Compile Include="Assets\Scripts\Shifter_Script.cs" />
@@ -61,6 +73,8 @@
      <Compile Include="Assets\Scripts\Valve_Script.cs" />
      <Compile Include="Assets\Scripts\W_Lever_Script.cs" />
      <None Include="Assets\Standard Assets\Prototyping\Shaders\WorldCoordDiffuse.shader" />
+     <None Include="Assets\Lobby\Documentation.txt" />
+     <None Include="Assets\Lobby\Instruction.txt" />
      <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Simple.shader" />
      <None Include="Assets\Standard Assets\Environment\Water (Basic)\Shaders\FXWaterBasic.shader" />
      <None Include="Assets\Standard Assets\Fonts\OpenSans\License!.txt" />

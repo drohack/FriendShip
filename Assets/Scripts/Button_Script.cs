@@ -17,7 +17,8 @@ public class Button_Script : NetworkBehaviour {
 
     private void UpdateName(string name)
     {
-        transform.Find("Labels/Name").GetComponent<TextMesh>().text = name;
+		transform.GetChild (0).transform.GetChild (0).GetComponent<TextMesh> ().text = name;
+       //transform.Find("Labels/Name").GetComponent<TextMesh>().text = name;
     }
 
     // Use this for initialization

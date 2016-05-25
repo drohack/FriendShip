@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class Mastermind_Script : MonoBehaviour {
+public class Mastermind_Script : NetworkBehaviour {
 
     /** SINGLE VARIABLES **/
     private         int numPlayers = 2;
@@ -193,9 +194,11 @@ public class Mastermind_Script : MonoBehaviour {
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
                             buttonVector3,
                             Quaternion.Euler(new Vector3(xBQuaternion, yBQuaternion, zBQuaternion)));
+						NetworkServer.Spawn (randObject);
                         randObject.transform.parent = playerControlDeck.transform;
                         //add new command text to the new randomObject
-                        randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
+                        //randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
+						randObject.transform.GetComponent<Button_Script> ().newName = newCommandText;
                         //set randObject's rCommand in it's Script
                         randObject.GetComponent<Button_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
@@ -217,9 +220,11 @@ public class Mastermind_Script : MonoBehaviour {
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/L_Lever"),
                             lLeverVector3,
                             Quaternion.Euler(new Vector3(xLQuaternion, yLQuaternion, zLQuaternion)));
+						NetworkServer.Spawn (randObject);
                         randObject.transform.parent = playerControlDeck.transform;
                         //add new command text to the new randomObject
-                        randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
+                        //randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
+						randObject.transform.GetComponent<L_Lever_Script> ().newName = newCommandText;
                         //set randObject's rCommand in it's Script
                         randObject.GetComponent<L_Lever_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
@@ -241,9 +246,11 @@ public class Mastermind_Script : MonoBehaviour {
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/W_Lever"),
                             wLeverVector3,
                             Quaternion.Euler(new Vector3(xWQuaternion, yWQuaternion, zWQuaternion)));
+						NetworkServer.Spawn (randObject);
                         randObject.transform.parent = playerControlDeck.transform;
                         //add new command text to the new randomObject
-                        randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
+                        //randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
+						randObject.transform.GetComponent<W_Lever_Script> ().newName = newCommandText;
                         //set randObject's rCommand in it's Script
                         randObject.GetComponent<W_Lever_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
@@ -265,9 +272,11 @@ public class Mastermind_Script : MonoBehaviour {
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
                             buttonVector3,
                             Quaternion.Euler(new Vector3(xBQuaternion, yBQuaternion, zBQuaternion)));
+						NetworkServer.Spawn (randObject);
                         randObject.transform.parent = playerControlDeck.transform;
                         //add new command text to the new randomObject
-                        randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
+                        //randObject.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = newCommandText;
+						randObject.transform.GetComponent<Button_Script> ().newName = newCommandText;
                         //set randObject's rCommand in it's Script
                         randObject.GetComponent<Button_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;

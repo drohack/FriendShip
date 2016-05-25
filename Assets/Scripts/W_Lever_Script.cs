@@ -24,7 +24,8 @@ public class W_Lever_Script : NetworkBehaviour
 
     private void UpdateName(string name)
     {
-        transform.Find("Labels/Name").GetComponent<TextMesh>().text = name;
+       // transform.Find("Labels/Name").GetComponent<TextMesh>().text = name;
+		transform.GetChild (0).transform.GetChild (0).GetComponent<TextMesh> ().text = name;
     }
 
     void Start()
@@ -52,7 +53,7 @@ public class W_Lever_Script : NetworkBehaviour
             {
                 //send command tapped to the Console_Text_Script with wLeverUpCommand
                 int rCommandUp = (rCommand * 100) + 1;
-                mastermindScript.TappedWaitForSecondsOrTap(rCommandUp);
+               mastermindScript.TappedWaitForSecondsOrTap(rCommandUp);
                 //Lever changed positions
                 isWLeverUp = true;
             }
