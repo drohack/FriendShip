@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class Mastermind_Script : MonoBehaviour {
+public class Mastermind_Script : NetworkBehaviour {
 
     /** SINGLE VARIABLES **/
     private         int numPlayers = 2;
@@ -204,7 +205,6 @@ public class Mastermind_Script : MonoBehaviour {
                         randObject.transform.parent = playerControlDeck.transform;
                         //add new command text to the new randomObject
                         randObject.GetComponent<Button_Script>().newName = newCommandText;
-                        randObject.transform.Find("Labels/Name").GetComponent<TextMesh>().text = newCommandText;
                         //set randObject's rCommand in it's Script
                         randObject.GetComponent<Button_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
@@ -229,7 +229,6 @@ public class Mastermind_Script : MonoBehaviour {
                         randObject.transform.parent = playerControlDeck.transform;
                         //add new command text to the new randomObject
                         randObject.GetComponent<Dial_Script>().newName = newCommandText;
-                        randObject.transform.Find("Labels/Name").GetComponent<TextMesh>().text = newCommandText;
                         //set randObject's rCommand in it's Script
                         randObject.GetComponent<Dial_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
@@ -254,7 +253,6 @@ public class Mastermind_Script : MonoBehaviour {
                         randObject.transform.parent = playerControlDeck.transform;
                         //add new command text to the new randomObject
                         randObject.GetComponent<L_Lever_Script>().newName = newCommandText;
-                        randObject.transform.Find("Labels/Name").GetComponent<TextMesh>().text = newCommandText;
                         //set randObject's rCommand in it's Script
                         randObject.GetComponent<L_Lever_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
@@ -279,7 +277,6 @@ public class Mastermind_Script : MonoBehaviour {
                         randObject.transform.parent = playerControlDeck.transform;
                         //add new command text to the new randomObject
                         randObject.GetComponent<Lightswitch_Script>().newName = newCommandText;
-                        randObject.transform.Find("Labels/Name").GetComponent<TextMesh>().text = newCommandText;
                         //set randObject's rCommand in it's Script
                         randObject.GetComponent<Lightswitch_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
@@ -304,7 +301,6 @@ public class Mastermind_Script : MonoBehaviour {
                         randObject.transform.parent = playerControlDeck.transform;
                         //add new command text to the new randomObject
                         randObject.GetComponent<Shifter_Script>().newName = newCommandText;
-                        randObject.transform.Find("Labels/Name").GetComponent<TextMesh>().text = newCommandText;
                         //set randObject's rCommand in it's Script
                         randObject.GetComponent<Shifter_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
@@ -329,7 +325,6 @@ public class Mastermind_Script : MonoBehaviour {
                         randObject.transform.parent = playerControlDeck.transform;
                         //add new command text to the new randomObject
                         randObject.GetComponent<Slider_Script>().newName = newCommandText;
-                        randObject.transform.Find("Labels/Name").GetComponent<TextMesh>().text = newCommandText;
                         //set randObject's rCommand in it's Script
                         randObject.GetComponent<Slider_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
@@ -354,7 +349,6 @@ public class Mastermind_Script : MonoBehaviour {
                         randObject.transform.parent = playerControlDeck.transform;
                         //add new command text to the new randomObject
                         randObject.GetComponent<Valve_Script>().newName = newCommandText;
-                        randObject.transform.Find("Labels/Name").GetComponent<TextMesh>().text = newCommandText;
                         //set randObject's rCommand in it's Script
                         randObject.GetComponent<Valve_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
@@ -379,7 +373,6 @@ public class Mastermind_Script : MonoBehaviour {
                         randObject.transform.parent = playerControlDeck.transform;
                         //add new command text to the new randomObject
                         randObject.GetComponent<W_Lever_Script>().newName = newCommandText;
-                        randObject.transform.Find("Labels/Name").GetComponent<TextMesh>().text = newCommandText;
                         //set randObject's rCommand in it's Script
                         randObject.GetComponent<W_Lever_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
@@ -404,7 +397,6 @@ public class Mastermind_Script : MonoBehaviour {
                         randObject.transform.parent = playerControlDeck.transform;
                         //add new command text to the new randomObject
                         randObject.GetComponent<Button_Script>().newName = newCommandText;
-                        randObject.transform.Find("Labels/Name").GetComponent<TextMesh>().text = newCommandText;
                         //set randObject's rCommand in it's Script
                         randObject.GetComponent<Button_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
