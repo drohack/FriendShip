@@ -94,6 +94,7 @@ public class Mastermind_Script : NetworkBehaviour {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         for(int i=0; i<players.Length; i++)
         {
+            Debug.Log(i + ": " + players[i].name);
             numPlayers++;
         }
         Debug.Log("players.Length: " + players.Length + " numPlayers: " + numPlayers);
@@ -201,13 +202,13 @@ public class Mastermind_Script : NetworkBehaviour {
                         buttonCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z - 0.7f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.09f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.7f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.09f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z + 0.7f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z + 0.09f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.7f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.09f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
@@ -226,13 +227,13 @@ public class Mastermind_Script : NetworkBehaviour {
                         dialCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z - 0.5f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.05f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.5f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z + 0.5f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z + 0.05f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.5f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Dial"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion - 90, yQuaternion + 90, zQuaternion)));
@@ -251,13 +252,13 @@ public class Mastermind_Script : NetworkBehaviour {
                         lLeverCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z - 1.47f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.147f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 1.47f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.147f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z + 1.47f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z + 0.147f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 1.47f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.147f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/L_Lever"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
@@ -276,13 +277,13 @@ public class Mastermind_Script : NetworkBehaviour {
                         lightswitchCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x) + 0.3f, 3 + (4 * y), playerControlDeck.transform.position.z - 0.5f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.05f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.5f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x) + 0.3f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x) + 0.3f, 3 + (4 * y), playerControlDeck.transform.position.z + 0.5f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z + 0.05f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.5f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x) + 0.3f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Lightswitch"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion, yQuaternion + 90, zQuaternion)));
@@ -301,13 +302,13 @@ public class Mastermind_Script : NetworkBehaviour {
                         shifterCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z - 0.5f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.05f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.5f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z + 0.5f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z + 0.05f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.5f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Shifter"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion + 180, yQuaternion + 90, zQuaternion)));
@@ -326,13 +327,13 @@ public class Mastermind_Script : NetworkBehaviour {
                         sliderCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z - 0.5f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.05f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.5f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z + 0.5f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z + 0.05f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.5f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Slider"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion + 270, yQuaternion + 90, zQuaternion)));
@@ -351,13 +352,13 @@ public class Mastermind_Script : NetworkBehaviour {
                         valveCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z - 0.96f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.096f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.96f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.096f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z + 0.96f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z + 0.096f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.96f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.096f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Valve"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion + 90)));
@@ -376,13 +377,13 @@ public class Mastermind_Script : NetworkBehaviour {
                         wLeverCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z - 1.52f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.152f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 1.52f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.152f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z + 1.52f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z + 0.152f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 1.52f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.152f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/W_Lever"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
@@ -401,13 +402,13 @@ public class Mastermind_Script : NetworkBehaviour {
                         buttonCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z - 0.7f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.09f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.7f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.09f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z + 0.7f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z + 0.09f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.7f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.09f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));

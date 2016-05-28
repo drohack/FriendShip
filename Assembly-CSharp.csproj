@@ -97,6 +97,7 @@
      <Compile Include="Assets\OculusHandDemoAssets\OvrTouch\Script\Services\PhysicsSettings.cs" />
      <Compile Include="Assets\OculusHandDemoAssets\OvrTouch\Script\Services\TouchVisualizer.cs" />
      <Compile Include="Assets\Scripts\Button_Script.cs" />
+     <Compile Include="Assets\Scripts\Button_Script_copy.cs" />
      <Compile Include="Assets\Scripts\Command_Array.cs" />
      <Compile Include="Assets\Scripts\Console_Text_Script.cs" />
      <Compile Include="Assets\Scripts\Dial_Script.cs" />

@@ -56,7 +56,7 @@ public class Lightswitch_Script : NetworkBehaviour {
                 isLightswitchOn = false;
                 anim.Play("Lightswitch_Off_Anim");
                 //send tapped command to Mastermind
-                int rCommandUp = (rCommand * 100) + 2;
+                int rCommandUp = (rCommand * 100) + 1;
                 mastermindScript.TappedWaitForSecondsOrTap(rCommandUp);
             }
             else
@@ -64,7 +64,7 @@ public class Lightswitch_Script : NetworkBehaviour {
                 isLightswitchOn = true;
                 anim.Play("Lightswitch_On_Anim");
                 //send tapped command to Mastermind
-                int rCommandDown = (rCommand * 100) + 1;
+                int rCommandDown = (rCommand * 100) + 2;
                 mastermindScript.TappedWaitForSecondsOrTap(rCommandDown);
             }
         }
