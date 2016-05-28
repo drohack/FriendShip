@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 public class Mastermind_Script : NetworkBehaviour {
 
     /** SINGLE VARIABLES **/
-    private         int numPlayers = 2;
+    private         int numPlayers = 0;
     private         int score = 0;
     private         int numOfDiffGameObjects = 8; // The number of different type of game objects total to be used for random rolling of said game objects
     private const   int commandTimeoutSeconds = 10;
@@ -88,6 +88,15 @@ public class Mastermind_Script : NetworkBehaviour {
     void Initialize()
     {
         score = 0;
+
+        //Get number of players by the "Player" tag
+        numPlayers = 0;
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        for(int i=0; i<players.Length; i++)
+        {
+            numPlayers++;
+        }
+        Debug.Log("players.Length: " + players.Length + " numPlayers: " + numPlayers);
 
         // Set command arrays from Command_Array.cs
         Command_Array commandArray = GetComponent<Command_Array>();
