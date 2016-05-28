@@ -424,13 +424,13 @@ public class Mastermind_Script : NetworkBehaviour {
         //If the user scores 10 or more, change text to Green and to say "YOU WIN~"
         if (score >= 10)
         {
-            p1_scoreTextScript.Win();
+            p1_scoreTextScript.hasWon = true;
             if (numPlayers > 1)
-                p2_scoreTextScript.Win();
+                p2_scoreTextScript.hasWon = true;
             if (numPlayers > 2)
-                p3_scoreTextScript.Win();
+                p3_scoreTextScript.hasWon = true;
             if (numPlayers > 3)
-                p4_scoreTextScript.Win();
+                p4_scoreTextScript.hasWon = true;
         }
 
         //if we are NOT typing "START!" including waiting the 2 seconds
@@ -459,46 +459,46 @@ public class Mastermind_Script : NetworkBehaviour {
     public void ScoreUp()
     {
         score++;
-        p1_scoreTextScript.ScoreUp(score);
+        p1_scoreTextScript.scoreUp = score;
         if (numPlayers > 1)
-            p2_scoreTextScript.ScoreUp(score);
+            p2_scoreTextScript.scoreUp = score;
         if (numPlayers > 2)
-            p3_scoreTextScript.ScoreUp(score);
+            p3_scoreTextScript.scoreUp = score;
         if (numPlayers > 3)
-            p4_scoreTextScript.ScoreUp(score);
+            p4_scoreTextScript.scoreUp = score;
     }
 
     public void ScoreDown()
     {
         score--;
-        p1_scoreTextScript.ScoreDown(score);
+        p1_scoreTextScript.scoreDown = score;
         if (numPlayers > 1)
-            p2_scoreTextScript.ScoreDown(score);
+            p2_scoreTextScript.scoreDown = score;
         if (numPlayers > 2)
-            p3_scoreTextScript.ScoreDown(score);
+            p3_scoreTextScript.scoreDown = score;
         if (numPlayers > 3)
-            p4_scoreTextScript.ScoreDown(score);
+            p4_scoreTextScript.scoreDown = score;
     }
 
     //Display "START!" for 2 seconds
     IEnumerator DisplayStartText()
     {
         p1_isDisplayStart = true;
-        StartCoroutine(p1_consoleTextScript.TypeText(" START!"));
+        p1_consoleTextScript.RpcTypeText(" START!");
         if (numPlayers > 1)
         {
             p2_isDisplayStart = true;
-            StartCoroutine(p2_consoleTextScript.TypeText(" START!"));
+            p2_consoleTextScript.RpcTypeText(" START!");
         }
         if (numPlayers > 2)
         {
             p3_isDisplayStart = true;
-            StartCoroutine(p3_consoleTextScript.TypeText(" START!"));
+            p3_consoleTextScript.RpcTypeText(" START!");
         }
         if (numPlayers > 3)
         {
             p4_isDisplayStart = true;
-            StartCoroutine(p4_consoleTextScript.TypeText(" START!"));
+            p4_consoleTextScript.RpcTypeText(" START!");
         }
         yield return new WaitForSeconds(2);
         p1_isDisplayStart = false;
@@ -625,7 +625,7 @@ public class Mastermind_Script : NetworkBehaviour {
         string message = rCommandList[1];
 
         //Type out new command to console
-        StartCoroutine(p1_consoleTextScript.TypeText(message));
+        p1_consoleTextScript.RpcTypeText(message);
 
         //Wait for the commandTimeoutSeconds or if a button gets tapped
         yield return WaitForSecondsOrTap(1, commandTimeoutSeconds);
@@ -652,7 +652,7 @@ public class Mastermind_Script : NetworkBehaviour {
         string message = rCommandList[1];
 
         //Type out new command to console
-        StartCoroutine(p2_consoleTextScript.TypeText(message));
+        p2_consoleTextScript.RpcTypeText(message);
 
         //Wait for the commandTimeoutSeconds or if a button gets tapped
         yield return WaitForSecondsOrTap(2, commandTimeoutSeconds);
@@ -679,7 +679,7 @@ public class Mastermind_Script : NetworkBehaviour {
         string message = rCommandList[1];
 
         //Type out new command to console
-        StartCoroutine(p3_consoleTextScript.TypeText(message));
+        p3_consoleTextScript.RpcTypeText(message);
 
         //Wait for the commandTimeoutSeconds or if a button gets tapped
         yield return WaitForSecondsOrTap(3, commandTimeoutSeconds);
@@ -706,7 +706,7 @@ public class Mastermind_Script : NetworkBehaviour {
         string message = rCommandList[1];
 
         //Type out new command to console
-        StartCoroutine(p4_consoleTextScript.TypeText(message));
+        p4_consoleTextScript.RpcTypeText(message);
 
         //Wait for the commandTimeoutSeconds or if a button gets tapped
         yield return WaitForSecondsOrTap(4, commandTimeoutSeconds);

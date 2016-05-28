@@ -93,6 +93,6 @@ public class Drag_Rigid_Body_Script : MonoBehaviour {
             return GetComponent<Camera>();
         }
 
-        return GameObject.Find("Main Camera").GetComponent<Camera>();
+        return GameObject.Find("Player Camera").GetComponent<Camera>();
     }
 }

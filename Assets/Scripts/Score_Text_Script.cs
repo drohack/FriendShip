@@ -1,19 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class Score_Text_Script : MonoBehaviour {
+public class Score_Text_Script : NetworkBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    [SyncVar(hook = "ScoreUp")]
+    public int scoreUp;
+    [SyncVar(hook = "ScoreDown")]
+    public int scoreDown;
+    [SyncVar(hook = "Win")]
+    public bool hasWon;
 
-    }
-	
-	// Update is called once per frame
-	void Update () {
-        
-	}
-
-    public void Win()
+    public void Win(bool hasWon)
     {
         GetComponent<MeshRenderer>().material.color = Color.green;
         GetComponent<TextMesh>().text = "<b>YOU WIN~</b>";

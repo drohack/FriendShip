@@ -37,9 +37,6 @@ public class Slider_Script : NetworkBehaviour {
     {
         handleTransform = transform.Find("Handle");
         handleScript = handleTransform.GetComponent<Highlight_Handle_Top_Script>();
-        handleTransform.localPosition = new Vector3(0, 0, -1.6f);
-        sliderPosition = 0;
-        isLocked = true;
 
         //Add configurable joint to Handle
         handleTransform.gameObject.AddComponent<ConfigurableJoint>();
@@ -54,6 +51,11 @@ public class Slider_Script : NetworkBehaviour {
         SoftJointLimit softJointLimit = new SoftJointLimit();
         softJointLimit.limit = 1.13f;
         handleTransform.GetComponent<ConfigurableJoint>().linearLimit = softJointLimit;
+
+        //Set Handle to 0
+        handleTransform.localPosition = new Vector3(0, 0, -1.6f);
+        sliderPosition = 0;
+        isLocked = true;
 
         mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }

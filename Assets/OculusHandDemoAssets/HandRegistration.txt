@@ -1,0 +1,19 @@
+The raw hand assets are positioned as if part of a full skeleton and require in-game transformation for proper hand registration when used in VR. To achieve this in unreal 4, we did the following:
+
+1. In the animation blueprint, remove all translation and rotation from b_l_hand on the left hand, and b_r_hand for the right. The result of this is that the origin of the skeleton becomes the wrist, with the back of the hand facing positive z and the fingers pointing down positive x.
+
+2. In the hand actor that contains the hand mesh, the root component is a simple scene component, and we apply a translation to each hand so that b_l_grip/b_r_grip are at the origin of the actor, simply by translating by the mesh by the negative of the grip bone's position.
+
+3. In the player pawn, we applied transforms to the hand actors relative to the position of the controller they're attached to. These transforms are:
+
+Left:
+Translation 	X=-3.0000,Y=-2.00000,Z=-4.000000
+Rotation 		Pitch=-21.407562,Yaw=-0.319427,Roll=-77.774536
+
+Right:
+Translation 	X=-3.0000,Y=2.00000,Z=-4.000000
+Rotation 		Pitch=-21.407562,Yaw=0.319427,Roll=77.774536
+
+All given axes are in unreal's frame where x is forward, y is right, and z is up. Rotations are in degrees. If not using unreal, registration can still be achieved by composing the above transformations in order, i.e. Inverse translate & rotate b_l/r_hand, then inverse translate b_l/r_grip, then apply the appropriate registration offset transform. When done correctly the default position of the hand meshes should be close to the posture of the user's hands when holding the touch controllers straight forward, with the palms facing inward and wrists tilted slightly forward. When seen in VR, the hands will appear to be in the same position as the user's actual hands.
+
+No special transformations are required for the touch controller models. They're already modeled with their origin at the correct position. It may be desirable to rotate them about the up axis to change their facing direction but that is the only adjustment that may be necessary.

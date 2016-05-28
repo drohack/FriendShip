@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class Console_Text_Script : MonoBehaviour {
+public class Console_Text_Script : NetworkBehaviour {
 
     private TextMesh textMesh;
     public bool isTyping = false;
@@ -14,9 +15,10 @@ public class Console_Text_Script : MonoBehaviour {
         textMesh.text = "";
     }
 
-    void Update()
+    [ClientRpc]
+    public void RpcTypeText(string message)
     {
-
+        StartCoroutine(TypeText(message));
     }
 
     //Type out the text that is loaded into the "message" variable

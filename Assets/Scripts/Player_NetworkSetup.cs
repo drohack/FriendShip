@@ -14,7 +14,8 @@ public class Player_NetworkSetup : NetworkBehaviour {
 			GameObject.Find ("Main Camera").SetActive (false);
 			GetComponent<CharacterController> ().enabled = true;
 			GetComponent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController> ().enabled = true;
-			FPSCharacterCam.enabled = true;
+            FPSCharacterCam.name = "Player Camera";
+            FPSCharacterCam.enabled = true;
 			audioListener.enabled = true;
 		}
 	}
