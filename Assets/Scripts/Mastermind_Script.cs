@@ -202,10 +202,11 @@ public class Mastermind_Script : NetworkBehaviour {
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
+                        NetworkServer.Spawn(randObject);
                         randObject.transform.parent = playerControlDeck.transform;
-                        //add new command text to the new randomObject
+                        //Update network variables
+                        randObject.GetComponent<Button_Script>().newQuaternion = randObject.transform.rotation;
                         randObject.GetComponent<Button_Script>().newName = newCommandText;
-                        //set randObject's rCommand in it's Script
                         randObject.GetComponent<Button_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
                     case dialCommand:
@@ -226,10 +227,11 @@ public class Mastermind_Script : NetworkBehaviour {
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Dial"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion - 90, yQuaternion + 90, zQuaternion)));
+                        NetworkServer.Spawn(randObject);
                         randObject.transform.parent = playerControlDeck.transform;
-                        //add new command text to the new randomObject
+                        //Update network variables
+                        randObject.GetComponent<Dial_Script>().newQuaternion = randObject.transform.rotation;
                         randObject.GetComponent<Dial_Script>().newName = newCommandText;
-                        //set randObject's rCommand in it's Script
                         randObject.GetComponent<Dial_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
                     case lLeverCommand:
@@ -250,10 +252,11 @@ public class Mastermind_Script : NetworkBehaviour {
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/L_Lever"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
+                        NetworkServer.Spawn(randObject);
                         randObject.transform.parent = playerControlDeck.transform;
-                        //add new command text to the new randomObject
+                        //Update network variables
+                        randObject.GetComponent<L_Lever_Script>().newQuaternion = randObject.transform.rotation;
                         randObject.GetComponent<L_Lever_Script>().newName = newCommandText;
-                        //set randObject's rCommand in it's Script
                         randObject.GetComponent<L_Lever_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
                     case lightswitchCommand:
@@ -274,10 +277,11 @@ public class Mastermind_Script : NetworkBehaviour {
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Lightswitch"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion, yQuaternion + 90, zQuaternion)));
+                        NetworkServer.Spawn(randObject);
                         randObject.transform.parent = playerControlDeck.transform;
-                        //add new command text to the new randomObject
+                        //Update network variables
+                        randObject.GetComponent<Lightswitch_Script>().newQuaternion = randObject.transform.rotation;
                         randObject.GetComponent<Lightswitch_Script>().newName = newCommandText;
-                        //set randObject's rCommand in it's Script
                         randObject.GetComponent<Lightswitch_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
                     case shifterCommand:
@@ -298,10 +302,11 @@ public class Mastermind_Script : NetworkBehaviour {
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Shifter"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion + 180, yQuaternion + 90, zQuaternion)));
+                        NetworkServer.Spawn(randObject);
                         randObject.transform.parent = playerControlDeck.transform;
-                        //add new command text to the new randomObject
+                        //Update network variables
+                        randObject.GetComponent<Shifter_Script>().newQuaternion = randObject.transform.rotation;
                         randObject.GetComponent<Shifter_Script>().newName = newCommandText;
-                        //set randObject's rCommand in it's Script
                         randObject.GetComponent<Shifter_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
                     case sliderCommand:
@@ -322,10 +327,11 @@ public class Mastermind_Script : NetworkBehaviour {
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Slider"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion + 270, yQuaternion + 90, zQuaternion)));
+                        NetworkServer.Spawn(randObject);
                         randObject.transform.parent = playerControlDeck.transform;
-                        //add new command text to the new randomObject
+                        //Update network variables
+                        randObject.GetComponent<Slider_Script>().newQuaternion = randObject.transform.rotation;
                         randObject.GetComponent<Slider_Script>().newName = newCommandText;
-                        //set randObject's rCommand in it's Script
                         randObject.GetComponent<Slider_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
                     case valveCommand:
@@ -336,20 +342,21 @@ public class Mastermind_Script : NetworkBehaviour {
                         valveCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z - 0.94f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z - 0.96f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.94f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.96f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z + 0.94f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 3 + (3 * x), 3 + (4 * y), playerControlDeck.transform.position.z + 0.96f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.94f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.96f, 3 + (4 * y), playerControlDeck.transform.position.z - 3 + (3 * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Valve"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion + 90)));
+                        NetworkServer.Spawn(randObject);
                         randObject.transform.parent = playerControlDeck.transform;
-                        //add new command text to the new randomObject
+                        //Update network variables
+                        randObject.GetComponent<Valve_Script>().newQuaternion = randObject.transform.rotation;
                         randObject.GetComponent<Valve_Script>().newName = newCommandText;
-                        //set randObject's rCommand in it's Script
                         randObject.GetComponent<Valve_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
                     case wLeverCommand:
@@ -370,10 +377,11 @@ public class Mastermind_Script : NetworkBehaviour {
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/W_Lever"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
+                        NetworkServer.Spawn(randObject);
                         randObject.transform.parent = playerControlDeck.transform;
-                        //add new command text to the new randomObject
+                        //Update network variables
+                        randObject.GetComponent<W_Lever_Script>().newQuaternion = randObject.transform.rotation;
                         randObject.GetComponent<W_Lever_Script>().newName = newCommandText;
-                        //set randObject's rCommand in it's Script
                         randObject.GetComponent<W_Lever_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
                     default:
@@ -394,10 +402,11 @@ public class Mastermind_Script : NetworkBehaviour {
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
+                        NetworkServer.Spawn(randObject);
                         randObject.transform.parent = playerControlDeck.transform;
-                        //add new command text to the new randomObject
+                        //Update network variables
+                        randObject.GetComponent<Button_Script>().newQuaternion = randObject.transform.rotation;
                         randObject.GetComponent<Button_Script>().newName = newCommandText;
-                        //set randObject's rCommand in it's Script
                         randObject.GetComponent<Button_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
                 }
@@ -412,10 +421,6 @@ public class Mastermind_Script : NetworkBehaviour {
 
     // Update is called once per frame
     void Update () {
-        //Quit if the user presses the esc key
-        if (Input.GetKey("escape"))
-            Application.Quit();
-
         //If the user scores 10 or more, change text to Green and to say "YOU WIN~"
         if (score >= 10)
         {

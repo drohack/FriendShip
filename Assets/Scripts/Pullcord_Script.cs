@@ -7,27 +7,53 @@ public class Pullcord_Script : NetworkBehaviour {
     Transform handleTransform;
     private Highlight_Handle_Top_Script handleScript;
     private ConfigurableJoint handleJoint;
-
-    public int rCommand = -1;
     
     private bool isDown = false;
     
     Mastermind_Script mastermindScript;
 
+    //Network variables
+    [SyncVar(hook = "UpdateQuaternion")]
+    public Quaternion newQuaternion;
     [SyncVar(hook = "UpdateName")]
     public string newName;
+    [SyncVar(hook = "UpdateRCommand")]
+    public int rCommand = -1;
 
+    private void UpdateQuaternion(Quaternion newQuaternion)
+    {
+        transform.rotation = newQuaternion;
+    }
     private void UpdateName(string name)
     {
         transform.Find("Labels/Name").GetComponent<TextMesh>().text = name;
+    }
+    private void UpdateRCommand(int command)
+    {
+        rCommand = command;
     }
 
     void Start()
     {
         handleTransform = transform.Find("Handle");
         handleScript = handleTransform.GetComponent<Highlight_Handle_Top_Script>();
-        handleJoint = handleTransform.GetComponent<ConfigurableJoint>();
+        
         isDown = false;
+
+        //Add configurable joint to Handle
+        handleTransform.gameObject.AddComponent<ConfigurableJoint>();
+        handleTransform.GetComponent<ConfigurableJoint>().axis = new Vector3(1, 0, 0);
+        handleTransform.GetComponent<ConfigurableJoint>().xMotion = ConfigurableJointMotion.Locked;
+        handleTransform.GetComponent<ConfigurableJoint>().yMotion = ConfigurableJointMotion.Limited;
+        handleTransform.GetComponent<ConfigurableJoint>().zMotion = ConfigurableJointMotion.Locked;
+        handleTransform.GetComponent<ConfigurableJoint>().angularXMotion = ConfigurableJointMotion.Locked;
+        handleTransform.GetComponent<ConfigurableJoint>().angularYMotion = ConfigurableJointMotion.Locked;
+        handleTransform.GetComponent<ConfigurableJoint>().angularZMotion = ConfigurableJointMotion.Locked;
+        SoftJointLimit softJointLimit = new SoftJointLimit();
+        softJointLimit.limit = 2;
+        handleTransform.GetComponent<ConfigurableJoint>().linearLimit = softJointLimit;
+        handleJoint = handleTransform.GetComponent<ConfigurableJoint>();
+
         mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
 

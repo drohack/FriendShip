@@ -9,27 +9,54 @@ public class Shifter_Script : NetworkBehaviour {
     private HingeJoint m_HingeJoint;
 
     public int shifterPosition;
-    public int rCommand = -1;
     
     private bool isLocked = true;
 
     Mastermind_Script mastermindScript;
 
+    //Network variables
+    [SyncVar(hook = "UpdateQuaternion")]
+    public Quaternion newQuaternion;
     [SyncVar(hook = "UpdateName")]
     public string newName;
+    [SyncVar(hook = "UpdateRCommand")]
+    public int rCommand = -1;
 
+    private void UpdateQuaternion(Quaternion newQuaternion)
+    {
+        transform.rotation = newQuaternion;
+    }
     private void UpdateName(string name)
     {
         transform.Find("Labels/Name").GetComponent<TextMesh>().text = name;
+    }
+    private void UpdateRCommand(int command)
+    {
+        rCommand = command;
     }
 
     void Start()
     {
         handleTransform = transform.Find("Handle");
         handleScript = handleTransform.GetComponent<Highlight_Handle_Top_Script>();
-        m_HingeJoint = handleTransform.GetComponent<HingeJoint>();
+        
         shifterPosition = 1;
         isLocked = true;
+
+        //Add hinge joint to Handle
+        handleTransform.gameObject.AddComponent<HingeJoint>();
+        handleTransform.GetComponent<HingeJoint>().axis = new Vector3(0, 0, 1);
+        handleTransform.GetComponent<HingeJoint>().useMotor = true;
+        JointMotor hMotor = new JointMotor();
+        hMotor.force = 2;
+        handleTransform.GetComponent<HingeJoint>().motor = hMotor;
+        handleTransform.GetComponent<HingeJoint>().useLimits = true;
+        JointLimits hLimits = new JointLimits();
+        hLimits.min = -45;
+        hLimits.max = 45;
+        handleTransform.GetComponent<HingeJoint>().limits = hLimits;
+        m_HingeJoint = handleTransform.GetComponent<HingeJoint>();
+
         mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
 

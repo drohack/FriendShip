@@ -8,17 +8,27 @@ public class Button_Script : NetworkBehaviour {
     Animator anim;
     private bool isLocked = false;
 
-    public int rCommand = -1;
-
     Mastermind_Script mastermindScript;
 
+    //Network variables
+    [SyncVar(hook = "UpdateQuaternion")]
+    public Quaternion newQuaternion;
     [SyncVar(hook = "UpdateName")]
     public string newName;
+    [SyncVar(hook = "UpdateRCommand")]
+    public int rCommand = -1;
 
+    private void UpdateQuaternion(Quaternion newQuaternion)
+    {
+        transform.rotation = newQuaternion;
+    }
     private void UpdateName(string name)
     {
-		transform.GetChild (0).transform.GetChild (0).GetComponent<TextMesh> ().text = name;
-       //transform.Find("Labels/Name").GetComponent<TextMesh>().text = name;
+        transform.Find("Labels/Name").GetComponent<TextMesh>().text = name;
+    }
+    private void UpdateRCommand(int command)
+    {
+        rCommand = command;
     }
 
     // Use this for initialization

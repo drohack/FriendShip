@@ -8,19 +8,30 @@ public class Valve_Script : NetworkBehaviour {
     private Highlight_Handle_Top_Script handleScript;
     public float valveLastRotation;
     public float valveTotalRotation;
-
-    public int rCommand = -1;
     
     private bool isCommandSent = false;
 
     Mastermind_Script mastermindScript;
 
+    //Network variables
+    [SyncVar(hook = "UpdateQuaternion")]
+    public Quaternion newQuaternion;
     [SyncVar(hook = "UpdateName")]
     public string newName;
+    [SyncVar(hook = "UpdateRCommand")]
+    public int rCommand = -1;
 
+    private void UpdateQuaternion(Quaternion newQuaternion)
+    {
+        transform.rotation = newQuaternion;
+    }
     private void UpdateName(string name)
     {
         transform.Find("Labels/Name").GetComponent<TextMesh>().text = name;
+    }
+    private void UpdateRCommand(int command)
+    {
+        rCommand = command;
     }
 
     // Use this for initialization
@@ -30,6 +41,13 @@ public class Valve_Script : NetworkBehaviour {
         valveLastRotation = handleTransform.localEulerAngles.z;
         valveTotalRotation = 0f;
         isCommandSent = false;
+
+        //Add hinge joint to Handle
+        handleTransform.gameObject.AddComponent<HingeJoint>();
+        handleTransform.GetComponent<HingeJoint>().axis = new Vector3(0, 0, 1);
+
+        handleTransform.GetComponent<Rigidbody>().isKinematic = false;
+
         mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
 	

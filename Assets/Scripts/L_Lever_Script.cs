@@ -14,25 +14,51 @@ public class L_Lever_Script : NetworkBehaviour {
     private int lastHandlePosition = upPosition;
 
     public bool isLLeverUp = true;
-    public int rCommand = -1;
 
     Mastermind_Script mastermindScript;
 
+    //Network variables
+    [SyncVar(hook = "UpdateQuaternion")]
+    public Quaternion newQuaternion;
     [SyncVar(hook = "UpdateName")]
     public string newName;
+    [SyncVar(hook = "UpdateRCommand")]
+    public int rCommand = -1;
 
+    private void UpdateQuaternion(Quaternion newQuaternion)
+    {
+        transform.rotation = newQuaternion;
+    }
     private void UpdateName(string name)
     {
-        //transform.Find("Labels/Name").GetComponent<TextMesh>().text = name;
-		transform.GetChild (0).transform.GetChild (0).GetComponent<TextMesh> ().text = name;
+        transform.Find("Labels/Name").GetComponent<TextMesh>().text = name;
+    }
+    private void UpdateRCommand(int command)
+    {
+        rCommand = command;
     }
 
     void Start()
     {
         handleTransform = transform.Find("Handle");
-        handleJoint = handleTransform.GetComponent<HingeJoint>();
         isLLeverUp = true;
         lastHandlePosition = upPosition;
+
+        //Add hinge joint to Handle
+        handleTransform.gameObject.AddComponent<HingeJoint>();
+        handleTransform.GetComponent<HingeJoint>().anchor = new Vector3(0, 0, -1);
+        handleTransform.GetComponent<HingeJoint>().axis = new Vector3(0, 1, 0);
+        handleTransform.GetComponent<HingeJoint>().useMotor = true;
+        JointMotor hMotor = new JointMotor();
+        hMotor.force = 2;
+        handleTransform.GetComponent<HingeJoint>().motor = hMotor;
+        handleTransform.GetComponent<HingeJoint>().useLimits = true;
+        JointLimits hLimits = new JointLimits();
+        hLimits.min = -45;
+        handleTransform.GetComponent<HingeJoint>().limits = hLimits;
+        handleTransform.GetComponent<HingeJoint>().connectedBody = transform.Find("Case").GetComponent<Rigidbody>();
+        handleJoint = handleTransform.GetComponent<HingeJoint>();
+
         mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
 
