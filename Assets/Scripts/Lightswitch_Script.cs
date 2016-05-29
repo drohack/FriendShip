@@ -38,7 +38,9 @@ public class Lightswitch_Script : NetworkBehaviour {
         isLightswitchOn = true;
         isLocked = false;
         anim = transform.Find("Handle").GetComponent<Animator>();
-        mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
+
+        if(isServer)
+            mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
 	
 	// Update is called once per frame
@@ -57,7 +59,7 @@ public class Lightswitch_Script : NetworkBehaviour {
                 anim.Play("Lightswitch_Off_Anim");
                 //send tapped command to Mastermind
                 int rCommandUp = (rCommand * 100) + 1;
-                mastermindScript.TappedWaitForSecondsOrTap(rCommandUp);
+                CmdSendTappedCommand(rCommandUp, isLightswitchOn);
             }
             else
             {
@@ -65,8 +67,15 @@ public class Lightswitch_Script : NetworkBehaviour {
                 anim.Play("Lightswitch_On_Anim");
                 //send tapped command to Mastermind
                 int rCommandDown = (rCommand * 100) + 2;
-                mastermindScript.TappedWaitForSecondsOrTap(rCommandDown);
+                CmdSendTappedCommand(rCommandDown, isLightswitchOn);
             }
         }
+    }
+
+    [Command]
+    void CmdSendTappedCommand(int sentRCommand, bool sentIsLightswitchOn)
+    {
+        isLightswitchOn = sentIsLightswitchOn;
+        mastermindScript.TappedWaitForSecondsOrTap(sentRCommand);
     }
 }

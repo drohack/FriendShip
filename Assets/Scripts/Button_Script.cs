@@ -32,11 +32,12 @@ public class Button_Script : NetworkBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         handleScript = transform.Find("Handle").GetComponent<Highlight_Handle_Top_Script>();
         anim = transform.Find("Handle").GetComponent<Animator>();
         isLocked = false;
-        mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
+        if(isServer)
+            mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
 
     // Update is called once per frame
@@ -51,9 +52,15 @@ public class Button_Script : NetworkBehaviour {
         {
             isLocked = true;
             anim.Play("Button_Press_Anim");
-            //Check to see if the command is to press the button (rCommand == 0)
-            //send command tapped to the Console_Text_Script
-            mastermindScript.TappedWaitForSecondsOrTap(rCommand);
+            //send tapped rCommand to Server
+            CmdSendTappedCommand(rCommand);
         }
+    }
+
+    [Command]
+    void CmdSendTappedCommand(int sentRCommand)
+    {
+        Debug.Log("CmdSendTappedCommand: " + sentRCommand);
+        mastermindScript.TappedWaitForSecondsOrTap(sentRCommand);
     }
 }

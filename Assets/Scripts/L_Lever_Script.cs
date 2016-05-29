@@ -59,7 +59,8 @@ public class L_Lever_Script : NetworkBehaviour {
         handleTransform.GetComponent<HingeJoint>().connectedBody = transform.Find("Case").GetComponent<Rigidbody>();
         handleJoint = handleTransform.GetComponent<HingeJoint>();
 
-        mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
+        if(isServer)
+            mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
 
     private void Update()
@@ -76,9 +77,9 @@ public class L_Lever_Script : NetworkBehaviour {
             //If the last position of the handle was in the middle, and now we are at the up position, then send the command that the L_Lever is now Up
             if(lastHandlePosition == middlePosition)
             {
-                //send command tapped to the Console_Text_Script with the lLeverUpCommand
+                //send command tapped to the Server with the lLeverUpCommand
                 int rCommandUp = (rCommand * 100) + 2;
-                mastermindScript.TappedWaitForSecondsOrTap(rCommandUp);
+                CmdSendTappedCommand(rCommandUp, isLLeverUp);
                 //Lever changed positions
                 isLLeverUp = true;
             }
@@ -97,9 +98,9 @@ public class L_Lever_Script : NetworkBehaviour {
             //If the last position of the handle was in the middle, and now we are at the down position, then send the command that the L_Lever is now Down
             if (lastHandlePosition == middlePosition)
             {
-                //send command tapped to the Console_Text_Script with the lLeverDownCommand
+                //send command tapped to the Server with the lLeverDownCommand
                 int rCommandDown = (rCommand * 100) + 1;
-                mastermindScript.TappedWaitForSecondsOrTap(rCommandDown);
+                CmdSendTappedCommand(rCommandDown, isLLeverUp);
                 //Lever changed positions
                 isLLeverUp = false;
             }
@@ -125,5 +126,12 @@ public class L_Lever_Script : NetworkBehaviour {
             motor.targetVelocity = -20;
             handleJoint.motor = motor;
         }
+    }
+
+    [Command]
+    void CmdSendTappedCommand(int sentRCommand, bool sentIsLeverUp)
+    {
+        isLLeverUp = sentIsLeverUp;
+        mastermindScript.TappedWaitForSecondsOrTap(sentRCommand);
     }
 }

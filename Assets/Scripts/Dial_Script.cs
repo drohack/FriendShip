@@ -47,7 +47,8 @@ public class Dial_Script : NetworkBehaviour {
         hLimits.max = 180;
         handleTransform.GetComponent<HingeJoint>().limits = hLimits;
 
-        mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
+        if(isServer)
+            mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
 
     private void Update()
@@ -74,9 +75,9 @@ public class Dial_Script : NetworkBehaviour {
                     isLocked = true;
                     //Lever changed positions
                     dialPosition = 5;
-                    //send command tapped to the Console_Text_Script with the lLeverUpCommand
+                    //send command tapped to the Server
                     int rCommandFive = (rCommand * 100) + 5;
-                    mastermindScript.TappedWaitForSecondsOrTap(rCommandFive);
+                    CmdSendTappedCommand(rCommandFive, dialPosition);
                 }
             }
             else if (handleTransform.localEulerAngles.y > 126 && handleTransform.localEulerAngles.y < 162)
@@ -92,9 +93,9 @@ public class Dial_Script : NetworkBehaviour {
                     isLocked = true;
                     //Lever changed positions
                     dialPosition = 4;
-                    //send command tapped to the Console_Text_Script with the lLeverDownCommand
+                    //send command tapped to the Server
                     int rCommandFour = (rCommand * 100) + 4;
-                    mastermindScript.TappedWaitForSecondsOrTap(rCommandFour);
+                    CmdSendTappedCommand(rCommandFour, dialPosition);
                 }
             }
             else if (handleTransform.localEulerAngles.y > 90 && handleTransform.localEulerAngles.y < 126)
@@ -110,9 +111,9 @@ public class Dial_Script : NetworkBehaviour {
                     isLocked = true;
                     //Lever changed positions
                     dialPosition = 3;
-                    //send command tapped to the Console_Text_Script with the lLeverDownCommand
+                    //send command tapped to the Server
                     int rCommandThree = (rCommand * 100) + 3;
-                    mastermindScript.TappedWaitForSecondsOrTap(rCommandThree);
+                    CmdSendTappedCommand(rCommandThree, dialPosition);
                 }
             }
             else if (handleTransform.localEulerAngles.y > 54 && handleTransform.localEulerAngles.y < 90)
@@ -128,9 +129,9 @@ public class Dial_Script : NetworkBehaviour {
                     isLocked = true;
                     //Lever changed positions
                     dialPosition = 2;
-                    //send command tapped to the Console_Text_Script with the lLeverDownCommand
+                    //send command tapped to the Server
                     int rCommandTwo = (rCommand * 100) + 2;
-                    mastermindScript.TappedWaitForSecondsOrTap(rCommandTwo);
+                    CmdSendTappedCommand(rCommandTwo, dialPosition);
                 }
             }
             else if (handleTransform.localEulerAngles.y > 18 && handleTransform.localEulerAngles.y < 54)
@@ -146,9 +147,9 @@ public class Dial_Script : NetworkBehaviour {
                     isLocked = true;
                     //Lever changed positions
                     dialPosition = 1;
-                    //send command tapped to the Console_Text_Script with the lLeverDownCommand
+                    //send command tapped to the Server
                     int rCommandOne = (rCommand * 100) + 1;
-                    mastermindScript.TappedWaitForSecondsOrTap(rCommandOne);
+                    CmdSendTappedCommand(rCommandOne, dialPosition);
                 }
             }
             else if (handleTransform.localEulerAngles.y < 18)
@@ -164,11 +165,18 @@ public class Dial_Script : NetworkBehaviour {
                     isLocked = true;
                     //Lever changed positions
                     dialPosition = 0;
-                    //send command tapped to the Console_Text_Script with the lLeverDownCommand
+                    //send command tapped to the Server
                     int rCommandZero = (rCommand * 100) + 0;
-                    mastermindScript.TappedWaitForSecondsOrTap(rCommandZero);
+                    CmdSendTappedCommand(rCommandZero, dialPosition);
                 }
             }
         }
+    }
+
+    [Command]
+    void CmdSendTappedCommand(int sentRCommand, int sentDialPosition)
+    {
+        dialPosition = sentDialPosition;
+        mastermindScript.TappedWaitForSecondsOrTap(sentRCommand);
     }
 }

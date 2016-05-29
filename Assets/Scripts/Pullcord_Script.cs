@@ -54,7 +54,8 @@ public class Pullcord_Script : NetworkBehaviour {
         handleTransform.GetComponent<ConfigurableJoint>().linearLimit = softJointLimit;
         handleJoint = handleTransform.GetComponent<ConfigurableJoint>();
 
-        mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
+        if (isServer)
+            mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
 
     private void Update()
@@ -63,8 +64,8 @@ public class Pullcord_Script : NetworkBehaviour {
         if (handleScript.isGrabbing && handleTransform.localPosition.y <= -handleJoint.linearLimit.limit && !isDown)
         {
             isDown = true;
-            //send command tapped to the Console_Text_Script
-            mastermindScript.TappedWaitForSecondsOrTap(rCommand);
+            //send command tapped to the Server
+            CmdSendTappedCommand(rCommand, isDown);
         }
 
         // If not holding the handle and it's at the maximum, set handle just above maximum so it bounces back to the center (it locks at maximum)
@@ -73,5 +74,12 @@ public class Pullcord_Script : NetworkBehaviour {
             handleTransform.localPosition = new Vector3(handleTransform.localPosition.x, -1.99f, handleTransform.localPosition.z);
             isDown = false;
         }
+    }
+
+    [Command]
+    void CmdSendTappedCommand(int sentRCommand, bool sentIsDown)
+    {
+        isDown = sentIsDown;
+        mastermindScript.TappedWaitForSecondsOrTap(sentRCommand);
     }
 }

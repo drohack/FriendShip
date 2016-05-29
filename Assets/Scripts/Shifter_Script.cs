@@ -57,7 +57,8 @@ public class Shifter_Script : NetworkBehaviour {
         handleTransform.GetComponent<HingeJoint>().limits = hLimits;
         m_HingeJoint = handleTransform.GetComponent<HingeJoint>();
 
-        mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
+        if (isServer)
+            mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
 
     private void Update()
@@ -85,9 +86,9 @@ public class Shifter_Script : NetworkBehaviour {
                     isLocked = true;
                     //Lever changed positions
                     shifterPosition = 2;
-                    //send command tapped to the Console_Text_Script with the lLeverUpCommand
-                    int rCommandUp = (rCommand * 100) + 2;
-                    mastermindScript.TappedWaitForSecondsOrTap(rCommandUp);
+                    //send command tapped to the Server
+                    int rCommandTwo = (rCommand * 100) + 2;
+                    CmdSendTappedCommand(rCommandTwo, shifterPosition);
                 }
             }
             else if (handleTransform.eulerAngles.z > 267 && handleTransform.eulerAngles.z < 273)
@@ -103,9 +104,9 @@ public class Shifter_Script : NetworkBehaviour {
                     isLocked = true;
                     //Lever changed positions
                     shifterPosition = 1;
-                    //send command tapped to the Console_Text_Script with the lLeverDownCommand
-                    int rCommandDown = (rCommand * 100) + 1;
-                    mastermindScript.TappedWaitForSecondsOrTap(rCommandDown);
+                    //send command tapped to the Server
+                    int rCommandOne = (rCommand * 100) + 1;
+                    CmdSendTappedCommand(rCommandOne, shifterPosition);
                 }
             }
             else if (handleTransform.eulerAngles.z < 226.5)
@@ -121,9 +122,9 @@ public class Shifter_Script : NetworkBehaviour {
                     isLocked = true;
                     //Lever changed positions
                     shifterPosition = 0;
-                    //send command tapped to the Console_Text_Script with the lLeverDownCommand
-                    int rCommandDown = (rCommand * 100) + 0;
-                    mastermindScript.TappedWaitForSecondsOrTap(rCommandDown);
+                    //send command tapped to the Server
+                    int rCommandZero = (rCommand * 100) + 0;
+                    CmdSendTappedCommand(rCommandZero, shifterPosition);
                 }
             }
             else
@@ -158,5 +159,12 @@ public class Shifter_Script : NetworkBehaviour {
                 m_HingeJoint.motor = motor;
             }
         }
+    }
+
+    [Command]
+    void CmdSendTappedCommand(int sentRCommand, int sentShifterPosition)
+    {
+        shifterPosition = sentShifterPosition;
+        mastermindScript.TappedWaitForSecondsOrTap(sentRCommand);
     }
 }

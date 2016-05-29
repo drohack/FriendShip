@@ -48,7 +48,8 @@ public class Valve_Script : NetworkBehaviour {
 
         handleTransform.GetComponent<Rigidbody>().isKinematic = false;
 
-        mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
+        if (isServer)
+            mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
 	
 	// Update is called once per frame
@@ -84,15 +85,21 @@ public class Valve_Script : NetworkBehaviour {
                 isCommandSent = true;
                 //send tapped command to Mastermind
                 int rCommandClockwise = (rCommand * 100) + 1;
-                mastermindScript.TappedWaitForSecondsOrTap(rCommandClockwise);
+                CmdSendTappedCommand(rCommandClockwise);
             }
             else if (valveTotalRotation < -360)
             {
                 isCommandSent = true;
                 //send tapped command to Mastermind
                 int rCommandCounterClockwise = (rCommand * 100) + 2;
-                mastermindScript.TappedWaitForSecondsOrTap(rCommandCounterClockwise);
+                CmdSendTappedCommand(rCommandCounterClockwise);
             }
         }
+    }
+
+    [Command]
+    void CmdSendTappedCommand(int sentRCommand)
+    {
+        mastermindScript.TappedWaitForSecondsOrTap(sentRCommand);
     }
 }

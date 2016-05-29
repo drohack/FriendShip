@@ -57,7 +57,8 @@ public class Slider_Script : NetworkBehaviour {
         sliderPosition = 0;
         isLocked = true;
 
-        mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
+        if (isServer)
+            mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
 
     private void Update()
@@ -78,9 +79,9 @@ public class Slider_Script : NetworkBehaviour {
                     isLocked = true;
                     //Lever changed positions
                     sliderPosition = 3;
-                    //send command tapped to the Console_Text_Script with the lLeverUpCommand
-                    int rCommandUp = (rCommand * 100) + 3;
-                    mastermindScript.TappedWaitForSecondsOrTap(rCommandUp);
+                    //send command tapped to the Server
+                    int rCommandThree = (rCommand * 100) + 3;
+                    CmdSendTappedCommand(rCommandThree, sliderPosition);
                 }
             }
             else if (handleTransform.localPosition.z > 0 && handleTransform.localPosition.z < 1.066)
@@ -92,9 +93,9 @@ public class Slider_Script : NetworkBehaviour {
                     isLocked = true;
                     //Lever changed positions
                     sliderPosition = 2;
-                    //send command tapped to the Console_Text_Script with the lLeverDownCommand
-                    int rCommandDown = (rCommand * 100) + 2;
-                    mastermindScript.TappedWaitForSecondsOrTap(rCommandDown);
+                    //send command tapped to the Server
+                    int rCommandTwo = (rCommand * 100) + 2;
+                    CmdSendTappedCommand(rCommandTwo, sliderPosition);
                 }
             }
             else if (handleTransform.localPosition.z > -1.066 && handleTransform.localPosition.z < 0)
@@ -106,9 +107,9 @@ public class Slider_Script : NetworkBehaviour {
                     isLocked = true;
                     //Lever changed positions
                     sliderPosition = 1;
-                    //send command tapped to the Console_Text_Script with the lLeverDownCommand
-                    int rCommandDown = (rCommand * 100) + 1;
-                    mastermindScript.TappedWaitForSecondsOrTap(rCommandDown);
+                    //send command tapped to the Server
+                    int rCommandOne = (rCommand * 100) + 1;
+                    CmdSendTappedCommand(rCommandOne, sliderPosition);
                 }
             }
             else if (handleTransform.localPosition.z < -1.066)
@@ -120,11 +121,18 @@ public class Slider_Script : NetworkBehaviour {
                     isLocked = true;
                     //Lever changed positions
                     sliderPosition = 0;
-                    //send command tapped to the Console_Text_Script with the lLeverDownCommand
-                    int rCommandDown = (rCommand * 100) + 0;
-                    mastermindScript.TappedWaitForSecondsOrTap(rCommandDown);
+                    //send command tapped to the Server
+                    int rCommandZero = (rCommand * 100) + 0;
+                    CmdSendTappedCommand(rCommandZero, sliderPosition);
                 }
             }
         }
+    }
+
+    [Command]
+    void CmdSendTappedCommand(int sentRCommand, int sentSliderPosition)
+    {
+        sliderPosition = sentSliderPosition;
+        mastermindScript.TappedWaitForSecondsOrTap(sentRCommand);
     }
 }

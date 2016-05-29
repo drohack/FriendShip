@@ -60,7 +60,8 @@ public class W_Lever_Script : NetworkBehaviour
         handleTransform.GetComponent<HingeJoint>().connectedBody = transform.Find("Case").GetComponent<Rigidbody>();
         handleJoint = handleTransform.GetComponent<HingeJoint>();
 
-        mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
+        if (isServer)
+            mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
 
     private void Update()
@@ -77,9 +78,9 @@ public class W_Lever_Script : NetworkBehaviour
             //If the last position of the handle was in the middle, and now we are at the up position, then send the command that the W_Lever is now Up
             if (lastHandlePosition == middlePosition)
             {
-                //send command tapped to the Console_Text_Script with wLeverUpCommand
+                //send command tapped to the Server with wLeverUpCommand
                 int rCommandUp = (rCommand * 100) + 2;
-                mastermindScript.TappedWaitForSecondsOrTap(rCommandUp);
+                CmdSendTappedCommand(rCommandUp, isWLeverUp);
                 //Lever changed positions
                 isWLeverUp = true;
             }
@@ -98,9 +99,9 @@ public class W_Lever_Script : NetworkBehaviour
             //If the last position of the handle was in the middle, and now we are at the down position, then send the command that the W_Lever is now Down
             if (lastHandlePosition == middlePosition)
             {
-                //send command tapped to the Console_Text_Script with wLeverDownCommand
+                //send command tapped to the Server with wLeverDownCommand
                 int rCommandDown = (rCommand * 100) + 1;
-                mastermindScript.TappedWaitForSecondsOrTap(rCommandDown);
+                CmdSendTappedCommand(rCommandDown, isWLeverUp);
                 //Lever changed positions
                 isWLeverUp = false;
             }
@@ -126,5 +127,12 @@ public class W_Lever_Script : NetworkBehaviour
             motor.targetVelocity = -20;
             handleJoint.motor = motor;
         }
+    }
+
+    [Command]
+    void CmdSendTappedCommand(int sentRCommand, bool sentIsWLeverUp)
+    {
+        isWLeverUp = sentIsWLeverUp;
+        mastermindScript.TappedWaitForSecondsOrTap(sentRCommand);
     }
 }
