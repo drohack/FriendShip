@@ -147,7 +147,7 @@ namespace OvrTouch.Hands {
         private void Start () {
             // Get all collision and disable it
             m_colliders = this.GetComponentsInChildren<Collider>().Where(childCollider => !childCollider.isTrigger).ToArray();
-            CollisionEnable(false);
+            //CollisionEnable(false);
 
             // Get components
             m_rigidbody = this.GetComponent<Rigidbody>();
@@ -182,7 +182,7 @@ namespace OvrTouch.Hands {
             // Advance the hand
             GrabVolumeAdvance();
             GrabAdvance(prevFlex);
-            CollisionAdvance();
+            //CollisionAdvance();
             AnimationAdvance();
 	    }
 
@@ -310,26 +310,26 @@ namespace OvrTouch.Hands {
         }
 
         //==============================================================================
-        private void CollisionAdvance () {
-            bool collisionEnabled = (
-                IsGrabbingGrabbable ||
-                (m_flex >= Const.ThreshCollisionFlex)
-            );
-            CollisionEnable(collisionEnabled);
-        }
+        //private void CollisionAdvance () {
+        //    bool collisionEnabled = (
+        //        IsGrabbingGrabbable ||
+        //        (m_flex >= Const.ThreshCollisionFlex)
+        //    );
+        //    CollisionEnable(collisionEnabled);
+        //}
 
         //==============================================================================
-        private void CollisionEnable (bool enabled) {
-            if (m_collisionEnabled == enabled) {
-                return;
-            }
+        //private void CollisionEnable (bool enabled) {
+        //    if (m_collisionEnabled == enabled) {
+        //        return;
+        //    }
 
-            // Set collision state
-            m_collisionEnabled = enabled;
-            foreach (Collider collider in m_colliders) {
-                collider.enabled = m_collisionEnabled;
-            }
-        }
+        //    // Set collision state
+        //    m_collisionEnabled = enabled;
+        //    foreach (Collider collider in m_colliders) {
+        //        collider.enabled = m_collisionEnabled;
+        //    }
+        //}
 
         //==============================================================================
         private void GrabAdvance (float prevFlex) {
@@ -367,8 +367,20 @@ namespace OvrTouch.Hands {
                 }
             }
 
-            // Disable grab volumes to prevent overlaps
-            GrabVolumeEnable(false);
+            if (closestGrabbable != null)
+            {
+                // Disable grab volumes to prevent overlaps
+                GrabVolumeEnable(false);
+
+                // Only run if object GrabMode is "Drag"
+                if (closestGrabbable.m_grabMode.Equals(Grabbable.GrabMode.Drag))
+                {
+                    // Set isKinematic to false so the hand doesn't bump into things
+                    m_rigidbody.isKinematic = false;
+                    // If object is GrabMode "Drag" disable the hand geometry
+                    transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled = false;
+                }
+            }
 
             if (closestGrabbable != null) { 
                 if (closestGrabbable.IsGrabbed) {
@@ -382,8 +394,16 @@ namespace OvrTouch.Hands {
         }
 
         //==============================================================================
-        private void GrabEnd () {
+        public void GrabEnd () {
             if (IsGrabbingGrabbable) {
+                if (transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled == false)
+                { 
+                    // Enable hand geometry to pop back in
+                    transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled = true;
+                    //set isKinematic to false so the hand doesn't bump into things
+                    m_rigidbody.isKinematic = true;
+                }
+
                 // Determine if the grabbable was thrown
                 bool wasThrown = m_velocityTracker.TrackedLinearVelocity.magnitude >= Const.ThreshThrowSpeed;
                 
@@ -416,29 +436,39 @@ namespace OvrTouch.Hands {
                 return;
             }
 
-            // Determine grab snapping
-            bool snapPosition = (
-                (m_grabbedHandPose != null) &&
-                ((m_grabbedHandPose.AttachType == HandPoseAttachType.Snap) || (m_grabbedHandPose.AttachType == HandPoseAttachType.SnapPosition))
-            );
-            bool snapRotation = (
-                (m_grabbedHandPose != null) &&
-                (m_grabbedHandPose.AttachType == HandPoseAttachType.Snap)
-            );
-
+            // Get grabbed object's transform
             Transform grabbedTransform = m_grabbedGrabbable.GrabTransform;
-            Quaternion deltaRotation = finalRotation * Quaternion.Inverse(this.transform.rotation);
 
-            Vector3 grabbablePosition = snapPosition
-                ? m_gripTransform.position
-                : finalPosition + deltaRotation * (grabbedTransform.position - this.transform.position);
-                
-            Quaternion grabbableRotation = snapRotation
-                ? m_gripTransform.rotation
-                : deltaRotation * grabbedTransform.rotation;
+            if (m_grabbedGrabbable.m_grabMode.Equals(Grabbable.GrabMode.Grab))
+            {
+                // Determine grab snapping
+                bool snapPosition = (
+                    (m_grabbedHandPose != null) &&
+                    ((m_grabbedHandPose.AttachType == HandPoseAttachType.Snap) || (m_grabbedHandPose.AttachType == HandPoseAttachType.SnapPosition))
+                );
+                bool snapRotation = (
+                    (m_grabbedHandPose != null) &&
+                    (m_grabbedHandPose.AttachType == HandPoseAttachType.Snap)
+                );
 
-            grabbedTransform.position = grabbablePosition;
-            grabbedTransform.rotation = grabbableRotation;
+                Quaternion deltaRotation = finalRotation * Quaternion.Inverse(this.transform.rotation);
+
+                Vector3 grabbablePosition = snapPosition
+                    ? m_gripTransform.position
+                    : finalPosition + deltaRotation * (grabbedTransform.position - this.transform.position);
+
+                Quaternion grabbableRotation = snapRotation
+                    ? m_gripTransform.rotation
+                    : deltaRotation * grabbedTransform.rotation;
+
+                grabbedTransform.position = grabbablePosition;
+                grabbedTransform.rotation = grabbableRotation;
+            }
+            else if (m_grabbedGrabbable.m_grabMode.Equals(Grabbable.GrabMode.Rotate))
+            {
+                Quaternion deltaRotation = finalRotation * Quaternion.Inverse(this.transform.rotation);
+                grabbedTransform.rotation = deltaRotation * grabbedTransform.rotation;
+            }
         }
 
         //==============================================================================

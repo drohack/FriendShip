@@ -6,15 +6,11 @@ public class W_Lever_Script : NetworkBehaviour
 {
 
     Transform handleTransform;
+    private Highlight_Handle_Top_Script handleScript;
     private HingeJoint handleJoint;
 
-    const int upPosition = 1;
-    const int middlePosition = 0;
-    const int downPosition = -1;
-
-    private int lastHandlePosition;
-
     public bool isWLeverUp = true;
+    private bool isLocked = true;
 
     Mastermind_Script mastermindScript;
 
@@ -42,17 +38,14 @@ public class W_Lever_Script : NetworkBehaviour
     void Start()
     {
         handleTransform = transform.Find("Handle");
+        handleScript = handleTransform.GetComponent<Highlight_Handle_Top_Script>();
         isWLeverUp = true;
-        lastHandlePosition = upPosition;
+        isLocked = true;
 
         //Add hinge joint to Handle
         handleTransform.gameObject.AddComponent<HingeJoint>();
         handleTransform.GetComponent<HingeJoint>().anchor = new Vector3(0, 0, -1);
         handleTransform.GetComponent<HingeJoint>().axis = new Vector3(0, 1, 0);
-        handleTransform.GetComponent<HingeJoint>().useMotor = true;
-        JointMotor hMotor = new JointMotor();
-        hMotor.force = 2;
-        handleTransform.GetComponent<HingeJoint>().motor = hMotor;
         handleTransform.GetComponent<HingeJoint>().useLimits = true;
         JointLimits hLimits = new JointLimits();
         hLimits.min = -35;
@@ -66,66 +59,53 @@ public class W_Lever_Script : NetworkBehaviour
 
     private void Update()
     {
-        //snap lever into place near edges (on = handleTransform.eulerAngles.x == 0; off = handleTransform.eulerAngles.x == 35)
-        if (handleTransform.eulerAngles.x < 1.5)
+        if (handleScript.isGrabbing)
         {
-            handleTransform.eulerAngles = new Vector3(
-                0,
-                handleTransform.eulerAngles.y,
-                handleTransform.eulerAngles.z
-            );
-
-            //If the last position of the handle was in the middle, and now we are at the up position, then send the command that the W_Lever is now Up
-            if (lastHandlePosition == middlePosition)
-            {
-                //send command tapped to the Server with wLeverUpCommand
-                int rCommandUp = (rCommand * 100) + 2;
-                CmdSendTappedCommand(rCommandUp, isWLeverUp);
-                //Lever changed positions
-                isWLeverUp = true;
-            }
-
-            //update last handle position
-            lastHandlePosition = upPosition;
-        }
-        else if (handleTransform.eulerAngles.x > 33.5)
-        {
-            handleTransform.eulerAngles = new Vector3(
-                35,
-                handleTransform.eulerAngles.y,
-                handleTransform.eulerAngles.z
-            );
-
-            //If the last position of the handle was in the middle, and now we are at the down position, then send the command that the W_Lever is now Down
-            if (lastHandlePosition == middlePosition)
-            {
-                //send command tapped to the Server with wLeverDownCommand
-                int rCommandDown = (rCommand * 100) + 1;
-                CmdSendTappedCommand(rCommandDown, isWLeverUp);
-                //Lever changed positions
-                isWLeverUp = false;
-            }
-
-            //update last handle position
-            lastHandlePosition = downPosition;
+            isLocked = false;
         }
         else
         {
-            lastHandlePosition = middlePosition;
-        }
+            //snap lever into place near edges (on = handleTransform.eulerAngles.x == 0; off = handleTransform.eulerAngles.x == 45)
+            if (handleTransform.eulerAngles.x < 17.5)
+            {
+                handleTransform.localPosition = new Vector3(0, 0, handleTransform.localPosition.z);
+                handleTransform.eulerAngles = new Vector3(
+                    0.001f,
+                    handleTransform.eulerAngles.y,
+                    handleTransform.eulerAngles.z
+                );
 
-        //push lever in direction to go towards edges
-        if (handleTransform.eulerAngles.x < 17.5)
-        {
-            JointMotor motor = handleJoint.motor;
-            motor.targetVelocity = 20;
-            handleJoint.motor = motor;
-        }
-        else
-        {
-            JointMotor motor = handleJoint.motor;
-            motor.targetVelocity = -20;
-            handleJoint.motor = motor;
+                //If the last position of the handle was in the middle, and now we are at the up position, then send the command that the L_Lever is now Up
+                if (!isLocked)
+                {
+                    //send command tapped to the Server with the lLeverUpCommand
+                    int rCommandUp = (rCommand * 100) + 2;
+                    CmdSendTappedCommand(rCommandUp, isWLeverUp);
+                    //Lever changed positions
+                    isWLeverUp = true;
+                    isLocked = true;
+                }
+            }
+            else if (handleTransform.eulerAngles.x > 17.5)
+            {
+                handleTransform.localPosition = new Vector3(-0.57f, 0, handleTransform.localPosition.z);
+                handleTransform.eulerAngles = new Vector3(
+                    34.999f,
+                    handleTransform.eulerAngles.y,
+                    handleTransform.eulerAngles.z
+                );
+
+                //If the last position of the handle was in the middle, and now we are at the down position, then send the command that the L_Lever is now Down
+                if (!isLocked)
+                {
+                    //send command tapped to the Server with the lLeverDownCommand
+                    int rCommandDown = (rCommand * 100) + 1;
+                    CmdSendTappedCommand(rCommandDown, isWLeverUp);
+                    //Lever changed positions
+                    isWLeverUp = false;
+                    isLocked = true;
+                }
+            }
         }
     }
 

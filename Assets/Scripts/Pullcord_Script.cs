@@ -50,7 +50,7 @@ public class Pullcord_Script : NetworkBehaviour {
         handleTransform.GetComponent<ConfigurableJoint>().angularYMotion = ConfigurableJointMotion.Locked;
         handleTransform.GetComponent<ConfigurableJoint>().angularZMotion = ConfigurableJointMotion.Locked;
         SoftJointLimit softJointLimit = new SoftJointLimit();
-        softJointLimit.limit = 2;
+        softJointLimit.limit = 0.2f;
         handleTransform.GetComponent<ConfigurableJoint>().linearLimit = softJointLimit;
         handleJoint = handleTransform.GetComponent<ConfigurableJoint>();
 

@@ -46,10 +46,6 @@ public class Shifter_Script : NetworkBehaviour {
         //Add hinge joint to Handle
         handleTransform.gameObject.AddComponent<HingeJoint>();
         handleTransform.GetComponent<HingeJoint>().axis = new Vector3(0, 0, 1);
-        handleTransform.GetComponent<HingeJoint>().useMotor = true;
-        JointMotor hMotor = new JointMotor();
-        hMotor.force = 2;
-        handleTransform.GetComponent<HingeJoint>().motor = hMotor;
         handleTransform.GetComponent<HingeJoint>().useLimits = true;
         JointLimits hLimits = new JointLimits();
         hLimits.min = -45;
@@ -73,7 +69,7 @@ public class Shifter_Script : NetworkBehaviour {
         if (!handleScript.isGrabbing)
         {
             //snap lever into place near edges (on = handleTransform.eulerAngles.z == 0; off = handleTransform.eulerAngles.z == 45)
-            if (handleTransform.eulerAngles.z > 313.5)
+            if (handleTransform.eulerAngles.z > 292.5)
             {
                 handleTransform.eulerAngles = new Vector3(
                     handleTransform.eulerAngles.x,
@@ -91,7 +87,7 @@ public class Shifter_Script : NetworkBehaviour {
                     CmdSendTappedCommand(rCommandTwo, shifterPosition);
                 }
             }
-            else if (handleTransform.eulerAngles.z > 267 && handleTransform.eulerAngles.z < 273)
+            else if (handleTransform.eulerAngles.z > 247.5 && handleTransform.eulerAngles.z < 292.5)
             {
                 handleTransform.eulerAngles = new Vector3(
                     handleTransform.eulerAngles.x,
@@ -109,7 +105,7 @@ public class Shifter_Script : NetworkBehaviour {
                     CmdSendTappedCommand(rCommandOne, shifterPosition);
                 }
             }
-            else if (handleTransform.eulerAngles.z < 226.5)
+            else if (handleTransform.eulerAngles.z < 247.5)
             {
                 handleTransform.eulerAngles = new Vector3(
                     handleTransform.eulerAngles.x,
@@ -126,37 +122,6 @@ public class Shifter_Script : NetworkBehaviour {
                     int rCommandZero = (rCommand * 100) + 0;
                     CmdSendTappedCommand(rCommandZero, shifterPosition);
                 }
-            }
-            else
-            {
-                //push lever in direction to go towards edges
-                if (handleTransform.eulerAngles.z > 292.5 || (handleTransform.eulerAngles.z > 247.5 && handleTransform.eulerAngles.z < 270))
-                {
-                    JointMotor motor = m_HingeJoint.motor;
-                    motor.targetVelocity = 20;
-                    m_HingeJoint.motor = motor;
-                }
-                else
-                {
-                    JointMotor motor = m_HingeJoint.motor;
-                    motor.targetVelocity = -20;
-                    m_HingeJoint.motor = motor;
-                }
-            }
-        }
-        else
-        {
-            if (handleTransform.eulerAngles.z > 292.5 || (handleTransform.eulerAngles.z > 247.5 && handleTransform.eulerAngles.z < 270))
-            {
-                JointMotor motor = m_HingeJoint.motor;
-                motor.targetVelocity = 20;
-                m_HingeJoint.motor = motor;
-            }
-            else
-            {
-                JointMotor motor = m_HingeJoint.motor;
-                motor.targetVelocity = -20;
-                m_HingeJoint.motor = motor;
             }
         }
     }

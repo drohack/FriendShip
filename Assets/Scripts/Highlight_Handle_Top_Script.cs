@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using OvrTouch.Hands;
 
 public class Highlight_Handle_Top_Script : MonoBehaviour {
 
@@ -9,6 +10,8 @@ public class Highlight_Handle_Top_Script : MonoBehaviour {
 
     public bool isMouseOver = false;
     public bool isGrabbing = false;
+    public bool isColliding = false;
+    int numColliding = 0;
 
     // Use this for initialization
     void Start () {
@@ -17,6 +20,36 @@ public class Highlight_Handle_Top_Script : MonoBehaviour {
         startcolor = topRenderer.material.color;
         isMouseOver = false;
         isGrabbing = false;
+        isColliding = false;
+        numColliding = 0;
+    }
+
+    void OnTriggerEnter(Collider col)
+    {
+        isColliding = true;
+        numColliding++;
+        topRenderer.material.color = highlightColor;
+    }
+    void OnTriggerExit(Collider col)
+    {
+        numColliding--;
+        if (numColliding == 0 && !isGrabbing)
+        {
+            isColliding = false;
+            topRenderer.material.color = startcolor;
+        }
+    }
+
+    private void OnGrabBegin(GrabbableGrabMsg grabMsg)
+    {
+        numColliding = 0;
+        isGrabbing = true;
+        topRenderer.material.color = highlightColor;
+    }
+    private void OnGrabEnd(GrabbableGrabMsg grabMsg)
+    {
+        isGrabbing = false;
+        topRenderer.material.color = startcolor;
     }
 
     void OnMouseEnter()

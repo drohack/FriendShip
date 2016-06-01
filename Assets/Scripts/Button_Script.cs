@@ -43,12 +43,12 @@ public class Button_Script : NetworkBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (isLocked && !handleScript.isGrabbing)
+        if (isLocked && !handleScript.isGrabbing && !handleScript.isColliding)
         {
             isLocked = false;
         }
 
-        if (!isLocked && handleScript.isGrabbing)
+        if (!isLocked && (handleScript.isGrabbing || handleScript.isColliding))
         {
             isLocked = true;
             anim.Play("Button_Press_Anim");
@@ -60,7 +60,6 @@ public class Button_Script : NetworkBehaviour {
     [Command]
     void CmdSendTappedCommand(int sentRCommand)
     {
-        Debug.Log("CmdSendTappedCommand: " + sentRCommand);
         mastermindScript.TappedWaitForSecondsOrTap(sentRCommand);
     }
 }

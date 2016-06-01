@@ -58,17 +58,14 @@ public class Dial_Script : NetworkBehaviour {
         if(handleScript.isGrabbing)
         {
             isLocked = false;
+            handleTransform.localEulerAngles = new Vector3(0, handleTransform.localEulerAngles.y, 0);
         }
         else
         {
             //snap lever into place near edges 
             if (handleTransform.localEulerAngles.y > 162)
             {
-                handleTransform.localEulerAngles = new Vector3(
-                    handleTransform.localEulerAngles.x,
-                    179.9f,
-                    handleTransform.localEulerAngles.z
-                );
+                handleTransform.localEulerAngles = new Vector3(0, 179.9f, 0);
 
                 if (!isLocked)
                 {
@@ -82,11 +79,7 @@ public class Dial_Script : NetworkBehaviour {
             }
             else if (handleTransform.localEulerAngles.y > 126 && handleTransform.localEulerAngles.y < 162)
             {
-                handleTransform.localEulerAngles = new Vector3(
-                    handleTransform.localEulerAngles.x,
-                    144,
-                    handleTransform.localEulerAngles.z
-                );
+                handleTransform.localEulerAngles = new Vector3(0, 144, 0);
 
                 if (!isLocked)
                 {
@@ -100,11 +93,7 @@ public class Dial_Script : NetworkBehaviour {
             }
             else if (handleTransform.localEulerAngles.y > 90 && handleTransform.localEulerAngles.y < 126)
             {
-                handleTransform.localEulerAngles = new Vector3(
-                    handleTransform.localEulerAngles.x,
-                    108,
-                    handleTransform.localEulerAngles.z
-                );
+                handleTransform.localEulerAngles = new Vector3(0, 108, 0);
 
                 if (!isLocked)
                 {
@@ -118,11 +107,7 @@ public class Dial_Script : NetworkBehaviour {
             }
             else if (handleTransform.localEulerAngles.y > 54 && handleTransform.localEulerAngles.y < 90)
             {
-                handleTransform.localEulerAngles = new Vector3(
-                    handleTransform.localEulerAngles.x,
-                    72,
-                    handleTransform.localEulerAngles.z
-                );
+                handleTransform.localEulerAngles = new Vector3(0, 72, 0);
 
                 if (!isLocked)
                 {
@@ -136,11 +121,7 @@ public class Dial_Script : NetworkBehaviour {
             }
             else if (handleTransform.localEulerAngles.y > 18 && handleTransform.localEulerAngles.y < 54)
             {
-                handleTransform.localEulerAngles = new Vector3(
-                    handleTransform.localEulerAngles.x,
-                    36,
-                    handleTransform.localEulerAngles.z
-                );
+                handleTransform.localEulerAngles = new Vector3(0, 36, 0);
 
                 if (!isLocked)
                 {
@@ -154,11 +135,7 @@ public class Dial_Script : NetworkBehaviour {
             }
             else if (handleTransform.localEulerAngles.y < 18)
             {
-                handleTransform.localEulerAngles = new Vector3(
-                    handleTransform.localEulerAngles.x,
-                    0,
-                    handleTransform.localEulerAngles.z
-                );
+                handleTransform.localEulerAngles = new Vector3(0, 0, 0);
 
                 if (!isLocked)
                 {

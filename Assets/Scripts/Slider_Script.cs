@@ -49,7 +49,7 @@ public class Slider_Script : NetworkBehaviour {
         handleTransform.GetComponent<ConfigurableJoint>().angularYMotion = ConfigurableJointMotion.Locked;
         handleTransform.GetComponent<ConfigurableJoint>().angularZMotion = ConfigurableJointMotion.Locked;
         SoftJointLimit softJointLimit = new SoftJointLimit();
-        softJointLimit.limit = 1.13f;
+        softJointLimit.limit = 0.113f;
         handleTransform.GetComponent<ConfigurableJoint>().linearLimit = softJointLimit;
 
         //Set Handle to 0

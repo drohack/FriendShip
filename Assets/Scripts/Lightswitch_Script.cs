@@ -45,12 +45,12 @@ public class Lightswitch_Script : NetworkBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(isLocked && !handleScript.isGrabbing)
+        if (isLocked && !handleScript.isGrabbing && !handleScript.isColliding)
         {
             isLocked = false;
         }
 
-        if (!isLocked && handleScript.isGrabbing)
+        if (!isLocked && (handleScript.isGrabbing || handleScript.isColliding))
         {
             isLocked = true;
             if (isLightswitchOn)

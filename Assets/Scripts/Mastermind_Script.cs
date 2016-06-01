@@ -92,10 +92,13 @@ public class Mastermind_Script : NetworkBehaviour {
 
         //Get number of players by the NetwokManager.numPlayers
         numPlayers = GameObject.FindGameObjectWithTag("NetworkLobbyManager").GetComponent<NetworkManager>().numPlayers;
-
         //Find all Player Objects
         players = GameObject.FindGameObjectsWithTag("Player");
         Debug.Log("players.Length: " + players.Length + " numPlayers: " + numPlayers);
+        foreach(GameObject player in players)
+        {
+            Debug.Log("name: " + player.name);
+        }
 
         // Set command arrays from Command_Array.cs
         Command_Array commandArray = GetComponent<Command_Array>();

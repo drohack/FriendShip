@@ -88,7 +88,6 @@
      <Compile Include="Assets\OculusHandDemoAssets\OvrTouch\Script\Controllers\TrackedController.cs" />
      <Compile Include="Assets\OculusHandDemoAssets\OvrTouch\Script\Hands\GrabPoint.cs" />
      <Compile Include="Assets\OculusHandDemoAssets\OvrTouch\Script\Hands\GrabTrigger.cs" />
-     <Compile Include="Assets\OculusHandDemoAssets\OvrTouch\Script\Hands\Grabbable.cs" />
      <Compile Include="Assets\OculusHandDemoAssets\OvrTouch\Script\Hands\Hand.cs" />
      <Compile Include="Assets\OculusHandDemoAssets\OvrTouch\Script\Hands\HandParticles.cs" />
      <Compile Include="Assets\OculusHandDemoAssets\OvrTouch\Script\Hands\HandPose.cs" />
@@ -97,11 +96,11 @@
      <Compile Include="Assets\OculusHandDemoAssets\OvrTouch\Script\Services\PhysicsSettings.cs" />
      <Compile Include="Assets\OculusHandDemoAssets\OvrTouch\Script\Services\TouchVisualizer.cs" />
      <Compile Include="Assets\Scripts\Button_Script.cs" />
-     <Compile Include="Assets\Scripts\Button_Script_copy.cs" />
      <Compile Include="Assets\Scripts\Command_Array.cs" />
      <Compile Include="Assets\Scripts\Console_Text_Script.cs" />
      <Compile Include="Assets\Scripts\Dial_Script.cs" />
      <Compile Include="Assets\Scripts\Drag_Rigid_Body_Script.cs" />
+     <Compile Include="Assets\Scripts\Grabbable.cs" />
      <Compile Include="Assets\Scripts\Highlight_Handle_Top_Script.cs" />
      <Compile Include="Assets\Scripts\L_Lever_Script.cs" />
      <Compile Include="Assets\Scripts\Lightswitch_Script.cs" />
@@ -111,6 +110,11 @@
      <Compile Include="Assets\Scripts\Score_Text_Script.cs" />
      <Compile Include="Assets\Scripts\Shifter_Script.cs" />
      <Compile Include="Assets\Scripts\Slider_Script.cs" />
+     <Compile Include="Assets\Scripts\Test\Button_Script_copy.cs" />
+     <Compile Include="Assets\Scripts\Test\Dial_Script_copy.cs" />
+     <Compile Include="Assets\Scripts\Test\L_Lever_Script_copy.cs" />
+     <Compile Include="Assets\Scripts\Test\Slider_Script_copy.cs" />
+     <Compile Include="Assets\Scripts\Test\W_Lever_Script_copy.cs" />
      <Compile Include="Assets\Scripts\Valve_Script.cs" />
      <Compile Include="Assets\Scripts\W_Lever_Script.cs" />
      <None Include="Assets\Standard Assets\Prototyping\Shaders\WorldCoordDiffuse.shader" />
