@@ -38,8 +38,11 @@ public class Dial_Script_copy : MonoBehaviour {
         handleTransform.GetComponent<HingeJoint>().axis = new Vector3(0, 1, 0);
         handleTransform.GetComponent<HingeJoint>().useLimits = true;
         JointLimits hLimits = new JointLimits();
-        hLimits.max = 180;
+        hLimits.min = -90;
+        hLimits.max = 90;
         handleTransform.GetComponent<HingeJoint>().limits = hLimits;
+
+        handleTransform.localEulerAngles = new Vector3(0, 0, 0);
 
         //if(isServer)
         //    mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();

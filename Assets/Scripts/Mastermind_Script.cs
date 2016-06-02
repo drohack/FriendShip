@@ -94,6 +94,10 @@ public class Mastermind_Script : NetworkBehaviour {
         numPlayers = GameObject.FindGameObjectWithTag("NetworkLobbyManager").GetComponent<NetworkManager>().numPlayers;
         //Find all Player Objects
         players = GameObject.FindGameObjectsWithTag("Player");
+        while(numPlayers != players.Length)
+        {
+            players = GameObject.FindGameObjectsWithTag("Player");
+        }
         Debug.Log("players.Length: " + players.Length + " numPlayers: " + numPlayers);
         foreach(GameObject player in players)
         {

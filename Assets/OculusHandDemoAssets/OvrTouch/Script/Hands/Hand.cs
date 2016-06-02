@@ -373,7 +373,7 @@ namespace OvrTouch.Hands {
                 GrabVolumeEnable(false);
 
                 // Only run if object GrabMode is "Drag"
-                if (closestGrabbable.m_grabMode.Equals(Grabbable.GrabMode.Drag))
+                if (closestGrabbable.m_grabMode.Equals(Grabbable.GrabMode.Drag) || closestGrabbable.m_grabMode.Equals(Grabbable.GrabMode.Rotate))
                 {
                     // Set isKinematic to false so the hand doesn't bump into things
                     m_rigidbody.isKinematic = false;
@@ -467,6 +467,7 @@ namespace OvrTouch.Hands {
             else if (m_grabbedGrabbable.m_grabMode.Equals(Grabbable.GrabMode.Rotate))
             {
                 Quaternion deltaRotation = finalRotation * Quaternion.Inverse(this.transform.rotation);
+                deltaRotation = Quaternion.Euler(deltaRotation.eulerAngles.x * 2, deltaRotation.eulerAngles.y * 2, deltaRotation.eulerAngles.z * 2);
                 grabbedTransform.rotation = deltaRotation * grabbedTransform.rotation;
             }
         }
