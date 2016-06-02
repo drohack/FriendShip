@@ -13,11 +13,12 @@ public class Player_NetworkSetup : NetworkBehaviour {
 		if (isLocalPlayer) 
 		{
 			GameObject.Find ("Main Camera").SetActive (false);
-			//GetComponent<CharacterController> ().enabled = true;
-			//GetComponent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController> ().enabled = true;
-            FPSCharacterCam.name = "Player Camera";
+            //transform.Find("OvrTouch").gameObject.SetActive(true);
+            //GetComponent<CharacterController> ().enabled = true;
+            //GetComponent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController> ().enabled = true;
+            //FPSCharacterCam.name = "Player Camera";
             FPSCharacterCam.enabled = true;
-			audioListener.enabled = true;
+            audioListener.enabled = true;
         }
 	}
 }
