@@ -29,7 +29,7 @@ public class Mastermind_Script : NetworkBehaviour {
     private GameObject[] rObjList; // The list of all random game objects get placed in current round
     private bool  isTapped = false; // Variables for the custom WaitForSeconds function
     private int numFufilled = 0;
-    private GameObject[] players;
+    private NetworkLobbyPlayer[] players;
 
     // Player Objects
     GameObject          p1_PlayerControlDeck;
@@ -79,6 +79,29 @@ public class Mastermind_Script : NetworkBehaviour {
 
     // Use this for initialization
     void Start () {
+        //Get number of players by the NetwokManager.numPlayers
+        numPlayers = GameObject.FindGameObjectWithTag("NetworkLobbyManager").GetComponent<NetworkManager>().numPlayers;
+        Debug.Log("numPlayers: " + numPlayers);
+
+        StartCoroutine(WaitForPlayersToSpawn());
+    }
+
+    IEnumerator WaitForPlayersToSpawn()
+    {
+        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
+        Debug.Log("numPlayers: " + numPlayers + "playerObjects.Length: " + playerObjects.Length);
+        while (playerObjects.Length < numPlayers)
+        {
+            playerObjects = GameObject.FindGameObjectsWithTag("Player");
+            Debug.Log("numPlayers: " + numPlayers + " playerObjects.Length: " + playerObjects.Length);
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        foreach (GameObject player in playerObjects)
+        {
+            Debug.Log("name: " + player.name);
+        }
+
         Initialize();
 
         GenerateRandomObjects();
@@ -86,29 +109,19 @@ public class Mastermind_Script : NetworkBehaviour {
         StartCoroutine(DisplayStartText());
     }
 
-    IEnumerator WaitForPlayers()
-    {
-        while(numPlayers != players.Length)
-        {
-            Debug.Log("players.Length: " + players.Length + " numPlayers: " + numPlayers);
-            players = GameObject.FindGameObjectsWithTag("Player");
-            yield return null;
-        }
-    }
-
     void Initialize()
     {
         score = 0;
-
-        //Get number of players by the NetwokManager.numPlayers
-        numPlayers = GameObject.FindGameObjectWithTag("NetworkLobbyManager").GetComponent<NetworkManager>().numPlayers;
+        
         //Find all Player Objects
-        players = GameObject.FindGameObjectsWithTag("Player");
-        Debug.Log("players.Length: " + players.Length + " numPlayers: " + numPlayers);
-        StartCoroutine(WaitForPlayers());
-        foreach(GameObject player in players)
+        players = GameObject.FindGameObjectWithTag("NetworkLobbyManager").GetComponent<NetworkLobbyManager>().lobbySlots;
+        
+        foreach (NetworkLobbyPlayer player in players)
         {
-            Debug.Log("name: " + player.name);
+            if (player != null)
+                Debug.Log("name: " + player.name);
+            else
+                break;
         }
 
         // Set command arrays from Command_Array.cs
@@ -224,7 +237,7 @@ public class Mastermind_Script : NetworkBehaviour {
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
-                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1]);
+                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
                         randObject.transform.parent = playerControlDeck.transform;
                         //Update network variables
                         randObject.GetComponent<Button_Script>().newQuaternion = randObject.transform.rotation;
@@ -249,7 +262,7 @@ public class Mastermind_Script : NetworkBehaviour {
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Dial"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion - 90, yQuaternion + 90, zQuaternion)));
-                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1]);
+                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
                         randObject.transform.parent = playerControlDeck.transform;
                         //Update network variables
                         randObject.GetComponent<Dial_Script>().newQuaternion = randObject.transform.rotation;
@@ -274,7 +287,7 @@ public class Mastermind_Script : NetworkBehaviour {
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/L_Lever"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
-                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1]);
+                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
                         randObject.transform.parent = playerControlDeck.transform;
                         //Update network variables
                         randObject.GetComponent<L_Lever_Script>().newQuaternion = randObject.transform.rotation;
@@ -299,7 +312,7 @@ public class Mastermind_Script : NetworkBehaviour {
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Lightswitch"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion, yQuaternion + 90, zQuaternion)));
-                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1]);
+                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
                         randObject.transform.parent = playerControlDeck.transform;
                         //Update network variables
                         randObject.GetComponent<Lightswitch_Script>().newQuaternion = randObject.transform.rotation;
@@ -324,7 +337,7 @@ public class Mastermind_Script : NetworkBehaviour {
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Shifter"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion + 180, yQuaternion + 90, zQuaternion)));
-                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1]);
+                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
                         randObject.transform.parent = playerControlDeck.transform;
                         //Update network variables
                         randObject.GetComponent<Shifter_Script>().newQuaternion = randObject.transform.rotation;
@@ -349,7 +362,7 @@ public class Mastermind_Script : NetworkBehaviour {
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Slider"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion + 270, yQuaternion + 90, zQuaternion)));
-                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1]);
+                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
                         randObject.transform.parent = playerControlDeck.transform;
                         //Update network variables
                         randObject.GetComponent<Slider_Script>().newQuaternion = randObject.transform.rotation;
@@ -374,7 +387,7 @@ public class Mastermind_Script : NetworkBehaviour {
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Valve"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion + 90)));
-                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1]);
+                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
                         randObject.transform.parent = playerControlDeck.transform;
                         //Update network variables
                         randObject.GetComponent<Valve_Script>().newQuaternion = randObject.transform.rotation;
@@ -399,7 +412,7 @@ public class Mastermind_Script : NetworkBehaviour {
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/W_Lever"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
-                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1]);
+                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
                         randObject.transform.parent = playerControlDeck.transform;
                         //Update network variables
                         randObject.GetComponent<W_Lever_Script>().newQuaternion = randObject.transform.rotation;
@@ -424,7 +437,7 @@ public class Mastermind_Script : NetworkBehaviour {
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
-                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1]);
+                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
                         randObject.transform.parent = playerControlDeck.transform;
                         //Update network variables
                         randObject.GetComponent<Button_Script>().newQuaternion = randObject.transform.rotation;
