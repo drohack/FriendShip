@@ -289,6 +289,13 @@ namespace OvrTouch.Hands {
             return Mathf.Clamp01(value + rateDelta * sign);
         }
 
+        private int last_handPoseId;
+        private float last_m_flex;
+        private bool last_canPoint;
+        private float last_m_point;
+        private bool last_canThumbsUp;
+        private float last_m_thrumbsUp;
+
         //==============================================================================
         private void AnimationAdvance () {
             // Pose
@@ -307,7 +314,20 @@ namespace OvrTouch.Hands {
             bool canThumbsUp = !IsGrabbingGrabbable || ((m_grabbedHandPose != null) && (m_grabbedHandPose.AllowThumbsUp));
             float thumbsUp = canThumbsUp ? m_thumbsUp : 0.0f;
             m_animator.SetLayerWeight(m_animLayerIndexThumb, thumbsUp);
-        }
+
+            if(transform.parent != null && transform.parent.GetComponent<Player_NetworkSetup>() != null &&
+                (last_handPoseId != (int)handPoseId || last_m_flex != m_flex || last_canPoint != canPoint || last_m_point != m_point || last_canThumbsUp != canThumbsUp || last_m_thrumbsUp != m_thumbsUp))
+            {
+                transform.parent.GetComponent<Player_NetworkSetup>().SendAnimation(m_handedness, (int)handPoseId, m_flex, canPoint, m_point, canThumbsUp, m_thumbsUp);
+            }
+
+            last_handPoseId = (int)handPoseId;
+            last_m_flex = m_flex;
+            last_canPoint = canPoint;
+            last_m_point = m_point;
+            last_canThumbsUp = canThumbsUp;
+            last_m_thrumbsUp = m_thumbsUp;
+    }
 
         //==============================================================================
         //private void CollisionAdvance () {
