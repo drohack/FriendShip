@@ -65,14 +65,13 @@ public class W_Lever_Script : NetworkBehaviour
         }
         else
         {
-            //snap lever into place near edges (on = handleTransform.eulerAngles.x == 0; off = handleTransform.eulerAngles.x == 45)
-            if (handleTransform.eulerAngles.x < 17.5)
+            if (handleTransform.localEulerAngles.y > 342.5)
             {
                 handleTransform.localPosition = new Vector3(0, 0, handleTransform.localPosition.z);
-                handleTransform.eulerAngles = new Vector3(
-                    0.001f,
-                    handleTransform.eulerAngles.y,
-                    handleTransform.eulerAngles.z
+                handleTransform.localEulerAngles = new Vector3(
+                    0f,
+                    359.999f,
+                    0f
                 );
 
                 //If the last position of the handle was in the middle, and now we are at the up position, then send the command that the L_Lever is now Up
@@ -86,13 +85,13 @@ public class W_Lever_Script : NetworkBehaviour
                     isLocked = true;
                 }
             }
-            else if (handleTransform.eulerAngles.x > 17.5)
+            else if (handleTransform.localEulerAngles.y < 342.5 && handleTransform.localEulerAngles.y > 180)
             {
                 handleTransform.localPosition = new Vector3(-0.57f, 0, handleTransform.localPosition.z);
-                handleTransform.eulerAngles = new Vector3(
-                    34.999f,
-                    handleTransform.eulerAngles.y,
-                    handleTransform.eulerAngles.z
+                handleTransform.localEulerAngles = new Vector3(
+                    0f,
+                    325.001f,
+                    0f
                 );
 
                 //If the last position of the handle was in the middle, and now we are at the down position, then send the command that the L_Lever is now Down

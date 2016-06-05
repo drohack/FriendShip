@@ -61,20 +61,19 @@ public class Shifter_Script : NetworkBehaviour {
     {
         handleTransform.localPosition = new Vector3(0, 0, 0);
 
-        if (isLocked && handleScript.isGrabbing)
+        if (handleScript.isGrabbing)
         {
+            Debug.Log(handleTransform.localEulerAngles.z);
             isLocked = false;
         }
-
-        if (!handleScript.isGrabbing)
+        else 
         {
-            //snap lever into place near edges (on = handleTransform.eulerAngles.z == 0; off = handleTransform.eulerAngles.z == 45)
-            if (handleTransform.eulerAngles.z > 292.5)
+            if (handleTransform.localEulerAngles.z > 22.5 && handleTransform.localEulerAngles.z < 180)
             {
-                handleTransform.eulerAngles = new Vector3(
-                    handleTransform.eulerAngles.x,
-                    handleTransform.eulerAngles.y,
-                    315
+                handleTransform.localEulerAngles = new Vector3(
+                    0f,
+                    0f,
+                    44.999f
                 );
 
                 if (!isLocked)
@@ -87,12 +86,12 @@ public class Shifter_Script : NetworkBehaviour {
                     CmdSendTappedCommand(rCommandTwo, shifterPosition);
                 }
             }
-            else if (handleTransform.eulerAngles.z > 247.5 && handleTransform.eulerAngles.z < 292.5)
+            else if (handleTransform.localEulerAngles.z > 337.5 || handleTransform.localEulerAngles.z < 22.5)
             {
-                handleTransform.eulerAngles = new Vector3(
-                    handleTransform.eulerAngles.x,
-                    handleTransform.eulerAngles.y,
-                    270
+                handleTransform.localEulerAngles = new Vector3(
+                    0f,
+                    0f,
+                    0f
                 );
 
                 if (!isLocked)
@@ -105,12 +104,12 @@ public class Shifter_Script : NetworkBehaviour {
                     CmdSendTappedCommand(rCommandOne, shifterPosition);
                 }
             }
-            else if (handleTransform.eulerAngles.z < 247.5)
+            else if (handleTransform.localEulerAngles.z < 337.5 && handleTransform.localEulerAngles.z > 180)
             {
-                handleTransform.eulerAngles = new Vector3(
-                    handleTransform.eulerAngles.x,
-                    handleTransform.eulerAngles.y,
-                    225
+                handleTransform.localEulerAngles = new Vector3(
+                    0f,
+                    0f,
+                    315.001f
                 );
 
                 if (!isLocked)

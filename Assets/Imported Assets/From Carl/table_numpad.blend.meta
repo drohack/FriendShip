@@ -1,0 +1,145 @@
+fileFormatVersion: 2
+guid: 6f2f78264fe547b4296099ff9e4dacdc
+timeCreated: 1465077276
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: numpad_base
+    100002: numpad_buttons_1
+    100004: numpad_buttons_2
+    100006: numpad_buttons_3
+    100008: numpad_buttons_4
+    100010: numpad_buttons_5
+    100012: numpad_buttons_6
+    100014: numpad_buttons_7
+    100016: numpad_buttons_8
+    100018: numpad_buttons_9
+    100020: table_base
+    100022: //RootNode
+    100024: table_surface
+    100026: table_base_001
+    100028: table_base_002
+    400000: numpad_base
+    400002: numpad_buttons_1
+    400004: numpad_buttons_2
+    400006: numpad_buttons_3
+    400008: numpad_buttons_4
+    400010: numpad_buttons_5
+    400012: numpad_buttons_6
+    400014: numpad_buttons_7
+    400016: numpad_buttons_8
+    400018: numpad_buttons_9
+    400020: table_base
+    400022: //RootNode
+    400024: table_surface
+    400026: table_base_001
+    400028: table_base_002
+    2300000: numpad_base
+    2300002: numpad_buttons_1
+    2300004: numpad_buttons_2
+    2300006: numpad_buttons_3
+    2300008: numpad_buttons_4
+    2300010: numpad_buttons_5
+    2300012: numpad_buttons_6
+    2300014: numpad_buttons_7
+    2300016: numpad_buttons_8
+    2300018: numpad_buttons_9
+    2300020: table_base
+    2300022: table_surface
+    2300024: table_base_001
+    2300026: table_base_002
+    3300000: numpad_base
+    3300002: numpad_buttons_1
+    3300004: numpad_buttons_2
+    3300006: numpad_buttons_3
+    3300008: numpad_buttons_4
+    3300010: numpad_buttons_5
+    3300012: numpad_buttons_6
+    3300014: numpad_buttons_7
+    3300016: numpad_buttons_8
+    3300018: numpad_buttons_9
+    3300020: table_base
+    3300022: table_surface
+    3300024: table_base_001
+    3300026: table_base_002
+    4300000: numpad_buttons_2
+    4300002: numpad_buttons_1
+    4300004: numpad_buttons_6
+    4300006: numpad_buttons_5
+    4300008: numpad_buttons_4
+    4300010: numpad_buttons_9
+    4300012: numpad_buttons_8
+    4300014: numpad_buttons_7
+    4300016: numpad_base
+    4300018: numpad_buttons_3
+    4300020: table_surface
+    4300022: table_base
+    4300024: table_base_002
+    4300026: table_base_001
+    7400000: Default Take
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
