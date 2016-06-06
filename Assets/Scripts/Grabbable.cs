@@ -47,7 +47,7 @@ namespace OvrTouch.Hands
             Rotate
         }
 
-        private bool isGrabbing = false;
+        public bool isGrabbing = false;
 
         //Drag Spring variables
         const float d_Spring = 200.0f;

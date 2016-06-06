@@ -60,6 +60,7 @@ public class Button_Script : NetworkBehaviour {
     [Command]
     void CmdSendTappedCommand(int sentRCommand)
     {
+        Debug.Log("sent command: " + sentRCommand);
         mastermindScript.TappedWaitForSecondsOrTap(sentRCommand);
     }
 }

@@ -82,5 +82,11 @@ public class Highlight_Handle_Top_Script : MonoBehaviour {
         {
             topRenderer.material.color = highlightColor;
         }
+
+        if(isGrabbing && !transform.GetComponent<Grabbable>().isGrabbing)
+        {
+            isGrabbing = false;
+            topRenderer.material.color = startcolor;
+        }
     }
 }

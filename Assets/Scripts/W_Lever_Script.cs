@@ -65,7 +65,7 @@ public class W_Lever_Script : NetworkBehaviour
         }
         else
         {
-            if (handleTransform.localEulerAngles.y > 342.5)
+            if (handleTransform.localEulerAngles.y < 90 || handleTransform.localEulerAngles.y > 342.5)
             {
                 handleTransform.localPosition = new Vector3(0, 0, handleTransform.localPosition.z);
                 handleTransform.localEulerAngles = new Vector3(
@@ -111,6 +111,7 @@ public class W_Lever_Script : NetworkBehaviour
     [Command]
     void CmdSendTappedCommand(int sentRCommand, bool sentIsWLeverUp)
     {
+        Debug.Log("sentCommand: " + sentRCommand);
         isWLeverUp = sentIsWLeverUp;
         mastermindScript.TappedWaitForSecondsOrTap(sentRCommand);
     }
