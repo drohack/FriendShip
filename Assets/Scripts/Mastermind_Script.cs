@@ -182,53 +182,8 @@ public class Mastermind_Script : NetworkBehaviour {
         for(int i=0; i< p1_RObjectTransform.childCount; i++)
         {
             GameObject rObject = p1_RObjectTransform.GetChild(i).gameObject;
-            int commandType = buttonCommand;
-            if (rObject.name.Contains("Button"))
-                commandType = buttonCommand;
-            else if (rObject.name.Contains("Dial"))
-                commandType = dialCommand;
-            else if (rObject.name.Contains("L_Lever"))
-                commandType = lLeverCommand;
-            else if (rObject.name.Contains("Lightswitch"))
-                commandType = lightswitchCommand;
-            else if (rObject.name.Contains("Shifter"))
-                commandType = shifterCommand;
-            else if (rObject.name.Contains("Slider"))
-                commandType = sliderCommand;
-            else if (rObject.name.Contains("Valve"))
-                commandType = valveCommand;
-            else if (rObject.name.Contains("W_Lever"))
-                commandType = wLeverCommand;
             NetworkServer.SpawnWithClientAuthority(rObject, players[0].gameObject);
             //NetworkServer.Spawn(rObject);
-            switch (commandType)
-            {
-                case buttonCommand:
-                    rObject.GetComponent<Button_Script>().rCommand = rObject.GetComponent<Button_Script>().rCommand;
-                    break;
-                case dialCommand:
-                    rObject.GetComponent<Dial_Script>().rCommand = rObject.GetComponent<Dial_Script>().rCommand;
-                    break;
-                case lLeverCommand:
-                    rObject.GetComponent<L_Lever_Script>().rCommand = rObject.GetComponent<L_Lever_Script>().rCommand;
-                    break;
-                case lightswitchCommand:
-                    rObject.GetComponent<Lightswitch_Script>().rCommand = rObject.GetComponent<Lightswitch_Script>().rCommand;
-                    break;
-                case shifterCommand:
-                    rObject.GetComponent<Shifter_Script>().rCommand = rObject.GetComponent<Shifter_Script>().rCommand;
-                    break;
-                case sliderCommand:
-                    rObject.GetComponent<Slider_Script>().rCommand = rObject.GetComponent<Slider_Script>().rCommand;
-                    break;
-                case valveCommand:
-                    rObject.GetComponent<Valve_Script>().rCommand = rObject.GetComponent<Valve_Script>().rCommand;
-                    break;
-                case wLeverCommand:
-                    Debug.Log(rObject.GetComponent<W_Lever_Script>().rCommand);
-                    rObject.GetComponent<W_Lever_Script>().rCommand = rObject.GetComponent<W_Lever_Script>().rCommand;
-                    break;
-            }
         }
         if (numPlayers > 1)
         {
@@ -239,52 +194,8 @@ public class Mastermind_Script : NetworkBehaviour {
             for (int i = 0; i < p2_RObjectTransform.childCount; i++)
             {
                 GameObject rObject = p2_RObjectTransform.GetChild(i).gameObject;
-                int commandType = buttonCommand;
-                if (rObject.name.Contains("Button"))
-                    commandType = buttonCommand;
-                else if (rObject.name.Contains("Dial"))
-                    commandType = dialCommand;
-                else if (rObject.name.Contains("L_Lever"))
-                    commandType = lLeverCommand;
-                else if (rObject.name.Contains("Lightswitch"))
-                    commandType = lightswitchCommand;
-                else if (rObject.name.Contains("Shifter"))
-                    commandType = shifterCommand;
-                else if (rObject.name.Contains("Slider"))
-                    commandType = sliderCommand;
-                else if (rObject.name.Contains("Valve"))
-                    commandType = valveCommand;
-                else if (rObject.name.Contains("W_Lever"))
-                    commandType = wLeverCommand;
                 NetworkServer.SpawnWithClientAuthority(rObject, players[1].gameObject);
                 //NetworkServer.Spawn(rObject);
-                switch (commandType)
-                {
-                    case buttonCommand:
-                        rObject.GetComponent<Button_Script>().rCommand = rObject.GetComponent<Button_Script>().rCommand;
-                        break;
-                    case dialCommand:
-                        rObject.GetComponent<Dial_Script>().rCommand = rObject.GetComponent<Dial_Script>().rCommand;
-                        break;
-                    case lLeverCommand:
-                        rObject.GetComponent<L_Lever_Script>().rCommand = rObject.GetComponent<L_Lever_Script>().rCommand;
-                        break;
-                    case lightswitchCommand:
-                        rObject.GetComponent<Lightswitch_Script>().rCommand = rObject.GetComponent<Lightswitch_Script>().rCommand;
-                        break;
-                    case shifterCommand:
-                        rObject.GetComponent<Shifter_Script>().rCommand = rObject.GetComponent<Shifter_Script>().rCommand;
-                        break;
-                    case sliderCommand:
-                        rObject.GetComponent<Slider_Script>().rCommand = rObject.GetComponent<Slider_Script>().rCommand;
-                        break;
-                    case valveCommand:
-                        rObject.GetComponent<Valve_Script>().rCommand = rObject.GetComponent<Valve_Script>().rCommand;
-                        break;
-                    case wLeverCommand:
-                        rObject.GetComponent<W_Lever_Script>().rCommand = rObject.GetComponent<W_Lever_Script>().rCommand;
-                        break;
-                }
             }
         }
         if (numPlayers > 2)
@@ -296,52 +207,8 @@ public class Mastermind_Script : NetworkBehaviour {
             for (int i = 0; i < p3_RObjectTransform.childCount; i++)
             {
                 GameObject rObject = p3_RObjectTransform.GetChild(i).gameObject;
-                int commandType = buttonCommand;
-                if (rObject.name.Contains("Button"))
-                    commandType = buttonCommand;
-                else if (rObject.name.Contains("Dial"))
-                    commandType = dialCommand;
-                else if (rObject.name.Contains("L_Lever"))
-                    commandType = lLeverCommand;
-                else if (rObject.name.Contains("Lightswitch"))
-                    commandType = lightswitchCommand;
-                else if (rObject.name.Contains("Shifter"))
-                    commandType = shifterCommand;
-                else if (rObject.name.Contains("Slider"))
-                    commandType = sliderCommand;
-                else if (rObject.name.Contains("Valve"))
-                    commandType = valveCommand;
-                else if (rObject.name.Contains("W_Lever"))
-                    commandType = wLeverCommand;
                 NetworkServer.SpawnWithClientAuthority(rObject, players[2].gameObject);
                 //NetworkServer.Spawn(rObject);
-                switch (commandType)
-                {
-                    case buttonCommand:
-                        rObject.GetComponent<Button_Script>().rCommand = rObject.GetComponent<Button_Script>().rCommand;
-                        break;
-                    case dialCommand:
-                        rObject.GetComponent<Dial_Script>().rCommand = rObject.GetComponent<Dial_Script>().rCommand;
-                        break;
-                    case lLeverCommand:
-                        rObject.GetComponent<L_Lever_Script>().rCommand = rObject.GetComponent<L_Lever_Script>().rCommand;
-                        break;
-                    case lightswitchCommand:
-                        rObject.GetComponent<Lightswitch_Script>().rCommand = rObject.GetComponent<Lightswitch_Script>().rCommand;
-                        break;
-                    case shifterCommand:
-                        rObject.GetComponent<Shifter_Script>().rCommand = rObject.GetComponent<Shifter_Script>().rCommand;
-                        break;
-                    case sliderCommand:
-                        rObject.GetComponent<Slider_Script>().rCommand = rObject.GetComponent<Slider_Script>().rCommand;
-                        break;
-                    case valveCommand:
-                        rObject.GetComponent<Valve_Script>().rCommand = rObject.GetComponent<Valve_Script>().rCommand;
-                        break;
-                    case wLeverCommand:
-                        rObject.GetComponent<W_Lever_Script>().rCommand = rObject.GetComponent<W_Lever_Script>().rCommand;
-                        break;
-                }
             }
         }
         if (numPlayers > 3)
@@ -353,52 +220,8 @@ public class Mastermind_Script : NetworkBehaviour {
             for (int i = 0; i < p4_RObjectTransform.childCount; i++)
             {
                 GameObject rObject = p4_RObjectTransform.GetChild(i).gameObject;
-                int commandType = buttonCommand;
-                if (rObject.name.Contains("Button"))
-                    commandType = buttonCommand;
-                else if (rObject.name.Contains("Dial"))
-                    commandType = dialCommand;
-                else if (rObject.name.Contains("L_Lever"))
-                    commandType = lLeverCommand;
-                else if (rObject.name.Contains("Lightswitch"))
-                    commandType = lightswitchCommand;
-                else if (rObject.name.Contains("Shifter"))
-                    commandType = shifterCommand;
-                else if (rObject.name.Contains("Slider"))
-                    commandType = sliderCommand;
-                else if (rObject.name.Contains("Valve"))
-                    commandType = valveCommand;
-                else if (rObject.name.Contains("W_Lever"))
-                    commandType = wLeverCommand;
                 NetworkServer.SpawnWithClientAuthority(rObject, players[3].gameObject);
                 //NetworkServer.Spawn(rObject);
-                switch (commandType)
-                {
-                    case buttonCommand:
-                        rObject.GetComponent<Button_Script>().rCommand = rObject.GetComponent<Button_Script>().rCommand;
-                        break;
-                    case dialCommand:
-                        rObject.GetComponent<Dial_Script>().rCommand = rObject.GetComponent<Dial_Script>().rCommand;
-                        break;
-                    case lLeverCommand:
-                        rObject.GetComponent<L_Lever_Script>().rCommand = rObject.GetComponent<L_Lever_Script>().rCommand;
-                        break;
-                    case lightswitchCommand:
-                        rObject.GetComponent<Lightswitch_Script>().rCommand = rObject.GetComponent<Lightswitch_Script>().rCommand;
-                        break;
-                    case shifterCommand:
-                        rObject.GetComponent<Shifter_Script>().rCommand = rObject.GetComponent<Shifter_Script>().rCommand;
-                        break;
-                    case sliderCommand:
-                        rObject.GetComponent<Slider_Script>().rCommand = rObject.GetComponent<Slider_Script>().rCommand;
-                        break;
-                    case valveCommand:
-                        rObject.GetComponent<Valve_Script>().rCommand = rObject.GetComponent<Valve_Script>().rCommand;
-                        break;
-                    case wLeverCommand:
-                        rObject.GetComponent<W_Lever_Script>().rCommand = rObject.GetComponent<W_Lever_Script>().rCommand;
-                        break;
-                }
             }
         }
     }
