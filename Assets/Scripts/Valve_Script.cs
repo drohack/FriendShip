@@ -45,7 +45,12 @@ public class Valve_Script : NetworkBehaviour {
         //Add hinge joint to Handle
         handleTransform.gameObject.AddComponent<HingeJoint>();
         handleTransform.GetComponent<HingeJoint>().axis = new Vector3(0, 0, 1);
-
+        handleTransform.GetComponent<HingeJoint>().useSpring = true;
+        JointSpring springJoint = new JointSpring();
+        springJoint.spring = 1f;
+        springJoint.damper = 0.0001f;
+        springJoint.targetPosition = handleTransform.localEulerAngles.z;
+        handleTransform.GetComponent<HingeJoint>().spring = springJoint;
         handleTransform.GetComponent<Rigidbody>().isKinematic = false;
 
         if (isServer)
@@ -61,6 +66,16 @@ public class Valve_Script : NetworkBehaviour {
         {
             valveTotalRotation = 0f;
             isCommandSent = false;
+            handleTransform.GetComponent<HingeJoint>().useSpring = true;
+            JointSpring springJoint = handleTransform.GetComponent<HingeJoint>().spring;
+            float targetPosition = (handleTransform.localEulerAngles.z > 180) ? (handleTransform.localEulerAngles.z - 360) : handleTransform.localEulerAngles.z;
+            springJoint.targetPosition = targetPosition;
+            handleTransform.GetComponent<HingeJoint>().spring = springJoint;
+        }
+
+        if (handleScript.isGrabbing)
+        {
+            handleTransform.GetComponent<HingeJoint>().useSpring = false;
         }
 
         // Check for edge cases as localEulerAngle only goes from 0 to 359 then starts over at 0

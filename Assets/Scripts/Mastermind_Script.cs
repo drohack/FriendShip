@@ -50,32 +50,32 @@ public class Mastermind_Script : NetworkBehaviour {
     private bool    p1_isDisplayStart = true;
     public  bool    p1_isDisplayingCommand = false;
     private float   p1_gWaitSystem;         // Variables for the custom WaitForSeconds function
-    private int     p1_gridX = 3;           // The grid which the random game objects get placed
-    private int     p1_gridY = 3;           // The grid which the random game objects get placed
+    private int     p1_gridX = 4;           // The grid which the random game objects get placed
+    private int     p1_gridY = 2;           // The grid which the random game objects get placed
 
     /** P2 VARIABLES **/
     public int      p2_rCommand = -1;
     private bool    p2_isDisplayStart = true;
     public bool     p2_isDisplayingCommand = false;
     private float   p2_gWaitSystem;         // Variables for the custom WaitForSeconds function
-    private int     p2_gridX = 3;           // The grid which the random game objects get placed
-    private int     p2_gridY = 3;           // The grid which the random game objects get placed
+    private int     p2_gridX = 4;           // The grid which the random game objects get placed
+    private int     p2_gridY = 2;           // The grid which the random game objects get placed
 
     /** P3 VARIABLES **/
     public int      p3_rCommand = -1;
     private bool    p3_isDisplayStart = true;
     public bool     p3_isDisplayingCommand = false;
     private float   p3_gWaitSystem;         // Variables for the custom WaitForSeconds function
-    private int     p3_gridX = 3;           // The grid which the random game objects get placed
-    private int     p3_gridY = 3;           // The grid which the random game objects get placed
+    private int     p3_gridX = 4;           // The grid which the random game objects get placed
+    private int     p3_gridY = 2;           // The grid which the random game objects get placed
 
     /** P4 VARIABLES **/
     public int      p4_rCommand = -1;
     private bool    p4_isDisplayStart = true;
     public bool     p4_isDisplayingCommand = false;
     private float   p4_gWaitSystem;         // Variables for the custom WaitForSeconds function
-    private int     p4_gridX = 3;           // The grid which the random game objects get placed
-    private int     p4_gridY = 3;           // The grid which the random game objects get placed
+    private int     p4_gridX = 4;           // The grid which the random game objects get placed
+    private int     p4_gridY = 2;           // The grid which the random game objects get placed
 
     // Use this for initialization
     void Start () {
@@ -123,6 +123,8 @@ public class Mastermind_Script : NetworkBehaviour {
             else
                 break;
         }
+
+        //numPlayers = 4;
 
         // Set command arrays from Command_Array.cs
         Command_Array commandArray = GetComponent<Command_Array>();
@@ -175,21 +177,52 @@ public class Mastermind_Script : NetworkBehaviour {
 
         //Generate rObjList objects for PLAYER 1
         rObjList = GenerateRandomObjects(rObjList, 0, p1_PlayerControlDeck, p1_gridX, p1_gridY, 1);
-
+        Transform p1_RObjectTransform = p1_PlayerControlDeck.transform.Find("RObjects");
+        p1_RObjectTransform.localRotation = Quaternion.Euler(new Vector3(45f, 0f, 0f));
+        for(int i=0; i< p1_RObjectTransform.childCount; i++)
+        {
+            GameObject rObject = p1_RObjectTransform.GetChild(i).gameObject;
+            NetworkServer.SpawnWithClientAuthority(rObject, players[0].gameObject);
+            //NetworkServer.Spawn(rObject);
+        }
         if (numPlayers > 1)
         {
             //Generate rObjList objects for PLAYER 2
             rObjList = GenerateRandomObjects(rObjList, (p2_gridX * p2_gridY), p2_PlayerControlDeck, p2_gridX, p2_gridY, 2);
+            Transform p2_RObjectTransform = p2_PlayerControlDeck.transform.Find("RObjects");
+            p2_RObjectTransform.localRotation = Quaternion.Euler(new Vector3(45f, 0f, 0f));
+            for (int i = 0; i < p2_RObjectTransform.childCount; i++)
+            {
+                GameObject rObject = p2_RObjectTransform.GetChild(i).gameObject;
+                NetworkServer.SpawnWithClientAuthority(rObject, players[1].gameObject);
+                //NetworkServer.Spawn(rObject);
+            }
         }
         if (numPlayers > 2)
         {
-             //Generate rObjList objects for PLAYER 3
-             rObjList = GenerateRandomObjects(rObjList, (p3_gridX * p3_gridY) + (p2_gridX * p2_gridY), p3_PlayerControlDeck, p3_gridX, p3_gridY, 3);
+            //Generate rObjList objects for PLAYER 3
+            rObjList = GenerateRandomObjects(rObjList, (p3_gridX * p3_gridY) + (p2_gridX * p2_gridY), p3_PlayerControlDeck, p3_gridX, p3_gridY, 3);
+            Transform p3_RObjectTransform = p3_PlayerControlDeck.transform.Find("RObjects");
+            p3_RObjectTransform.localRotation = Quaternion.Euler(new Vector3(45f, 0f, 0f));
+            for (int i = 0; i < p3_RObjectTransform.childCount; i++)
+            {
+                GameObject rObject = p3_RObjectTransform.GetChild(i).gameObject;
+                NetworkServer.SpawnWithClientAuthority(rObject, players[2].gameObject);
+                //NetworkServer.Spawn(rObject);
+            }
         }
         if (numPlayers > 3)
         {
             //Generate rObjList objects for PLAYER 4
             rObjList = GenerateRandomObjects(rObjList, (p4_gridX * p4_gridY) + (p2_gridX * p2_gridY) + (p3_gridX * p3_gridY), p4_PlayerControlDeck, p4_gridX, p4_gridY, 4);
+            Transform p4_RObjectTransform = p4_PlayerControlDeck.transform.Find("RObjects");
+            p4_RObjectTransform.localRotation = Quaternion.Euler(new Vector3(45f, 0f, 0f));
+            for (int i = 0; i < p4_RObjectTransform.childCount; i++)
+            {
+                GameObject rObject = p4_RObjectTransform.GetChild(i).gameObject;
+                NetworkServer.SpawnWithClientAuthority(rObject, players[3].gameObject);
+                //NetworkServer.Spawn(rObject);
+            }
         }
     }
 
@@ -227,20 +260,20 @@ public class Mastermind_Script : NetworkBehaviour {
                         buttonCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.09f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.09f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.09f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.09f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z + 0.09f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.09f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.09f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.09f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
-                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
-                        randObject.transform.parent = playerControlDeck.transform;
+                        //NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
+                        randObject.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         //Update network variables
-                        randObject.GetComponent<Button_Script>().newQuaternion = randObject.transform.rotation;
+                        //randObject.GetComponent<Button_Script>().newQuaternion = randObject.transform.rotation;
                         randObject.GetComponent<Button_Script>().newName = newCommandText;
                         randObject.GetComponent<Button_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
@@ -252,20 +285,20 @@ public class Mastermind_Script : NetworkBehaviour {
                         dialCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.05f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.05f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z + 0.05f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.05f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Dial"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion - 90, yQuaternion + 90, zQuaternion)));
-                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
-                        randObject.transform.parent = playerControlDeck.transform;
+                        //NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
+                        randObject.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         //Update network variables
-                        randObject.GetComponent<Dial_Script>().newQuaternion = randObject.transform.rotation;
+                        //randObject.GetComponent<Dial_Script>().newQuaternion = randObject.transform.rotation;
                         randObject.GetComponent<Dial_Script>().newName = newCommandText;
                         randObject.GetComponent<Dial_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
@@ -277,20 +310,20 @@ public class Mastermind_Script : NetworkBehaviour {
                         lLeverCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.147f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.147f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.147f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.147f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z + 0.147f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.147f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.147f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.147f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/L_Lever"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
-                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
-                        randObject.transform.parent = playerControlDeck.transform;
+                        //NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
+                        randObject.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         //Update network variables
-                        randObject.GetComponent<L_Lever_Script>().newQuaternion = randObject.transform.rotation;
+                        //randObject.GetComponent<L_Lever_Script>().newQuaternion = randObject.transform.rotation;
                         randObject.GetComponent<L_Lever_Script>().newName = newCommandText;
                         randObject.GetComponent<L_Lever_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
@@ -302,20 +335,20 @@ public class Mastermind_Script : NetworkBehaviour {
                         lightswitchCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.05f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.05f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z + 0.05f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.05f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Lightswitch"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion, yQuaternion + 90, zQuaternion)));
-                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
-                        randObject.transform.parent = playerControlDeck.transform;
+                        //NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
+                        randObject.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         //Update network variables
-                        randObject.GetComponent<Lightswitch_Script>().newQuaternion = randObject.transform.rotation;
+                        //randObject.GetComponent<Lightswitch_Script>().newQuaternion = randObject.transform.rotation;
                         randObject.GetComponent<Lightswitch_Script>().newName = newCommandText;
                         randObject.GetComponent<Lightswitch_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
@@ -327,20 +360,20 @@ public class Mastermind_Script : NetworkBehaviour {
                         shifterCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.05f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.05f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z + 0.05f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.05f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Shifter"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion + 180, yQuaternion + 90, zQuaternion)));
-                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
-                        randObject.transform.parent = playerControlDeck.transform;
+                        //NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
+                        randObject.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         //Update network variables
-                        randObject.GetComponent<Shifter_Script>().newQuaternion = randObject.transform.rotation;
+                        //randObject.GetComponent<Shifter_Script>().newQuaternion = randObject.transform.rotation;
                         randObject.GetComponent<Shifter_Script>().newName = newCommandText;
                         randObject.GetComponent<Shifter_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
@@ -352,20 +385,20 @@ public class Mastermind_Script : NetworkBehaviour {
                         sliderCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.05f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.05f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z + 0.05f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.05f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Slider"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion + 270, yQuaternion + 90, zQuaternion)));
-                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
-                        randObject.transform.parent = playerControlDeck.transform;
+                        //NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
+                        randObject.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         //Update network variables
-                        randObject.GetComponent<Slider_Script>().newQuaternion = randObject.transform.rotation;
+                        //randObject.GetComponent<Slider_Script>().newQuaternion = randObject.transform.rotation;
                         randObject.GetComponent<Slider_Script>().newName = newCommandText;
                         randObject.GetComponent<Slider_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
@@ -377,20 +410,20 @@ public class Mastermind_Script : NetworkBehaviour {
                         valveCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.096f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.096f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.096f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.096f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z + 0.096f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.096f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.096f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.096f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Valve"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion + 90)));
-                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
-                        randObject.transform.parent = playerControlDeck.transform;
+                        //NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
+                        randObject.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         //Update network variables
-                        randObject.GetComponent<Valve_Script>().newQuaternion = randObject.transform.rotation;
+                        //randObject.GetComponent<Valve_Script>().newQuaternion = randObject.transform.rotation;
                         randObject.GetComponent<Valve_Script>().newName = newCommandText;
                         randObject.GetComponent<Valve_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
@@ -402,20 +435,20 @@ public class Mastermind_Script : NetworkBehaviour {
                         wLeverCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.152f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.152f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.152f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.152f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z + 0.152f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.152f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.152f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.152f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/W_Lever"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
-                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
-                        randObject.transform.parent = playerControlDeck.transform;
+                        //NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
+                        randObject.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         //Update network variables
-                        randObject.GetComponent<W_Lever_Script>().newQuaternion = randObject.transform.rotation;
+                        //randObject.GetComponent<W_Lever_Script>().newQuaternion = randObject.transform.rotation;
                         randObject.GetComponent<W_Lever_Script>().newName = newCommandText;
                         randObject.GetComponent<W_Lever_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
@@ -427,27 +460,27 @@ public class Mastermind_Script : NetworkBehaviour {
                         buttonCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.09f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.09f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.09f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.09f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.3f + (0.3f * x), 0.3f + (0.4f * y), playerControlDeck.transform.position.z + 0.09f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.09f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.09f, 0.3f + (0.4f * y), playerControlDeck.transform.position.z - 0.3f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.09f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
                         randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
                             vector3,
                             Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
-                        NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
-                        randObject.transform.parent = playerControlDeck.transform;
+                        //NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
+                        randObject.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         //Update network variables
-                        randObject.GetComponent<Button_Script>().newQuaternion = randObject.transform.rotation;
+                        //randObject.GetComponent<Button_Script>().newQuaternion = randObject.transform.rotation;
                         randObject.GetComponent<Button_Script>().newName = newCommandText;
                         randObject.GetComponent<Button_Script>().rCommand = intRObjListSize + ((x * gridX) + y);
                         break;
                 }
 
                 //add randomObject to grid
-                outRObjList[intRObjListSize + ((x * gridX) + y)] = randObject;
+                outRObjList[intRObjListSize + ((x * gridY) + y)] = randObject;
             }
         }
 

@@ -114,6 +114,7 @@
      <Compile Include="Assets\Scripts\Test\Dial_Script_copy.cs" />
      <Compile Include="Assets\Scripts\Test\L_Lever_Script_copy.cs" />
      <Compile Include="Assets\Scripts\Test\Slider_Script_copy.cs" />
+     <Compile Include="Assets\Scripts\Test\Valve_Script_copy.cs" />
      <Compile Include="Assets\Scripts\Test\W_Lever_Script_copy.cs" />
      <Compile Include="Assets\Scripts\Valve_Script.cs" />
      <Compile Include="Assets\Scripts\W_Lever_Script.cs" />
