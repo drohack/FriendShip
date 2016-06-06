@@ -12,7 +12,7 @@ public class RecenterController : MonoBehaviour
 
     void Update()
     {
-        if (OVRInput.Get(OVRInput.Button.PrimaryThumbstick))
+        if (OVRInput.Get(OVRInput.Button.PrimaryThumbstick) || OVRInput.Get(OVRInput.Button.SecondaryThumbstick))
         {
             UnityEngine.VR.InputTracking.Recenter();
         }
