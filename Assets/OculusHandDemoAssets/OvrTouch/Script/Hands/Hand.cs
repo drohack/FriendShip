@@ -224,7 +224,7 @@ namespace OvrTouch.Hands {
                 // Overlap begin
                 grabbable.OverlapBegin(this);
 
-                if (m_wasGrabVolumeEnabled == m_grabVolumeEnabled) {
+                if (m_wasGrabVolumeEnabled == m_grabVolumeEnabled && m_trackedController != null) {
                     // Only play overlap haptics when there was no initial overlap (like after a grab release)
                     m_trackedController.PlayHapticEvent(
                         Const.HapticOverlapFrequency,
@@ -392,13 +392,17 @@ namespace OvrTouch.Hands {
                 // Disable grab volumes to prevent overlaps
                 GrabVolumeEnable(false);
 
-                // Only run if object GrabMode is "Drag"
+                // Only run if object GrabMode is "Drag" or "Rotate"
                 if (closestGrabbable.m_grabMode.Equals(Grabbable.GrabMode.Drag) || closestGrabbable.m_grabMode.Equals(Grabbable.GrabMode.Rotate))
                 {
                     // Set isKinematic to false so the hand doesn't bump into things
                     m_rigidbody.isKinematic = false;
-                    // If object is GrabMode "Drag" disable the hand geometry
+                    // disable the hand geometry
                     transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled = false;
+                    if (transform.parent != null && transform.parent.GetComponent<Player_NetworkSetup>() != null)
+                    {
+                        transform.parent.GetComponent<Player_NetworkSetup>().ToggleMeshRenderer(m_handedness, transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled);
+                    }
                 }
             }
 
@@ -420,6 +424,10 @@ namespace OvrTouch.Hands {
                 { 
                     // Enable hand geometry to pop back in
                     transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled = true;
+                    if (transform.parent != null && transform.parent.GetComponent<Player_NetworkSetup>() != null)
+                    {
+                        transform.parent.GetComponent<Player_NetworkSetup>().ToggleMeshRenderer(m_handedness, transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled);
+                    }
                     //set isKinematic to false so the hand doesn't bump into things
                     m_rigidbody.isKinematic = true;
                 }

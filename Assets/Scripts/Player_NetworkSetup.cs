@@ -4,17 +4,27 @@ using UnityEngine.Networking;
 using OvrTouch.Hands;
 using OvrTouch.Controllers;
 
-public class Player_NetworkSetup : NetworkBehaviour {
+public class Player_NetworkSetup : NetworkBehaviour
+{
 
-    [SerializeField] OVRCameraRig ovrCameraRig;
-    [SerializeField] Camera FPSCharacterCam;
-	[SerializeField] AudioListener audioListener;
-    [SerializeField] Hand handScriptL;
-    [SerializeField] VelocityTracker velocityTrackerL;
-    [SerializeField] Animator animatorL;
-    [SerializeField] Hand handScriptR;
-    [SerializeField] VelocityTracker velocityTrackerR;
-    [SerializeField] Animator animatorR;
+    [SerializeField]
+    OVRCameraRig ovrCameraRig;
+    [SerializeField]
+    Camera FPSCharacterCam;
+    [SerializeField]
+    AudioListener audioListener;
+    [SerializeField]
+    Hand handScriptL;
+    [SerializeField]
+    VelocityTracker velocityTrackerL;
+    [SerializeField]
+    Animator animatorL;
+    [SerializeField]
+    Hand handScriptR;
+    [SerializeField]
+    VelocityTracker velocityTrackerR;
+    [SerializeField]
+    Animator animatorR;
 
     private static class Const
     {
@@ -34,12 +44,12 @@ public class Player_NetworkSetup : NetworkBehaviour {
     private bool isPlayerThatSentCommand = false;
 
     // Use this for initialization
-    void Start () 
-	{
+    void Start()
+    {
         Debug.Log("In Player_NetworkSetup, isLocalPlayer: " + isLocalPlayer);
-		if (isLocalPlayer) 
-		{
-			GameObject.Find ("Main Camera").SetActive (false);
+        if (isLocalPlayer)
+        {
+            GameObject.Find("Main Camera").SetActive(false);
             // Add OVRManager
             transform.Find("OVRCameraRig").gameObject.AddComponent<OVRManager>();
             ovrCameraRig.enabled = true;
@@ -103,6 +113,34 @@ public class Player_NetworkSetup : NetworkBehaviour {
         else
         {
             isPlayerThatSentCommand = false;
+        }
+    }
+
+    public void ToggleMeshRenderer(HandednessId m_handedness, bool isEnabled)
+    {
+        isPlayerThatSentCommand = true;
+        CmdToggleMeshRenderer(m_handedness, isEnabled);
+    }
+
+    [Command]
+    public void CmdToggleMeshRenderer(HandednessId m_handedness, bool isEnabled)
+    {
+        RpcToggleMeshRenderer(m_handedness, isEnabled);
+    }
+
+    [ClientRpc]
+    public void RpcToggleMeshRenderer(HandednessId m_handedness, bool isEnabled)
+    {
+        if (!isPlayerThatSentCommand)
+        {
+            if (m_handedness.Equals(HandednessId.Left))
+            {
+                transform.Find("LeftHandPf").GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled = isEnabled;
+            }
+            else
+            {
+                transform.Find("RightHandPf").GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled = isEnabled;
+            }
         }
     }
 }

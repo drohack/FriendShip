@@ -111,7 +111,6 @@ public class W_Lever_Script : NetworkBehaviour
     [Command]
     void CmdSendTappedCommand(int sentRCommand, bool sentIsWLeverUp)
     {
-        Debug.Log("sentCommand: " + sentRCommand);
         isWLeverUp = sentIsWLeverUp;
         mastermindScript.TappedWaitForSecondsOrTap(sentRCommand);
     }

@@ -64,7 +64,7 @@ public class L_Lever_Script : NetworkBehaviour {
         }
         else
         {
-            if (handleTransform.localEulerAngles.y == 0 || handleTransform.localEulerAngles.y > 337.5)
+            if (handleTransform.localEulerAngles.y < 90 || handleTransform.localEulerAngles.y > 337.5)
             {
                 handleTransform.localPosition = new Vector3(0, 0, handleTransform.localPosition.z);
                 handleTransform.localEulerAngles = new Vector3(
