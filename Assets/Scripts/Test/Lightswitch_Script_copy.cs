@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.Networking;
 
-public class Lightswitch_Script : NetworkBehaviour {
+public class Lightswitch_Script_copy : MonoBehaviour {
 
     private Highlight_Handle_Top_Script handleScript;
     Animator anim;
@@ -10,14 +9,14 @@ public class Lightswitch_Script : NetworkBehaviour {
     private bool isAnimating = false;
     private bool isLocked = false;
 
-    Mastermind_Script mastermindScript;
+    //Mastermind_Script mastermindScript;
 
-    //Network variables
-    [SyncVar(hook = "UpdateQuaternion")]
-    public Quaternion newQuaternion;
-    [SyncVar(hook = "UpdateName")]
-    public string newName;
-    [SyncVar(hook = "UpdateRCommand")]
+    ////Network variables
+    //[SyncVar(hook = "UpdateQuaternion")]
+    //public Quaternion newQuaternion;
+    //[SyncVar(hook = "UpdateName")]
+    //public string newName;
+    //[SyncVar(hook = "UpdateRCommand")]
     public int rCommand = -1;
 
     private void UpdateQuaternion(Quaternion newQuaternion)
@@ -41,8 +40,8 @@ public class Lightswitch_Script : NetworkBehaviour {
         isLocked = false;
         anim = transform.Find("Handle").GetComponent<Animator>();
 
-        if(isServer)
-            mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
+        //if(isServer)
+        //    mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
 	
 	// Update is called once per frame
@@ -60,7 +59,7 @@ public class Lightswitch_Script : NetworkBehaviour {
                 isLightswitchOn = false;
                 //send tapped command to Mastermind
                 int rCommandUp = (rCommand * 100) + 1;
-                CmdSendTappedCommand(rCommandUp, isLightswitchOn);
+                //CmdSendTappedCommand(rCommandUp, isLightswitchOn);
                 StartCoroutine(WaitForAnimation(anim, "Lightswitch_Off_Anim"));
             }
             else
@@ -68,7 +67,7 @@ public class Lightswitch_Script : NetworkBehaviour {
                 isLightswitchOn = true;
                 //send tapped command to Mastermind
                 int rCommandDown = (rCommand * 100) + 2;
-                CmdSendTappedCommand(rCommandDown, isLightswitchOn);
+                //CmdSendTappedCommand(rCommandDown, isLightswitchOn);
                 StartCoroutine(WaitForAnimation(anim, "Lightswitch_On_Anim"));
             }
         }
@@ -86,10 +85,10 @@ public class Lightswitch_Script : NetworkBehaviour {
         isAnimating = false;
     }
 
-    [Command]
-    void CmdSendTappedCommand(int sentRCommand, bool sentIsLightswitchOn)
-    {
-        isLightswitchOn = sentIsLightswitchOn;
-        mastermindScript.TappedWaitForSecondsOrTap(sentRCommand);
-    }
+    //[Command]
+    //void CmdSendTappedCommand(int sentRCommand, bool sentIsLightswitchOn)
+    //{
+    //    isLightswitchOn = sentIsLightswitchOn;
+    //    mastermindScript.TappedWaitForSecondsOrTap(sentRCommand);
+    //}
 }
