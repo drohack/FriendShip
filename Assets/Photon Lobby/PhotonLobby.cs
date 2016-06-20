@@ -236,6 +236,8 @@ public class PhotonLobby : MonoBehaviour
                 PhotonNetwork.LoadLevel(SceneNameGame); //Start Game
             }
             GUILayout.EndHorizontal();
+
+            GUILayout.EndArea();
         }
     }
 
