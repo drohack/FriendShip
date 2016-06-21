@@ -30,4 +30,6 @@ MonoBehaviour:
   - PunPickupSimple
   - PunRespawn
   - RequestForPickupTimes
+  - RpcSendAnimation
+  - RpcToggleMeshRenderer
   DisableAutoOpenWizard: 1

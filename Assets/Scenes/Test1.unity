@@ -720,7 +720,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fea5e3a911fbbfa42ac6c85ea1e103bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 447772, guid: e7fd39ac9d9a4144a893f262d0d9f069, type: 2}
+  playerPrefab: {fileID: 438868, guid: e7fd39ac9d9a4144a893f262d0d9f069, type: 2}
   player1Spawn: {fileID: 592993266}
   player2Spawn: {fileID: 636014930}
   player3Spawn: {fileID: 1283454463}

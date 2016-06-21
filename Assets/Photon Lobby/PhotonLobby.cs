@@ -233,7 +233,6 @@ public class PhotonLobby : MonoBehaviour
 
             if (PhotonNetwork.isMasterClient && GUILayout.Button("Start Game"))
             {
-                PhotonNetwork.isMessageQueueRunning = false;
                 PhotonNetwork.LoadLevel(SceneNameGame); //Start Game
             }
             GUILayout.EndHorizontal();

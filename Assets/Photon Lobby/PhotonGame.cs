@@ -103,8 +103,6 @@ public class PhotonGame : Photon.MonoBehaviour
 
     void OnLevelWasLoaded(int level)
     {
-        PhotonNetwork.isMessageQueueRunning = true;
-
         //Find which position you're player is in
         int playerPosition = 1;
         foreach (PhotonPlayer player in PhotonNetwork.playerList)

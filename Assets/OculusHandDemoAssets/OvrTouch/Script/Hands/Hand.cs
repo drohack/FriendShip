@@ -315,10 +315,10 @@ namespace OvrTouch.Hands {
             float thumbsUp = canThumbsUp ? m_thumbsUp : 0.0f;
             m_animator.SetLayerWeight(m_animLayerIndexThumb, thumbsUp);
 
-            if(transform.parent != null && transform.parent.GetComponent<Player_NetworkSetup>() != null &&
+            if(transform.parent != null && transform.parent.GetComponent<PhotonNetworkOvrRig>() != null &&
                 (last_handPoseId != (int)handPoseId || last_m_flex != m_flex || last_canPoint != canPoint || last_m_point != m_point || last_canThumbsUp != canThumbsUp || last_m_thrumbsUp != m_thumbsUp))
             {
-                transform.parent.GetComponent<Player_NetworkSetup>().SendAnimation(m_handedness, (int)handPoseId, m_flex, canPoint, m_point, canThumbsUp, m_thumbsUp);
+                transform.parent.GetComponent<PhotonNetworkOvrRig>().SendAnimation(m_handedness, (int)handPoseId, m_flex, canPoint, m_point, canThumbsUp, m_thumbsUp);
             }
 
             last_handPoseId = (int)handPoseId;
@@ -399,9 +399,9 @@ namespace OvrTouch.Hands {
                     m_rigidbody.isKinematic = false;
                     // disable the hand geometry
                     transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled = false;
-                    if (transform.parent != null && transform.parent.GetComponent<Player_NetworkSetup>() != null)
+                    if (transform.parent != null && transform.parent.GetComponent<PhotonNetworkOvrRig>() != null)
                     {
-                        transform.parent.GetComponent<Player_NetworkSetup>().ToggleMeshRenderer(m_handedness, transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled);
+                        transform.parent.GetComponent<PhotonNetworkOvrRig>().ToggleMeshRenderer(m_handedness, transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled);
                     }
                 }
             }
@@ -424,9 +424,9 @@ namespace OvrTouch.Hands {
                 { 
                     // Enable hand geometry to pop back in
                     transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled = true;
-                    if (transform.parent != null && transform.parent.GetComponent<Player_NetworkSetup>() != null)
+                    if (transform.parent != null && transform.parent.GetComponent<PhotonNetworkOvrRig>() != null)
                     {
-                        transform.parent.GetComponent<Player_NetworkSetup>().ToggleMeshRenderer(m_handedness, transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled);
+                        transform.parent.GetComponent<PhotonNetworkOvrRig>().ToggleMeshRenderer(m_handedness, transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled);
                     }
                     //set isKinematic to false so the hand doesn't bump into things
                     m_rigidbody.isKinematic = true;
