@@ -442,7 +442,7 @@ PlayerSettings:
   stringPropertyNames:
   - Build_ServiceEnabled::Build_ServiceEnabled
   - UNet_ServiceEnabled::UNet_ServiceEnabled
-  Build_ServiceEnabled::Build_ServiceEnabled: True
+  Build_ServiceEnabled::Build_ServiceEnabled: False
   UNet_ServiceEnabled::UNet_ServiceEnabled: True
   cloudProjectId: 16b4bc9f-516c-456e-afec-31e1398da4f6
   projectName: Space Team Test

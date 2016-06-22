@@ -1,8 +1,7 @@
 using UnityEngine;
 using System.Collections;
-using UnityEngine.Networking;
 
-public class W_Lever_Script : NetworkBehaviour
+public class W_Lever_Script : Photon.MonoBehaviour
 {
 
     Transform handleTransform;
@@ -15,28 +14,22 @@ public class W_Lever_Script : NetworkBehaviour
     Mastermind_Script mastermindScript;
 
     //Network variables
-    [SyncVar(hook = "UpdateQuaternion")]
-    public Quaternion newQuaternion;
-    [SyncVar(hook = "UpdateName")]
+    [SerializeField]
+    Transform handle;
     public string newName;
-    [SyncVar(hook = "UpdateRCommand")]
     public int rCommand = -1;
 
-    private void UpdateQuaternion(Quaternion newQuaternion)
-    {
-        transform.rotation = newQuaternion;
-    }
-    private void UpdateName(string name)
-    {
-        transform.Find("Labels/Name").GetComponent<TextMesh>().text = name;
-    }
-    private void UpdateRCommand(int command)
-    {
-        rCommand = command;
-    }
-
+    // Use this for initialization
     void Start()
     {
+        //Load Network data
+        object[] data = photonView.instantiationData;
+        if (data != null)
+        {
+            newName = transform.Find("Labels/Name").GetComponent<TextMesh>().text = (string)data[0];
+            rCommand = (int)data[1];
+        }
+
         handleTransform = transform.Find("Handle");
         handleScript = handleTransform.GetComponent<Highlight_Handle_Top_Script>();
         isWLeverUp = true;
@@ -53,12 +46,38 @@ public class W_Lever_Script : NetworkBehaviour
         handleTransform.GetComponent<HingeJoint>().connectedBody = transform.Find("Case").GetComponent<Rigidbody>();
         handleJoint = handleTransform.GetComponent<HingeJoint>();
 
-        if (isServer)
+        if (PhotonNetwork.isMasterClient)
             mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
 
+    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            //We own this player: send the others our data
+            stream.SendNext(handle.position);
+            stream.SendNext(handle.rotation);
+        }
+        else
+        {
+            //Network player, receive data
+            handlePos = (Vector3)stream.ReceiveNext();
+            handleRot = (Quaternion)stream.ReceiveNext();
+        }
+    }
+
+    private Vector3 handlePos = Vector3.zero; //We lerp towards this
+    private Quaternion handleRot = Quaternion.identity; //We lerp towards this
+
     private void Update()
     {
+        if (!photonView.isMine)
+        {
+            //Update remote player (smooth this, this looks good, at the cost of some accuracy)
+            handle.position = Vector3.Lerp(handle.position, handlePos, Time.deltaTime * 20);
+            handle.rotation = Quaternion.Lerp(handle.rotation, handleRot, Time.deltaTime * 20);
+        }
+
         if (handleScript.isGrabbing)
         {
             isLocked = false;
@@ -79,7 +98,7 @@ public class W_Lever_Script : NetworkBehaviour
                 {
                     //send command tapped to the Server with the lLeverUpCommand
                     int rCommandUp = (rCommand * 100) + 2;
-                    CmdSendTappedCommand(rCommandUp, isWLeverUp);
+                    photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandUp, isWLeverUp);
                     //Lever changed positions
                     isWLeverUp = true;
                     isLocked = true;
@@ -99,7 +118,7 @@ public class W_Lever_Script : NetworkBehaviour
                 {
                     //send command tapped to the Server with the lLeverDownCommand
                     int rCommandDown = (rCommand * 100) + 1;
-                    CmdSendTappedCommand(rCommandDown, isWLeverUp);
+                    photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandDown, isWLeverUp);
                     //Lever changed positions
                     isWLeverUp = false;
                     isLocked = true;
@@ -108,7 +127,7 @@ public class W_Lever_Script : NetworkBehaviour
         }
     }
 
-    [Command]
+    [PunRPC]
     void CmdSendTappedCommand(int sentRCommand, bool sentIsWLeverUp)
     {
         isWLeverUp = sentIsWLeverUp;

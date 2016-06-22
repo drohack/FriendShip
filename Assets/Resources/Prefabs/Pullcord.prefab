@@ -25,10 +25,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 472372}
-  - 114: {fileID: 11421508}
-  - 114: {fileID: 11480420}
-  - 114: {fileID: 11477132}
   - 114: {fileID: 11484364}
+  - 114: {fileID: 11442510}
   m_Layer: 0
   m_Name: Pullcord
   m_TagString: Untagged
@@ -243,7 +241,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071067}
   m_LocalPosition: {x: 0.52, y: 0, z: -0.137}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
   m_Children:
   - {fileID: 407410}
   - {fileID: 419184}
@@ -455,7 +453,7 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4278190080
---- !u!114 &11421508
+--- !u!114 &11442510
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -463,30 +461,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 134060}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 105
-    i1: 44
-    i2: 59
-    i3: 214
-    i4: 80
-    i5: 170
-    i6: 104
-    i7: 212
-    i8: 168
-    i9: 100
-    i10: 131
-    i11: 52
-    i12: 8
-    i13: 33
-    i14: 215
-    i15: 236
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 1
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 11484364}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  isRuntimeInstantiated: 0
 --- !u!114 &11462782
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -519,45 +510,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 6540730}
     m_grabOverride: {fileID: 419184}
---- !u!114 &11477132
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 134060}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1267208747, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Target: {fileID: 419184}
-  m_ChildIndex: 0
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_MovementThreshold: 0.001
-  m_InterpolateRotation: 0.5
-  m_InterpolateMovement: 0.5
---- !u!114 &11480420
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 134060}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &11484364
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -569,7 +521,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a56a7fb8c647914089e8802c4a4fd57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newQuaternion: {x: 0, y: 0, z: 0, w: 0}
+  handle: {fileID: 419184}
   newName: 
   rCommand: -1
 --- !u!1001 &100100000

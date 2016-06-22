@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.Networking;
 
-public class Slider_Script : NetworkBehaviour {
+public class Slider_Script : Photon.MonoBehaviour
+{
 
     Transform handleTransform;
     private Highlight_Handle_Top_Script handleScript;
@@ -13,28 +13,22 @@ public class Slider_Script : NetworkBehaviour {
     Mastermind_Script mastermindScript;
 
     //Network variables
-    [SyncVar(hook = "UpdateQuaternion")]
-    public Quaternion newQuaternion;
-    [SyncVar(hook = "UpdateName")]
+    [SerializeField]
+    Transform handle;
     public string newName;
-    [SyncVar(hook = "UpdateRCommand")]
     public int rCommand = -1;
 
-    private void UpdateQuaternion(Quaternion newQuaternion)
-    {
-        transform.rotation = newQuaternion;
-    }
-    private void UpdateName(string name)
-    {
-        transform.Find("Labels/Name").GetComponent<TextMesh>().text = name;
-    }
-    private void UpdateRCommand(int command)
-    {
-        rCommand = command;
-    }
-
+    // Use this for initialization
     void Start()
     {
+        //Load Network data
+        object[] data = photonView.instantiationData;
+        if (data != null)
+        {
+            newName = transform.Find("Labels/Name").GetComponent<TextMesh>().text = (string)data[0];
+            rCommand = (int)data[1];
+        }
+
         handleTransform = transform.Find("Handle");
         handleScript = handleTransform.GetComponent<Highlight_Handle_Top_Script>();
 
@@ -57,12 +51,38 @@ public class Slider_Script : NetworkBehaviour {
         sliderPosition = 0;
         isLocked = true;
 
-        if (isServer)
+        if (PhotonNetwork.isMasterClient)
             mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
 
+    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            //We own this player: send the others our data
+            stream.SendNext(handle.position);
+            stream.SendNext(handle.rotation);
+        }
+        else
+        {
+            //Network player, receive data
+            handlePos = (Vector3)stream.ReceiveNext();
+            handleRot = (Quaternion)stream.ReceiveNext();
+        }
+    }
+
+    private Vector3 handlePos = Vector3.zero; //We lerp towards this
+    private Quaternion handleRot = Quaternion.identity; //We lerp towards this
+
     private void Update()
     {
+        if (!photonView.isMine)
+        {
+            //Update remote player (smooth this, this looks good, at the cost of some accuracy)
+            handle.position = Vector3.Lerp(handle.position, handlePos, Time.deltaTime * 20);
+            handle.rotation = Quaternion.Lerp(handle.rotation, handleRot, Time.deltaTime * 20);
+        }
+
         if (handleScript.isGrabbing)
         {
             isLocked = false;
@@ -81,7 +101,7 @@ public class Slider_Script : NetworkBehaviour {
                     sliderPosition = 3;
                     //send command tapped to the Server
                     int rCommandThree = (rCommand * 100) + 3;
-                    CmdSendTappedCommand(rCommandThree, sliderPosition);
+                    photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandThree, sliderPosition);
                 }
             }
             else if (handleTransform.localPosition.z > 0 && handleTransform.localPosition.z < 1.066)
@@ -95,7 +115,7 @@ public class Slider_Script : NetworkBehaviour {
                     sliderPosition = 2;
                     //send command tapped to the Server
                     int rCommandTwo = (rCommand * 100) + 2;
-                    CmdSendTappedCommand(rCommandTwo, sliderPosition);
+                    photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandTwo, sliderPosition);
                 }
             }
             else if (handleTransform.localPosition.z > -1.066 && handleTransform.localPosition.z < 0)
@@ -109,7 +129,7 @@ public class Slider_Script : NetworkBehaviour {
                     sliderPosition = 1;
                     //send command tapped to the Server
                     int rCommandOne = (rCommand * 100) + 1;
-                    CmdSendTappedCommand(rCommandOne, sliderPosition);
+                    photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandOne, sliderPosition);
                 }
             }
             else if (handleTransform.localPosition.z < -1.066)
@@ -123,13 +143,13 @@ public class Slider_Script : NetworkBehaviour {
                     sliderPosition = 0;
                     //send command tapped to the Server
                     int rCommandZero = (rCommand * 100) + 0;
-                    CmdSendTappedCommand(rCommandZero, sliderPosition);
+                    photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandZero, sliderPosition);
                 }
             }
         }
     }
 
-    [Command]
+    [PunRPC]
     void CmdSendTappedCommand(int sentRCommand, int sentSliderPosition)
     {
         sliderPosition = sentSliderPosition;

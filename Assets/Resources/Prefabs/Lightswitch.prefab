@@ -8,10 +8,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 423674}
-  - 114: {fileID: 11452150}
-  - 114: {fileID: 11499464}
-  - 114: {fileID: 11407738}
   - 114: {fileID: 11458644}
+  - 114: {fileID: 11445640}
   m_Layer: 0
   m_Name: Lightswitch
   m_TagString: Untagged
@@ -234,7 +232,7 @@ Transform:
   m_LocalRotation: {x: 0.49999994, y: 0.49999985, z: -0.50000024, w: -0.5000001}
   m_LocalPosition: {x: -0.11, y: 0, z: -0.004}
   m_LocalScale: {x: 0.15, y: 0.1, z: 0.15}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 90}
   m_Children:
   - {fileID: 440362}
   - {fileID: 406658}
@@ -579,25 +577,6 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4278190080
---- !u!114 &11407738
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 107122}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1267208747, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Target: {fileID: 452446}
-  m_ChildIndex: 0
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_MovementThreshold: 0.001
-  m_InterpolateRotation: 0.5
-  m_InterpolateMovement: 0.5
 --- !u!114 &11419840
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -630,7 +609,7 @@ MonoBehaviour:
     i15: 23
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
---- !u!114 &11452150
+--- !u!114 &11445640
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -638,30 +617,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 107122}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 15
-    i1: 76
-    i2: 113
-    i3: 185
-    i4: 212
-    i5: 62
-    i6: 162
-    i7: 100
-    i8: 185
-    i9: 20
-    i10: 140
-    i11: 15
-    i12: 144
-    i13: 195
-    i14: 74
-    i15: 23
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 1
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 11458644}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  isRuntimeInstantiated: 0
 --- !u!114 &11458644
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -674,7 +646,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isLightswitchOn: 0
-  newQuaternion: {x: 0, y: 0, z: 0, w: 0}
+  handle: {fileID: 452446}
   newName: 
   rCommand: -1
 --- !u!114 &11474720
@@ -710,26 +682,6 @@ MonoBehaviour:
   param3: 
   param4: 
   param5: 
---- !u!114 &11499464
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 107122}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

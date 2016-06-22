@@ -5,7 +5,8 @@ using OvrTouch.Controllers;
 
 public class PhotonNetworkOvrRig : Photon.MonoBehaviour
 {
-
+    [SerializeField]
+    Transform ovrCameraRig;
     [SerializeField]
     Transform centerEyeAnchor;
     [SerializeField]
@@ -15,6 +16,10 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
     [SerializeField]
     VelocityTracker velocityTrackerL;
     [SerializeField]
+    GameObject l_hand_world;
+    [SerializeField]
+    GameObject GrabVolumeBigL;
+    [SerializeField]
     Animator animatorL;
     [SerializeField]
     Transform RightHandPf;
@@ -22,6 +27,10 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
     Hand handScriptR;
     [SerializeField]
     VelocityTracker velocityTrackerR;
+    [SerializeField]
+    GameObject r_hand_world;
+    [SerializeField]
+    GameObject GrabVolumeBigR;
     [SerializeField]
     Animator animatorR;
 
@@ -39,6 +48,26 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
     private int m_animLayerIndexPointR = -1;
     private int m_animParamIndexFlex = -1;
     private int m_animParamIndexPose = -1;
+
+    void Awake()
+    {
+        if (photonView.isMine)
+        {
+            // Enable your own camera and scripts
+            ovrCameraRig.gameObject.AddComponent<OVRManager>();
+            ovrCameraRig.GetComponent<OVRCameraRig>().enabled = true;
+            centerEyeAnchor.GetComponent<Camera>().enabled = true;
+            centerEyeAnchor.GetComponent<AudioListener>().enabled = true;
+            handScriptL.enabled = true;
+            velocityTrackerL.enabled = true;
+            l_hand_world.SetActive(true);
+            GrabVolumeBigL.SetActive(true);
+            handScriptR.enabled = true;
+            velocityTrackerR.enabled = true;
+            r_hand_world.SetActive(true);
+            GrabVolumeBigR.SetActive(true);
+        }
+    }
 
     void Start()
     {
@@ -61,6 +90,20 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
             stream.SendNext(LeftHandPf.rotation);
             stream.SendNext(RightHandPf.position);
             stream.SendNext(RightHandPf.rotation);
+            stream.SendNext((int)handScriptL.m_handedness);
+            stream.SendNext((int)handScriptL.handPoseId);
+            stream.SendNext(handScriptL.m_flex);
+            stream.SendNext(handScriptL.canPoint);
+            stream.SendNext(handScriptL.m_point);
+            stream.SendNext(handScriptL.canThumbsUp);
+            stream.SendNext(handScriptL.m_thumbsUp);
+            stream.SendNext((int)handScriptR.m_handedness);
+            stream.SendNext((int)handScriptR.handPoseId);
+            stream.SendNext(handScriptR.m_flex);
+            stream.SendNext(handScriptR.canPoint);
+            stream.SendNext(handScriptR.m_point);
+            stream.SendNext(handScriptR.canThumbsUp);
+            stream.SendNext(handScriptR.m_thumbsUp);
         }
         else
         {
@@ -71,6 +114,20 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
             LeftHandPfRot = (Quaternion)stream.ReceiveNext();
             RightHandPfPos = (Vector3)stream.ReceiveNext();
             RightHandPfRot = (Quaternion)stream.ReceiveNext();
+            m_handednessL = (HandednessId)stream.ReceiveNext();
+            handPoseIdL = (HandPoseId)stream.ReceiveNext();
+            m_flexL = (float)stream.ReceiveNext();
+            canPointL = (bool)stream.ReceiveNext();
+            m_pointL = (float)stream.ReceiveNext();
+            canThumbsUpL = (bool)stream.ReceiveNext();
+            m_thumbsUpL = (float)stream.ReceiveNext();
+            m_handednessR = (HandednessId)stream.ReceiveNext();
+            handPoseIdR = (HandPoseId)stream.ReceiveNext();
+            m_flexR = (float)stream.ReceiveNext();
+            canPointR = (bool)stream.ReceiveNext();
+            m_pointR = (float)stream.ReceiveNext();
+            canThumbsUpR = (bool)stream.ReceiveNext();
+            m_thumbsUpR = (float)stream.ReceiveNext();
         }
     }
 
@@ -80,6 +137,21 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
     private Quaternion LeftHandPfRot = Quaternion.identity; //We lerp towards this
     private Vector3 RightHandPfPos = Vector3.zero; //We lerp towards this
     private Quaternion RightHandPfRot = Quaternion.identity; //We lerp towards this
+    //Animation variables to pass
+    private HandednessId m_handednessL = HandednessId.Left;
+    private HandPoseId handPoseIdL = HandPoseId.Default;
+    private float m_flexL = 0.0f;
+    private bool canPointL = true;
+    private float m_pointL = 0.0f;
+    private bool canThumbsUpL = true;
+    private float m_thumbsUpL = 0.0f;
+    private HandednessId m_handednessR = HandednessId.Left;
+    private HandPoseId handPoseIdR = HandPoseId.Default;
+    private float m_flexR = 0.0f;
+    private bool canPointR = true;
+    private float m_pointR = 0.0f;
+    private bool canThumbsUpR = true;
+    private float m_thumbsUpR = 0.0f;
 
     void Update()
     {
@@ -92,16 +164,12 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
             LeftHandPf.rotation = Quaternion.Lerp(LeftHandPf.rotation, LeftHandPfRot, Time.deltaTime * 20);
             RightHandPf.position = Vector3.Lerp(RightHandPf.position, RightHandPfPos, Time.deltaTime * 20);
             RightHandPf.rotation = Quaternion.Lerp(RightHandPf.rotation, RightHandPfRot, Time.deltaTime * 20);
+            UpdateHandAnimation(m_handednessL, handPoseIdL, m_flexL, canPointL, m_pointL, canThumbsUpL, m_thumbsUpL);
+            UpdateHandAnimation(m_handednessR, handPoseIdR, m_flexR, canPointR, m_pointR, canThumbsUpR, m_thumbsUpR);
         }
     }
 
-    public void SendAnimation(HandednessId m_handedness, int handPoseId, float m_flex, bool canPoint, float m_point, bool canThumbsUp, float m_thumbsUp)
-    {
-        photonView.RPC("RpcSendAnimation", PhotonTargets.Others, m_handedness, handPoseId, m_flex, canPoint, m_point, canThumbsUp, m_thumbsUp);
-    }
-
-    [PunRPC]
-    public void RpcSendAnimation(HandednessId m_handedness, int handPoseId, float m_flex, bool canPoint, float m_point, bool canThumbsUp, float m_thumbsUp)
+    public void UpdateHandAnimation(HandednessId m_handedness, HandPoseId handPoseId, float m_flex, bool canPoint, float m_point, bool canThumbsUp, float m_thumbsUp)
     {
         Animator m_animator = animatorL;
         int m_animLayerIndexPoint = m_animLayerIndexPointL;
@@ -114,17 +182,17 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
         }
 
         // Pose
-        m_animator.SetInteger(m_animParamIndexPose, handPoseId);
+        m_animator.SetInteger(m_animParamIndexPose, (int)handPoseId);
 
         // Flex
-        m_animator.SetFloat(m_animParamIndexFlex, m_flex);
+        m_animator.SetFloat(m_animParamIndexFlex, Mathf.Lerp(m_animator.GetFloat(m_animParamIndexFlex), m_flex, Time.deltaTime * 20));
 
         // Point
-        float point = canPoint ? m_point : 0.0f;
+        float point = canPoint ? Mathf.Lerp(m_animator.GetLayerWeight(m_animLayerIndexPoint), m_point, Time.deltaTime * 20) : 0.0f;
         m_animator.SetLayerWeight(m_animLayerIndexPoint, point);
 
         // Thumbs up
-        float thumbsUp = canThumbsUp ? m_thumbsUp : 0.0f;
+        float thumbsUp = canThumbsUp ? Mathf.Lerp(m_animator.GetLayerWeight(m_animLayerIndexThumb), m_thumbsUp, Time.deltaTime * 20) : 0.0f;
         m_animator.SetLayerWeight(m_animLayerIndexThumb, thumbsUp);
     }
 

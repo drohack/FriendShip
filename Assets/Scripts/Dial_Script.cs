@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.Networking;
 
-public class Dial_Script : NetworkBehaviour {
+public class Dial_Script : Photon.MonoBehaviour
+{
 
     Transform handleTransform;
     private Highlight_Handle_Top_Script handleScript;
@@ -13,28 +13,22 @@ public class Dial_Script : NetworkBehaviour {
     Mastermind_Script mastermindScript;
 
     //Network variables
-    [SyncVar(hook = "UpdateQuaternion")]
-    public Quaternion newQuaternion;
-    [SyncVar(hook = "UpdateName")]
+    [SerializeField]
+    Transform handle;
     public string newName;
-    [SyncVar(hook = "UpdateRCommand")]
     public int rCommand = -1;
 
-    private void UpdateQuaternion(Quaternion newQuaternion)
-    {
-        transform.rotation = newQuaternion;
-    }
-    private void UpdateName(string name)
-    {
-        transform.Find("Labels/Name").GetComponent<TextMesh>().text = name;
-    }
-    private void UpdateRCommand(int command)
-    {
-        rCommand = command;
-    }
-
+    // Use this for initialization
     void Start()
     {
+        //Load Network data
+        object[] data = photonView.instantiationData;
+        if (data != null)
+        {
+            newName = transform.Find("Labels/Name").GetComponent<TextMesh>().text = (string)data[0];
+            rCommand = (int)data[1];
+        }
+
         handleTransform = transform.Find("Handle");
         handleScript = handleTransform.GetComponent<Highlight_Handle_Top_Script>();
         dialPosition = 0;
@@ -51,12 +45,38 @@ public class Dial_Script : NetworkBehaviour {
 
         handleTransform.localEulerAngles = new Vector3(0, 0, 0);
 
-        if (isServer)
+        if (PhotonNetwork.isMasterClient)
             mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
 
+    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            //We own this player: send the others our data
+            stream.SendNext(handle.position);
+            stream.SendNext(handle.rotation);
+        }
+        else
+        {
+            //Network player, receive data
+            handlePos = (Vector3)stream.ReceiveNext();
+            handleRot = (Quaternion)stream.ReceiveNext();
+        }
+    }
+
+    private Vector3 handlePos = Vector3.zero; //We lerp towards this
+    private Quaternion handleRot = Quaternion.identity; //We lerp towards this
+
     private void Update()
     {
+        if (!photonView.isMine)
+        {
+            //Update remote player (smooth this, this looks good, at the cost of some accuracy)
+            handle.position = Vector3.Lerp(handle.position, handlePos, Time.deltaTime * 20);
+            handle.rotation = Quaternion.Lerp(handle.rotation, handleRot, Time.deltaTime * 20);
+        }
+
         handleTransform.localPosition = new Vector3(0, 0, 0);
 
         if(handleScript.isGrabbing)
@@ -78,7 +98,7 @@ public class Dial_Script : NetworkBehaviour {
                     dialPosition = 5;
                     //send command tapped to the Server
                     int rCommandFive = (rCommand * 100) + 5;
-                    CmdSendTappedCommand(rCommandFive, dialPosition);
+                    photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandFive, dialPosition);
                 }
             }
             else if (handleTransform.localEulerAngles.y > 126 && handleTransform.localEulerAngles.y < 162)
@@ -92,7 +112,7 @@ public class Dial_Script : NetworkBehaviour {
                     dialPosition = 4;
                     //send command tapped to the Server
                     int rCommandFour = (rCommand * 100) + 4;
-                    CmdSendTappedCommand(rCommandFour, dialPosition);
+                    photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandFour, dialPosition);
                 }
             }
             else if (handleTransform.localEulerAngles.y > 90 && handleTransform.localEulerAngles.y < 126)
@@ -106,7 +126,7 @@ public class Dial_Script : NetworkBehaviour {
                     dialPosition = 3;
                     //send command tapped to the Server
                     int rCommandThree = (rCommand * 100) + 3;
-                    CmdSendTappedCommand(rCommandThree, dialPosition);
+                    photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandThree, dialPosition);
                 }
             }
             else if (handleTransform.localEulerAngles.y > 54 && handleTransform.localEulerAngles.y < 90)
@@ -120,7 +140,7 @@ public class Dial_Script : NetworkBehaviour {
                     dialPosition = 2;
                     //send command tapped to the Server
                     int rCommandTwo = (rCommand * 100) + 2;
-                    CmdSendTappedCommand(rCommandTwo, dialPosition);
+                    photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandTwo, dialPosition);
                 }
             }
             else if (handleTransform.localEulerAngles.y > 18 && handleTransform.localEulerAngles.y < 54)
@@ -134,7 +154,7 @@ public class Dial_Script : NetworkBehaviour {
                     dialPosition = 1;
                     //send command tapped to the Server
                     int rCommandOne = (rCommand * 100) + 1;
-                    CmdSendTappedCommand(rCommandOne, dialPosition);
+                    photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandOne, dialPosition);
                 }
             }
             else if (handleTransform.localEulerAngles.y < 18)
@@ -148,13 +168,13 @@ public class Dial_Script : NetworkBehaviour {
                     dialPosition = 0;
                     //send command tapped to the Server
                     int rCommandZero = (rCommand * 100) + 0;
-                    CmdSendTappedCommand(rCommandZero, dialPosition);
+                    photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandZero, dialPosition);
                 }
             }
         }
     }
 
-    [Command]
+    [PunRPC]
     void CmdSendTappedCommand(int sentRCommand, int sentDialPosition)
     {
         dialPosition = sentDialPosition;

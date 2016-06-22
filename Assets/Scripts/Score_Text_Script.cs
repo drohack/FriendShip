@@ -1,16 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.Networking;
 
-public class Score_Text_Script : NetworkBehaviour {
-
-    [SyncVar(hook = "ScoreUp")]
-    public int scoreUp;
-    [SyncVar(hook = "ScoreDown")]
-    public int scoreDown;
-    [SyncVar(hook = "Win")]
-    public bool hasWon;
-
+public class Score_Text_Script : Photon.MonoBehaviour
+{
+    [PunRPC]
     public void Win(bool hasWon)
     {
         GetComponent<MeshRenderer>().material.color = Color.green;
@@ -18,12 +11,14 @@ public class Score_Text_Script : NetworkBehaviour {
         GetComponent<TextMesh>().color = Color.green;
     }
 
+    [PunRPC]
     public void ScoreUp (int score)
     {
         GetComponent<TextMesh>().text = "Score = " + score;
         GetComponent<MeshRenderer>().material.color = Color.black;
     }
 
+    [PunRPC]
     public void ScoreDown(int score)
     {
         GetComponent<TextMesh>().text = "Score = " + score;

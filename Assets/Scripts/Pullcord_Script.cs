@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.Networking;
 
-public class Pullcord_Script : NetworkBehaviour {
+public class Pullcord_Script : Photon.MonoBehaviour
+{
 
     Transform handleTransform;
     private Highlight_Handle_Top_Script handleScript;
@@ -13,28 +13,22 @@ public class Pullcord_Script : NetworkBehaviour {
     Mastermind_Script mastermindScript;
 
     //Network variables
-    [SyncVar(hook = "UpdateQuaternion")]
-    public Quaternion newQuaternion;
-    [SyncVar(hook = "UpdateName")]
+    [SerializeField]
+    Transform handle;
     public string newName;
-    [SyncVar(hook = "UpdateRCommand")]
     public int rCommand = -1;
 
-    private void UpdateQuaternion(Quaternion newQuaternion)
-    {
-        transform.rotation = newQuaternion;
-    }
-    private void UpdateName(string name)
-    {
-        transform.Find("Labels/Name").GetComponent<TextMesh>().text = name;
-    }
-    private void UpdateRCommand(int command)
-    {
-        rCommand = command;
-    }
-
+    // Use this for initialization
     void Start()
     {
+        //Load Network data
+        object[] data = photonView.instantiationData;
+        if (data != null)
+        {
+            newName = transform.Find("Labels/Name").GetComponent<TextMesh>().text = (string)data[0];
+            rCommand = (int)data[1];
+        }
+
         handleTransform = transform.Find("Handle");
         handleScript = handleTransform.GetComponent<Highlight_Handle_Top_Script>();
         
@@ -54,18 +48,44 @@ public class Pullcord_Script : NetworkBehaviour {
         handleTransform.GetComponent<ConfigurableJoint>().linearLimit = softJointLimit;
         handleJoint = handleTransform.GetComponent<ConfigurableJoint>();
 
-        if (isServer)
+        if (PhotonNetwork.isMasterClient)
             mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
 
+    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            //We own this player: send the others our data
+            stream.SendNext(handle.position);
+            stream.SendNext(handle.rotation);
+        }
+        else
+        {
+            //Network player, receive data
+            handlePos = (Vector3)stream.ReceiveNext();
+            handleRot = (Quaternion)stream.ReceiveNext();
+        }
+    }
+
+    private Vector3 handlePos = Vector3.zero; //We lerp towards this
+    private Quaternion handleRot = Quaternion.identity; //We lerp towards this
+
     private void Update()
     {
+        if (!photonView.isMine)
+        {
+            //Update remote player (smooth this, this looks good, at the cost of some accuracy)
+            handle.position = Vector3.Lerp(handle.position, handlePos, Time.deltaTime * 20);
+            handle.rotation = Quaternion.Lerp(handle.rotation, handleRot, Time.deltaTime * 20);
+        }
+
         // If you are holding the handle and it is all the way down send the tapped command once
         if (handleScript.isGrabbing && handleTransform.localPosition.y <= -handleJoint.linearLimit.limit && !isDown)
         {
             isDown = true;
             //send command tapped to the Server
-            CmdSendTappedCommand(rCommand, isDown);
+            photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommand, isDown);
         }
 
         // If not holding the handle and it's at the maximum, set handle just above maximum so it bounces back to the center (it locks at maximum)
@@ -76,7 +96,7 @@ public class Pullcord_Script : NetworkBehaviour {
         }
     }
 
-    [Command]
+    [PunRPC]
     void CmdSendTappedCommand(int sentRCommand, bool sentIsDown)
     {
         isDown = sentIsDown;

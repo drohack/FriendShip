@@ -17,6 +17,9 @@ public class PhotonGame : Photon.MonoBehaviour
     public Transform player3Spawn;
     public Transform player4Spawn;
 
+    [SerializeField]
+    GameObject mastermind;
+
     public void Awake()
     {
         // in case we started this demo with the wrong scene being active, simply load the menu scene
@@ -132,15 +135,12 @@ public class PhotonGame : Photon.MonoBehaviour
         // Don't destroy the object when another client loads in
         DontDestroyOnLoad(ovrRigPhoton.gameObject);
 
-        // Enable your own camera and scripts
+        // Set your name
         ovrRigPhoton.name = ovrRigPhoton.name + "-" + PhotonNetwork.playerName;
-        ovrRigPhoton.Find("OVRCameraRig").gameObject.AddComponent<OVRManager>();
-        ovrRigPhoton.Find("OVRCameraRig").GetComponent<OVRCameraRig>().enabled = true;
-        ovrRigPhoton.Find("OVRCameraRig/TrackingSpace/CenterEyeAnchor").GetComponent<Camera>().enabled = true;
-        ovrRigPhoton.Find("OVRCameraRig/TrackingSpace/CenterEyeAnchor").GetComponent<AudioListener>().enabled = true;
-        ovrRigPhoton.Find("LeftHandPf").GetComponent<Hand>().enabled = true;
-        ovrRigPhoton.Find("LeftHandPf").GetComponent<VelocityTracker>().enabled = true;
-        ovrRigPhoton.Find("RightHandPf").GetComponent<Hand>().enabled = true;
-        ovrRigPhoton.Find("RightHandPf").GetComponent<VelocityTracker>().enabled = true;
+
+        if (PhotonNetwork.isMasterClient)
+        {
+            mastermind.SetActive(true);
+        }
     }
 }

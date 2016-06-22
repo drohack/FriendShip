@@ -16,12 +16,31 @@ MonoBehaviour:
   ServerAddress: 
   ServerPort: 5055
   AppID: 9c9b72ec-e542-4aa4-a23a-7082180dfe9a
-  PreferredRegion: 0
+  PreferredRegion: 1
   EnabledRegions: -1
   JoinLobby: 1
   EnableLobbyStatistics: 0
   RpcList:
+  - 43686174
+  - 44657374726f79527063
+  - 496e7374616e7469617465527063
+  - 4f6e4177616b65525043
+  - 5069636b75704974656d496e6974
+  - 50756e5069636b7570
+  - 50756e5069636b757053696d706c65
+  - 50756e5265737061776e
+  - 52657175657374466f725069636b757054696d6573
+  - 52706353656e64416e696d6174696f6e
+  - 527063546f67676c654d65736852656e6465726572
+  - 5270635479706554657874
+  - 53636f7265446f776e
+  - 53636f72655570
+  - 57696e
+  - 436d6453656e64546170706564436f6d6d616e64
+  - 436f6c6f72527063
   - Chat
+  - CmdSendTappedCommand
+  - ColorRpc
   - DestroyRpc
   - InstantiateRpc
   - OnAwakeRPC
@@ -30,6 +49,9 @@ MonoBehaviour:
   - PunPickupSimple
   - PunRespawn
   - RequestForPickupTimes
-  - RpcSendAnimation
   - RpcToggleMeshRenderer
+  - RpcTypeText
+  - ScoreDown
+  - ScoreUp
+  - Win
   DisableAutoOpenWizard: 1

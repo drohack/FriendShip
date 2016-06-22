@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using UnityEngine.Networking;
 
-public class Console_Text_Script : NetworkBehaviour {
+public class Console_Text_Script : Photon.MonoBehaviour
+{
 
     private TextMesh textMesh;
     public bool isTyping = false;
@@ -15,7 +15,7 @@ public class Console_Text_Script : NetworkBehaviour {
         textMesh.text = "";
     }
 
-    [ClientRpc]
+    [PunRPC]
     public void RpcTypeText(string message)
     {
         StartCoroutine(TypeText(message));

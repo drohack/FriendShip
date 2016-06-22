@@ -29,6 +29,27 @@ public class Highlight_Handle_Top_Script : MonoBehaviour {
         isColliding = true;
         numColliding++;
         topRenderer.material.color = highlightColor;
+
+        PhotonView photonView = null;
+        if(GetComponent<PhotonView>() != null)
+        {
+            photonView = GetComponent<PhotonView>();
+        }
+        else if (transform.parent != null && transform.parent.GetComponent<PhotonView>() != null)
+        {
+            photonView = transform.parent.GetComponent<PhotonView>();
+        }
+
+        if(photonView != null)
+        {
+            if (photonView.ownerId == PhotonNetwork.player.ID)
+            {
+                Debug.Log("Not requesting ownership. Already mine.");
+            }
+            else {
+                photonView.RequestOwnership();
+            }
+        }
     }
     void OnTriggerExit(Collider col)
     {

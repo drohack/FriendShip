@@ -1,8 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.Networking;
 
-public class Mastermind_Script : NetworkBehaviour {
+public class Mastermind_Script : Photon.MonoBehaviour
+{
+    public class rObjectType
+    {
+        public GameObject rObject;
+        public object[] data;
+    }
 
     /** SINGLE VARIABLES **/
     private         int numPlayers = 0;
@@ -26,10 +31,10 @@ public class Mastermind_Script : NetworkBehaviour {
     private ArrayList sliderCommandArray;
     private ArrayList valveCommandArray;
     private ArrayList wLeverCommandArray;
-    private GameObject[] rObjList; // The list of all random game objects get placed in current round
+    private rObjectType[] rObjList; // The list of all random game objects get placed in current round
     private bool  isTapped = false; // Variables for the custom WaitForSeconds function
     private int numFufilled = 0;
-    private NetworkLobbyPlayer[] players;
+    private PhotonPlayer[] players;
 
     // Player Objects
     GameObject          p1_PlayerControlDeck;
@@ -80,7 +85,7 @@ public class Mastermind_Script : NetworkBehaviour {
     // Use this for initialization
     void Start () {
         //Get number of players by the NetwokManager.numPlayers
-        numPlayers = GameObject.FindGameObjectWithTag("NetworkLobbyManager").GetComponent<NetworkManager>().numPlayers;
+        numPlayers = PhotonNetwork.playerList.Length;
         Debug.Log("numPlayers: " + numPlayers);
 
         StartCoroutine(WaitForPlayersToSpawn());
@@ -114,9 +119,9 @@ public class Mastermind_Script : NetworkBehaviour {
         score = 0;
         
         //Find all Player Objects
-        players = GameObject.FindGameObjectWithTag("NetworkLobbyManager").GetComponent<NetworkLobbyManager>().lobbySlots;
+        players = PhotonNetwork.playerList;
         
-        foreach (NetworkLobbyPlayer player in players)
+        foreach (PhotonPlayer player in players)
         {
             if (player != null)
                 Debug.Log("name: " + player.name);
@@ -173,17 +178,19 @@ public class Mastermind_Script : NetworkBehaviour {
             rObjListSize += (p3_gridX * p3_gridY);
         if (numPlayers > 3)
             rObjListSize += (p4_gridX * p4_gridY);
-        rObjList = new GameObject[rObjListSize];
+        rObjList = new rObjectType[rObjListSize];
 
         //Generate rObjList objects for PLAYER 1
         rObjList = GenerateRandomObjects(rObjList, 0, p1_PlayerControlDeck, p1_gridX, p1_gridY, 1);
         Transform p1_RObjectTransform = p1_PlayerControlDeck.transform.Find("RObjects");
         p1_RObjectTransform.localRotation = Quaternion.Euler(new Vector3(45f, 0f, 0f));
+        int rObjectCount = 0;
         for(int i=0; i< p1_RObjectTransform.childCount; i++)
         {
-            GameObject rObject = p1_RObjectTransform.GetChild(i).gameObject;
-            NetworkServer.SpawnWithClientAuthority(rObject, players[0].gameObject);
-            //NetworkServer.Spawn(rObject);
+            GameObject rObjectEmpty = p1_RObjectTransform.GetChild(i).gameObject;
+            GameObject rObject = PhotonNetwork.InstantiateSceneObject("Prefabs/" + rObjectEmpty.name, rObjectEmpty.transform.position, rObjectEmpty.transform.rotation, 0, rObjList[rObjectCount].data);
+            rObjList[rObjectCount].rObject = rObject;
+            rObjectCount++;
         }
         if (numPlayers > 1)
         {
@@ -193,9 +200,10 @@ public class Mastermind_Script : NetworkBehaviour {
             p2_RObjectTransform.localRotation = Quaternion.Euler(new Vector3(45f, 0f, 0f));
             for (int i = 0; i < p2_RObjectTransform.childCount; i++)
             {
-                GameObject rObject = p2_RObjectTransform.GetChild(i).gameObject;
-                NetworkServer.SpawnWithClientAuthority(rObject, players[1].gameObject);
-                //NetworkServer.Spawn(rObject);
+                GameObject rObjectEmpty = p2_RObjectTransform.GetChild(i).gameObject;
+                GameObject rObject = PhotonNetwork.InstantiateSceneObject("Prefabs/" + rObjectEmpty.name, rObjectEmpty.transform.position, rObjectEmpty.transform.rotation, 0, rObjList[rObjectCount].data);
+                rObjList[rObjectCount].rObject = rObject;
+                rObjectCount++;
             }
         }
         if (numPlayers > 2)
@@ -206,9 +214,10 @@ public class Mastermind_Script : NetworkBehaviour {
             p3_RObjectTransform.localRotation = Quaternion.Euler(new Vector3(45f, 0f, 0f));
             for (int i = 0; i < p3_RObjectTransform.childCount; i++)
             {
-                GameObject rObject = p3_RObjectTransform.GetChild(i).gameObject;
-                NetworkServer.SpawnWithClientAuthority(rObject, players[2].gameObject);
-                //NetworkServer.Spawn(rObject);
+                GameObject rObjectEmpty = p3_RObjectTransform.GetChild(i).gameObject;
+                GameObject rObject = PhotonNetwork.InstantiateSceneObject("Prefabs/" + rObjectEmpty.name, rObjectEmpty.transform.position, rObjectEmpty.transform.rotation, 0, rObjList[rObjectCount].data);
+                rObjList[rObjectCount].rObject = rObject;
+                rObjectCount++;
             }
         }
         if (numPlayers > 3)
@@ -219,16 +228,17 @@ public class Mastermind_Script : NetworkBehaviour {
             p4_RObjectTransform.localRotation = Quaternion.Euler(new Vector3(45f, 0f, 0f));
             for (int i = 0; i < p4_RObjectTransform.childCount; i++)
             {
-                GameObject rObject = p4_RObjectTransform.GetChild(i).gameObject;
-                NetworkServer.SpawnWithClientAuthority(rObject, players[3].gameObject);
-                //NetworkServer.Spawn(rObject);
+                GameObject rObjectEmpty = p4_RObjectTransform.GetChild(i).gameObject;
+                GameObject rObject = PhotonNetwork.InstantiateSceneObject("Prefabs/" + rObjectEmpty.name, rObjectEmpty.transform.position, rObjectEmpty.transform.rotation, 0, rObjList[rObjectCount].data);
+                rObjList[rObjectCount].rObject = rObject;
+                rObjectCount++;
             }
         }
     }
 
-    GameObject[] GenerateRandomObjects(GameObject[] inRObjList, int intRObjListSize, GameObject playerControlDeck, int gridX, int gridY, int playerNum)
+    rObjectType[] GenerateRandomObjects(rObjectType[] inRObjList, int intRObjListSize, GameObject playerControlDeck, int gridX, int gridY, int playerNum)
     {
-        GameObject[] outRObjList = inRObjList;
+        rObjectType[] outRObjList = inRObjList;
 
         int commandIndex;
         string newCommandText;
@@ -244,7 +254,9 @@ public class Mastermind_Script : NetworkBehaviour {
         {
             for (int y = 0; y < gridY; y++)
             {
-                GameObject randObject;
+                rObjectType rObjectType = new rObjectType();
+                GameObject randObjectEmpty;
+                object[] data = new object[2];
                 //roll for a random game object
                 int objNum = Random.Range(0, numOfDiffGameObjects);
 
@@ -267,15 +279,14 @@ public class Mastermind_Script : NetworkBehaviour {
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.09f);
                         if (playerNum == 4)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.09f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
-                        randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
-                            vector3,
-                            Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
-                        //NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
-                        randObject.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
-                        //Update network variables
-                        //randObject.GetComponent<Button_Script>().newQuaternion = randObject.transform.rotation;
-                        randObject.GetComponent<Button_Script>().newName = newCommandText;
-                        randObject.GetComponent<Button_Script>().rCommand = intRObjListSize + ((x * gridY) + y);
+                        //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
+                        //    vector3,
+                        //    Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
+                        randObjectEmpty = new GameObject();
+                        randObjectEmpty.transform.position = vector3;
+                        randObjectEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion));
+                        randObjectEmpty.name = "Button";
+                        randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         break;
                     case dialCommand:
                         //roll for a random Button command from the buttonCommandArray
@@ -292,15 +303,14 @@ public class Mastermind_Script : NetworkBehaviour {
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.05f);
                         if (playerNum == 4)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
-                        randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Dial"),
-                            vector3,
-                            Quaternion.Euler(new Vector3(xQuaternion - 90, yQuaternion + 90, zQuaternion)));
-                        //NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
-                        randObject.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
-                        //Update network variables
-                        //randObject.GetComponent<Dial_Script>().newQuaternion = randObject.transform.rotation;
-                        randObject.GetComponent<Dial_Script>().newName = newCommandText;
-                        randObject.GetComponent<Dial_Script>().rCommand = intRObjListSize + ((x * gridY) + y);
+                        //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Dial"),
+                        //    vector3,
+                        //    Quaternion.Euler(new Vector3(xQuaternion - 90, yQuaternion + 90, zQuaternion)));
+                        randObjectEmpty = new GameObject();
+                        randObjectEmpty.transform.position = vector3;
+                        randObjectEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion - 90, yQuaternion + 90, zQuaternion));
+                        randObjectEmpty.name = "Dial";
+                        randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         break;
                     case lLeverCommand:
                         //roll for a random Button command from the lLeverCommandArray
@@ -317,15 +327,14 @@ public class Mastermind_Script : NetworkBehaviour {
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.147f);
                         if (playerNum == 4)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.147f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
-                        randObject = (GameObject)Instantiate(Resources.Load("Prefabs/L_Lever"),
-                            vector3,
-                            Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
-                        //NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
-                        randObject.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
-                        //Update network variables
-                        //randObject.GetComponent<L_Lever_Script>().newQuaternion = randObject.transform.rotation;
-                        randObject.GetComponent<L_Lever_Script>().newName = newCommandText;
-                        randObject.GetComponent<L_Lever_Script>().rCommand = intRObjListSize + ((x * gridY) + y);
+                        //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/L_Lever"),
+                        //    vector3,
+                        //    Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
+                        randObjectEmpty = new GameObject();
+                        randObjectEmpty.transform.position = vector3;
+                        randObjectEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion));
+                        randObjectEmpty.name = "L_Lever";
+                        randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         break;
                     case lightswitchCommand:
                         //roll for a random Button command from the lLeverCommandArray
@@ -342,15 +351,14 @@ public class Mastermind_Script : NetworkBehaviour {
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.05f);
                         if (playerNum == 4)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
-                        randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Lightswitch"),
-                            vector3,
-                            Quaternion.Euler(new Vector3(xQuaternion, yQuaternion + 90, zQuaternion)));
-                        //NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
-                        randObject.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
-                        //Update network variables
-                        //randObject.GetComponent<Lightswitch_Script>().newQuaternion = randObject.transform.rotation;
-                        randObject.GetComponent<Lightswitch_Script>().newName = newCommandText;
-                        randObject.GetComponent<Lightswitch_Script>().rCommand = intRObjListSize + ((x * gridY) + y);
+                        //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Lightswitch"),
+                        //    vector3,
+                        //    Quaternion.Euler(new Vector3(xQuaternion, yQuaternion + 90, zQuaternion)));
+                        randObjectEmpty = new GameObject();
+                        randObjectEmpty.transform.position = vector3;
+                        randObjectEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion, yQuaternion + 90, zQuaternion));
+                        randObjectEmpty.name = "Lightswitch";
+                        randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         break;
                     case shifterCommand:
                         //roll for a random Button command from the lLeverCommandArray
@@ -367,15 +375,14 @@ public class Mastermind_Script : NetworkBehaviour {
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.05f);
                         if (playerNum == 4)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
-                        randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Shifter"),
-                            vector3,
-                            Quaternion.Euler(new Vector3(xQuaternion + 180, yQuaternion + 90, zQuaternion)));
-                        //NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
-                        randObject.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
-                        //Update network variables
-                        //randObject.GetComponent<Shifter_Script>().newQuaternion = randObject.transform.rotation;
-                        randObject.GetComponent<Shifter_Script>().newName = newCommandText;
-                        randObject.GetComponent<Shifter_Script>().rCommand = intRObjListSize + ((x * gridY) + y);
+                        //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Shifter"),
+                        //    vector3,
+                        //    Quaternion.Euler(new Vector3(xQuaternion + 180, yQuaternion + 90, zQuaternion)));
+                        randObjectEmpty = new GameObject();
+                        randObjectEmpty.transform.position = vector3;
+                        randObjectEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion + 180, yQuaternion + 90, zQuaternion));
+                        randObjectEmpty.name = "Shifter";
+                        randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         break;
                     case sliderCommand:
                         //roll for a random Button command from the lLeverCommandArray
@@ -392,15 +399,14 @@ public class Mastermind_Script : NetworkBehaviour {
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.05f);
                         if (playerNum == 4)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
-                        randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Slider"),
-                            vector3,
-                            Quaternion.Euler(new Vector3(xQuaternion + 270, yQuaternion + 90, zQuaternion)));
-                        //NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
-                        randObject.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
-                        //Update network variables
-                        //randObject.GetComponent<Slider_Script>().newQuaternion = randObject.transform.rotation;
-                        randObject.GetComponent<Slider_Script>().newName = newCommandText;
-                        randObject.GetComponent<Slider_Script>().rCommand = intRObjListSize + ((x * gridY) + y);
+                        //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Slider"),
+                        //    vector3,
+                        //    Quaternion.Euler(new Vector3(xQuaternion + 270, yQuaternion + 90, zQuaternion)));
+                        randObjectEmpty = new GameObject();
+                        randObjectEmpty.transform.position = vector3;
+                        randObjectEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion + 270, yQuaternion + 90, zQuaternion));
+                        randObjectEmpty.name = "Slider";
+                        randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         break;
                     case valveCommand:
                         //roll for a random Button command from the lLeverCommandArray
@@ -417,15 +423,14 @@ public class Mastermind_Script : NetworkBehaviour {
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.096f);
                         if (playerNum == 4)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.096f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
-                        randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Valve"),
-                            vector3,
-                            Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion + 90)));
-                        //NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
-                        randObject.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
-                        //Update network variables
-                        //randObject.GetComponent<Valve_Script>().newQuaternion = randObject.transform.rotation;
-                        randObject.GetComponent<Valve_Script>().newName = newCommandText;
-                        randObject.GetComponent<Valve_Script>().rCommand = intRObjListSize + ((x * gridY) + y);
+                        //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Valve"),
+                        //    vector3,
+                        //    Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion + 90)));
+                        randObjectEmpty = new GameObject();
+                        randObjectEmpty.transform.position = vector3;
+                        randObjectEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion + 90));
+                        randObjectEmpty.name = "Valve";
+                        randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         break;
                     case wLeverCommand:
                         //roll for a random Button command from the wLeverCommandArray
@@ -442,15 +447,14 @@ public class Mastermind_Script : NetworkBehaviour {
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.152f);
                         if (playerNum == 4)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.152f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
-                        randObject = (GameObject)Instantiate(Resources.Load("Prefabs/W_Lever"),
-                            vector3,
-                            Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
-                        //NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
-                        randObject.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
-                        //Update network variables
-                        //randObject.GetComponent<W_Lever_Script>().newQuaternion = randObject.transform.rotation;
-                        randObject.GetComponent<W_Lever_Script>().newName = newCommandText;
-                        randObject.GetComponent<W_Lever_Script>().rCommand = intRObjListSize + ((x * gridY) + y);
+                        //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/W_Lever"),
+                        //    vector3,
+                        //    Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
+                        randObjectEmpty = new GameObject();
+                        randObjectEmpty.transform.position = vector3;
+                        randObjectEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion));
+                        randObjectEmpty.name = "W_Lever";
+                        randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         break;
                     default:
                         //roll for a random Button command from the buttonCommandArray
@@ -467,20 +471,24 @@ public class Mastermind_Script : NetworkBehaviour {
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.09f);
                         if (playerNum == 4)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.09f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
-                        randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
-                            vector3,
-                            Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
-                        //NetworkServer.SpawnWithClientAuthority(randObject, players[playerNum - 1].gameObject);
-                        randObject.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
-                        //Update network variables
-                        //randObject.GetComponent<Button_Script>().newQuaternion = randObject.transform.rotation;
-                        randObject.GetComponent<Button_Script>().newName = newCommandText;
-                        randObject.GetComponent<Button_Script>().rCommand = intRObjListSize + ((x * gridY) + y);
+                        //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
+                        //    vector3,
+                        //    Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
+                        randObjectEmpty = new GameObject();
+                        randObjectEmpty.transform.position = vector3;
+                        randObjectEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion));
+                        randObjectEmpty.name = "Button";
+                        randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         break;
                 }
 
+                data[0] = newCommandText;
+                data[1] = intRObjListSize + ((x * gridY) + y);
+
                 //add randomObject to grid
-                outRObjList[intRObjListSize + ((x * gridY) + y)] = randObject;
+                rObjectType.rObject = randObjectEmpty;
+                rObjectType.data = data;
+                outRObjList[intRObjListSize + ((x * gridY) + y)] = rObjectType;
             }
         }
 
@@ -492,13 +500,13 @@ public class Mastermind_Script : NetworkBehaviour {
         //If the user scores 10 or more, change text to Green and to say "YOU WIN~"
         if (score >= 10)
         {
-            p1_scoreTextScript.hasWon = true;
+            p1_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
             if (numPlayers > 1)
-                p2_scoreTextScript.hasWon = true;
+                p2_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
             if (numPlayers > 2)
-                p3_scoreTextScript.hasWon = true;
+                p3_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
             if (numPlayers > 3)
-                p4_scoreTextScript.hasWon = true;
+                p4_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
         }
 
         //if we are NOT typing "START!" including waiting the 2 seconds
@@ -527,46 +535,54 @@ public class Mastermind_Script : NetworkBehaviour {
     public void ScoreUp()
     {
         score++;
-        p1_scoreTextScript.scoreUp = score;
+        p1_scoreTextScript.photonView.RPC("ScoreUp", PhotonTargets.All, score);
         if (numPlayers > 1)
-            p2_scoreTextScript.scoreUp = score;
+            p2_scoreTextScript.photonView.RPC("ScoreUp", PhotonTargets.All, score);
         if (numPlayers > 2)
-            p3_scoreTextScript.scoreUp = score;
+            p3_scoreTextScript.photonView.RPC("ScoreUp", PhotonTargets.All, score);
         if (numPlayers > 3)
-            p4_scoreTextScript.scoreUp = score;
+            p4_scoreTextScript.photonView.RPC("ScoreUp", PhotonTargets.All, score);
     }
 
     public void ScoreDown()
     {
         score--;
-        p1_scoreTextScript.scoreDown = score;
+        p1_scoreTextScript.photonView.RPC("ScoreDown", PhotonTargets.All, score);
         if (numPlayers > 1)
-            p2_scoreTextScript.scoreDown = score;
+            p2_scoreTextScript.photonView.RPC("ScoreDown", PhotonTargets.All, score);
         if (numPlayers > 2)
-            p3_scoreTextScript.scoreDown = score;
+            p3_scoreTextScript.photonView.RPC("ScoreDown", PhotonTargets.All, score);
         if (numPlayers > 3)
-            p4_scoreTextScript.scoreDown = score;
+            p4_scoreTextScript.photonView.RPC("ScoreDown", PhotonTargets.All, score);
     }
 
     //Display "START!" for 2 seconds
     IEnumerator DisplayStartText()
     {
         p1_isDisplayStart = true;
-        p1_consoleTextScript.RpcTypeText(" START!");
+        if(p1_consoleTextScript == null)
+        {
+            Debug.Log("p1 console text script is null");
+        }
+        if(p1_consoleTextScript.photonView == null)
+        {
+            Debug.Log("p1 photon view is null");
+        }
+        p1_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, " START!");
         if (numPlayers > 1)
         {
             p2_isDisplayStart = true;
-            p2_consoleTextScript.RpcTypeText(" START!");
+            p2_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, " START!");
         }
         if (numPlayers > 2)
         {
             p3_isDisplayStart = true;
-            p3_consoleTextScript.RpcTypeText(" START!");
+            p3_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, " START!");
         }
         if (numPlayers > 3)
         {
             p4_isDisplayStart = true;
-            p4_consoleTextScript.RpcTypeText(" START!");
+            p4_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, " START!");
         }
         yield return new WaitForSeconds(2);
         p1_isDisplayStart = false;
@@ -688,14 +704,14 @@ public class Mastermind_Script : NetworkBehaviour {
         p1_rCommand = Random.Range(0, rObjList.Length);
 
         //get random game object from random object list
-        GameObject rObj = rObjList[p1_rCommand];
+        GameObject rObj = rObjList[p1_rCommand].rObject;
 
         string[] rCommandList = GetRandomCommand(rObj, p1_rCommand);
         p1_rCommand = int.Parse(rCommandList[0]);
         string message = rCommandList[1];
 
         //Type out new command to console
-        p1_consoleTextScript.RpcTypeText(message);
+        p1_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, message);
 
         //Wait for the commandTimeoutSeconds or if a button gets tapped
         yield return WaitForSecondsOrTap(1, commandTimeoutSeconds);
@@ -715,14 +731,14 @@ public class Mastermind_Script : NetworkBehaviour {
         p2_rCommand = Random.Range(0, rObjList.Length);
 
         //get random game object from random object list
-        GameObject rObj = rObjList[p2_rCommand];
+        GameObject rObj = rObjList[p2_rCommand].rObject;
 
         string[] rCommandList = GetRandomCommand(rObj, p2_rCommand);
         p2_rCommand = int.Parse(rCommandList[0]);
         string message = rCommandList[1];
 
         //Type out new command to console
-        p2_consoleTextScript.RpcTypeText(message);
+        p2_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, message);
 
         //Wait for the commandTimeoutSeconds or if a button gets tapped
         yield return WaitForSecondsOrTap(2, commandTimeoutSeconds);
@@ -742,14 +758,14 @@ public class Mastermind_Script : NetworkBehaviour {
         p3_rCommand = Random.Range(0, rObjList.Length);
 
         //get random game object from random object list
-        GameObject rObj = rObjList[p3_rCommand];
+        GameObject rObj = rObjList[p3_rCommand].rObject;
 
         string[] rCommandList = GetRandomCommand(rObj, p3_rCommand);
         p3_rCommand = int.Parse(rCommandList[0]);
         string message = rCommandList[1];
 
         //Type out new command to console
-        p3_consoleTextScript.RpcTypeText(message);
+        p3_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, message);
 
         //Wait for the commandTimeoutSeconds or if a button gets tapped
         yield return WaitForSecondsOrTap(3, commandTimeoutSeconds);
@@ -769,14 +785,14 @@ public class Mastermind_Script : NetworkBehaviour {
         p4_rCommand = Random.Range(0, rObjList.Length);
 
         //get random game object from random object list
-        GameObject rObj = rObjList[p4_rCommand];
+        GameObject rObj = rObjList[p4_rCommand].rObject;
 
         string[] rCommandList = GetRandomCommand(rObj, p4_rCommand);
         p4_rCommand = int.Parse(rCommandList[0]);
         string message = rCommandList[1];
 
         //Type out new command to console
-        p4_consoleTextScript.RpcTypeText(message);
+        p4_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, message);
 
         //Wait for the commandTimeoutSeconds or if a button gets tapped
         yield return WaitForSecondsOrTap(4, commandTimeoutSeconds);

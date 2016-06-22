@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.Networking;
 
-public class Lightswitch_Script : NetworkBehaviour {
+public class Lightswitch_Script : Photon.MonoBehaviour
+{
 
     private Highlight_Handle_Top_Script handleScript;
     Animator anim;
@@ -13,40 +13,60 @@ public class Lightswitch_Script : NetworkBehaviour {
     Mastermind_Script mastermindScript;
 
     //Network variables
-    [SyncVar(hook = "UpdateQuaternion")]
-    public Quaternion newQuaternion;
-    [SyncVar(hook = "UpdateName")]
+    [SerializeField]
+    Transform handle;
     public string newName;
-    [SyncVar(hook = "UpdateRCommand")]
     public int rCommand = -1;
 
-    private void UpdateQuaternion(Quaternion newQuaternion)
-    {
-        transform.rotation = newQuaternion;
-    }
-    private void UpdateName(string name)
-    {
-        transform.Find("Labels/Name").GetComponent<TextMesh>().text = name;
-    }
-    private void UpdateRCommand(int command)
-    {
-        rCommand = command;
-    }
-
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
+        //Load Network data
+        object[] data = photonView.instantiationData;
+        if (data != null)
+        {
+            newName = transform.Find("Labels/Name").GetComponent<TextMesh>().text = (string)data[0];
+            rCommand = (int)data[1];
+        }
+
         handleScript = transform.Find("Handle").GetComponent<Highlight_Handle_Top_Script>();
         isLightswitchOn = true;
         isAnimating = false;
         isLocked = false;
         anim = transform.Find("Handle").GetComponent<Animator>();
 
-        if(isServer)
+        if (PhotonNetwork.isMasterClient)
             mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            //We own this player: send the others our data
+            stream.SendNext(handle.position);
+            stream.SendNext(handle.rotation);
+        }
+        else
+        {
+            //Network player, receive data
+            handlePos = (Vector3)stream.ReceiveNext();
+            handleRot = (Quaternion)stream.ReceiveNext();
+        }
+    }
+
+    private Vector3 handlePos = Vector3.zero; //We lerp towards this
+    private Quaternion handleRot = Quaternion.identity; //We lerp towards this
+
+    private void Update()
+    {
+        if (!photonView.isMine)
+        {
+            //Update remote player (smooth this, this looks good, at the cost of some accuracy)
+            handle.position = Vector3.Lerp(handle.position, handlePos, Time.deltaTime * 20);
+            handle.rotation = Quaternion.Lerp(handle.rotation, handleRot, Time.deltaTime * 20);
+        }
+
         if (!isAnimating && isLocked && !handleScript.isGrabbing && !handleScript.isColliding)
         {
             isLocked = false;
@@ -60,7 +80,7 @@ public class Lightswitch_Script : NetworkBehaviour {
                 isLightswitchOn = false;
                 //send tapped command to Mastermind
                 int rCommandUp = (rCommand * 100) + 1;
-                CmdSendTappedCommand(rCommandUp, isLightswitchOn);
+                photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandUp, isLightswitchOn);
                 StartCoroutine(WaitForAnimation(anim, "Lightswitch_Off_Anim"));
             }
             else
@@ -68,7 +88,7 @@ public class Lightswitch_Script : NetworkBehaviour {
                 isLightswitchOn = true;
                 //send tapped command to Mastermind
                 int rCommandDown = (rCommand * 100) + 2;
-                CmdSendTappedCommand(rCommandDown, isLightswitchOn);
+                photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandDown, isLightswitchOn);
                 StartCoroutine(WaitForAnimation(anim, "Lightswitch_On_Anim"));
             }
         }
@@ -86,7 +106,7 @@ public class Lightswitch_Script : NetworkBehaviour {
         isAnimating = false;
     }
 
-    [Command]
+    [PunRPC]
     void CmdSendTappedCommand(int sentRCommand, bool sentIsLightswitchOn)
     {
         isLightswitchOn = sentIsLightswitchOn;

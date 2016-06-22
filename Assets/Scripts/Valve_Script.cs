@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.Networking;
 
-public class Valve_Script : NetworkBehaviour {
+public class Valve_Script : Photon.MonoBehaviour
+{
 
     private Transform handleTransform;
     private Highlight_Handle_Top_Script handleScript;
@@ -14,28 +14,22 @@ public class Valve_Script : NetworkBehaviour {
     Mastermind_Script mastermindScript;
 
     //Network variables
-    [SyncVar(hook = "UpdateQuaternion")]
-    public Quaternion newQuaternion;
-    [SyncVar(hook = "UpdateName")]
+    [SerializeField]
+    Transform handle;
     public string newName;
-    [SyncVar(hook = "UpdateRCommand")]
     public int rCommand = -1;
 
-    private void UpdateQuaternion(Quaternion newQuaternion)
-    {
-        transform.rotation = newQuaternion;
-    }
-    private void UpdateName(string name)
-    {
-        transform.Find("Labels/Name").GetComponent<TextMesh>().text = name;
-    }
-    private void UpdateRCommand(int command)
-    {
-        rCommand = command;
-    }
-
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
+        //Load Network data
+        object[] data = photonView.instantiationData;
+        if (data != null)
+        {
+            newName = transform.Find("Labels/Name").GetComponent<TextMesh>().text = (string)data[0];
+            rCommand = (int)data[1];
+        }
+
         handleTransform = transform.Find("Handle");
         handleScript = handleTransform.GetComponent<Highlight_Handle_Top_Script>();
         valveLastRotation = handleTransform.localEulerAngles.z;
@@ -53,12 +47,38 @@ public class Valve_Script : NetworkBehaviour {
         handleTransform.GetComponent<HingeJoint>().spring = springJoint;
         handleTransform.GetComponent<Rigidbody>().isKinematic = false;
 
-        if (isServer)
+        if (PhotonNetwork.isMasterClient)
             mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            //We own this player: send the others our data
+            stream.SendNext(handle.position);
+            stream.SendNext(handle.rotation);
+        }
+        else
+        {
+            //Network player, receive data
+            handlePos = (Vector3)stream.ReceiveNext();
+            handleRot = (Quaternion)stream.ReceiveNext();
+        }
+    }
+
+    private Vector3 handlePos = Vector3.zero; //We lerp towards this
+    private Quaternion handleRot = Quaternion.identity; //We lerp towards this
+
+    private void Update()
+    {
+        if (!photonView.isMine)
+        {
+            //Update remote player (smooth this, this looks good, at the cost of some accuracy)
+            handle.position = Vector3.Lerp(handle.position, handlePos, Time.deltaTime * 20);
+            handle.rotation = Quaternion.Lerp(handle.rotation, handleRot, Time.deltaTime * 20);
+        }
+
         handleTransform.localPosition = new Vector3(0, 0, 0);
 
         // If the valve was let go and we already sent the command, set the released position to be the new zero
@@ -100,19 +120,19 @@ public class Valve_Script : NetworkBehaviour {
                 isCommandSent = true;
                 //send tapped command to Mastermind
                 int rCommandClockwise = (rCommand * 100) + 1;
-                CmdSendTappedCommand(rCommandClockwise);
+                photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandClockwise);
             }
             else if (valveTotalRotation < -360)
             {
                 isCommandSent = true;
                 //send tapped command to Mastermind
                 int rCommandCounterClockwise = (rCommand * 100) + 2;
-                CmdSendTappedCommand(rCommandCounterClockwise);
+                photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandCounterClockwise);
             }
         }
     }
 
-    [Command]
+    [PunRPC]
     void CmdSendTappedCommand(int sentRCommand)
     {
         mastermindScript.TappedWaitForSecondsOrTap(sentRCommand);

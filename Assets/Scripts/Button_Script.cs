@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.Networking;
 
-public class Button_Script : NetworkBehaviour {
+public class Button_Script : Photon.MonoBehaviour
+{
 
     private Highlight_Handle_Top_Script handleScript;
     Animator anim;
@@ -13,34 +13,26 @@ public class Button_Script : NetworkBehaviour {
     Mastermind_Script mastermindScript;
 
     //Network variables
-    [SyncVar(hook = "UpdateQuaternion")]
-    public Quaternion newQuaternion;
-    [SyncVar(hook = "UpdateName")]
     public string newName;
-    [SyncVar(hook = "UpdateRCommand")]
     public int rCommand = -1;
-
-    private void UpdateQuaternion(Quaternion newQuaternion)
-    {
-        transform.rotation = newQuaternion;
-    }
-    private void UpdateName(string name)
-    {
-        transform.Find("Labels/Name").GetComponent<TextMesh>().text = name;
-    }
-    private void UpdateRCommand(int command)
-    {
-        rCommand = command;
-    }
 
     // Use this for initialization
     void Start() {
+        //Load Network data
+        object[] data = photonView.instantiationData;
+        if(data != null)
+        {
+            newName = transform.Find("Labels/Name").GetComponent<TextMesh>().text = (string)data[0];
+            rCommand = (int)data[1];
+        }
+
         handleScript = transform.Find("Handle").GetComponent<Highlight_Handle_Top_Script>();
         anim = transform.Find("Handle").GetComponent<Animator>();
         isButtonDown = false;
         isAnimating = false;
         isLocked = false;
-        if(isServer)
+
+        if(PhotonNetwork.isMasterClient)
             mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
 
@@ -59,7 +51,7 @@ public class Button_Script : NetworkBehaviour {
             isLocked = true;
             isButtonDown = true;
             //send tapped rCommand to Server
-            CmdSendTappedCommand(rCommand);
+            photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommand);
             StartCoroutine(WaitForAnimation(anim, "Button_Down_Anim"));
         }
     }
@@ -76,7 +68,7 @@ public class Button_Script : NetworkBehaviour {
         isAnimating = false;
     }
 
-    [Command]
+    [PunRPC]
     void CmdSendTappedCommand(int sentRCommand)
     {
         Debug.Log("sent command: " + sentRCommand);

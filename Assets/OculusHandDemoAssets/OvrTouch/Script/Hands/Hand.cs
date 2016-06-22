@@ -74,7 +74,7 @@ namespace OvrTouch.Hands {
         // Fields
         //==============================================================================
 
-        [SerializeField] private HandednessId m_handedness = HandednessId.Left;
+        [SerializeField] public HandednessId m_handedness = HandednessId.Left;
         [SerializeField] private Transform m_gripTransform = null;
         [SerializeField] private Animator m_animator = null;
         [SerializeField] private Transform m_meshRoot = null;
@@ -94,9 +94,13 @@ namespace OvrTouch.Hands {
         private int m_animParamIndexFlex = -1;
         private int m_animParamIndexPose = -1;
 
-        private float m_flex = 0.0f;
-        private float m_point = 0.0f;
-        private float m_thumbsUp = 0.0f;
+        public float m_flex = 0.0f;
+        public float m_point = 0.0f;
+        public float m_thumbsUp = 0.0f;
+
+        public HandPoseId handPoseId;
+        public bool canPoint;
+        public bool canThumbsUp;
 
         private HandPose m_grabbedHandPose = null;
         private Grabbable m_grabbedGrabbable = null;
@@ -289,44 +293,24 @@ namespace OvrTouch.Hands {
             return Mathf.Clamp01(value + rateDelta * sign);
         }
 
-        private int last_handPoseId;
-        private float last_m_flex;
-        private bool last_canPoint;
-        private float last_m_point;
-        private bool last_canThumbsUp;
-        private float last_m_thrumbsUp;
-
         //==============================================================================
         private void AnimationAdvance () {
             // Pose
-            HandPoseId handPoseId = (m_grabbedHandPose != null) ? m_grabbedHandPose.PoseId : HandPoseId.Default;
+            this.handPoseId = (m_grabbedHandPose != null) ? m_grabbedHandPose.PoseId : HandPoseId.Default;
             m_animator.SetInteger(m_animParamIndexPose, (int)handPoseId);
 
             // Flex
             m_animator.SetFloat(m_animParamIndexFlex, m_flex);
 
             // Point
-            bool canPoint = !IsGrabbingGrabbable || ((m_grabbedHandPose != null) && (m_grabbedHandPose.AllowPointing));
+            this.canPoint = !IsGrabbingGrabbable || ((m_grabbedHandPose != null) && (m_grabbedHandPose.AllowPointing));
             float point = canPoint ? m_point : 0.0f;
             m_animator.SetLayerWeight(m_animLayerIndexPoint, point);
 
             // Thumbs up
-            bool canThumbsUp = !IsGrabbingGrabbable || ((m_grabbedHandPose != null) && (m_grabbedHandPose.AllowThumbsUp));
+            this.canThumbsUp = !IsGrabbingGrabbable || ((m_grabbedHandPose != null) && (m_grabbedHandPose.AllowThumbsUp));
             float thumbsUp = canThumbsUp ? m_thumbsUp : 0.0f;
             m_animator.SetLayerWeight(m_animLayerIndexThumb, thumbsUp);
-
-            if(transform.parent != null && transform.parent.GetComponent<PhotonNetworkOvrRig>() != null &&
-                (last_handPoseId != (int)handPoseId || last_m_flex != m_flex || last_canPoint != canPoint || last_m_point != m_point || last_canThumbsUp != canThumbsUp || last_m_thrumbsUp != m_thumbsUp))
-            {
-                transform.parent.GetComponent<PhotonNetworkOvrRig>().SendAnimation(m_handedness, (int)handPoseId, m_flex, canPoint, m_point, canThumbsUp, m_thumbsUp);
-            }
-
-            last_handPoseId = (int)handPoseId;
-            last_m_flex = m_flex;
-            last_canPoint = canPoint;
-            last_m_point = m_point;
-            last_canThumbsUp = canThumbsUp;
-            last_m_thrumbsUp = m_thumbsUp;
     }
 
         //==============================================================================

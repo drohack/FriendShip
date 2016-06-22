@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.Networking;
 
-public class Shifter_Script : NetworkBehaviour {
+public class Shifter_Script : Photon.MonoBehaviour
+{
 
     private Transform handleTransform;
     private Highlight_Handle_Top_Script handleScript;
@@ -15,28 +15,22 @@ public class Shifter_Script : NetworkBehaviour {
     Mastermind_Script mastermindScript;
 
     //Network variables
-    [SyncVar(hook = "UpdateQuaternion")]
-    public Quaternion newQuaternion;
-    [SyncVar(hook = "UpdateName")]
+    [SerializeField]
+    Transform handle;
     public string newName;
-    [SyncVar(hook = "UpdateRCommand")]
     public int rCommand = -1;
 
-    private void UpdateQuaternion(Quaternion newQuaternion)
-    {
-        transform.rotation = newQuaternion;
-    }
-    private void UpdateName(string name)
-    {
-        transform.Find("Labels/Name").GetComponent<TextMesh>().text = name;
-    }
-    private void UpdateRCommand(int command)
-    {
-        rCommand = command;
-    }
-
+    // Use this for initialization
     void Start()
     {
+        //Load Network data
+        object[] data = photonView.instantiationData;
+        if (data != null)
+        {
+            newName = transform.Find("Labels/Name").GetComponent<TextMesh>().text = (string)data[0];
+            rCommand = (int)data[1];
+        }
+
         handleTransform = transform.Find("Handle");
         handleScript = handleTransform.GetComponent<Highlight_Handle_Top_Script>();
         
@@ -53,12 +47,38 @@ public class Shifter_Script : NetworkBehaviour {
         handleTransform.GetComponent<HingeJoint>().limits = hLimits;
         m_HingeJoint = handleTransform.GetComponent<HingeJoint>();
 
-        if (isServer)
+        if (PhotonNetwork.isMasterClient)
             mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
 
+    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            //We own this player: send the others our data
+            stream.SendNext(handle.position);
+            stream.SendNext(handle.rotation);
+        }
+        else
+        {
+            //Network player, receive data
+            handlePos = (Vector3)stream.ReceiveNext();
+            handleRot = (Quaternion)stream.ReceiveNext();
+        }
+    }
+
+    private Vector3 handlePos = Vector3.zero; //We lerp towards this
+    private Quaternion handleRot = Quaternion.identity; //We lerp towards this
+
     private void Update()
     {
+        if (!photonView.isMine)
+        {
+            //Update remote player (smooth this, this looks good, at the cost of some accuracy)
+            handle.position = Vector3.Lerp(handle.position, handlePos, Time.deltaTime * 20);
+            handle.rotation = Quaternion.Lerp(handle.rotation, handleRot, Time.deltaTime * 20);
+        }
+
         handleTransform.localPosition = new Vector3(0, 0, 0);
 
         if (handleScript.isGrabbing)
@@ -83,7 +103,7 @@ public class Shifter_Script : NetworkBehaviour {
                     shifterPosition = 2;
                     //send command tapped to the Server
                     int rCommandTwo = (rCommand * 100) + 2;
-                    CmdSendTappedCommand(rCommandTwo, shifterPosition);
+                    photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandTwo, shifterPosition);
                 }
             }
             else if (handleTransform.localEulerAngles.z > 337.5 || handleTransform.localEulerAngles.z < 22.5)
@@ -101,7 +121,7 @@ public class Shifter_Script : NetworkBehaviour {
                     shifterPosition = 1;
                     //send command tapped to the Server
                     int rCommandOne = (rCommand * 100) + 1;
-                    CmdSendTappedCommand(rCommandOne, shifterPosition);
+                    photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandOne, shifterPosition);
                 }
             }
             else if (handleTransform.localEulerAngles.z < 337.5 && handleTransform.localEulerAngles.z > 180)
@@ -119,13 +139,13 @@ public class Shifter_Script : NetworkBehaviour {
                     shifterPosition = 0;
                     //send command tapped to the Server
                     int rCommandZero = (rCommand * 100) + 0;
-                    CmdSendTappedCommand(rCommandZero, shifterPosition);
+                    photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandZero, shifterPosition);
                 }
             }
         }
     }
 
-    [Command]
+    [PunRPC]
     void CmdSendTappedCommand(int sentRCommand, int sentShifterPosition)
     {
         shifterPosition = sentShifterPosition;
