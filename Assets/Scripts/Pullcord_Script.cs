@@ -57,42 +57,40 @@ public class Pullcord_Script : Photon.MonoBehaviour
         if (stream.isWriting)
         {
             //We own this player: send the others our data
-            stream.SendNext(handle.position);
-            stream.SendNext(handle.rotation);
+            stream.SendNext(handle.localPosition);
         }
         else
         {
             //Network player, receive data
             handlePos = (Vector3)stream.ReceiveNext();
-            handleRot = (Quaternion)stream.ReceiveNext();
         }
     }
 
     private Vector3 handlePos = Vector3.zero; //We lerp towards this
-    private Quaternion handleRot = Quaternion.identity; //We lerp towards this
 
     private void Update()
     {
         if (!photonView.isMine)
         {
             //Update remote player (smooth this, this looks good, at the cost of some accuracy)
-            handle.position = Vector3.Lerp(handle.position, handlePos, Time.deltaTime * 20);
-            handle.rotation = Quaternion.Lerp(handle.rotation, handleRot, Time.deltaTime * 20);
+            handle.localPosition = Vector3.Lerp(handle.localPosition, handlePos, Time.deltaTime * 20);
         }
+        else {
 
-        // If you are holding the handle and it is all the way down send the tapped command once
-        if (handleScript.isGrabbing && handleTransform.localPosition.y <= -handleJoint.linearLimit.limit && !isDown)
-        {
-            isDown = true;
-            //send command tapped to the Server
-            photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommand, isDown);
-        }
+            // If you are holding the handle and it is all the way down send the tapped command once
+            if (handleScript.isGrabbing && handleTransform.localPosition.y <= -handleJoint.linearLimit.limit && !isDown)
+            {
+                isDown = true;
+                //send command tapped to the Server
+                photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommand, isDown);
+            }
 
-        // If not holding the handle and it's at the maximum, set handle just above maximum so it bounces back to the center (it locks at maximum)
-        if (!handleScript.isGrabbing && handleTransform.localPosition.y <= -handleJoint.linearLimit.limit)
-        {
-            handleTransform.localPosition = new Vector3(handleTransform.localPosition.x, -1.99f, handleTransform.localPosition.z);
-            isDown = false;
+            // If not holding the handle and it's at the maximum, set handle just above maximum so it bounces back to the center (it locks at maximum)
+            if (!handleScript.isGrabbing && handleTransform.localPosition.y <= -handleJoint.linearLimit.limit)
+            {
+                handleTransform.localPosition = new Vector3(handleTransform.localPosition.x, -1.99f, handleTransform.localPosition.z);
+                isDown = false;
+            }
         }
     }
 

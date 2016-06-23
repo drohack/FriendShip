@@ -42,11 +42,8 @@ public class Highlight_Handle_Top_Script : MonoBehaviour {
 
         if(photonView != null)
         {
-            if (photonView.ownerId == PhotonNetwork.player.ID)
+            if (photonView.ownerId != PhotonNetwork.player.ID)
             {
-                Debug.Log("Not requesting ownership. Already mine.");
-            }
-            else {
                 photonView.RequestOwnership();
             }
         }

@@ -39,34 +39,8 @@ public class Lightswitch_Script : Photon.MonoBehaviour
             mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
 
-    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.isWriting)
-        {
-            //We own this player: send the others our data
-            stream.SendNext(handle.position);
-            stream.SendNext(handle.rotation);
-        }
-        else
-        {
-            //Network player, receive data
-            handlePos = (Vector3)stream.ReceiveNext();
-            handleRot = (Quaternion)stream.ReceiveNext();
-        }
-    }
-
-    private Vector3 handlePos = Vector3.zero; //We lerp towards this
-    private Quaternion handleRot = Quaternion.identity; //We lerp towards this
-
     private void Update()
     {
-        if (!photonView.isMine)
-        {
-            //Update remote player (smooth this, this looks good, at the cost of some accuracy)
-            handle.position = Vector3.Lerp(handle.position, handlePos, Time.deltaTime * 20);
-            handle.rotation = Quaternion.Lerp(handle.rotation, handleRot, Time.deltaTime * 20);
-        }
-
         if (!isAnimating && isLocked && !handleScript.isGrabbing && !handleScript.isColliding)
         {
             isLocked = false;
@@ -81,6 +55,7 @@ public class Lightswitch_Script : Photon.MonoBehaviour
                 //send tapped command to Mastermind
                 int rCommandUp = (rCommand * 100) + 1;
                 photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandUp, isLightswitchOn);
+                photonView.RPC("RPCPlayAnim", PhotonTargets.Others, "Lightswitch_Off_Anim", isLightswitchOn);
                 StartCoroutine(WaitForAnimation(anim, "Lightswitch_Off_Anim"));
             }
             else
@@ -89,6 +64,7 @@ public class Lightswitch_Script : Photon.MonoBehaviour
                 //send tapped command to Mastermind
                 int rCommandDown = (rCommand * 100) + 2;
                 photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandDown, isLightswitchOn);
+                photonView.RPC("RPCPlayAnim", PhotonTargets.Others, "Lightswitch_On_Anim", isLightswitchOn);
                 StartCoroutine(WaitForAnimation(anim, "Lightswitch_On_Anim"));
             }
         }
@@ -111,5 +87,12 @@ public class Lightswitch_Script : Photon.MonoBehaviour
     {
         isLightswitchOn = sentIsLightswitchOn;
         mastermindScript.TappedWaitForSecondsOrTap(sentRCommand);
+    }
+
+    [PunRPC]
+    void RPCPlayAnim(string animationName, bool newIsLightswitchOn)
+    {
+        isLightswitchOn = newIsLightswitchOn;
+        anim.Play(animationName);
     }
 }

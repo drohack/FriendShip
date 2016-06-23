@@ -54,4 +54,6 @@ MonoBehaviour:
   - ScoreDown
   - ScoreUp
   - Win
+  - UpdateHandlePos
+  - RPCPlayAnim
   DisableAutoOpenWizard: 1

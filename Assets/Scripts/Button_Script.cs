@@ -43,6 +43,7 @@ public class Button_Script : Photon.MonoBehaviour
         {
             isLocked = false;
             isButtonDown = false;
+            photonView.RPC("RPCPlayAnim", PhotonTargets.Others, "Button_Up_Anim");
             StartCoroutine(WaitForAnimation(anim, "Button_Up_Anim"));
         }
 
@@ -52,6 +53,7 @@ public class Button_Script : Photon.MonoBehaviour
             isButtonDown = true;
             //send tapped rCommand to Server
             photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommand);
+            photonView.RPC("RPCPlayAnim", PhotonTargets.Others, "Button_Down_Anim");
             StartCoroutine(WaitForAnimation(anim, "Button_Down_Anim"));
         }
     }
@@ -71,7 +73,12 @@ public class Button_Script : Photon.MonoBehaviour
     [PunRPC]
     void CmdSendTappedCommand(int sentRCommand)
     {
-        Debug.Log("sent command: " + sentRCommand);
         mastermindScript.TappedWaitForSecondsOrTap(sentRCommand);
+    }
+
+    [PunRPC]
+    void RPCPlayAnim(string animationName)
+    {
+        anim.Play(animationName);
     }
 }

@@ -17,6 +17,8 @@ public class Dial_Script : Photon.MonoBehaviour
     Transform handle;
     public string newName;
     public int rCommand = -1;
+    //Once object is in final resting position make sure to send that final position
+    private bool sendLastStream = false;
 
     // Use this for initialization
     void Start()
@@ -53,19 +55,21 @@ public class Dial_Script : Photon.MonoBehaviour
     {
         if (stream.isWriting)
         {
-            //We own this player: send the others our data
-            stream.SendNext(handle.position);
-            stream.SendNext(handle.rotation);
+            // Only send data when the object is in motion (not locked) or it's final resting position (sendLastStream)
+            if (!isLocked || sendLastStream)
+            {
+                //We own this player: send the others our data
+                stream.SendNext(handle.localRotation);
+                sendLastStream = false;
+            }
         }
         else
         {
             //Network player, receive data
-            handlePos = (Vector3)stream.ReceiveNext();
             handleRot = (Quaternion)stream.ReceiveNext();
         }
     }
-
-    private Vector3 handlePos = Vector3.zero; //We lerp towards this
+    
     private Quaternion handleRot = Quaternion.identity; //We lerp towards this
 
     private void Update()
@@ -73,102 +77,108 @@ public class Dial_Script : Photon.MonoBehaviour
         if (!photonView.isMine)
         {
             //Update remote player (smooth this, this looks good, at the cost of some accuracy)
-            handle.position = Vector3.Lerp(handle.position, handlePos, Time.deltaTime * 20);
-            handle.rotation = Quaternion.Lerp(handle.rotation, handleRot, Time.deltaTime * 20);
+            handle.localRotation = Quaternion.Slerp(handle.localRotation, handleRot, Time.deltaTime * 20);
         }
+        else { 
+            handleTransform.localPosition = new Vector3(0, 0, 0);
 
-        handleTransform.localPosition = new Vector3(0, 0, 0);
-
-        if(handleScript.isGrabbing)
-        {
-            isLocked = false;
-            handleTransform.localEulerAngles = new Vector3(0, handleTransform.localEulerAngles.y, 0);
-        }
-        else
-        {
-            //snap lever into place near edges 
-            if (handleTransform.localEulerAngles.y > 162)
+            if (handleScript.isGrabbing)
             {
-                handleTransform.localEulerAngles = new Vector3(0, 179.9f, 0);
-
-                if (!isLocked)
-                {
-                    isLocked = true;
-                    //Lever changed positions
-                    dialPosition = 5;
-                    //send command tapped to the Server
-                    int rCommandFive = (rCommand * 100) + 5;
-                    photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandFive, dialPosition);
-                }
+                isLocked = false;
+                handleTransform.localEulerAngles = new Vector3(0, handleTransform.localEulerAngles.y, 0);
             }
-            else if (handleTransform.localEulerAngles.y > 126 && handleTransform.localEulerAngles.y < 162)
+            else
             {
-                handleTransform.localEulerAngles = new Vector3(0, 144, 0);
-
-                if (!isLocked)
+                //snap lever into place near edges 
+                if (handleTransform.localEulerAngles.y > 162)
                 {
-                    isLocked = true;
-                    //Lever changed positions
-                    dialPosition = 4;
-                    //send command tapped to the Server
-                    int rCommandFour = (rCommand * 100) + 4;
-                    photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandFour, dialPosition);
+                    handleTransform.localEulerAngles = new Vector3(0, 179.9f, 0);
+
+                    if (!isLocked)
+                    {
+                        sendLastStream = true;
+                        isLocked = true;
+                        //Lever changed positions
+                        dialPosition = 5;
+                        //send command tapped to the Server
+                        int rCommandFive = (rCommand * 100) + 5;
+                        photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandFive, dialPosition);
+                    }
                 }
-            }
-            else if (handleTransform.localEulerAngles.y > 90 && handleTransform.localEulerAngles.y < 126)
-            {
-                handleTransform.localEulerAngles = new Vector3(0, 108, 0);
-
-                if (!isLocked)
+                else if (handleTransform.localEulerAngles.y > 126 && handleTransform.localEulerAngles.y < 162)
                 {
-                    isLocked = true;
-                    //Lever changed positions
-                    dialPosition = 3;
-                    //send command tapped to the Server
-                    int rCommandThree = (rCommand * 100) + 3;
-                    photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandThree, dialPosition);
+                    handleTransform.localEulerAngles = new Vector3(0, 144, 0);
+
+                    if (!isLocked)
+                    {
+                        sendLastStream = true;
+                        isLocked = true;
+                        //Lever changed positions
+                        dialPosition = 4;
+                        //send command tapped to the Server
+                        int rCommandFour = (rCommand * 100) + 4;
+                        photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandFour, dialPosition);
+                    }
                 }
-            }
-            else if (handleTransform.localEulerAngles.y > 54 && handleTransform.localEulerAngles.y < 90)
-            {
-                handleTransform.localEulerAngles = new Vector3(0, 72, 0);
-
-                if (!isLocked)
+                else if (handleTransform.localEulerAngles.y > 90 && handleTransform.localEulerAngles.y < 126)
                 {
-                    isLocked = true;
-                    //Lever changed positions
-                    dialPosition = 2;
-                    //send command tapped to the Server
-                    int rCommandTwo = (rCommand * 100) + 2;
-                    photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandTwo, dialPosition);
+                    handleTransform.localEulerAngles = new Vector3(0, 108, 0);
+
+                    if (!isLocked)
+                    {
+                        sendLastStream = true;
+                        isLocked = true;
+                        //Lever changed positions
+                        dialPosition = 3;
+                        //send command tapped to the Server
+                        int rCommandThree = (rCommand * 100) + 3;
+                        photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandThree, dialPosition);
+                    }
                 }
-            }
-            else if (handleTransform.localEulerAngles.y > 18 && handleTransform.localEulerAngles.y < 54)
-            {
-                handleTransform.localEulerAngles = new Vector3(0, 36, 0);
-
-                if (!isLocked)
+                else if (handleTransform.localEulerAngles.y > 54 && handleTransform.localEulerAngles.y < 90)
                 {
-                    isLocked = true;
-                    //Lever changed positions
-                    dialPosition = 1;
-                    //send command tapped to the Server
-                    int rCommandOne = (rCommand * 100) + 1;
-                    photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandOne, dialPosition);
+                    handleTransform.localEulerAngles = new Vector3(0, 72, 0);
+
+                    if (!isLocked)
+                    {
+                        sendLastStream = true;
+                        isLocked = true;
+                        //Lever changed positions
+                        dialPosition = 2;
+                        //send command tapped to the Server
+                        int rCommandTwo = (rCommand * 100) + 2;
+                        photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandTwo, dialPosition);
+                    }
                 }
-            }
-            else if (handleTransform.localEulerAngles.y < 18)
-            {
-                handleTransform.localEulerAngles = new Vector3(0, 0, 0);
-
-                if (!isLocked)
+                else if (handleTransform.localEulerAngles.y > 18 && handleTransform.localEulerAngles.y < 54)
                 {
-                    isLocked = true;
-                    //Lever changed positions
-                    dialPosition = 0;
-                    //send command tapped to the Server
-                    int rCommandZero = (rCommand * 100) + 0;
-                    photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandZero, dialPosition);
+                    handleTransform.localEulerAngles = new Vector3(0, 36, 0);
+
+                    if (!isLocked)
+                    {
+                        sendLastStream = true;
+                        isLocked = true;
+                        //Lever changed positions
+                        dialPosition = 1;
+                        //send command tapped to the Server
+                        int rCommandOne = (rCommand * 100) + 1;
+                        photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandOne, dialPosition);
+                    }
+                }
+                else if (handleTransform.localEulerAngles.y < 18)
+                {
+                    handleTransform.localEulerAngles = new Vector3(0, 0, 0);
+
+                    if (!isLocked)
+                    {
+                        sendLastStream = true;
+                        isLocked = true;
+                        //Lever changed positions
+                        dialPosition = 0;
+                        //send command tapped to the Server
+                        int rCommandZero = (rCommand * 100) + 0;
+                        photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandZero, dialPosition);
+                    }
                 }
             }
         }

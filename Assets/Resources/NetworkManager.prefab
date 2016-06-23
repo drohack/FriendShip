@@ -71,14 +71,14 @@ MonoBehaviour:
   m_OfflineScene: 
   m_OnlineScene: 
   m_SpawnPrefabs:
-  - {fileID: 137476, guid: e5542e8668cb9294da98303173d553a4, type: 2}
-  - {fileID: 131876, guid: b4da822355963d141a8d87bb30b175a6, type: 2}
-  - {fileID: 110452, guid: bf7e049184f19284db35c46fb1416d64, type: 2}
-  - {fileID: 107122, guid: 0f4c71b9d43ea264b9148c0f90c34a17, type: 2}
-  - {fileID: 160548, guid: f330f344500f0df4986b61677102a567, type: 2}
-  - {fileID: 157272, guid: bd09cca3d57a0aa4a91d459b9d74338e, type: 2}
-  - {fileID: 117234, guid: 7628748074ea0bf44860f6a6f41dc7e2, type: 2}
-  - {fileID: 142638, guid: 0cd6f7fde11e9ed42b958aa7bcad61f1, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:

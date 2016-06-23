@@ -18,6 +18,8 @@ public class W_Lever_Script : Photon.MonoBehaviour
     Transform handle;
     public string newName;
     public int rCommand = -1;
+    //Once object is in final resting position make sure to send that final position
+    private bool sendLastStream = false;
 
     // Use this for initialization
     void Start()
@@ -54,19 +56,21 @@ public class W_Lever_Script : Photon.MonoBehaviour
     {
         if (stream.isWriting)
         {
-            //We own this player: send the others our data
-            stream.SendNext(handle.position);
-            stream.SendNext(handle.rotation);
+            // Only send data when the object is in motion (not locked) or it's final resting position (sendLastStream)
+            if (!isLocked || sendLastStream)
+            {
+                //We own this player: send the others our data
+                stream.SendNext(handle.localRotation);
+                sendLastStream = false;
+            }
         }
         else
         {
             //Network player, receive data
-            handlePos = (Vector3)stream.ReceiveNext();
             handleRot = (Quaternion)stream.ReceiveNext();
         }
     }
-
-    private Vector3 handlePos = Vector3.zero; //We lerp towards this
+    
     private Quaternion handleRot = Quaternion.identity; //We lerp towards this
 
     private void Update()
@@ -74,54 +78,56 @@ public class W_Lever_Script : Photon.MonoBehaviour
         if (!photonView.isMine)
         {
             //Update remote player (smooth this, this looks good, at the cost of some accuracy)
-            handle.position = Vector3.Lerp(handle.position, handlePos, Time.deltaTime * 20);
-            handle.rotation = Quaternion.Lerp(handle.rotation, handleRot, Time.deltaTime * 20);
+            handle.localRotation = Quaternion.Slerp(handle.localRotation, handleRot, Time.deltaTime * 20);
         }
-
-        if (handleScript.isGrabbing)
-        {
-            isLocked = false;
-        }
-        else
-        {
-            if (handleTransform.localEulerAngles.y < 90 || handleTransform.localEulerAngles.y > 342.5)
+        else {
+            if (handleScript.isGrabbing)
             {
-                handleTransform.localPosition = new Vector3(0, 0, handleTransform.localPosition.z);
-                handleTransform.localEulerAngles = new Vector3(
-                    0f,
-                    359.999f,
-                    0f
-                );
-
-                //If the last position of the handle was in the middle, and now we are at the up position, then send the command that the L_Lever is now Up
-                if (!isLocked)
-                {
-                    //send command tapped to the Server with the lLeverUpCommand
-                    int rCommandUp = (rCommand * 100) + 2;
-                    photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandUp, isWLeverUp);
-                    //Lever changed positions
-                    isWLeverUp = true;
-                    isLocked = true;
-                }
+                isLocked = false;
             }
-            else if (handleTransform.localEulerAngles.y < 342.5 && handleTransform.localEulerAngles.y > 180)
+            else
             {
-                handleTransform.localPosition = new Vector3(-0.57f, 0, handleTransform.localPosition.z);
-                handleTransform.localEulerAngles = new Vector3(
-                    0f,
-                    325.001f,
-                    0f
-                );
-
-                //If the last position of the handle was in the middle, and now we are at the down position, then send the command that the L_Lever is now Down
-                if (!isLocked)
+                if (handleTransform.localEulerAngles.y < 90 || handleTransform.localEulerAngles.y > 342.5)
                 {
-                    //send command tapped to the Server with the lLeverDownCommand
-                    int rCommandDown = (rCommand * 100) + 1;
-                    photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandDown, isWLeverUp);
-                    //Lever changed positions
-                    isWLeverUp = false;
-                    isLocked = true;
+                    handleTransform.localPosition = new Vector3(0, 0, handleTransform.localPosition.z);
+                    handleTransform.localEulerAngles = new Vector3(
+                        0f,
+                        359.999f,
+                        0f
+                    );
+
+                    //If the last position of the handle was in the middle, and now we are at the up position, then send the command that the L_Lever is now Up
+                    if (!isLocked)
+                    {
+                        sendLastStream = true;
+                        isLocked = true;
+                        //Lever changed positions
+                        isWLeverUp = true;
+                        //send command tapped to the Server with the lLeverUpCommand
+                        int rCommandUp = (rCommand * 100) + 2;
+                        photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandUp, isWLeverUp);
+                    }
+                }
+                else if (handleTransform.localEulerAngles.y < 342.5 && handleTransform.localEulerAngles.y > 180)
+                {
+                    handleTransform.localPosition = new Vector3(-0.57f, 0, handleTransform.localPosition.z);
+                    handleTransform.localEulerAngles = new Vector3(
+                        0f,
+                        325.001f,
+                        0f
+                    );
+
+                    //If the last position of the handle was in the middle, and now we are at the down position, then send the command that the L_Lever is now Down
+                    if (!isLocked)
+                    {
+                        sendLastStream = true;
+                        isLocked = true;
+                        //Lever changed positions
+                        isWLeverUp = false;
+                        //send command tapped to the Server with the lLeverDownCommand
+                        int rCommandDown = (rCommand * 100) + 1;
+                        photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandDown, isWLeverUp);
+                    }
                 }
             }
         }
