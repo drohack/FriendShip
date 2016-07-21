@@ -56,4 +56,5 @@ MonoBehaviour:
   - Win
   - UpdateHandlePos
   - RPCPlayAnim
+  - RequestForPickupItems
   DisableAutoOpenWizard: 1
