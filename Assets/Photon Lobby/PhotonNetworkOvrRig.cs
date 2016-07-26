@@ -49,6 +49,11 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
     private int m_animParamIndexFlex = -1;
     private int m_animParamIndexPose = -1;
 
+    private bool leftIsEnabled = true;
+    private bool rightIsEnabled = true;
+    private Transform oldLeftHandPf = null;
+    private Transform oldRightHandPf = null;
+
     void Awake()
     {
         if (photonView.isMine)
@@ -86,10 +91,36 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
             //We own this player: send the others our data
             stream.SendNext(centerEyeAnchor.position);
             stream.SendNext(centerEyeAnchor.rotation);
-            stream.SendNext(LeftHandPf.position);
-            stream.SendNext(LeftHandPf.rotation);
-            stream.SendNext(RightHandPf.position);
-            stream.SendNext(RightHandPf.rotation);
+            if(leftIsEnabled)
+            {
+                oldLeftHandPf = null;
+                stream.SendNext(LeftHandPf.position);
+                stream.SendNext(LeftHandPf.rotation);
+            }
+            else
+            {
+                if(oldLeftHandPf == null)
+                {
+                    oldLeftHandPf = LeftHandPf;
+                }
+                stream.SendNext(oldLeftHandPf.position);
+                stream.SendNext(oldLeftHandPf.rotation);
+            }
+            if (rightIsEnabled)
+            {
+                oldRightHandPf = null;
+                stream.SendNext(RightHandPf.position);
+                stream.SendNext(RightHandPf.rotation);
+            }
+            else
+            {
+                if (oldRightHandPf == null)
+                {
+                    oldRightHandPf = RightHandPf;
+                }
+                stream.SendNext(oldRightHandPf.position);
+                stream.SendNext(oldRightHandPf.rotation);
+            }
             stream.SendNext((int)handScriptL.m_handedness);
             stream.SendNext((int)handScriptL.handPoseId);
             stream.SendNext(handScriptL.m_flex);
@@ -198,6 +229,15 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
 
     public void ToggleMeshRenderer(HandednessId m_handedness, bool isEnabled)
     {
+        if (m_handedness.Equals(HandednessId.Left))
+        {
+            leftIsEnabled = isEnabled;
+        }
+        else
+        {
+            Debug.Log("rightIsEnabled: " + isEnabled);
+            rightIsEnabled = isEnabled;
+        }
         photonView.RPC("RpcToggleMeshRenderer", PhotonTargets.Others, m_handedness, isEnabled);
     }
 

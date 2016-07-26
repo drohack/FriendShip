@@ -87,7 +87,7 @@ public class Shifter_Script : Photon.MonoBehaviour
 
             if (handleScript.isGrabbing)
             {
-                Debug.Log(handleTransform.localEulerAngles.z);
+                //Debug.Log(handleTransform.localEulerAngles.z);
                 isLocked = false;
             }
             else

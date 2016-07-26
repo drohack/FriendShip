@@ -44,7 +44,8 @@ namespace OvrTouch.Hands
         {
             Grab,
             Drag,
-            Rotate
+            Rotate,
+            None
         }
 
         public bool isGrabbing = false;
@@ -77,10 +78,25 @@ namespace OvrTouch.Hands
         private bool m_grabbedKinematic = false;
         private GrabPoint m_grabbedGrabPoint = null;
         private Hand m_grabbedHand = null;
+        [SerializeField]
+        private LockRotation lockRotation;
 
         //==============================================================================
         // Properties
         //==============================================================================
+
+        [System.Serializable]
+        public class LockRotation
+        {
+            public bool x = false;
+            public bool y = false;
+            public bool z = false;
+        }
+
+        public LockRotation LockedRotation
+        {
+            get { return lockRotation; }
+        }
 
         public bool AllowOffhandGrab
         {
@@ -152,7 +168,7 @@ namespace OvrTouch.Hands
                 m_SpringJoint.connectedBody.drag = d_Drag;
                 m_SpringJoint.connectedBody.angularDrag = d_AngularDrag;
             }
-            else
+            else if (!m_grabMode.Equals(GrabMode.None))
             {
                 m_SpringJoint.spring = k_Spring;
                 m_SpringJoint.damper = k_Damper;

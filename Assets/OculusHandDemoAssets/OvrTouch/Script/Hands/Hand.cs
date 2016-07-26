@@ -371,7 +371,7 @@ namespace OvrTouch.Hands {
                 }
             }
 
-            if (closestGrabbable != null)
+            if (closestGrabbable != null && !closestGrabbable.m_grabMode.Equals(Grabbable.GrabMode.None))
             {
                 // Disable grab volumes to prevent overlaps
                 GrabVolumeEnable(false);
@@ -390,7 +390,7 @@ namespace OvrTouch.Hands {
                 }
             }
 
-            if (closestGrabbable != null) { 
+            if (closestGrabbable != null && !closestGrabbable.m_grabMode.Equals(Grabbable.GrabMode.None)) { 
                 if (closestGrabbable.IsGrabbed) {
                     // Release the grabbable from the another hand
                     closestGrabbable.GrabbedHand.OffhandGrabbed(closestGrabbable);
@@ -478,8 +478,24 @@ namespace OvrTouch.Hands {
             }
             else if (m_grabbedGrabbable.m_grabMode.Equals(Grabbable.GrabMode.Rotate))
             {
-                Quaternion deltaRotation = finalRotation * Quaternion.Inverse(this.transform.rotation);
-                deltaRotation = Quaternion.Euler(deltaRotation.eulerAngles.x * 2, deltaRotation.eulerAngles.y * 2, deltaRotation.eulerAngles.z * 2);
+                Quaternion inverseRotation = Quaternion.Inverse(this.transform.rotation);
+                if (m_grabbedGrabbable.LockedRotation.x)
+                {
+                    finalRotation.x = 0;
+                    inverseRotation.x = 0;
+                }
+                if (m_grabbedGrabbable.LockedRotation.y)
+                {
+                    finalRotation.y = 0;
+                    inverseRotation.y = 0;
+                }
+                if (m_grabbedGrabbable.LockedRotation.z)
+                {
+                    finalRotation.z = 0;
+                    inverseRotation.z = 0;
+                }
+                Quaternion deltaRotation = finalRotation * inverseRotation;
+                deltaRotation = Quaternion.Euler(deltaRotation.eulerAngles.x * 2, deltaRotation.eulerAngles.y * 2, deltaRotation.eulerAngles.z * 2);                
                 grabbedTransform.rotation = deltaRotation * grabbedTransform.rotation;
             }
         }
