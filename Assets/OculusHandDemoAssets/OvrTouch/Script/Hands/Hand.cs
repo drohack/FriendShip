@@ -95,6 +95,7 @@ namespace OvrTouch.Hands {
         private int m_animParamIndexPose = -1;
 
         public float m_flex = 0.0f;
+        public float m_trigger = 0.0f;
         public float m_point = 0.0f;
         public float m_thumbsUp = 0.0f;
 
@@ -177,15 +178,17 @@ namespace OvrTouch.Hands {
         //==============================================================================
 	    private void FixedUpdate () {
             float prevFlex = m_flex;
+            float prevTrigger = m_trigger;
 
             // Update values from inputs
             m_flex = InputFlex();
+            m_trigger = InputTrigger();
             m_point = InputValueRateChange(InputPoint(), m_point);
             m_thumbsUp = InputValueRateChange(InputThumbsUp(), m_thumbsUp);
             
             // Advance the hand
             GrabVolumeAdvance();
-            GrabAdvance(prevFlex);
+            GrabAdvance(prevFlex, prevTrigger);
             //CollisionAdvance();
             AnimationAdvance();
 	    }
@@ -276,6 +279,11 @@ namespace OvrTouch.Hands {
             return m_trackedController.GripTrigger;
         }
 
+        private float InputTrigger()
+        {
+            return m_trackedController.Trigger;
+        }
+
         //==============================================================================
         private bool InputPoint () {
             return m_trackedController.IsPoint;
@@ -336,11 +344,12 @@ namespace OvrTouch.Hands {
         //}
 
         //==============================================================================
-        private void GrabAdvance (float prevFlex) {
-            if ((m_flex >= Const.ThreshGrabBegin) && (prevFlex < Const.ThreshGrabBegin)) {
+        private void GrabAdvance (float prevFlex, float prevTrigger) {
+            if (((m_flex >= Const.ThreshGrabBegin) && (prevFlex < Const.ThreshGrabBegin)) || ((m_trigger >= Const.ThreshGrabBegin) && (prevTrigger < Const.ThreshGrabBegin))) {
                 GrabBegin();
             }
-            else if ((m_flex <= Const.ThreshGrabEnd) && (prevFlex > Const.ThreshGrabEnd)) {
+            else if (((m_flex <= Const.ThreshGrabEnd) && (prevFlex > Const.ThreshGrabEnd) && (m_trigger <= Const.ThreshGrabEnd)) || 
+                ((m_trigger <= Const.ThreshGrabEnd) && (prevTrigger > Const.ThreshGrabEnd) && (m_flex <= Const.ThreshGrabEnd))) {
                 GrabEnd();
             }
         }
