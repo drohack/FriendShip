@@ -581,12 +581,12 @@ public class Mastermind_Script : Photon.MonoBehaviour
         //And display "Start!" command
         StartCoroutine(StartNextRoundIn(3));
 
-        ShowScore();
+        UpdateScore();
 
         isLoadingNextLevel = false;
     }
 
-    public void ShowScore()
+    public void UpdateScore()
     {
         p1_scoreTextScript.photonView.RPC("ScoreUp", PhotonTargets.All, score);
         if (numPlayers > 1)
@@ -600,25 +600,13 @@ public class Mastermind_Script : Photon.MonoBehaviour
     public void ScoreUp()
     {
         score++;
-        p1_scoreTextScript.photonView.RPC("ScoreUp", PhotonTargets.All, score);
-        if (numPlayers > 1)
-            p2_scoreTextScript.photonView.RPC("ScoreUp", PhotonTargets.All, score);
-        if (numPlayers > 2)
-            p3_scoreTextScript.photonView.RPC("ScoreUp", PhotonTargets.All, score);
-        if (numPlayers > 3)
-            p4_scoreTextScript.photonView.RPC("ScoreUp", PhotonTargets.All, score);
+        UpdateScore();
     }
 
     public void ScoreDown()
     {
         score--;
-        p1_scoreTextScript.photonView.RPC("ScoreDown", PhotonTargets.All, score);
-        if (numPlayers > 1)
-            p2_scoreTextScript.photonView.RPC("ScoreDown", PhotonTargets.All, score);
-        if (numPlayers > 2)
-            p3_scoreTextScript.photonView.RPC("ScoreDown", PhotonTargets.All, score);
-        if (numPlayers > 3)
-            p4_scoreTextScript.photonView.RPC("ScoreDown", PhotonTargets.All, score);
+        UpdateScore();
     }
 
     //Display a countdown till next round, call to generate the random objects, and display "START!"
@@ -630,35 +618,11 @@ public class Mastermind_Script : Photon.MonoBehaviour
         p4_isDisplayStart = true;
 
         //Play countdown
-        p1_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, " Ready in");
-        if (numPlayers > 1)
-        {
-            p2_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, " Ready in");
-        }
-        if (numPlayers > 2)
-        {
-            p3_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, " Ready in");
-        }
-        if (numPlayers > 3)
-        {
-            p4_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, " Ready in");
-        }
+        UpdateAllConsoles(" Ready in");
         yield return new WaitForSeconds(1);
         for (int i = count; i > 0; i--)
         {
-            p1_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, i.ToString());
-            if (numPlayers > 1)
-            {
-                p2_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, i.ToString());
-            }
-            if (numPlayers > 2)
-            {
-                p3_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, i.ToString());
-            }
-            if (numPlayers > 3)
-            {
-                p4_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, i.ToString());
-            }
+            UpdateAllConsoles(i.ToString());
             yield return new WaitForSeconds(1);
         }
 
@@ -666,25 +630,30 @@ public class Mastermind_Script : Photon.MonoBehaviour
         GenerateRandomObjects();
 
         //Start the next round!
-        p1_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, " START!");
-        if (numPlayers > 1)
-        {
-            p2_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, " START!");
-        }
-        if (numPlayers > 2)
-        {
-            p3_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, " START!");
-        }
-        if (numPlayers > 3)
-        {
-            p4_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, " START!");
-        }
+        UpdateAllConsoles(" START!");
         yield return new WaitForSeconds(1);
 
         p1_isDisplayStart = false;
         p2_isDisplayStart = false;
         p3_isDisplayStart = false;
         p4_isDisplayStart = false;
+    }
+
+    public void UpdateAllConsoles(string msg)
+    {
+        p1_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, msg);
+        if (numPlayers > 1)
+        {
+            p2_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, msg);
+        }
+        if (numPlayers > 2)
+        {
+            p3_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, msg);
+        }
+        if (numPlayers > 3)
+        {
+            p4_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, msg);
+        }
     }
 
     // Custom WaitForSeconds
@@ -753,6 +722,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         //Check to see if the current command is the correct button pressed. Update score accordingly
         if (p1_rCommand == inputCommand)
         {
+            p1_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
             ScoreUp();
             //Set timer for that player to 0 to get next command
             p1_gWaitSystem = 0.0f;
@@ -760,6 +730,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         }
         if (p2_rCommand == inputCommand)
         {
+            p2_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
             ScoreUp();
             //Set timer for that player to 0 to get next command
             p2_gWaitSystem = 0.0f;
@@ -767,6 +738,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         }
         if (p3_rCommand == inputCommand)
         {
+            p3_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
             ScoreUp();
             //Set timer for that player to 0 to get next command
             p3_gWaitSystem = 0.0f;
@@ -774,6 +746,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         }
         if (p4_rCommand == inputCommand)
         {
+            p4_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
             ScoreUp();
             //Set timer for that player to 0 to get next command
             p4_gWaitSystem = 0.0f;
