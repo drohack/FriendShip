@@ -235,7 +235,7 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
         }
         else
         {
-            Debug.Log("rightIsEnabled: " + isEnabled);
+            //Debug.Log("rightIsEnabled: " + isEnabled);
             rightIsEnabled = isEnabled;
         }
         photonView.RPC("RpcToggleMeshRenderer", PhotonTargets.Others, m_handedness, isEnabled);

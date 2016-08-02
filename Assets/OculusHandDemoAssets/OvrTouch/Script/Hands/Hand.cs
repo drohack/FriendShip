@@ -363,7 +363,7 @@ namespace OvrTouch.Hands {
             // Iterate grab candidates and find the closest grabbable candidate
             foreach (Grabbable grabbable in m_grabCandidates.Keys) {
                 // Determine if the grabbable can be grabbed
-                bool canGrab = !(grabbable.IsGrabbed && !grabbable.AllowOffhandGrab);
+                bool canGrab = grabbable != null && !(grabbable.IsGrabbed && !grabbable.AllowOffhandGrab);
                 if (!canGrab) {
                     continue;
                 }
@@ -543,7 +543,10 @@ namespace OvrTouch.Hands {
             if (!m_grabVolumeEnabled) {
                 // Clear overlaps
                 foreach (Grabbable grabbable in m_grabCandidates.Keys) {
-                    grabbable.OverlapEnd(this);
+                    if (grabbable != null)
+                    {
+                        grabbable.OverlapEnd(this);
+                    }
                 }
                 m_grabCandidates.Clear();
             }

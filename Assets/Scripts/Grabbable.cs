@@ -237,12 +237,15 @@ namespace OvrTouch.Hands
         //==============================================================================
         public void OverlapBegin(Hand hand)
         {
-            GrabbableOverlapMsg overlapMsg = new GrabbableOverlapMsg()
+            if (this != null)
             {
-                Sender = this,
-                Hand = hand,
-            };
-            SendMsg(GrabbableOverlapMsg.MsgNameOverlapBegin, overlapMsg);
+                GrabbableOverlapMsg overlapMsg = new GrabbableOverlapMsg()
+                {
+                    Sender = this,
+                    Hand = hand,
+                };
+                SendMsg(GrabbableOverlapMsg.MsgNameOverlapBegin, overlapMsg);
+            }
         }
 
         //==============================================================================
@@ -250,7 +253,7 @@ namespace OvrTouch.Hands
         {
             GrabbableOverlapMsg overlapMsg = new GrabbableOverlapMsg()
             {
-                Sender = this,
+                Sender = this != null ? this : null,
                 Hand = hand,
             };
             SendMsg(GrabbableOverlapMsg.MsgNameOverlapEnd, overlapMsg);

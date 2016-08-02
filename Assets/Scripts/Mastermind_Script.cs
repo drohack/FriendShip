@@ -12,6 +12,9 @@ public class Mastermind_Script : Photon.MonoBehaviour
     /** SINGLE VARIABLES **/
     private         int numPlayers = 0;
     private         int score = 0;
+    private         int level = 1;
+    private         bool isLoadingNextLevel = false;
+    private         int scoreToWin = 10;
     private         int numOfDiffGameObjects = 8; // The number of different type of game objects total to be used for random rolling of said game objects
     private const   int commandTimeoutSeconds = 10;
     public const    int buttonCommand = 0;
@@ -84,6 +87,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
     // Use this for initialization
     void Start () {
+        level = 1;
+        isLoadingNextLevel = false;
         //Get number of players by the NetwokManager.numPlayers
         numPlayers = PhotonNetwork.playerList.Length;
         Debug.Log("numPlayers: " + numPlayers);
@@ -109,9 +114,10 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
         Initialize();
 
-        GenerateRandomObjects();
-
-        StartCoroutine(DisplayStartText());
+        //Count down from 3 to next level
+        //Generate new objects
+        //And display "Start!" command
+        StartCoroutine(StartNextRoundIn(3));
     }
 
     void Initialize()
@@ -238,6 +244,15 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
     rObjectType[] GenerateRandomObjects(rObjectType[] inRObjList, int intRObjListSize, GameObject playerControlDeck, int gridX, int gridY, int playerNum)
     {
+        //Destroy all objects within the players RObjects list
+        Transform rObjectTransform = playerControlDeck.transform.Find("RObjects");
+        for (int i = rObjectTransform.childCount - 1; i >= 0; --i)
+        {
+            GameObject.Destroy(rObjectTransform.GetChild(i).gameObject);
+        }
+        rObjectTransform.DetachChildren();
+        rObjectTransform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+
         rObjectType[] outRObjList = inRObjList;
 
         int commandIndex;
@@ -495,41 +510,91 @@ public class Mastermind_Script : Photon.MonoBehaviour
         return outRObjList;
     }
 
+    void DestroyRandomObjects()
+    {
+        //Destroy all rObjects on all clients
+        if (rObjList != null)
+        {
+            foreach (rObjectType rObjectType in rObjList)
+            {
+                PhotonNetwork.Destroy(rObjectType.rObject);
+            }
+        }
+    }
+
     // Update is called once per frame
     void Update () {
         //If the user scores 10 or more, change text to Green and to say "YOU WIN~"
-        if (score >= 10)
+        if (score >= scoreToWin && !isLoadingNextLevel)
         {
-            p1_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
-            if (numPlayers > 1)
-                p2_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
-            if (numPlayers > 2)
-                p3_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
-            if (numPlayers > 3)
-                p4_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
+            StartCoroutine(LoadNextLevel());
         }
 
-        //if we are NOT typing "START!" including waiting the 2 seconds
+        //If we are not loading the next level
+        //AND if we are NOT typing "START!"
         //AND if we are NOT currently typing a command
         //AND if we are NOT currently waiting the 10 seconds for a command to pass
         //generate and display a new random command
-        if (!p1_isDisplayStart && !p1_consoleTextScript.isTyping && !p1_isDisplayingCommand)
-            StartCoroutine(P1_DisplayRandomCommand());
+        if (!isLoadingNextLevel)
+        {
+            if (!p1_isDisplayStart && !p1_consoleTextScript.isTyping && !p1_isDisplayingCommand)
+                StartCoroutine(P1_DisplayRandomCommand());
+            if (numPlayers > 1)
+            {
+                if (!p2_isDisplayStart && !p2_consoleTextScript.isTyping && !p2_isDisplayingCommand)
+                    StartCoroutine(P2_DisplayRandomCommand());
+            }
+            if (numPlayers > 2)
+            {
+                if (!p3_isDisplayStart && !p3_consoleTextScript.isTyping && !p3_isDisplayingCommand)
+                    StartCoroutine(P3_DisplayRandomCommand());
+            }
+            if (numPlayers > 3)
+            {
+                if (!p4_isDisplayStart && !p4_consoleTextScript.isTyping && !p4_isDisplayingCommand)
+                    StartCoroutine(P4_DisplayRandomCommand());
+            }
+        }
+    }
+
+    IEnumerator LoadNextLevel()
+    {
+        isLoadingNextLevel = true;
+        score = 0;
+        level += 1;
+
+        //Destroy all rObjects inside of rObjList
+        DestroyRandomObjects();
+
+        p1_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
         if (numPlayers > 1)
-        {
-            if (!p2_isDisplayStart && !p2_consoleTextScript.isTyping && !p2_isDisplayingCommand)
-                StartCoroutine(P2_DisplayRandomCommand());
-        }
+            p2_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
         if (numPlayers > 2)
-        {
-            if (!p3_isDisplayStart && !p3_consoleTextScript.isTyping && !p3_isDisplayingCommand)
-                StartCoroutine(P3_DisplayRandomCommand());
-        }
+            p3_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
         if (numPlayers > 3)
-        {
-            if (!p4_isDisplayStart && !p4_consoleTextScript.isTyping && !p4_isDisplayingCommand)
-                StartCoroutine(P4_DisplayRandomCommand());
-        }
+            p4_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
+
+        yield return new WaitForSeconds(3);
+
+        //Count down from 3 to next level
+        //Generate new objects
+        //And display "Start!" command
+        StartCoroutine(StartNextRoundIn(3));
+
+        ShowScore();
+
+        isLoadingNextLevel = false;
+    }
+
+    public void ShowScore()
+    {
+        p1_scoreTextScript.photonView.RPC("ScoreUp", PhotonTargets.All, score);
+        if (numPlayers > 1)
+            p2_scoreTextScript.photonView.RPC("ScoreUp", PhotonTargets.All, score);
+        if (numPlayers > 2)
+            p3_scoreTextScript.photonView.RPC("ScoreUp", PhotonTargets.All, score);
+        if (numPlayers > 3)
+            p4_scoreTextScript.photonView.RPC("ScoreUp", PhotonTargets.All, score);
     }
 
     public void ScoreUp()
@@ -556,35 +621,66 @@ public class Mastermind_Script : Photon.MonoBehaviour
             p4_scoreTextScript.photonView.RPC("ScoreDown", PhotonTargets.All, score);
     }
 
-    //Display "START!" for 2 seconds
-    IEnumerator DisplayStartText()
+    //Display a countdown till next round, call to generate the random objects, and display "START!"
+    IEnumerator StartNextRoundIn(int count)
     {
         p1_isDisplayStart = true;
-        if(p1_consoleTextScript == null)
+        p2_isDisplayStart = true;
+        p3_isDisplayStart = true;
+        p4_isDisplayStart = true;
+
+        //Play countdown
+        p1_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, " Ready in");
+        if (numPlayers > 1)
         {
-            Debug.Log("p1 console text script is null");
+            p2_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, " Ready in");
         }
-        if(p1_consoleTextScript.photonView == null)
+        if (numPlayers > 2)
         {
-            Debug.Log("p1 photon view is null");
+            p3_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, " Ready in");
         }
+        if (numPlayers > 3)
+        {
+            p4_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, " Ready in");
+        }
+        yield return new WaitForSeconds(1);
+        for (int i = count; i > 0; i--)
+        {
+            p1_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, i.ToString());
+            if (numPlayers > 1)
+            {
+                p2_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, i.ToString());
+            }
+            if (numPlayers > 2)
+            {
+                p3_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, i.ToString());
+            }
+            if (numPlayers > 3)
+            {
+                p4_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, i.ToString());
+            }
+            yield return new WaitForSeconds(1);
+        }
+
+        //Generate the random objects
+        GenerateRandomObjects();
+
+        //Start the next round!
         p1_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, " START!");
         if (numPlayers > 1)
         {
-            p2_isDisplayStart = true;
             p2_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, " START!");
         }
         if (numPlayers > 2)
         {
-            p3_isDisplayStart = true;
             p3_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, " START!");
         }
         if (numPlayers > 3)
         {
-            p4_isDisplayStart = true;
             p4_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, " START!");
         }
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
+
         p1_isDisplayStart = false;
         p2_isDisplayStart = false;
         p3_isDisplayStart = false;
@@ -652,7 +748,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         isTapped = true;
         numFufilled = 0;
 
-        Debug.Log("p1_command = " + p1_rCommand + " inputCommand = " + inputCommand);
+        //Debug.Log("p1_command = " + p1_rCommand + " inputCommand = " + inputCommand);
                 
         //Check to see if the current command is the correct button pressed. Update score accordingly
         if (p1_rCommand == inputCommand)
