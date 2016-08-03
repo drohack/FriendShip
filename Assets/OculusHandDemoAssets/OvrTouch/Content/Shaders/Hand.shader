@@ -1,4 +1,6 @@
-﻿/********************************************************************************//**
+﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
+/********************************************************************************//**
 \file      Hand.shader
 \brief     Basic hand shader impementation.
 \copyright Copyright 2015 Oculus VR, LLC All Rights reserved.
@@ -55,7 +57,7 @@ Shader "OvrTouch/Hand" {
 			//==============================================================================
 			v2f vert (appdata_full v) {
 				// Wire texture lookup
-				float3 worldPos = mul(_Object2World, v.vertex).xyz;
+				float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 				half2 wireTexCoord = UtilWireTexCoord(worldPos, v.color);
 				half3 wireTex = tex2Dlod(_WireTex, half4(wireTexCoord, 0, 0));
 
@@ -132,7 +134,7 @@ Shader "OvrTouch/Hand" {
 			UNITY_INITIALIZE_OUTPUT(Input, output);
 
 			// Wire texture lookup
-			float3 worldPos = mul(_Object2World, v.vertex).xyz;
+			float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 			half2 wireTexCoord = UtilWireTexCoord(worldPos, v.color);
 			half3 wireTex = tex2Dlod(_WireTex, half4(wireTexCoord, 0, 0));
 
