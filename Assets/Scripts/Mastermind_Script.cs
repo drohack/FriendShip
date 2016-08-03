@@ -267,8 +267,26 @@ public class Mastermind_Script : Photon.MonoBehaviour
         //for each grid position generate a random object and add it to the random object list
         for (int x = 0; x < gridX; x++)
         {
+            if (x > 4)
+                break;
+
+            float xOffset = x;
+            if (gridX == 1)
+                xOffset += 1.5f;
+            else if (gridX == 2)
+                xOffset += 1f;
+            else if (gridX == 3)
+                xOffset += 0.5f;
+
             for (int y = 0; y < gridY; y++)
             {
+                if (y > 2)
+                    break;
+
+                float yOffset = y;
+                if (gridY == 1)
+                    yOffset += 0.5f;
+
                 rObjectType rObjectType = new rObjectType();
                 GameObject randObjectEmpty;
                 object[] data = new object[2];
@@ -287,13 +305,13 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         buttonCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.09f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.09f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.09f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.09f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.09f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.09f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.09f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.09f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
                         //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
                         //    vector3,
                         //    Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
@@ -311,13 +329,13 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         dialCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.05f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.05f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.05f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.05f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
                         //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Dial"),
                         //    vector3,
                         //    Quaternion.Euler(new Vector3(xQuaternion - 90, yQuaternion + 90, zQuaternion)));
@@ -335,13 +353,13 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         lLeverCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.147f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.147f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.147f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.147f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.147f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.147f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.147f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.147f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
                         //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/L_Lever"),
                         //    vector3,
                         //    Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
@@ -359,13 +377,13 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         lightswitchCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.05f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.05f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.05f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.05f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
                         //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Lightswitch"),
                         //    vector3,
                         //    Quaternion.Euler(new Vector3(xQuaternion, yQuaternion + 90, zQuaternion)));
@@ -383,13 +401,13 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         shifterCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.05f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.05f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.05f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.05f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
                         //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Shifter"),
                         //    vector3,
                         //    Quaternion.Euler(new Vector3(xQuaternion + 180, yQuaternion + 90, zQuaternion)));
@@ -407,13 +425,13 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         sliderCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.05f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.05f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.05f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.05f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
                         //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Slider"),
                         //    vector3,
                         //    Quaternion.Euler(new Vector3(xQuaternion + 270, yQuaternion + 90, zQuaternion)));
@@ -431,13 +449,13 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         valveCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.096f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.096f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.096f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.096f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.096f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.096f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.096f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.096f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
                         //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Valve"),
                         //    vector3,
                         //    Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion + 90)));
@@ -455,13 +473,13 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         wLeverCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.152f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.152f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.152f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.152f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.152f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.152f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.152f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.152f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
                         //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/W_Lever"),
                         //    vector3,
                         //    Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
@@ -479,13 +497,13 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         buttonCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.09f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.09f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.09f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.09f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * x), 0.6f + (0.4f * y), playerControlDeck.transform.position.z + 0.09f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.09f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.09f, 0.6f + (0.4f * y), playerControlDeck.transform.position.z - 0.43f + (0.3f * x));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.09f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
                         //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
                         //    vector3,
                         //    Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
