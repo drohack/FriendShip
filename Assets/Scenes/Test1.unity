@@ -779,12 +779,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fea5e3a911fbbfa42ac6c85ea1e103bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 0}
-  player1Spawn: {fileID: 0}
-  player2Spawn: {fileID: 0}
-  player3Spawn: {fileID: 0}
-  player4Spawn: {fileID: 0}
-  mastermind: {fileID: 0}
+  playerPrefab: {fileID: 4000012717550140, guid: cc1a0ec9860dbac4fa5cc8494f9aa39a,
+    type: 2}
+  player1Spawn: {fileID: 592993266}
+  player2Spawn: {fileID: 636014930}
+  player3Spawn: {fileID: 1283454463}
+  player4Spawn: {fileID: 1425116929}
+  mastermind: {fileID: 709226293}
 --- !u!4 &823141854
 Transform:
   m_ObjectHideFlags: 0
