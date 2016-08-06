@@ -1,69 +1,27 @@
 fileFormatVersion: 2
-guid: 020d4118db98f6d44af732195ac35126
-timeCreated: 1463778458
+guid: 0007010dff6aabb4f9a19d615b84a787
+timeCreated: 1470454152
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: dial-base
-    100004: dial-knob
-    100006: lightswitch-base
-    100008: lightswitch-switch
-    100010: Pullcord
-    100012: shifter-base
-    100014: shifter-knob
-    100016: slider-base
-    100018: slider-knob
-    100020: valve
-    100022: valve_001
-    400000: //RootNode
-    400002: dial-base
-    400004: dial-knob
-    400006: lightswitch-base
-    400008: lightswitch-switch
-    400010: Pullcord
-    400012: shifter-base
-    400014: shifter-knob
-    400016: slider-base
-    400018: slider-knob
-    400020: valve
-    400022: valve_001
-    2300000: dial-base
-    2300002: dial-knob
-    2300004: lightswitch-base
-    2300006: lightswitch-switch
-    2300008: Pullcord
-    2300010: shifter-base
-    2300012: shifter-knob
-    2300014: slider-base
-    2300016: slider-knob
-    2300018: valve
-    2300020: valve_001
-    3300000: dial-base
-    3300002: dial-knob
-    3300004: lightswitch-base
-    3300006: lightswitch-switch
-    3300008: Pullcord
-    3300010: shifter-base
-    3300012: shifter-knob
-    3300014: slider-base
-    3300016: slider-knob
-    3300018: valve
-    3300020: valve_001
-    4300000: shifter-base
-    4300002: shifter-knob
-    4300004: valve
-    4300006: slider-knob
-    4300008: slider-base
-    4300010: Pullcord
-    4300012: lightswitch-switch
-    4300014: dial-knob
-    4300016: dial-base
-    4300018: lightswitch-base
-    4300020: valve_001
+    100000: Armature
+    100002: Bone
+    100004: Bone_001
+    100006: Bone_002
+    100008: Cube
+    100010: //RootNode
+    400000: Armature
+    400002: Bone
+    400004: Bone_001
+    400006: Bone_002
+    400008: Cube
+    400010: //RootNode
+    4300000: Cube
     7400000: Default Take
+    7400002: ArmatureAction
     9500000: //RootNode
+    13700000: Cube
   materials:
     importMaterials: 1
     materialName: 0
@@ -89,7 +47,47 @@ ModelImporter:
       name: Default Take
       takeName: Default Take
       firstFrame: 0
-      lastFrame: 249
+      lastFrame: 99
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Bone
+        weight: 1
+      - path: Armature/Bone/Bone_001
+        weight: 1
+      - path: Armature/Bone/Bone_001/Bone_002
+        weight: 1
+      - path: Cube
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: ArmatureAction
+      takeName: ArmatureAction
+      firstFrame: 0
+      lastFrame: 100
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -112,27 +110,15 @@ ModelImporter:
       transformMask:
       - path: 
         weight: 1
-      - path: dial-base
+      - path: Armature
         weight: 1
-      - path: dial-knob
+      - path: Armature/Bone
         weight: 1
-      - path: lightswitch-base
+      - path: Armature/Bone/Bone_001
         weight: 1
-      - path: lightswitch-switch
+      - path: Armature/Bone/Bone_001/Bone_002
         weight: 1
-      - path: Pullcord
-        weight: 1
-      - path: shifter-base
-        weight: 1
-      - path: shifter-knob
-        weight: 1
-      - path: slider-base
-        weight: 1
-      - path: slider-knob
-        weight: 1
-      - path: valve
-        weight: 1
-      - path: valve_001
+      - path: Cube
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
