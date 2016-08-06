@@ -536,6 +536,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             foreach (rObjectType rObjectType in rObjList)
             {
                 PhotonNetwork.Destroy(rObjectType.rObject);
+                Destroy(rObjectType.rObject);
             }
         }
     }
