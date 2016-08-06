@@ -7,6 +7,8 @@
 using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Oculus.Platform;
+using Oculus.Platform.Models;
 
 public class PhotonLobby : MonoBehaviour
 {
@@ -41,6 +43,15 @@ public class PhotonLobby : MonoBehaviour
         }
     }
 
+    private void GetLoggedInOculusUserCallback(Message msg)
+    {
+        if (!msg.IsError)
+        {
+            User u = msg.GetUser();
+            PhotonNetwork.playerName = u.OculusID;
+        }
+    }
+
     public void Awake()
     {
         // this makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically
@@ -56,7 +67,15 @@ public class PhotonLobby : MonoBehaviour
         // generate a name for this player, if none is assigned yet
         if (String.IsNullOrEmpty(PhotonNetwork.playerName))
         {
-            PhotonNetwork.playerName = "Guest" + Random.Range(1, 9999);
+            //Try to find Oculus Username of logged in user.  If one exists, use it.  Otherwise, use random name.
+            try
+            {
+                Users.GetLoggedInUser().OnComplete(GetLoggedInOculusUserCallback);
+            }
+            catch
+            {
+                PhotonNetwork.playerName = "Guest" + Random.Range(1, 9999);
+            }            
         }
 
         // if you wanted more debug out, turn this on:
@@ -197,6 +216,14 @@ public class PhotonLobby : MonoBehaviour
 
                 GUILayout.EndScrollView();
             }
+
+            //Adding quit button to game.
+            GUILayout.Space(15);
+            if (GUILayout.Button("Quit Game", GUILayout.Width(200)))
+            {
+                UnityEngine.Application.Quit();
+            }
+            //End added quit button.
 
             GUILayout.EndArea();
         }
