@@ -1310,6 +1310,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1050428127}
   - 108: {fileID: 1050428126}
+  - 114: {fileID: 1050428128}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -1330,7 +1331,7 @@ Light:
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 130
-  m_CookieSize: 10
+  m_CookieSize: 20
   m_Shadows:
     m_Type: 2
     m_Resolution: -1
@@ -1339,7 +1340,7 @@ Light:
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
-  m_Cookie: {fileID: 0}
+  m_Cookie: {fileID: 2800000, guid: c6eb04143da432548bbaa86477bdd001, type: 3}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
   m_RenderMode: 0
@@ -1357,13 +1358,26 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1050428125}
-  m_LocalRotation: {x: 0.33036605, y: -0.24321032, z: 0.0885213, w: 0.9076734}
-  m_LocalPosition: {x: 0, y: 6.71, z: 0}
+  m_LocalRotation: {x: 0.55403227, y: -0.21201213, z: 0.14845248, w: 0.79124016}
+  m_LocalPosition: {x: 0, y: -1.39, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 40, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 70, y: -30, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!114 &1050428128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1050428125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b3d6cf18c399004c94d3c55b48144e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myTransform: {fileID: 0}
+  rotationsPerMinute: 1
 --- !u!1 &1086727848
 GameObject:
   m_ObjectHideFlags: 0
