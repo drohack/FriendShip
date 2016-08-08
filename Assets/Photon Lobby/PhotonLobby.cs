@@ -54,6 +54,9 @@ public class PhotonLobby : MonoBehaviour
 
     public void Awake()
     {
+        //Initialize the Oculus Platform.
+        Oculus.Platform.Core.Initialize("1219926394692968");
+
         // this makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically
         PhotonNetwork.automaticallySyncScene = true;
 
