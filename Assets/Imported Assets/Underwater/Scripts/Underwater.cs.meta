@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 59cbf8f6cb0bc104c9587b8d3a2d4536
+timeCreated: 1470703637
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - underwaterStuff: {fileID: 1000012097771982, guid: 3a618820e842bf248be42f73b18565f4,
+      type: 2}
+  - waterBubblesMat: {fileID: 2100000, guid: 36c9c458de357804e8115cc4d660ffad, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

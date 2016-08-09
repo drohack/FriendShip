@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: e4add9351776c964f9e095de9cee9211
+timeCreated: 1470703540
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - m_UnderwaterShader: {fileID: 4800000, guid: 80b6684d2975fb9419b7fda4175ff2a4,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

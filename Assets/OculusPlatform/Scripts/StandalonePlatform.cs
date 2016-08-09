@@ -17,11 +17,11 @@ namespace Oculus.Platform
 
     public bool InitializeInEditor()
     {
-      if (String.IsNullOrEmpty(StandalonePlatformSettings.OculusPlatformAccessToken))
-      {
-        throw new UnityException("Update your access token by selecting 'Oculus Platform' -> 'Edit Settings'");
-      }
-      return Initialize(StandalonePlatformSettings.OculusPlatformAccessToken);
+        if (String.IsNullOrEmpty(StandalonePlatformSettings.OculusPlatformAccessToken))
+        {
+            throw new UnityException("Update your access token by selecting 'Oculus Platform' -> 'Edit Settings'");
+        }
+        return Initialize(StandalonePlatformSettings.OculusPlatformAccessToken);
     }
 
     public bool Initialize(string accessToken)
