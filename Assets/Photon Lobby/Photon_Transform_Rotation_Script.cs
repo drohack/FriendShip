@@ -34,8 +34,8 @@ public class Photon_Transform_Rotation_Script : Photon.MonoBehaviour
         if (!photonView.isMine)
         {
             //Update remote player (smooth this, this looks good, at the cost of some accuracy)
-            transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime * 20);
-            transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * 20);
+            transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime * 15);
+            transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * 30);
         }
     }
 }
