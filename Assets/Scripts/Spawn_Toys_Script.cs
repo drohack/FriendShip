@@ -4,10 +4,18 @@ using System.Collections;
 public class Spawn_Toys_Script : Photon.MonoBehaviour
 {
 
-	// Use this for initialization
-	void Start () {
+    int numPlayers = 0;
+
+    // Use this for initialization
+    void Start () {
         if (PhotonNetwork.isMasterClient)
         {
+            //Get number of players by the NetwokManager.numPlayers
+            numPlayers = PhotonNetwork.playerList.Length;
+            Debug.Log("numPlayers: " + numPlayers);
+
+            StartCoroutine(WaitForPlayersToSpawn());
+
             //For each child (set of toys) spawn all objects under that set
             foreach (Transform toySet in transform)
             {
@@ -24,9 +32,26 @@ public class Spawn_Toys_Script : Photon.MonoBehaviour
             }
         }
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    IEnumerator WaitForPlayersToSpawn()
+    {
+        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
+        Debug.Log("numPlayers: " + numPlayers + "playerObjects.Length: " + playerObjects.Length);
+        while (playerObjects.Length < numPlayers)
+        {
+            playerObjects = GameObject.FindGameObjectsWithTag("Player");
+            Debug.Log("numPlayers: " + numPlayers + " playerObjects.Length: " + playerObjects.Length);
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        foreach (GameObject player in playerObjects)
+        {
+            Debug.Log("name: " + player.name);
+        }
+    }
+
+    // Update is called once per frame
+    void Update () {
 	
 	}
 }

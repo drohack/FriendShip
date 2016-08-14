@@ -30,7 +30,7 @@ GameObject:
   - 114: {fileID: 11474950}
   - 114: {fileID: 11446784}
   - 114: {fileID: 114000013536342114}
-  - 114: {fileID: 114000012980228884}
+  - 114: {fileID: 114000011899760118}
   m_Layer: 0
   m_Name: ToyT-BlockPf
   m_TagString: Untagged
@@ -271,7 +271,7 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 182584}
   m_IsPrefabParent: 1
---- !u!114 &114000012980228884
+--- !u!114 &114000011899760118
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -302,7 +302,7 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 1
   ObservedComponents:
-  - {fileID: 114000012980228884}
+  - {fileID: 114000011899760118}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1

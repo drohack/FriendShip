@@ -8,14 +8,14 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 419314}
-  - 33: {fileID: 3335482}
   - 65: {fileID: 6541342}
+  - 33: {fileID: 33000012542453640}
   - 23: {fileID: 2356992}
   - 54: {fileID: 5474636}
   - 114: {fileID: 11455132}
   - 114: {fileID: 11415178}
   - 114: {fileID: 114000012224920336}
-  - 114: {fileID: 114000010204552926}
+  - 114: {fileID: 114000011857198778}
   m_Layer: 0
   m_Name: ToyCubePf
   m_TagString: Untagged
@@ -65,13 +65,6 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!33 &3335482
-MeshFilter:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 151100}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!54 &5474636
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -185,7 +178,14 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 151100}
   m_IsPrefabParent: 1
---- !u!114 &114000010204552926
+--- !u!33 &33000012542453640
+MeshFilter:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 151100}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &114000011857198778
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -216,7 +216,7 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 1
   ObservedComponents:
-  - {fileID: 114000010204552926}
+  - {fileID: 114000011857198778}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1

@@ -33,6 +33,8 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
     GameObject GrabVolumeBigR;
     [SerializeField]
     Animator animatorR;
+    [SerializeField]
+    GameObject playerArea;
 
     private static class Const
     {
@@ -71,6 +73,7 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
             velocityTrackerR.enabled = true;
             r_hand_world.SetActive(true);
             GrabVolumeBigR.SetActive(true);
+            playerArea.SetActive(true);
         }
     }
 

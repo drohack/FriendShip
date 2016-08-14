@@ -26,25 +26,28 @@ public class Highlight_Handle_Top_Script : MonoBehaviour {
 
     void OnTriggerEnter(Collider col)
     {
-        isColliding = true;
-        numColliding++;
-        topRenderer.material.color = highlightColor;
+        if (col.tag.Equals("Hand"))
+        {
+            isColliding = true;
+            numColliding++;
+            topRenderer.material.color = highlightColor;
 
-        PhotonView photonView = null;
-        if(GetComponent<PhotonView>() != null)
-        {
-            photonView = GetComponent<PhotonView>();
-        }
-        else if (transform.parent != null && transform.parent.GetComponent<PhotonView>() != null)
-        {
-            photonView = transform.parent.GetComponent<PhotonView>();
-        }
-
-        if(photonView != null)
-        {
-            if (photonView.ownerId != PhotonNetwork.player.ID)
+            PhotonView photonView = null;
+            if (GetComponent<PhotonView>() != null)
             {
-                photonView.RequestOwnership();
+                photonView = GetComponent<PhotonView>();
+            }
+            else if (transform.parent != null && transform.parent.GetComponent<PhotonView>() != null)
+            {
+                photonView = transform.parent.GetComponent<PhotonView>();
+            }
+
+            if (photonView != null)
+            {
+                if (photonView.ownerId != PhotonNetwork.player.ID)
+                {
+                    photonView.RequestOwnership();
+                }
             }
         }
     }

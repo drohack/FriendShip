@@ -2027,7 +2027,7 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
 
             case StatusCode.QueueIncomingReliableWarning:
             case StatusCode.QueueIncomingUnreliableWarning:
-                //Debug.Log(statusCode + ". This client buffers many incoming messages. This is OK temporarily. With lots of these warnings, check if you send too much or execute messages too slow. " + (PhotonNetwork.isMessageQueueRunning? "":"Your isMessageQueueRunning is false. This can cause the issue temporarily.") );
+                Debug.Log(statusCode + ". This client buffers many incoming messages. This is OK temporarily. With lots of these warnings, check if you send too much or execute messages too slow. " + (PhotonNetwork.isMessageQueueRunning? "":"Your isMessageQueueRunning is false. This can cause the issue temporarily.") );
                 break;
 
                 // // TCP "routing" is an option of Photon that's not currently needed (or supported) by PUN
@@ -2081,16 +2081,16 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
                 int[] requestValues = (int[]) photonEvent.Parameters[ParameterCode.CustomEventContent];
                 int requestedViewId = requestValues[0];
                 int currentOwner = requestValues[1];
-                //Debug.Log("Ev OwnershipRequest: " + photonEvent.Parameters.ToStringFull() + " ViewID: " + requestedViewId + " from: " + currentOwner + " Time: " + Environment.TickCount%1000);
+                Debug.Log("Ev OwnershipRequest: " + photonEvent.Parameters.ToStringFull() + " ViewID: " + requestedViewId + " from: " + currentOwner + " Time: " + Environment.TickCount%1000);
 
                 PhotonView requestedView = PhotonView.Find(requestedViewId);
                 if (requestedView == null)
                 {
-                    //Debug.LogWarning("Can't find PhotonView of incoming OwnershipRequest. ViewId not found: " + requestedViewId);
+                    Debug.LogWarning("Can't find PhotonView of incoming OwnershipRequest. ViewId not found: " + requestedViewId);
                     break;
                 }
 
-                //Debug.Log("Ev OwnershipRequest PhotonView.ownershipTransfer: " + requestedView.ownershipTransfer + " .ownerId: " + requestedView.ownerId + " isOwnerActive: " + requestedView.isOwnerActive + ". This client's player: " + PhotonNetwork.player.ToStringFull());
+                Debug.Log("Ev OwnershipRequest PhotonView.ownershipTransfer: " + requestedView.ownershipTransfer + " .ownerId: " + requestedView.ownerId + " isOwnerActive: " + requestedView.isOwnerActive + ". This client's player: " + PhotonNetwork.player.ToStringFull());
 
                 switch (requestedView.ownershipTransfer)
                 {
@@ -2122,7 +2122,7 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
             case PunEvent.OwnershipTransfer:
                 {
                     int[] transferViewToUserID = (int[]) photonEvent.Parameters[ParameterCode.CustomEventContent];
-                    //Debug.Log("Ev OwnershipTransfer. ViewID " + transferViewToUserID[0] + " to: " + transferViewToUserID[1] + " Time: " + Environment.TickCount%1000);
+                    Debug.Log("Ev OwnershipTransfer. ViewID " + transferViewToUserID[0] + " to: " + transferViewToUserID[1] + " Time: " + Environment.TickCount%1000);
 
                     int requestedViewId = transferViewToUserID[0];
                     int newOwnerId = transferViewToUserID[1];
@@ -2390,7 +2390,7 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
 
     private void SendVacantViewIds()
     {
-        //Debug.Log("SendVacantViewIds()");
+        Debug.Log("SendVacantViewIds()");
         List<int> vacantViews = new List<int>();
         foreach (PhotonView view in this.photonViewList.Values)
         {
@@ -2400,7 +2400,7 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
             }
         }
 
-        //Debug.Log("Sending vacant view IDs. Length: " + vacantViews.Count);
+        Debug.Log("Sending vacant view IDs. Length: " + vacantViews.Count);
         //this.OpRaiseEvent(PunEvent.VacantViewIds, true, vacantViews.ToArray());
         this.OpRaiseEvent(PunEvent.VacantViewIds, vacantViews.ToArray(), true, null);
     }
@@ -3137,7 +3137,7 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
             // reason: joining players will load the obj and have to destroy it (too)
             options = new RaiseEventOptions();
             options.CachingOption = EventCaching.AddToRoomCacheGlobal;
-            //Debug.Log("Destroying GO as global. ID: " + instantiateId);
+            Debug.Log("Destroying GO as global. ID: " + instantiateId);
         }
         this.OpRaiseEvent(PunEvent.Destroy, evData, true, options);
     }
@@ -3171,14 +3171,14 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
 
     internal protected void RequestOwnership(int viewID, int fromOwner)
     {
-        //Debug.Log("RequestOwnership(): " + viewID + " from: " + fromOwner + " Time: " + Environment.TickCount % 1000);
+        Debug.Log("RequestOwnership(): " + viewID + " from: " + fromOwner + " Time: " + Environment.TickCount % 1000);
         //PhotonNetwork.networkingPeer.OpRaiseEvent(PunEvent.OwnershipRequest, true, new int[] { viewID, fromOwner }, 0, EventCaching.DoNotCache, null, ReceiverGroup.All, 0);
         this.OpRaiseEvent(PunEvent.OwnershipRequest, new int[] {viewID, fromOwner}, true, new RaiseEventOptions() { Receivers = ReceiverGroup.All });   // All sends to all via server (including self)
     }
 
     internal protected void TransferOwnership(int viewID, int playerID)
     {
-        //Debug.Log("TransferOwnership() view " + viewID + " to: " + playerID + " Time: " + Environment.TickCount % 1000);
+        Debug.Log("TransferOwnership() view " + viewID + " to: " + playerID + " Time: " + Environment.TickCount % 1000);
         //PhotonNetwork.networkingPeer.OpRaiseEvent(PunEvent.OwnershipTransfer, true, new int[] {viewID, playerID}, 0, EventCaching.DoNotCache, null, ReceiverGroup.All, 0);
         this.OpRaiseEvent(PunEvent.OwnershipTransfer, new int[] { viewID, playerID }, true, new RaiseEventOptions() { Receivers = ReceiverGroup.All });   // All sends to all via server (including self)
     }

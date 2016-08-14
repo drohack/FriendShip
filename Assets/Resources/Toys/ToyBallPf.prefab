@@ -15,7 +15,7 @@ GameObject:
   - 114: {fileID: 11423204}
   - 114: {fileID: 11491434}
   - 114: {fileID: 114000014089357408}
-  - 114: {fileID: 114000011637472132}
+  - 114: {fileID: 114000013056858672}
   m_Layer: 0
   m_Name: ToyBallPf
   m_TagString: Untagged
@@ -188,7 +188,7 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 149070}
   m_IsPrefabParent: 1
---- !u!114 &114000011637472132
+--- !u!114 &114000013056858672
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -219,7 +219,7 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 1
   ObservedComponents:
-  - {fileID: 114000011637472132}
+  - {fileID: 114000013056858672}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
