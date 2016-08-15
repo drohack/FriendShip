@@ -57,4 +57,5 @@ MonoBehaviour:
   - UpdateHandlePos
   - RPCPlayAnim
   - RequestForPickupItems
+  - RPCMasterClientTakeOwnership
   DisableAutoOpenWizard: 1

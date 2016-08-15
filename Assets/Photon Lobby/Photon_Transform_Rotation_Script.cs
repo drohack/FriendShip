@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using OvrTouch.Hands;
 
 public class Photon_Transform_Rotation_Script : Photon.MonoBehaviour
 {
+    private int numTriggered = 0;
+    private bool isGrabbing = false;
     private bool isLoading = true;
     private bool isRequestingOwnership = false;
     private Rigidbody rigidBody;
@@ -39,11 +42,47 @@ public class Photon_Transform_Rotation_Script : Photon.MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        if(other.tag.Equals("Hand"))
+        {
+            numTriggered++;
+        }
+
         if(other.tag.Equals("Hand") && !isRequestingOwnership && this.photonView.ownerId != PhotonNetwork.player.ID)
         {
             isRequestingOwnership = true;
             this.photonView.RequestOwnership();
         }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if(other.tag.Equals("Hand"))
+        {
+            numTriggered--;
+        }
+
+        if(numTriggered == 0 && !isGrabbing && !PhotonNetwork.isMasterClient)
+        {
+            //pass ownership back to master client
+            photonView.RPC("RPCMasterClientTakeOwnership", PhotonTargets.MasterClient, null);
+        }
+    }
+
+    private void OnGrabBegin(GrabbableGrabMsg grabMsg)
+    {
+        numTriggered = 0;
+        isGrabbing = true;
+    }
+    private void OnGrabEnd(GrabbableGrabMsg grabMsg)
+    {
+        isGrabbing = false;
+    }
+
+    [PunRPC]
+    void RPCMasterClientTakeOwnership()
+    {
+        if(PhotonNetwork.isMasterClient)
+            this.photonView.RequestOwnership();
     }
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
