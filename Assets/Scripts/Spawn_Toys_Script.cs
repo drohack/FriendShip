@@ -21,13 +21,16 @@ public class Spawn_Toys_Script : Photon.MonoBehaviour
             {
                 foreach (Transform toy in toySet)
                 {
+                    object[] data = new object[2];
+                    data[0] = toy.position;
+                    data[1] = toy.localRotation.eulerAngles;
                     //Instantiate the appropriate prefab
                     if (toy.name.Contains("ToyBall"))
-                        PhotonNetwork.InstantiateSceneObject("Toys/ToyBallPf", toy.position, toy.rotation, 0, null);
+                        PhotonNetwork.InstantiateSceneObject("Toys/ToyBallPf", toy.position, toy.rotation, 0, data);
                     else if (toy.name.Contains("ToyCube"))
-                        PhotonNetwork.InstantiateSceneObject("Toys/ToyCubePf", toy.position, toy.rotation, 0, null);
+                        PhotonNetwork.InstantiateSceneObject("Toys/ToyCubePf", toy.position, toy.rotation, 0, data);
                     else if (toy.name.Contains("ToyT-Block"))
-                        PhotonNetwork.InstantiateSceneObject("Toys/ToyT-BlockPf", toy.position, toy.rotation, 0, null);
+                        PhotonNetwork.InstantiateSceneObject("Toys/ToyT-BlockPf", toy.position, toy.rotation, 0, data);
                 }
             }
         }

@@ -3,18 +3,43 @@ using System.Collections;
 
 public class Photon_Transform_Rotation_Script : Photon.MonoBehaviour
 {
-
+    private bool isLoading = true;
     private bool isRequestingOwnership = false;
     private Rigidbody rigidBody;
 
+    private float lastSynchronizationTime = 0f;
+    private float syncDelay = 0f;
+    private float syncTime = 0f;
+    private Vector3 syncStartPosition = Vector3.zero;
+    private Vector3 syncEndPosition = Vector3.zero;
+    private Vector3 syncStartRotation = Vector3.zero;
+    private Vector3 syncEndRotation = Vector3.zero;
+    private Vector3 newVelocity = Vector3.zero;
+    private Vector3 newAngularVelocity = Vector3.zero;
+
+    void Awake()
+    {
+        lastSynchronizationTime = Time.time;
+    }
+
     // Use this for initialization
     void Start() {
+        object[] data = photonView.instantiationData;
+        if (data != null)
+        {
+            syncStartPosition = (Vector3)data[0];
+            syncEndPosition = (Vector3)data[0];
+            syncStartRotation = (Vector3)data[1];
+            syncEndRotation = (Vector3)data[1];
+        }
         rigidBody = GetComponent<Rigidbody>();
+
+        isLoading = false;
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if(!isRequestingOwnership && this.photonView.ownerId != PhotonNetwork.player.ID)
+        if(other.tag.Equals("Hand") && !isRequestingOwnership && this.photonView.ownerId != PhotonNetwork.player.ID)
         {
             isRequestingOwnership = true;
             this.photonView.RequestOwnership();
@@ -23,37 +48,58 @@ public class Photon_Transform_Rotation_Script : Photon.MonoBehaviour
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
+        Vector3 syncPosition = Vector3.zero;
+        Vector3 syncVelocity = Vector3.zero;
+        Vector3 syncLocalRotation = Vector3.zero;
+        Vector3 syncAngularVelocity = Vector3.zero;
         if (stream.isWriting)
         {
-            //We own this player: send the others our data
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-            stream.SendNext(rigidBody.velocity);
-            stream.SendNext(isRequestingOwnership);
+            syncPosition = transform.position;
+            stream.Serialize(ref syncPosition);
+
+            syncVelocity = rigidBody.velocity;
+            stream.Serialize(ref syncVelocity);
+
+            syncLocalRotation = transform.localRotation.eulerAngles;
+            stream.Serialize(ref syncLocalRotation);
+
+            syncAngularVelocity = rigidBody.angularVelocity;
+            stream.Serialize(ref syncAngularVelocity);
         }
         else
         {
-            //Network player, receive data
-            pos = (Vector3)stream.ReceiveNext();
-            rot = (Quaternion)stream.ReceiveNext();
-            vel = (Vector3)stream.ReceiveNext();
-            isRequestingOwnership = (bool)stream.ReceiveNext();
+            stream.Serialize(ref syncPosition);
+            stream.Serialize(ref syncVelocity);
+            stream.Serialize(ref syncLocalRotation);
+            stream.Serialize(ref syncAngularVelocity);
+
+            syncTime = 0f;
+            syncDelay = Time.time - lastSynchronizationTime;
+            lastSynchronizationTime = Time.time;
+
+            syncEndPosition = syncPosition + syncVelocity * syncDelay;
+            syncStartPosition = transform.position;
+
+            syncEndRotation = syncLocalRotation + syncAngularVelocity * syncDelay;
+            syncStartRotation = transform.localRotation.eulerAngles;
+
+            newVelocity = syncVelocity;
+            newAngularVelocity = syncAngularVelocity;
         }
     }
 
-    private Vector3 pos = Vector3.zero; //We lerp towards this
-    private Quaternion rot = Quaternion.identity; //We lerp towards this
-    private Vector3 vel = Vector3.zero; //We lerp towards this
-
     // Update is called once per frame
-    void LateUpdate()
+    void FixedUpdate()
     {
-        if (!photonView.isMine)
+        if (!photonView.isMine && !isLoading)
         {
             //Update remote player (smooth this, this looks good, at the cost of some accuracy)
-            transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime * 10);
-            transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * 10);
-            rigidBody.velocity = vel;
+            syncTime += Time.deltaTime;
+
+            transform.position = Vector3.Lerp(syncStartPosition, syncEndPosition, syncTime / syncDelay);
+            transform.localRotation = Quaternion.Slerp(Quaternion.Euler(syncStartRotation), Quaternion.Euler(syncEndRotation), syncTime / syncDelay);
+            rigidBody.velocity = newVelocity;
+            rigidBody.angularVelocity = newAngularVelocity;
         }
 
         if(isRequestingOwnership && photonView.isMine)

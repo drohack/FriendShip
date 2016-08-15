@@ -6,6 +6,7 @@ TagManager:
   tags:
   - NetworkLobbyManager
   - Hand
+  - PlayerArea
   layers:
   - Default
   - TransparentFX
