@@ -58,4 +58,6 @@ MonoBehaviour:
   - RPCPlayAnim
   - RequestForPickupItems
   - RPCMasterClientTakeOwnership
+  - RPCHandOffObject
+  - RPCSetIsOtherHandColliding
   DisableAutoOpenWizard: 1

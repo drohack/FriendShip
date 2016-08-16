@@ -553,7 +553,7 @@ namespace OvrTouch.Hands {
         }
 
         //==============================================================================
-        private void OffhandGrabbed (Grabbable grabbable) {
+        public void OffhandGrabbed (Grabbable grabbable) {
             if (m_grabbedGrabbable == grabbable) {
                 GrabbableRelease(Vector3.zero, Vector3.zero);
             }
