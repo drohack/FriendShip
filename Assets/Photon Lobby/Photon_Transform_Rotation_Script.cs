@@ -4,7 +4,6 @@ using OvrTouch.Hands;
 
 public class Photon_Transform_Rotation_Script : Photon.MonoBehaviour
 {
-    private int numTriggered = 0;
     private bool isGrabbing = false;
     private bool isLoading = true;
     private bool isRequestingOwnership = false;
@@ -42,47 +41,36 @@ public class Photon_Transform_Rotation_Script : Photon.MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.tag.Equals("Hand"))
+        //Request control if object enters your area OR if your hand passes through an object
+        if(other.tag.Equals("PlayerArea") && !isGrabbing && !isRequestingOwnership && this.photonView.ownerId != PhotonNetwork.player.ID)
         {
-            numTriggered++;
+            isRequestingOwnership = true;
+            this.photonView.RequestOwnership();
         }
-
-        if(other.tag.Equals("Hand") && !isRequestingOwnership && this.photonView.ownerId != PhotonNetwork.player.ID)
+        else if (other.tag.Equals("Hand") && !isRequestingOwnership && this.photonView.ownerId != PhotonNetwork.player.ID)
         {
             isRequestingOwnership = true;
             this.photonView.RequestOwnership();
         }
     }
 
-    void OnTriggerExit(Collider other)
+    //Check to see if object is in your area, not being held by someone, and not owned by you. Request control
+    void OnTriggerStay(Collider other)
     {
-        if(other.tag.Equals("Hand"))
+        if(other.tag.Equals("PlayerArea") && !isGrabbing && !isRequestingOwnership && this.photonView.ownerId != PhotonNetwork.player.ID)
         {
-            numTriggered--;
-        }
-
-        if(numTriggered == 0 && !isGrabbing && !PhotonNetwork.isMasterClient)
-        {
-            //pass ownership back to master client
-            photonView.RPC("RPCMasterClientTakeOwnership", PhotonTargets.MasterClient, null);
+            isRequestingOwnership = true;
+            this.photonView.RequestOwnership();
         }
     }
 
     private void OnGrabBegin(GrabbableGrabMsg grabMsg)
     {
-        numTriggered = 0;
         isGrabbing = true;
     }
     private void OnGrabEnd(GrabbableGrabMsg grabMsg)
     {
         isGrabbing = false;
-    }
-
-    [PunRPC]
-    void RPCMasterClientTakeOwnership()
-    {
-        if(PhotonNetwork.isMasterClient)
-            this.photonView.RequestOwnership();
     }
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -104,6 +92,8 @@ public class Photon_Transform_Rotation_Script : Photon.MonoBehaviour
 
             syncAngularVelocity = rigidBody.angularVelocity;
             stream.Serialize(ref syncAngularVelocity);
+
+            stream.Serialize(ref isGrabbing);
         }
         else
         {
@@ -111,6 +101,7 @@ public class Photon_Transform_Rotation_Script : Photon.MonoBehaviour
             stream.Serialize(ref syncVelocity);
             stream.Serialize(ref syncLocalRotation);
             stream.Serialize(ref syncAngularVelocity);
+            stream.Serialize(ref isGrabbing);
 
             syncTime = 0f;
             syncDelay = Time.time - lastSynchronizationTime;
@@ -139,6 +130,14 @@ public class Photon_Transform_Rotation_Script : Photon.MonoBehaviour
             transform.localRotation = Quaternion.Slerp(Quaternion.Euler(syncStartRotation), Quaternion.Euler(syncEndRotation), syncTime / syncDelay);
             rigidBody.velocity = newVelocity;
             rigidBody.angularVelocity = newAngularVelocity;
+        }
+        else if (photonView.isMine && !isLoading)
+        {
+            //keep the syncStartPosition, syncEndPosition, newVelocity, and newAngularVelocity up to date with current position
+            syncStartPosition = transform.position;
+            syncEndPosition = transform.position;
+            newVelocity = rigidBody.velocity;
+            newAngularVelocity = rigidBody.angularVelocity;
         }
 
         if(isRequestingOwnership && photonView.isMine)
