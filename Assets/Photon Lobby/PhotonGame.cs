@@ -31,6 +31,7 @@ public class PhotonGame : Photon.MonoBehaviour
 
         //Disable Main Camera (we will be using the OvrRigPhoton's camera
         GameObject.Find("Main Camera").SetActive(false);
+        PhotonVoiceNetwork.Client.loadBalancingPeer.TrafficStatsEnabled = true;
     }
 
     public void OnGUI()
