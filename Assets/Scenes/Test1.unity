@@ -11403,7 +11403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fea5e3a911fbbfa42ac6c85ea1e103bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 4000012169082896, guid: f36cb8782c40c1f42abb05fd4d1f91e0,
+  playerPrefab: {fileID: 4000012246001616, guid: f36cb8782c40c1f42abb05fd4d1f91e0,
     type: 2}
   player1Spawn: {fileID: 592993266}
   player2Spawn: {fileID: 636014930}
@@ -11435,16 +11435,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AutoConnect: 1
-  AutoDisconnect: 1
+  AutoDisconnect: 0
   AutoTransmit: 1
-  SamplingRate: 24000
+  SamplingRate: 48000
   Delay: 40
   Bitrate: 30000
-  VoiceDetection: 1
+  VoiceDetection: 0
   VoiceDetectionThreshold: 0.01
   PlayDelayMs: 200
   DebugLostPercent: 0
-  DebugInfo: 1
+  DebugInfo: 0
 --- !u!1 &825337413
 GameObject:
   m_ObjectHideFlags: 0

@@ -162,6 +162,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 699243531}
   - 114: {fileID: 699243530}
+  - 114: {fileID: 699243532}
   m_Layer: 0
   m_Name: PhotonLobby
   m_TagString: Untagged
@@ -195,6 +196,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
+--- !u!114 &699243532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 699243529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c83e06d07b8f654981913996327bdf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AutoConnect: 1
+  AutoDisconnect: 0
+  AutoTransmit: 1
+  SamplingRate: 48000
+  Delay: 40
+  Bitrate: 30000
+  VoiceDetection: 0
+  VoiceDetectionThreshold: 0.01
+  PlayDelayMs: 200
+  DebugLostPercent: 0
+  DebugInfo: 0
 --- !u!1 &2056121473
 GameObject:
   m_ObjectHideFlags: 0
