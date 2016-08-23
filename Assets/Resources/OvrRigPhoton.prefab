@@ -3934,7 +3934,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -4065,7 +4065,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012636030982}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b23b644f2525c1c4a9fd5b77d9505148, type: 3}
   m_Name: 
@@ -4098,6 +4098,7 @@ MonoBehaviour:
   GrabVolumeBigR: {fileID: 1000013779913162}
   animatorR: {fileID: 95000013102987250}
   playerArea: {fileID: 1000010879720404}
+  photonVoiceRecorder: {fileID: 114000010847110714}
 --- !u!114 &114000011527350656
 MonoBehaviour:
   m_ObjectHideFlags: 1

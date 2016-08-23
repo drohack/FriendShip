@@ -35,6 +35,8 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
     Animator animatorR;
     [SerializeField]
     GameObject playerArea;
+    [SerializeField]
+    PhotonVoiceRecorder photonVoiceRecorder;
 
     private static class Const
     {
@@ -74,6 +76,7 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
             r_hand_world.SetActive(true);
             GrabVolumeBigR.SetActive(true);
             playerArea.SetActive(true);
+            photonVoiceRecorder.enabled = true;
         }
     }
 
