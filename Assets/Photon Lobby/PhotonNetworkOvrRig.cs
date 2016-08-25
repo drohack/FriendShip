@@ -204,6 +204,22 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
             UpdateHandAnimation(m_handednessL, handPoseIdL, m_flexL, canPointL, m_pointL, canThumbsUpL, m_thumbsUpL);
             UpdateHandAnimation(m_handednessR, handPoseIdR, m_flexR, canPointR, m_pointR, canThumbsUpR, m_thumbsUpR);
         }
+
+        //if (OVRInput.Get(OVRInput.Button.Four))
+        //{
+        //    photonVoiceRecorder.Transmit = true;
+        //    Debug.Log("You're holding the right button!  Hooray!");
+        //}
+        //else if (!OVRInput.Get(OVRInput.Button.Four))
+        //{
+        //    photonVoiceRecorder.Transmit = false;
+        //}
+
+        if (photonVoiceRecorder != null && photonVoiceRecorder.enabled && !photonVoiceRecorder.Transmit)
+        {
+            Debug.Log("Turn On Transmit");
+            photonVoiceRecorder.Transmit = true;
+        }
     }
 
     public void UpdateHandAnimation(HandednessId m_handedness, HandPoseId handPoseId, float m_flex, bool canPoint, float m_point, bool canThumbsUp, float m_thumbsUp)
