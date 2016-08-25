@@ -1,3 +1,6 @@
+v1.6
+CHANGED: updated to PUN 1.75
+FIXED: iOS IPv6 support
 v1.5
 CHANGED: updated to PUN 1.74
 FIXED: Crash of iOS application exported from Unity 5.3.6+ (opus library exposes only interface methods now)

@@ -39,18 +39,18 @@ public class Spawn_Toys_Script : Photon.MonoBehaviour
     IEnumerator WaitForPlayersToSpawn()
     {
         GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
-        Debug.Log("numPlayers: " + numPlayers + "playerObjects.Length: " + playerObjects.Length);
+        //Debug.Log("numPlayers: " + numPlayers + "playerObjects.Length: " + playerObjects.Length);
         while (playerObjects.Length < numPlayers)
         {
             playerObjects = GameObject.FindGameObjectsWithTag("Player");
-            Debug.Log("numPlayers: " + numPlayers + " playerObjects.Length: " + playerObjects.Length);
+            //Debug.Log("numPlayers: " + numPlayers + " playerObjects.Length: " + playerObjects.Length);
             yield return new WaitForSeconds(0.1f);
         }
 
-        foreach (GameObject player in playerObjects)
-        {
-            Debug.Log("name: " + player.name);
-        }
+        //foreach (GameObject player in playerObjects)
+        //{
+        //    Debug.Log("name: " + player.name);
+        //}
     }
 
     // Update is called once per frame

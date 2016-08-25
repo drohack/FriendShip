@@ -213,11 +213,11 @@ MonoBehaviour:
   SamplingRate: 48000
   Delay: 40
   Bitrate: 30000
-  VoiceDetection: 0
+  VoiceDetection: 1
   VoiceDetectionThreshold: 0.01
   PlayDelayMs: 200
   DebugLostPercent: 0
-  DebugInfo: 0
+  DebugInfo: 1
 --- !u!1 &2056121473
 GameObject:
   m_ObjectHideFlags: 0

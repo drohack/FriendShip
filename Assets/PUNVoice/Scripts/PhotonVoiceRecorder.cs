@@ -125,7 +125,9 @@ internal class MicWrapper : Voice.IAudioStream
 public class PhotonVoiceRecorder : Photon.MonoBehaviour
 {
     private Voice.LocalVoice voice = Voice.LocalVoice.Dummy;
-    
+
+    public bool isTrans = false;
+
     private string microphoneDevice = null;
 
     /// <summary>
@@ -260,6 +262,11 @@ public class PhotonVoiceRecorder : Photon.MonoBehaviour
             this.VoiceDetector.On = PhotonVoiceSettings.Instance.VoiceDetection;
             this.VoiceDetector.Threshold = PhotonVoiceSettings.Instance.VoiceDetectionThreshold;
         }
+    }
+
+    void Update()
+    {
+        isTrans = voice.IsTransmitting;
     }
 
     void OnDestroy()

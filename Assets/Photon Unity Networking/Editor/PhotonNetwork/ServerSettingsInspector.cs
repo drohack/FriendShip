@@ -8,7 +8,7 @@
 // <author>developer@exitgames.com</author>
 // ----------------------------------------------------------------------------
 
-#define PHOTON_VOICE
+//#define PHOTON_VOICE
 
 using System;
 using ExitGames.Client.Photon;
@@ -206,7 +206,7 @@ public class ServerSettingsInspector : Editor
 
         if (GUI.changed)
         {
-            EditorUtility.SetDirty(target);     // even in Unity 5.3+ it's OK to SetDirty() for non-scene objects. 
+            EditorUtility.SetDirty(target);     // even in Unity 5.3+ it's OK to SetDirty() for non-scene objects.
         }
     }
 
