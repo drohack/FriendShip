@@ -2196,7 +2196,8 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
                 int[] requestValues = (int[]) photonEvent.Parameters[ParameterCode.CustomEventContent];
                 int requestedViewId = requestValues[0];
                 int currentOwner = requestValues[1];
-                Debug.Log("Ev OwnershipRequest: " + photonEvent.Parameters.ToStringFull() + " ViewID: " + requestedViewId + " from: " + currentOwner + " Time: " + Environment.TickCount%1000);
+                if (PhotonNetwork.logLevel >= PhotonLogLevel.Full)
+                    Debug.Log("Ev OwnershipRequest: " + photonEvent.Parameters.ToStringFull() + " ViewID: " + requestedViewId + " from: " + currentOwner + " Time: " + Environment.TickCount%1000);
 
                 PhotonView requestedView = PhotonView.Find(requestedViewId);
                 if (requestedView == null)
@@ -2205,7 +2206,8 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
                     break;
                 }
 
-                Debug.Log("Ev OwnershipRequest PhotonView.ownershipTransfer: " + requestedView.ownershipTransfer + " .ownerId: " + requestedView.ownerId + " isOwnerActive: " + requestedView.isOwnerActive + ". This client's player: " + PhotonNetwork.player.ToStringFull());
+                if (PhotonNetwork.logLevel >= PhotonLogLevel.Full)
+                    Debug.Log("Ev OwnershipRequest PhotonView.ownershipTransfer: " + requestedView.ownershipTransfer + " .ownerId: " + requestedView.ownerId + " isOwnerActive: " + requestedView.isOwnerActive + ". This client's player: " + PhotonNetwork.player.ToStringFull());
 
                 switch (requestedView.ownershipTransfer)
                 {
@@ -3331,7 +3333,8 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
 
     internal protected void RequestOwnership(int viewID, int fromOwner)
     {
-        Debug.Log("RequestOwnership(): " + viewID + " from: " + fromOwner + " Time: " + Environment.TickCount % 1000);
+        if (PhotonNetwork.logLevel >= PhotonLogLevel.Full)
+            Debug.Log("RequestOwnership(): " + viewID + " from: " + fromOwner + " Time: " + Environment.TickCount % 1000);
         //PhotonNetwork.networkingPeer.OpRaiseEvent(PunEvent.OwnershipRequest, true, new int[] { viewID, fromOwner }, 0, EventCaching.DoNotCache, null, ReceiverGroup.All, 0);
         this.OpRaiseEvent(PunEvent.OwnershipRequest, new int[] {viewID, fromOwner}, true, new RaiseEventOptions() { Receivers = ReceiverGroup.All });   // All sends to all via server (including self)
     }
