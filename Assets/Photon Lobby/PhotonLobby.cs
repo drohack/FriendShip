@@ -22,7 +22,7 @@ public class PhotonLobby : MonoBehaviour
 
     public static readonly string SceneNameMenu = "Lobby";
 
-    public static readonly string SceneNameGame = "Test1";
+    public static readonly string SceneNameGame = "Game";
 
     private string errorDialog;
     private double timeToClearDialog;
