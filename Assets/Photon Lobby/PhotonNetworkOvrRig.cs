@@ -217,7 +217,7 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
 
         if (photonVoiceRecorder != null && photonVoiceRecorder.enabled && !photonVoiceRecorder.Transmit)
         {
-            Debug.Log("Turn On Transmit");
+            //Debug.Log("Turn On Transmit");
             photonVoiceRecorder.Transmit = true;
         }
     }

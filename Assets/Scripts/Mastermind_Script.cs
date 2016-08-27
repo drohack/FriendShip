@@ -16,7 +16,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private         bool isLoadingNextLevel = false;
     private         int scoreToWin = 10;
     private         int numOfDiffGameObjects = 8; // The number of different type of game objects total to be used for random rolling of said game objects
-    private const   int commandTimeoutSeconds = 10;
+    private         float commandTimeoutSeconds = 10;
     public const    int buttonCommand = 0;
     public const    int dialCommand = 1;
     public const    int lLeverCommand = 2;
@@ -87,13 +87,94 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
     // Use this for initialization
     void Start () {
-        level = 1;
-        isLoadingNextLevel = false;
-        //Get number of players by the NetwokManager.numPlayers
-        numPlayers = PhotonNetwork.playerList.Length;
-        Debug.Log("numPlayers: " + numPlayers);
+        if (PhotonNetwork.isMasterClient)
+        {
+            isLoadingNextLevel = true;
 
-        StartCoroutine(WaitForPlayersToSpawn());
+            //Load Network data
+            object[] data = photonView.instantiationData;
+            if (data != null)
+            {
+                level = (int)data[0];
+            }
+
+            //Get number of players by the NetwokManager.numPlayers
+            numPlayers = PhotonNetwork.playerList.Length;
+            Debug.Log("numPlayers: " + numPlayers);
+
+            //Set up level variables (score to win this round, number of seconds for each command, number of random objects to spawn per player)
+            SetupLevel();
+
+            isLoadingNextLevel = false;
+
+            StartCoroutine(WaitForPlayersToSpawn());
+        }
+    }
+
+    private void SetupLevel()
+    {
+        //Total score to win this round
+        //At level ONE this score is 10, going up by 2 each level
+        scoreToWin = 10 + (2 * (level - 1));
+        //Number of seconds for each command before it times out
+        //At level ONE this starts at 10 seconds, by level 5 this is 7.5 seconds, and by level 10 this is 5.6 seconds
+        commandTimeoutSeconds = Mathf.Pow(Mathf.Sqrt(10), (-0.05f * (level - 1)) + 2);
+        //The base number of objects a player can start with (this number will be varied +/- 1
+        //At level ONE this starts at 3 objects per player, by level 5 this is 7 objects, by level 8 this maxes out at 8 objects always for all players
+        int baseNumObjPerPlayer = Mathf.RoundToInt(-Mathf.Pow(Mathf.Sqrt(8), (-0.3f * (level - 1)) + 1.54f) + 8);
+        int[] xyNumObj_p1 = GetNumXYObjects(baseNumObjPerPlayer);
+        p1_gridX = xyNumObj_p1[0];
+        p1_gridY = xyNumObj_p1[1];
+        int[] xyNumObj_p2 = GetNumXYObjects(baseNumObjPerPlayer);
+        p2_gridX = xyNumObj_p2[0];
+        p2_gridY = xyNumObj_p2[1];
+        int[] xyNumObj_p3 = GetNumXYObjects(baseNumObjPerPlayer);
+        p3_gridX = xyNumObj_p3[0];
+        p3_gridY = xyNumObj_p3[1];
+        int[] xyNumObj_p4 = GetNumXYObjects(baseNumObjPerPlayer);
+        p4_gridX = xyNumObj_p4[0];
+        p4_gridY = xyNumObj_p4[1];
+    }
+
+    private int[] GetNumXYObjects(int baseNumObjPerPlayer)
+    {
+        int[] returnXY = new int[2];
+        int totalNumObj = baseNumObjPerPlayer + Random.Range(-1, 2);
+        if (totalNumObj >= 7)
+            totalNumObj = 8;
+        else if (totalNumObj == 5)
+            totalNumObj = 4;
+
+        if (totalNumObj == 8)
+        {
+            returnXY[0] = 4;
+            returnXY[1] = 2;
+        }
+        else if (totalNumObj == 6)
+        {
+            returnXY[0] = 3;
+            returnXY[1] = 2;
+        }
+        else if (totalNumObj <= 4 && totalNumObj > 0)
+        {
+            if ((totalNumObj % 2) == 0 && Random.value < 0.5f)
+            {
+                returnXY[0] = totalNumObj / 2;
+                returnXY[1] = 2;
+            }
+            else
+            {
+                returnXY[0] = totalNumObj;
+                returnXY[1] = 1;
+            }
+        }
+        else
+        {
+            //Should never get here
+            Debug.LogError("ERROR trying to generate too many or few objects. Base: " + baseNumObjPerPlayer + " total: " + totalNumObj);
+        }
+
+        return returnXY;
     }
 
     IEnumerator WaitForPlayersToSpawn()
@@ -543,35 +624,38 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
     // Update is called once per frame
     void Update () {
-        //If the user scores 10 or more, change text to Green and to say "YOU WIN~"
-        if (score >= scoreToWin && !isLoadingNextLevel)
+        if (PhotonNetwork.isMasterClient)
         {
-            StartCoroutine(LoadNextLevel());
-        }
+            //If the user scores 10 or more, change text to Green and to say "YOU WIN~"
+            if (score >= scoreToWin && !isLoadingNextLevel)
+            {
+                StartCoroutine(LoadNextLevel());
+            }
 
-        //If we are not loading the next level
-        //AND if we are NOT typing "START!"
-        //AND if we are NOT currently typing a command
-        //AND if we are NOT currently waiting the 10 seconds for a command to pass
-        //generate and display a new random command
-        if (!isLoadingNextLevel)
-        {
-            if (!p1_isDisplayStart && !p1_consoleTextScript.isTyping && !p1_isDisplayingCommand)
-                StartCoroutine(P1_DisplayRandomCommand());
-            if (numPlayers > 1)
+            //If we are not loading the next level
+            //AND if we are NOT typing "START!"
+            //AND if we are NOT currently typing a command
+            //AND if we are NOT currently waiting the 10 seconds for a command to pass
+            //generate and display a new random command
+            if (!isLoadingNextLevel)
             {
-                if (!p2_isDisplayStart && !p2_consoleTextScript.isTyping && !p2_isDisplayingCommand)
-                    StartCoroutine(P2_DisplayRandomCommand());
-            }
-            if (numPlayers > 2)
-            {
-                if (!p3_isDisplayStart && !p3_consoleTextScript.isTyping && !p3_isDisplayingCommand)
-                    StartCoroutine(P3_DisplayRandomCommand());
-            }
-            if (numPlayers > 3)
-            {
-                if (!p4_isDisplayStart && !p4_consoleTextScript.isTyping && !p4_isDisplayingCommand)
-                    StartCoroutine(P4_DisplayRandomCommand());
+                if (!p1_isDisplayStart && !p1_consoleTextScript.isTyping && !p1_isDisplayingCommand)
+                    StartCoroutine(P1_DisplayRandomCommand());
+                if (numPlayers > 1)
+                {
+                    if (!p2_isDisplayStart && !p2_consoleTextScript.isTyping && !p2_isDisplayingCommand)
+                        StartCoroutine(P2_DisplayRandomCommand());
+                }
+                if (numPlayers > 2)
+                {
+                    if (!p3_isDisplayStart && !p3_consoleTextScript.isTyping && !p3_isDisplayingCommand)
+                        StartCoroutine(P3_DisplayRandomCommand());
+                }
+                if (numPlayers > 3)
+                {
+                    if (!p4_isDisplayStart && !p4_consoleTextScript.isTyping && !p4_isDisplayingCommand)
+                        StartCoroutine(P4_DisplayRandomCommand());
+                }
             }
         }
     }
@@ -592,6 +676,9 @@ public class Mastermind_Script : Photon.MonoBehaviour
             p3_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
         if (numPlayers > 3)
             p4_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
+
+        //Set up level variables (score to win this round, number of seconds for each command, number of random objects to spawn per player)
+        SetupLevel();
 
         yield return new WaitForSeconds(3);
 

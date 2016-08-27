@@ -17,8 +17,7 @@ public class PhotonGame : Photon.MonoBehaviour
     public Transform player3Spawn;
     public Transform player4Spawn;
 
-    [SerializeField]
-    GameObject mastermind;
+    public int levelNum = 1;
 
     public void Awake()
     {
@@ -140,7 +139,10 @@ public class PhotonGame : Photon.MonoBehaviour
 
         if (PhotonNetwork.isMasterClient)
         {
-            mastermind.SetActive(true);
+            object[] levelNumObj = new object[1];
+            levelNumObj[0] = levelNum;
+            GameObject mastermind = PhotonNetwork.InstantiateSceneObject("Mastermind", Vector3.zero, Quaternion.identity, 0, levelNumObj);
+            mastermind.name = "Mastermind";
         }
     }
 }

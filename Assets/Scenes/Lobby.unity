@@ -217,7 +217,7 @@ MonoBehaviour:
   VoiceDetectionThreshold: 0.01
   PlayDelayMs: 200
   DebugLostPercent: 0
-  DebugInfo: 1
+  DebugInfo: 0
 --- !u!1 &2056121473
 GameObject:
   m_ObjectHideFlags: 0
