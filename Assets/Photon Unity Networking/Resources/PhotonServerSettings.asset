@@ -61,4 +61,5 @@ MonoBehaviour:
   - RPCMasterClientTakeOwnership
   - RPCHandOffObject
   - RPCSetIsOtherHandColliding
+  - GameOver
   DisableAutoOpenWizard: 1

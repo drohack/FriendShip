@@ -12,6 +12,14 @@ public class Score_Text_Script : Photon.MonoBehaviour
     }
 
     [PunRPC]
+    public void GameOver(bool hasWon)
+    {
+        GetComponent<MeshRenderer>().material.color = Color.red;
+        GetComponent<TextMesh>().text = "<b>GAME OVER</b>";
+        GetComponent<TextMesh>().color = Color.red;
+    }
+
+    [PunRPC]
     public void ScoreUp (int score)
     {
         GetComponent<TextMesh>().text = "Score = " + score;

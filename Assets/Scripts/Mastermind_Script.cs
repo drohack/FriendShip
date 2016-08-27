@@ -15,8 +15,12 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private         int level = 1;
     private         bool isLoadingNextLevel = false;
     private         int scoreToWin = 10;
-    private         int numOfDiffGameObjects = 8; // The number of different type of game objects total to be used for random rolling of said game objects
+    private         int scoreToLose = -10;
+    private         float levelTimeoutSeconds = 100;
     private         float commandTimeoutSeconds = 10;
+    private         System.DateTime levelStartTime = System.DateTime.Now;
+    private         bool isGameOver = false;
+    private         int numOfDiffGameObjects = 8; // The number of different type of game objects total to be used for random rolling of said game objects
     public const    int buttonCommand = 0;
     public const    int dialCommand = 1;
     public const    int lLeverCommand = 2;
@@ -91,6 +95,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
         {
             isLoadingNextLevel = true;
 
+            isGameOver = false;
+
             //Load Network data
             object[] data = photonView.instantiationData;
             if (data != null)
@@ -114,13 +120,19 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private void SetupLevel()
     {
         //Total score to win this round
-        //At level ONE this score is 10, going up by 2 each level
+        //At level ONE this score is 10, going up by 2 each level, by level 5 this is 20 commands, by level 10 this is 30 commands
         scoreToWin = 10 + (2 * (level - 1));
+        //Total score to lose this round
+        //At level ONE this score is -10, by level 5 this is -3, by level 10 this is -1 (converging to -1)
+        scoreToLose = Mathf.RoundToInt(-Mathf.Pow(Mathf.Sqrt(9), (-0.3f * (level - 1)) + 2) - 1);
+        //Number of seconds for the level before Game Over
+        //At level ONE this is 100 seconds (10 seconds per command), by level 5 this is 54.2 seconds, by level 10 this is 38.367 seconds (converging to 30 seconds by level 25)
+        levelTimeoutSeconds = Mathf.Pow(Mathf.Sqrt(70), (-0.1f * (level - 1)) + 2) + 30;
         //Number of seconds for each command before it times out
-        //At level ONE this starts at 10 seconds, by level 5 this is 7.5 seconds, and by level 10 this is 5.6 seconds
-        commandTimeoutSeconds = Mathf.Pow(Mathf.Sqrt(10), (-0.05f * (level - 1)) + 2);
+        //At level ONE this starts at 10 seconds, by level 5 this is 6.8 seconds, and by level 10 this is 4.737 seconds (converging to 1 second by level 35)
+        commandTimeoutSeconds = Mathf.Pow(Mathf.Sqrt(9), (-0.08f * (level - 1)) + 2) + 1;
         //The base number of objects a player can start with (this number will be varied +/- 1
-        //At level ONE this starts at 3 objects per player, by level 5 this is 7 objects, by level 8 this maxes out at 8 objects always for all players
+        //At level ONE this starts at 3 objects per player, by level 5 this is 7 objects, by level 8 this maxes out at 8 objects always for all players (converging to 8 objects)
         int baseNumObjPerPlayer = Mathf.RoundToInt(-Mathf.Pow(Mathf.Sqrt(8), (-0.3f * (level - 1)) + 1.54f) + 8);
         int[] xyNumObj_p1 = GetNumXYObjects(baseNumObjPerPlayer);
         p1_gridX = xyNumObj_p1[0];
@@ -140,24 +152,25 @@ public class Mastermind_Script : Photon.MonoBehaviour
     {
         int[] returnXY = new int[2];
         int totalNumObj = baseNumObjPerPlayer + Random.Range(-1, 2);
-        if (totalNumObj >= 7)
+        if (totalNumObj >= 7) //Can't display 7 objects, set to 8
             totalNumObj = 8;
-        else if (totalNumObj == 5)
+        else if (totalNumObj == 5) //Can't display 5 objects set to 4
             totalNumObj = 4;
 
-        if (totalNumObj == 8)
+        if (totalNumObj >= 8) //if the total number of objects is 8 then do a full 4x2 grid of objects
         {
             returnXY[0] = 4;
             returnXY[1] = 2;
         }
-        else if (totalNumObj == 6)
+        else if (totalNumObj == 6) //if the total number of objects is 6 then do a 3x2 grid of objects
         {
             returnXY[0] = 3;
             returnXY[1] = 2;
         }
         else if (totalNumObj <= 4 && totalNumObj > 0)
         {
-            if ((totalNumObj % 2) == 0 && Random.value < 0.5f)
+            //if the total number of objects is even and less than equal to 4 flip a coin to see if we should display the objects on a single row or two rows
+            if ((totalNumObj % 2) == 0 && Random.value < 0.5f) 
             {
                 returnXY[0] = totalNumObj / 2;
                 returnXY[1] = 2;
@@ -626,10 +639,21 @@ public class Mastermind_Script : Photon.MonoBehaviour
     void Update () {
         if (PhotonNetwork.isMasterClient)
         {
-            //If the user scores 10 or more, change text to Green and to say "YOU WIN~"
+            //If the user scores grater than or equal to the score to win change text to Green and to say "YOU WIN~"
+            //Else if the score is less than or equal to the score to lose change the text to Red and say "Game Over"
             if (score >= scoreToWin && !isLoadingNextLevel)
             {
                 StartCoroutine(LoadNextLevel());
+            }
+            else if (score <= scoreToLose && !isLoadingNextLevel)
+            {
+                GameOver();
+            }
+
+            //If the game times out change the text to Red and say "Game Over"
+            if (levelStartTime.AddSeconds(levelTimeoutSeconds) <= System.DateTime.Now)
+            {
+                GameOver();   
             }
 
             //If we are not loading the next level
@@ -637,7 +661,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             //AND if we are NOT currently typing a command
             //AND if we are NOT currently waiting the 10 seconds for a command to pass
             //generate and display a new random command
-            if (!isLoadingNextLevel)
+            if (!isLoadingNextLevel && !isGameOver)
             {
                 if (!p1_isDisplayStart && !p1_consoleTextScript.isTyping && !p1_isDisplayingCommand)
                     StartCoroutine(P1_DisplayRandomCommand());
@@ -692,6 +716,19 @@ public class Mastermind_Script : Photon.MonoBehaviour
         isLoadingNextLevel = false;
     }
 
+    public void GameOver()
+    {
+        isGameOver = true;
+
+        p1_scoreTextScript.photonView.RPC("GameOver", PhotonTargets.All, true);
+        if (numPlayers > 1)
+            p2_scoreTextScript.photonView.RPC("GameOver", PhotonTargets.All, true);
+        if (numPlayers > 2)
+            p3_scoreTextScript.photonView.RPC("GameOver", PhotonTargets.All, true);
+        if (numPlayers > 3)
+            p4_scoreTextScript.photonView.RPC("GameOver", PhotonTargets.All, true);
+    }
+
     public void UpdateScore()
     {
         p1_scoreTextScript.photonView.RPC("ScoreUp", PhotonTargets.All, score);
@@ -743,6 +780,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
         p2_isDisplayStart = false;
         p3_isDisplayStart = false;
         p4_isDisplayStart = false;
+
+        levelStartTime = System.DateTime.Now;
     }
 
     public void UpdateAllConsoles(string msg)
