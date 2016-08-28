@@ -62,4 +62,5 @@ MonoBehaviour:
   - RPCHandOffObject
   - RPCSetIsOtherHandColliding
   - GameOver
+  - RpcStopText
   DisableAutoOpenWizard: 1

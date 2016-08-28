@@ -295,7 +295,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         if (numPlayers > 1)
         {
             //Generate rObjList objects for PLAYER 2
-            rObjList = GenerateRandomObjects(rObjList, (p2_gridX * p2_gridY), p2_PlayerControlDeck, p2_gridX, p2_gridY, 2);
+            rObjList = GenerateRandomObjects(rObjList, (p1_gridX * p1_gridY), p2_PlayerControlDeck, p2_gridX, p2_gridY, 2);
             Transform p2_RObjectTransform = p2_PlayerControlDeck.transform.Find("RObjects");
             p2_RObjectTransform.localRotation = Quaternion.Euler(new Vector3(45f, 0f, 0f));
             for (int i = 0; i < p2_RObjectTransform.childCount; i++)
@@ -303,13 +303,14 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 GameObject rObjectEmpty = p2_RObjectTransform.GetChild(i).gameObject;
                 GameObject rObject = PhotonNetwork.InstantiateSceneObject("Prefabs/" + rObjectEmpty.name, rObjectEmpty.transform.position, rObjectEmpty.transform.rotation, 0, rObjList[rObjectCount].data);
                 rObjList[rObjectCount].rObject = rObject;
+                
                 rObjectCount++;
             }
         }
         if (numPlayers > 2)
         {
             //Generate rObjList objects for PLAYER 3
-            rObjList = GenerateRandomObjects(rObjList, (p3_gridX * p3_gridY) + (p2_gridX * p2_gridY), p3_PlayerControlDeck, p3_gridX, p3_gridY, 3);
+            rObjList = GenerateRandomObjects(rObjList, (p1_gridX * p1_gridY) + (p2_gridX * p2_gridY), p3_PlayerControlDeck, p3_gridX, p3_gridY, 3);
             Transform p3_RObjectTransform = p3_PlayerControlDeck.transform.Find("RObjects");
             p3_RObjectTransform.localRotation = Quaternion.Euler(new Vector3(45f, 0f, 0f));
             for (int i = 0; i < p3_RObjectTransform.childCount; i++)
@@ -323,7 +324,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         if (numPlayers > 3)
         {
             //Generate rObjList objects for PLAYER 4
-            rObjList = GenerateRandomObjects(rObjList, (p4_gridX * p4_gridY) + (p2_gridX * p2_gridY) + (p3_gridX * p3_gridY), p4_PlayerControlDeck, p4_gridX, p4_gridY, 4);
+            rObjList = GenerateRandomObjects(rObjList, (p1_gridX * p1_gridY) + (p2_gridX * p2_gridY) + (p3_gridX * p3_gridY), p4_PlayerControlDeck, p4_gridX, p4_gridY, 4);
             Transform p4_RObjectTransform = p4_PlayerControlDeck.transform.Find("RObjects");
             p4_RObjectTransform.localRotation = Quaternion.Euler(new Vector3(45f, 0f, 0f));
             for (int i = 0; i < p4_RObjectTransform.childCount; i++)
@@ -689,9 +690,19 @@ public class Mastermind_Script : Photon.MonoBehaviour
         isLoadingNextLevel = true;
         score = 0;
         level += 1;
+        levelStartTime = System.DateTime.Now;
 
         //Destroy all rObjects inside of rObjList
         DestroyRandomObjects();
+
+        //Set all timers to 0
+        p1_gWaitSystem = 0f;
+        if (numPlayers > 1)
+            p2_gWaitSystem = 0f;
+        if (numPlayers > 2)
+            p3_gWaitSystem = 0f;
+        if (numPlayers > 3)
+            p4_gWaitSystem = 0f;
 
         p1_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
         if (numPlayers > 1)
@@ -794,21 +805,17 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
     public void UpdateAllConsoles(string msg)
     {
-        p1_consoleTextScript.photonView.RPC("RpcStopText", PhotonTargets.All);
         p1_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, msg);
         if (numPlayers > 1)
         {
-            p2_consoleTextScript.photonView.RPC("RpcStopText", PhotonTargets.All);
             p2_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, msg);
         }
         if (numPlayers > 2)
         {
-            p3_consoleTextScript.photonView.RPC("RpcStopText", PhotonTargets.All);
             p3_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, msg);
         }
         if (numPlayers > 3)
         {
-            p4_consoleTextScript.photonView.RPC("RpcStopText", PhotonTargets.All);
             p4_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, msg);
         }
     }
@@ -857,13 +864,16 @@ public class Mastermind_Script : Photon.MonoBehaviour
             }
 
             //lower score if time reached (button was not tapped)
-            if (numFufilled == 0)
+            if (!isGameOver && !isLoadingNextLevel)
             {
-                ScoreDown();
-            }
-            else
-            {
-                numFufilled -= 1;
+                if (numFufilled == 0)
+                {
+                    ScoreDown();
+                }
+                else
+                {
+                    numFufilled -= 1;
+                }
             }
 
             //reset isTapped
@@ -988,6 +998,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
             //Type out new command to console
             p2_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, message);
+
+            isCommandSet = true;
         }
         catch
         {
@@ -1029,6 +1041,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
             //Type out new command to console
             p3_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, message);
+
+            isCommandSet = true;
         }
         catch
         {
@@ -1070,6 +1084,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
             //Type out new command to console
             p4_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, message);
+
+            isCommandSet = true;
         }
         catch
         {
