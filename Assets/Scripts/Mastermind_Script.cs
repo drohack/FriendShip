@@ -637,23 +637,25 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
     // Update is called once per frame
     void Update () {
-        if (PhotonNetwork.isMasterClient)
+        if (PhotonNetwork.isMasterClient && !isLoadingNextLevel && !isGameOver)
         {
             //If the user scores grater than or equal to the score to win change text to Green and to say "YOU WIN~"
             //Else if the score is less than or equal to the score to lose change the text to Red and say "Game Over"
-            if (score >= scoreToWin && !isLoadingNextLevel)
+            if (score >= scoreToWin)
             {
                 StartCoroutine(LoadNextLevel());
             }
-            else if (score <= scoreToLose && !isLoadingNextLevel)
+            else if (score <= scoreToLose)
             {
+                Debug.Log("Game Over; score: " + score + ", scoreToLose: " + scoreToLose);
                 GameOver();
             }
 
             //If the game times out change the text to Red and say "Game Over"
             if (levelStartTime.AddSeconds(levelTimeoutSeconds) <= System.DateTime.Now)
             {
-                GameOver();   
+                Debug.Log("Game Over; levelTimeoutSeconds: " + levelTimeoutSeconds + ", levelStartTime: " + levelStartTime + ", Now: " + System.DateTime.Now);
+                GameOver();
             }
 
             //If we are not loading the next level
@@ -661,7 +663,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             //AND if we are NOT currently typing a command
             //AND if we are NOT currently waiting the 10 seconds for a command to pass
             //generate and display a new random command
-            if (!isLoadingNextLevel && !isGameOver)
+            if (!isGameOver)
             {
                 if (!p1_isDisplayStart && !p1_consoleTextScript.isTyping && !p1_isDisplayingCommand)
                     StartCoroutine(P1_DisplayRandomCommand());
@@ -719,6 +721,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
     public void GameOver()
     {
         isGameOver = true;
+
+        UpdateAllConsoles("");
 
         p1_scoreTextScript.photonView.RPC("GameOver", PhotonTargets.All, true);
         if (numPlayers > 1)
