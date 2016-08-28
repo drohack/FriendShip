@@ -650,9 +650,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 Debug.Log("Game Over; score: " + score + ", scoreToLose: " + scoreToLose);
                 GameOver();
             }
-
-            //If the game times out change the text to Red and say "Game Over"
-            if (levelStartTime.AddSeconds(levelTimeoutSeconds) <= System.DateTime.Now)
+            else if (levelStartTime.AddSeconds(levelTimeoutSeconds) <= System.DateTime.Now)
             {
                 Debug.Log("Game Over; levelTimeoutSeconds: " + levelTimeoutSeconds + ", levelStartTime: " + levelStartTime + ", Now: " + System.DateTime.Now);
                 GameOver();
@@ -746,14 +744,20 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
     public void ScoreUp()
     {
-        score++;
-        UpdateScore();
+        if (!isGameOver)
+        {
+            score++;
+            UpdateScore();
+        }
     }
 
     public void ScoreDown()
     {
-        score--;
-        UpdateScore();
+        if (!isGameOver)
+        {
+            score--;
+            UpdateScore();
+        }
     }
 
     //Display a countdown till next round, call to generate the random objects, and display "START!"
@@ -790,17 +794,21 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
     public void UpdateAllConsoles(string msg)
     {
+        p1_consoleTextScript.photonView.RPC("RpcStopText", PhotonTargets.All);
         p1_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, msg);
         if (numPlayers > 1)
         {
+            p2_consoleTextScript.photonView.RPC("RpcStopText", PhotonTargets.All);
             p2_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, msg);
         }
         if (numPlayers > 2)
         {
+            p3_consoleTextScript.photonView.RPC("RpcStopText", PhotonTargets.All);
             p3_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, msg);
         }
         if (numPlayers > 3)
         {
+            p4_consoleTextScript.photonView.RPC("RpcStopText", PhotonTargets.All);
             p4_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, msg);
         }
     }
@@ -809,103 +817,109 @@ public class Mastermind_Script : Photon.MonoBehaviour
     // This will either wait for the given seconds, or until the isTapped boolean is set to TRUE
     IEnumerator WaitForSecondsOrTap(int player, float seconds)
     {
-        if (player == 1)
+        if (!isGameOver)
         {
-            p1_gWaitSystem = seconds;
-            while (p1_gWaitSystem > 0.0)
+            if (player == 1)
             {
-                p1_gWaitSystem -= Time.deltaTime;
-                yield return 0;
+                p1_gWaitSystem = seconds;
+                while (p1_gWaitSystem > 0.0)
+                {
+                    p1_gWaitSystem -= Time.deltaTime;
+                    yield return 0;
+                }
             }
-        }
-        else if (player == 2)
-        {
-            p2_gWaitSystem = seconds;
-            while (p2_gWaitSystem > 0.0)
+            else if (player == 2)
             {
-                p2_gWaitSystem -= Time.deltaTime;
-                yield return 0;
+                p2_gWaitSystem = seconds;
+                while (p2_gWaitSystem > 0.0)
+                {
+                    p2_gWaitSystem -= Time.deltaTime;
+                    yield return 0;
+                }
             }
-        }
-        else if (player == 3)
-        {
-            p3_gWaitSystem = seconds;
-            while (p3_gWaitSystem > 0.0)
+            else if (player == 3)
             {
-                p3_gWaitSystem -= Time.deltaTime;
-                yield return 0;
+                p3_gWaitSystem = seconds;
+                while (p3_gWaitSystem > 0.0)
+                {
+                    p3_gWaitSystem -= Time.deltaTime;
+                    yield return 0;
+                }
             }
-        }
-        else if (player == 4)
-        {
-            p4_gWaitSystem = seconds;
-            while (p4_gWaitSystem > 0.0)
+            else if (player == 4)
             {
-                p4_gWaitSystem -= Time.deltaTime;
-                yield return 0;
+                p4_gWaitSystem = seconds;
+                while (p4_gWaitSystem > 0.0)
+                {
+                    p4_gWaitSystem -= Time.deltaTime;
+                    yield return 0;
+                }
             }
-        }
 
-        //lower score if time reached (button was not tapped)
-        if (numFufilled == 0)
-        {
-            ScoreDown();
-        }
-        else
-        {
-            numFufilled -= 1;
-        }
+            //lower score if time reached (button was not tapped)
+            if (numFufilled == 0)
+            {
+                ScoreDown();
+            }
+            else
+            {
+                numFufilled -= 1;
+            }
 
-        //reset isTapped
-        isTapped = false;
+            //reset isTapped
+            isTapped = false;
+        }
     }
 
     // End the waitForSeconds by setting the timer to zero AND signal that a button was tapped (isTapped = true)
     public void TappedWaitForSecondsOrTap(int inputCommand)
     {
-        isTapped = true;
-        numFufilled = 0;
+        if (!isGameOver)
+        {
+            isTapped = true;
+            numFufilled = 0;
 
-        //Debug.Log("p1_command = " + p1_rCommand + " inputCommand = " + inputCommand);
-                
-        //Check to see if the current command is the correct button pressed. Update score accordingly
-        if (p1_rCommand == inputCommand)
-        {
-            p1_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
-            ScoreUp();
-            //Set timer for that player to 0 to get next command
-            p1_gWaitSystem = 0.0f;
-            numFufilled += 1;
-        }
-        if (p2_rCommand == inputCommand)
-        {
-            p2_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
-            ScoreUp();
-            //Set timer for that player to 0 to get next command
-            p2_gWaitSystem = 0.0f;
-            numFufilled += 1;
-        }
-        if (p3_rCommand == inputCommand)
-        {
-            p3_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
-            ScoreUp();
-            //Set timer for that player to 0 to get next command
-            p3_gWaitSystem = 0.0f;
-            numFufilled += 1;
-        }
-        if (p4_rCommand == inputCommand)
-        {
-            p4_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
-            ScoreUp();
-            //Set timer for that player to 0 to get next command
-            p4_gWaitSystem = 0.0f;
-            numFufilled += 1;
-        }
+            //Debug.Log("p1_command = " + p1_rCommand + " inputCommand = " + inputCommand);
 
-        // If no command matched lower score
-        if (numFufilled == 0)
-        {
-            ScoreDown();
+            //Check to see if the current command is the correct button pressed. Update score accordingly
+            if (p1_rCommand == inputCommand)
+            {
+                p1_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
+                ScoreUp();
+                //Set timer for that player to 0 to get next command
+                p1_gWaitSystem = 0.0f;
+                numFufilled += 1;
+            }
+            if (p2_rCommand == inputCommand)
+            {
+                p2_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
+                ScoreUp();
+                //Set timer for that player to 0 to get next command
+                p2_gWaitSystem = 0.0f;
+                numFufilled += 1;
+            }
+            if (p3_rCommand == inputCommand)
+            {
+                p3_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
+                ScoreUp();
+                //Set timer for that player to 0 to get next command
+                p3_gWaitSystem = 0.0f;
+                numFufilled += 1;
+            }
+            if (p4_rCommand == inputCommand)
+            {
+                p4_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
+                ScoreUp();
+                //Set timer for that player to 0 to get next command
+                p4_gWaitSystem = 0.0f;
+                numFufilled += 1;
+            }
+
+            // If no command matched lower score
+            if (numFufilled == 0)
+            {
+                ScoreDown();
+            }
         }
     }
 
@@ -914,7 +928,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         p1_isDisplayingCommand = true;
 
         //Clear text
-        p1_consoleTextScript.GetComponent<TextMesh>().text = "";
+        p1_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
         yield return 0;
         yield return new WaitForSeconds(1);
 
@@ -924,15 +938,29 @@ public class Mastermind_Script : Photon.MonoBehaviour
         //get random game object from random object list
         GameObject rObj = rObjList[p1_rCommand].rObject;
 
-        string[] rCommandList = GetRandomCommand(rObj, p1_rCommand);
-        p1_rCommand = int.Parse(rCommandList[0]);
-        string message = rCommandList[1];
+        bool isCommandSet = false;
+        try {
+            string[] rCommandList = GetRandomCommand(rObj, p1_rCommand);
+            p1_rCommand = int.Parse(rCommandList[0]);
+            string message = rCommandList[1];
 
-        //Type out new command to console
-        p1_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, message);
+            //Type out new command to console
+            p1_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, message);
 
-        //Wait for the commandTimeoutSeconds or if a button gets tapped
-        yield return WaitForSecondsOrTap(1, commandTimeoutSeconds);
+            isCommandSet = true;
+        } catch
+        {
+            Debug.LogWarning("P1_DisplayRandomCommand error, unable to get command");
+            isCommandSet = false;
+        }
+
+        //Only wait for the command if it was set correctly
+        if(isCommandSet)
+        {
+            //Wait for the commandTimeoutSeconds or if a button gets tapped
+            yield return WaitForSecondsOrTap(1, commandTimeoutSeconds);
+        }
+
         p1_isDisplayingCommand = false;
     }
 
@@ -951,15 +979,29 @@ public class Mastermind_Script : Photon.MonoBehaviour
         //get random game object from random object list
         GameObject rObj = rObjList[p2_rCommand].rObject;
 
-        string[] rCommandList = GetRandomCommand(rObj, p2_rCommand);
-        p2_rCommand = int.Parse(rCommandList[0]);
-        string message = rCommandList[1];
+        bool isCommandSet = false;
+        try
+        {
+            string[] rCommandList = GetRandomCommand(rObj, p2_rCommand);
+            p2_rCommand = int.Parse(rCommandList[0]);
+            string message = rCommandList[1];
 
-        //Type out new command to console
-        p2_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, message);
+            //Type out new command to console
+            p2_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, message);
+        }
+        catch
+        {
+            Debug.LogWarning("P2_DisplayRandomCommand error, unable to get command");
+            isCommandSet = false;
+        }
 
-        //Wait for the commandTimeoutSeconds or if a button gets tapped
-        yield return WaitForSecondsOrTap(2, commandTimeoutSeconds);
+        //Only wait for the command if it was set correctly
+        if (isCommandSet)
+        {
+            //Wait for the commandTimeoutSeconds or if a button gets tapped
+            yield return WaitForSecondsOrTap(2, commandTimeoutSeconds);
+        }
+
         p2_isDisplayingCommand = false;
     }
 
@@ -978,15 +1020,29 @@ public class Mastermind_Script : Photon.MonoBehaviour
         //get random game object from random object list
         GameObject rObj = rObjList[p3_rCommand].rObject;
 
-        string[] rCommandList = GetRandomCommand(rObj, p3_rCommand);
-        p3_rCommand = int.Parse(rCommandList[0]);
-        string message = rCommandList[1];
+        bool isCommandSet = false;
+        try
+        {
+            string[] rCommandList = GetRandomCommand(rObj, p3_rCommand);
+            p3_rCommand = int.Parse(rCommandList[0]);
+            string message = rCommandList[1];
 
-        //Type out new command to console
-        p3_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, message);
+            //Type out new command to console
+            p3_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, message);
+        }
+        catch
+        {
+            Debug.LogWarning("P3_DisplayRandomCommand error, unable to get command");
+            isCommandSet = false;
+        }
 
-        //Wait for the commandTimeoutSeconds or if a button gets tapped
-        yield return WaitForSecondsOrTap(3, commandTimeoutSeconds);
+        //Only wait for the command if it was set correctly
+        if (isCommandSet)
+        {
+            //Wait for the commandTimeoutSeconds or if a button gets tapped
+            yield return WaitForSecondsOrTap(3, commandTimeoutSeconds);
+        }
+
         p3_isDisplayingCommand = false;
     }
 
@@ -1005,15 +1061,29 @@ public class Mastermind_Script : Photon.MonoBehaviour
         //get random game object from random object list
         GameObject rObj = rObjList[p4_rCommand].rObject;
 
-        string[] rCommandList = GetRandomCommand(rObj, p4_rCommand);
-        p4_rCommand = int.Parse(rCommandList[0]);
-        string message = rCommandList[1];
+        bool isCommandSet = false;
+        try
+        {
+            string[] rCommandList = GetRandomCommand(rObj, p4_rCommand);
+            p4_rCommand = int.Parse(rCommandList[0]);
+            string message = rCommandList[1];
 
-        //Type out new command to console
-        p4_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, message);
+            //Type out new command to console
+            p4_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, message);
+        }
+        catch
+        {
+            Debug.LogWarning("P4_DisplayRandomCommand error, unable to get command");
+            isCommandSet = false;
+        }
 
-        //Wait for the commandTimeoutSeconds or if a button gets tapped
-        yield return WaitForSecondsOrTap(4, commandTimeoutSeconds);
+        //Only wait for the command if it was set correctly
+        if (isCommandSet)
+        {
+            //Wait for the commandTimeoutSeconds or if a button gets tapped
+            yield return WaitForSecondsOrTap(4, commandTimeoutSeconds);
+        }
+
         p4_isDisplayingCommand = false;
     }
 

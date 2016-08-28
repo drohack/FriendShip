@@ -234,6 +234,15 @@ namespace OvrTouch.Hands
             }
         }
 
+        private void OnDestroy()
+        {
+            // If this object is destroyed while being grabbed end the grab animation of the hand
+            if (isGrabbing)
+            {
+                m_grabbedHand.GrabEnd();
+            }
+        }
+
         //==============================================================================
         public void OverlapBegin(Hand hand)
         {

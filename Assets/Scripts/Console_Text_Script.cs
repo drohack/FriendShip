@@ -18,7 +18,13 @@ public class Console_Text_Script : Photon.MonoBehaviour
     [PunRPC]
     public void RpcTypeText(string message)
     {
-        StartCoroutine(TypeText(message));
+        StartCoroutine("TypeText", message);
+    }
+
+    [PunRPC]
+    public void RpcStopText()
+    {
+        StopCoroutine("TypeText");
     }
 
     //Type out the text that is loaded into the "message" variable
