@@ -17,7 +17,7 @@ public class PhotonGame : Photon.MonoBehaviour
     public Transform player3Spawn;
     public Transform player4Spawn;
 
-    public int levelNum = 1;
+    private int levelNum = 1;
 
     public void Awake()
     {

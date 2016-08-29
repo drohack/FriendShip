@@ -21,6 +21,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private         System.DateTime levelStartTime = System.DateTime.Now;
     private         bool isGameOver = false;
     private         int numOfDiffGameObjects = 8; // The number of different type of game objects total to be used for random rolling of said game objects
+    private const   int commandTextRowLimit = 15;
     public const    int buttonCommand = 0;
     public const    int dialCommand = 1;
     public const    int lLeverCommand = 2;
@@ -400,13 +401,13 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         buttonCommandArray.RemoveAt(commandIndex);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.09f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.08f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.09f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.08f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.09f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.08f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.09f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.08f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
                         //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
                         //    vector3,
                         //    Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
@@ -608,6 +609,24 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         randObjectEmpty.name = "Button";
                         randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         break;
+                }
+
+                //Split command text into 2 lines if needed
+                if (newCommandText.Length > commandTextRowLimit)
+                {
+                    string[] parts = newCommandText.Split(' ');
+                    newCommandText = "";
+                    int currentLineLength = 0;
+                    for (int i = 0; i < parts.Length; i++)
+                    {
+                        if ((currentLineLength + 1 + parts[i].Length) > commandTextRowLimit)
+                        {
+                            newCommandText += System.Environment.NewLine;
+                            currentLineLength = 0;
+                        }
+                        newCommandText += " " + parts[i];
+                        currentLineLength += parts[i].Length;
+                    }
                 }
 
                 data[0] = newCommandText;

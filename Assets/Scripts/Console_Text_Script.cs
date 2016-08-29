@@ -7,6 +7,7 @@ public class Console_Text_Script : Photon.MonoBehaviour
 
     private TextMesh textMesh;
     public bool isTyping = false;
+    private const int rowLimit = 20;
 
     // Use this for initialization
     void Start ()
@@ -28,6 +29,26 @@ public class Console_Text_Script : Photon.MonoBehaviour
         isTyping = true;
         textMesh = GetComponent<TextMesh>();
         textMesh.text = "";
+
+        //Split message into 2 lines if needed
+        if(message.Length > rowLimit)
+        {
+            string[] parts = message.Split(' ');
+            message = "";
+            int currentLineLength = 0;
+            for (int i = 0; i < parts.Length; i++)
+            {
+                if ((currentLineLength + 1 + parts[i].Length) > rowLimit)
+                {
+                    message += System.Environment.NewLine;
+                    currentLineLength = 0;
+                }
+                message += " " + parts[i];
+                currentLineLength += parts[i].Length;
+            }
+        }
+
+        //Type each character with a 0.05 second delay between characters
         foreach (char letter in message.ToCharArray())
         {
             textMesh.text += letter;
