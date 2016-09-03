@@ -52,9 +52,9 @@ public class Button_Script : Photon.MonoBehaviour
             isLocked = true;
             isButtonDown = true;
             //send tapped rCommand to Server
-            photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommand);
             photonView.RPC("RPCPlayAnim", PhotonTargets.Others, "Button_Down_Anim");
             StartCoroutine(WaitForAnimation(anim, "Button_Down_Anim"));
+            photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommand);
         }
     }
 

@@ -30,8 +30,11 @@ public class Console_Text_Script : Photon.MonoBehaviour
         textMesh = GetComponent<TextMesh>();
         textMesh.text = "";
 
+        //Remove all new line characters from message as new ones will be added if needed
+        message = message.Replace(System.Environment.NewLine, "");
+
         //Split message into 2 lines if needed
-        if(message.Length > rowLimit)
+        if (message.Length > rowLimit)
         {
             string[] parts = message.Split(' ');
             message = "";
