@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class Mastermind_Script : Photon.MonoBehaviour
 {
@@ -20,6 +21,9 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private         float commandTimeoutSeconds = 10;
     private         System.DateTime levelStartTime = System.DateTime.Now;
     private         bool isGameOver = false;
+    private         float easyPercent     = 0.8f;
+    private         float mediumPercent = 0f;
+    private         float hardPercent = 0f;
     private         int numOfDiffGameObjects = 8; // The number of different type of game objects total to be used for random rolling of said game objects
     private const   int commandTextRowLimit = 15;
     public const    int buttonCommand = 0;
@@ -30,15 +34,31 @@ public class Mastermind_Script : Photon.MonoBehaviour
     public const    int sliderCommand = 5;
     public const    int valveCommand = 6;
     public const    int wLeverCommand = 7;
-    private ArrayList buttonCommandArray;
-    private ArrayList dialCommandArray;
-    private ArrayList lLeverCommandArray;
-    private ArrayList lightswitchCommandArray;
     private string pullcordCommandText;
-    private ArrayList shifterCommandArray;
-    private ArrayList sliderCommandArray;
-    private ArrayList valveCommandArray;
-    private ArrayList wLeverCommandArray;
+    private ArrayList buttonCommandArray_EASY;
+    private ArrayList dialCommandArray_EASY;
+    private ArrayList lLeverCommandArray_EASY;
+    private ArrayList lightswitchCommandArray_EASY;
+    private ArrayList shifterCommandArray_EASY;
+    private ArrayList sliderCommandArray_EASY;
+    private ArrayList valveCommandArray_EASY;
+    private ArrayList wLeverCommandArray_EASY;
+    private ArrayList buttonCommandArray_MEDIUM;
+    private ArrayList dialCommandArray_MEDIUM;
+    private ArrayList lLeverCommandArray_MEDIUM;
+    private ArrayList lightswitchCommandArray_MEDIUM;
+    private ArrayList shifterCommandArray_MEDIUM;
+    private ArrayList sliderCommandArray_MEDIUM;
+    private ArrayList valveCommandArray_MEDIUM;
+    private ArrayList wLeverCommandArray_MEDIUM;
+    private ArrayList buttonCommandArray_HARD;
+    private ArrayList dialCommandArray_HARD;
+    private ArrayList lLeverCommandArray_HARD;
+    private ArrayList lightswitchCommandArray_HARD;
+    private ArrayList shifterCommandArray_HARD;
+    private ArrayList sliderCommandArray_HARD;
+    private ArrayList valveCommandArray_HARD;
+    private ArrayList wLeverCommandArray_HARD;
     private rObjectType[] rObjList; // The list of all random game objects get placed in current round
     private bool  isTapped = false; // Variables for the custom WaitForSeconds function
     private int numFufilled = 0;
@@ -163,6 +183,94 @@ public class Mastermind_Script : Photon.MonoBehaviour
         int[] xyNumObj_p4 = GetNumXYObjects(baseNumObjPerPlayer);
         p4_gridX = xyNumObj_p4[0];
         p4_gridY = xyNumObj_p4[1];
+
+        // Set command arrays from Command_Array.cs so we can take away items from the array list so we have no repeats
+        Command_Array commandArray = GetComponent<Command_Array>();
+        pullcordCommandText = Command_Array.pullcordText;
+        buttonCommandArray_EASY = commandArray.buttonCommandArray_EASY;
+        dialCommandArray_EASY = commandArray.dialCommandArray_EASY;
+        lLeverCommandArray_EASY = commandArray.lLeverCommandArray_EASY;
+        lightswitchCommandArray_EASY = commandArray.lightswitchCommandArray_EASY;
+        shifterCommandArray_EASY = commandArray.shifterCommandArray_EASY;
+        sliderCommandArray_EASY = commandArray.sliderCommandArray_EASY;
+        valveCommandArray_EASY = commandArray.valveCommandArray_EASY;
+        wLeverCommandArray_EASY = commandArray.wLeverCommandArray_EASY;
+        buttonCommandArray_MEDIUM = commandArray.buttonCommandArray_MEDIUM;
+        dialCommandArray_MEDIUM = commandArray.dialCommandArray_MEDIUM;
+        lLeverCommandArray_MEDIUM = commandArray.lLeverCommandArray_MEDIUM;
+        lightswitchCommandArray_MEDIUM = commandArray.lightswitchCommandArray_MEDIUM;
+        shifterCommandArray_MEDIUM = commandArray.shifterCommandArray_MEDIUM;
+        sliderCommandArray_MEDIUM = commandArray.sliderCommandArray_MEDIUM;
+        valveCommandArray_MEDIUM = commandArray.valveCommandArray_MEDIUM;
+        wLeverCommandArray_MEDIUM = commandArray.wLeverCommandArray_MEDIUM;
+        buttonCommandArray_HARD = commandArray.buttonCommandArray_HARD;
+        dialCommandArray_HARD = commandArray.dialCommandArray_HARD;
+        lLeverCommandArray_HARD = commandArray.lLeverCommandArray_HARD;
+        lightswitchCommandArray_HARD = commandArray.lightswitchCommandArray_HARD;
+        shifterCommandArray_HARD = commandArray.shifterCommandArray_HARD;
+        sliderCommandArray_HARD = commandArray.sliderCommandArray_HARD;
+        valveCommandArray_HARD = commandArray.valveCommandArray_HARD;
+        wLeverCommandArray_HARD = commandArray.wLeverCommandArray_HARD;
+
+        // Set percent of EASY, MEDIUM, and HARD objects to spawn by level
+        switch (level)
+        {
+            case 1:
+                easyPercent     = 1.0f;
+                mediumPercent   = 0.0f;
+                hardPercent     = 0.0f;
+                break;
+            case 2:
+                easyPercent     = 1.0f;
+                mediumPercent   = 0.0f;
+                hardPercent     = 0.0f;
+                break;
+            case 3:
+                easyPercent     = 0.8f;
+                mediumPercent   = 0.2f;
+                hardPercent     = 0.0f;
+                break;
+            case 4:
+                easyPercent     = 0.6f;
+                mediumPercent   = 0.4f;
+                hardPercent     = 0.0f;
+                break;
+            case 5:
+                easyPercent     = 0.4f;
+                mediumPercent   = 0.5f;
+                hardPercent     = 0.1f;
+                break;
+            case 6:
+                easyPercent     = 0.1f;
+                mediumPercent   = 0.6f;
+                hardPercent     = 0.3f;
+                break;
+            case 7:
+                easyPercent     = 0.05f;
+                mediumPercent   = 0.55f;
+                hardPercent     = 0.4f;
+                break;
+            case 8:
+                easyPercent     = 0.05f;
+                mediumPercent   = 0.45f;
+                hardPercent     = 0.5f;
+                break;
+            case 9:
+                easyPercent     = 0.05f;
+                mediumPercent   = 0.45f;
+                hardPercent     = 0.5f;
+                break;
+            case 10:
+                easyPercent     = 0.05f;
+                mediumPercent   = 0.35f;
+                hardPercent     = 0.6f;
+                break;
+            default:
+                easyPercent     = 0.05f;
+                mediumPercent   = 0.35f;
+                hardPercent     = 0.6f;
+                break;
+        }        
     }
 
     private int[] GetNumXYObjects(int baseNumObjPerPlayer)
@@ -247,18 +355,6 @@ public class Mastermind_Script : Photon.MonoBehaviour
         }
 
         //numPlayers = 4;
-
-        // Set command arrays from Command_Array.cs
-        Command_Array commandArray = GetComponent<Command_Array>();
-        buttonCommandArray = commandArray.buttonCommandArray;
-        dialCommandArray = commandArray.dialCommandArray;
-        lLeverCommandArray = commandArray.lLeverCommandArray;
-        lightswitchCommandArray = commandArray.lightswitchCommandArray;
-        pullcordCommandText = Command_Array.pullcordText;
-        shifterCommandArray = commandArray.shifterCommandArray;
-        sliderCommandArray = commandArray.sliderCommandArray;
-        valveCommandArray = commandArray.valveCommandArray;
-        wLeverCommandArray = commandArray.wLeverCommandArray;
 
         // Set player objects
         p1_PlayerControlDeck = GameObject.Find("Player Control Deck 1");
@@ -426,11 +522,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 switch (objNum)
                 {
                     case buttonCommand:
-                        //roll for a random Button command from the buttonCommandArray
-                        commandIndex = Random.Range(0, buttonCommandArray.Count);
-                        newCommandText = (string)buttonCommandArray[commandIndex];
-                        //remove selected button command from buttonCommandArray so it won't be used again
-                        buttonCommandArray.RemoveAt(commandIndex);
+                        //get a random command text based on the easy/medium/hard arrays
+                        newCommandText = GetRandomCommandText(ref buttonCommandArray_EASY, ref buttonCommandArray_MEDIUM, ref buttonCommandArray_HARD);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.08f);
@@ -450,11 +543,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         break;
                     case dialCommand:
-                        //roll for a random Button command from the buttonCommandArray
-                        commandIndex = Random.Range(0, dialCommandArray.Count);
-                        newCommandText = (string)dialCommandArray[commandIndex];
-                        //remove selected button command from buttonCommandArray so it won't be used again
-                        dialCommandArray.RemoveAt(commandIndex);
+                        //get a random command text based on the easy/medium/hard arrays
+                        newCommandText = GetRandomCommandText(ref dialCommandArray_EASY, ref dialCommandArray_MEDIUM, ref dialCommandArray_HARD);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.05f);
@@ -474,11 +564,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         break;
                     case lLeverCommand:
-                        //roll for a random Button command from the lLeverCommandArray
-                        commandIndex = Random.Range(0, lLeverCommandArray.Count);
-                        newCommandText = (string)lLeverCommandArray[commandIndex];
-                        //remove selected button command from lLeverCommandArray so it won't be used again
-                        lLeverCommandArray.RemoveAt(commandIndex);
+                        //get a random command text based on the easy/medium/hard arrays
+                        newCommandText = GetRandomCommandText(ref lLeverCommandArray_EASY, ref lLeverCommandArray_MEDIUM, ref lLeverCommandArray_HARD);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.147f);
@@ -498,11 +585,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         break;
                     case lightswitchCommand:
-                        //roll for a random Button command from the lLeverCommandArray
-                        commandIndex = Random.Range(0, lightswitchCommandArray.Count);
-                        newCommandText = (string)lightswitchCommandArray[commandIndex];
-                        //remove selected button command from lLeverCommandArray so it won't be used again
-                        lightswitchCommandArray.RemoveAt(commandIndex);
+                        //get a random command text based on the easy/medium/hard arrays
+                        newCommandText = GetRandomCommandText(ref lightswitchCommandArray_EASY, ref lightswitchCommandArray_MEDIUM, ref lightswitchCommandArray_HARD);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.05f);
@@ -522,11 +606,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         break;
                     case shifterCommand:
-                        //roll for a random Button command from the lLeverCommandArray
-                        commandIndex = Random.Range(0, shifterCommandArray.Count);
-                        newCommandText = (string)shifterCommandArray[commandIndex];
-                        //remove selected button command from lLeverCommandArray so it won't be used again
-                        shifterCommandArray.RemoveAt(commandIndex);
+                        //get a random command text based on the easy/medium/hard arrays
+                        newCommandText = GetRandomCommandText(ref shifterCommandArray_EASY, ref shifterCommandArray_MEDIUM, ref shifterCommandArray_HARD);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.05f);
@@ -546,11 +627,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         break;
                     case sliderCommand:
-                        //roll for a random Button command from the lLeverCommandArray
-                        commandIndex = Random.Range(0, sliderCommandArray.Count);
-                        newCommandText = (string)sliderCommandArray[commandIndex];
-                        //remove selected button command from lLeverCommandArray so it won't be used again
-                        sliderCommandArray.RemoveAt(commandIndex);
+                        //get a random command text based on the easy/medium/hard arrays
+                        newCommandText = GetRandomCommandText(ref sliderCommandArray_EASY, ref sliderCommandArray_MEDIUM, ref sliderCommandArray_HARD);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.05f);
@@ -570,11 +648,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         break;
                     case valveCommand:
-                        //roll for a random Button command from the lLeverCommandArray
-                        commandIndex = Random.Range(0, valveCommandArray.Count);
-                        newCommandText = (string)valveCommandArray[commandIndex];
-                        //remove selected button command from lLeverCommandArray so it won't be used again
-                        valveCommandArray.RemoveAt(commandIndex);
+                        //get a random command text based on the easy/medium/hard arrays
+                        newCommandText = GetRandomCommandText(ref valveCommandArray_EASY, ref valveCommandArray_MEDIUM, ref valveCommandArray_HARD);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.096f);
@@ -594,11 +669,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         break;
                     case wLeverCommand:
-                        //roll for a random Button command from the wLeverCommandArray
-                        commandIndex = Random.Range(0, wLeverCommandArray.Count);
-                        newCommandText = (string)wLeverCommandArray[commandIndex];
-                        //remove selected button command from wLeverCommandArray so it won't be used again
-                        wLeverCommandArray.RemoveAt(commandIndex);
+                        //get a random command text based on the easy/medium/hard arrays
+                        newCommandText = GetRandomCommandText(ref wLeverCommandArray_EASY, ref wLeverCommandArray_MEDIUM, ref wLeverCommandArray_HARD);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.152f);
@@ -618,11 +690,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
                         break;
                     default:
-                        //roll for a random Button command from the buttonCommandArray
-                        commandIndex = Random.Range(0, buttonCommandArray.Count);
-                        newCommandText = (string)buttonCommandArray[commandIndex];
-                        //remove selected button command from buttonCommandArray so it won't be used again
-                        buttonCommandArray.RemoveAt(commandIndex);
+                        //get a random command text based on the easy/medium/hard arrays
+                        newCommandText = GetRandomCommandText(ref buttonCommandArray_EASY, ref buttonCommandArray_MEDIUM, ref buttonCommandArray_HARD);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.09f);
@@ -672,6 +741,39 @@ public class Mastermind_Script : Photon.MonoBehaviour
         }
 
         return outRObjList;
+    }
+
+    private string GetRandomCommandText(ref ArrayList commandArray_EASY, ref ArrayList commandArray_MEDIUM, ref ArrayList commandArray_HARD)
+    {
+        string commandText = "";
+        // roll to see the difficulty of the command to roll
+        float difficulty = Random.Range(0.0f, 1.0f);
+        if (difficulty <= easyPercent)
+        {
+            //roll to get random EASY command
+            int commandIndex = Random.Range(0, commandArray_EASY.Count);
+            commandText = (string)commandArray_EASY[commandIndex];
+            //remove selected command from EASY array so it won't be used again this level
+            commandArray_EASY.RemoveAt(commandIndex);
+        }
+        else if (difficulty <= (easyPercent + mediumPercent))
+        {
+            //roll to get random MEDIUM command
+            int commandIndex = Random.Range(0, commandArray_MEDIUM.Count);
+            commandText = (string)commandArray_MEDIUM[commandIndex];
+            //remove selected command from MEDIUM array so it won't be used again this level
+            commandArray_MEDIUM.RemoveAt(commandIndex);
+        }
+        else
+        {
+            //roll to get random HARD command
+            int commandIndex = Random.Range(0, commandArray_HARD.Count);
+            commandText = (string)commandArray_HARD[commandIndex];
+            //remove selected command from HARD array so it won't be used again this level
+            commandArray_HARD.RemoveAt(commandIndex);
+        }
+
+        return commandText;
     }
 
     void DestroyRandomObjects()

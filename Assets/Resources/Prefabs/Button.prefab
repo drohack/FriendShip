@@ -26,8 +26,6 @@ GameObject:
   - 65: {fileID: 6513890}
   - 95: {fileID: 9569586}
   - 114: {fileID: 11487824}
-  - 114: {fileID: 11459484}
-  - 114: {fileID: 11486682}
   - 114: {fileID: 11440464}
   m_Layer: 0
   m_Name: Handle
@@ -493,57 +491,6 @@ MonoBehaviour:
   isButtonDown: 0
   newName: 
   rCommand: -1
---- !u!114 &11459484
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 104674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 229
-    i1: 84
-    i2: 46
-    i3: 134
-    i4: 104
-    i5: 203
-    i6: 146
-    i7: 148
-    i8: 218
-    i9: 152
-    i10: 48
-    i11: 49
-    i12: 115
-    i13: 213
-    i14: 83
-    i15: 164
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
---- !u!114 &11486682
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 104674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1590678366, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Animator: {fileID: 9569586}
-  m_ParameterSendBits: 0
-  param0: 
-  param1: 
-  param2: 
-  param3: 
-  param4: 
-  param5: 
 --- !u!114 &11487824
 MonoBehaviour:
   m_ObjectHideFlags: 1
