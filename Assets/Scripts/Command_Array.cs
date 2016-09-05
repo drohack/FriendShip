@@ -124,16 +124,16 @@ public class Command_Array : MonoBehaviour {
     private const string lightswitch19Text = "Unspeakably Clear Box";
     private const string lightswitch20Text = "Glorified Rugged Switch";
     //table flip
-    private const string lightswitch21Text = "(╯°□°）╯︵ ┻━┻";
-    private const string lightswitch22Text = "┻━┻︵  \\(°□°)/ ︵ ┻━┻ ";
-    private const string lightswitch23Text = "(ノಠ益ಠ)ノ彡︵ ┻━┻︵ ┻━┻";
-    private const string lightswitch24Text = "┏━┓ ︵  /(^.^/)";
+    private const string lightswitch21Text = "(╯°□°）╯︵┻━┻";
+    private const string lightswitch22Text = "┻━┻︵\\(°□°)/︵┻━┻";
+    private const string lightswitch23Text = "(ノಠ益ಠ)ノ彡︵┻━┻︵┻━┻";
+    private const string lightswitch24Text = "┏━┓︵/(^.^/)";
     private const string lightswitch25Text = "༼ つ ◕_◕ ༽つ";
     private const string lightswitch26Text = "( ͡° ͜ʖ ͡°)";
     private const string lightswitch27Text = "／人 ⌒ ‿‿ ⌒ 人＼";
     private const string lightswitch28Text = "(\\/)(Ö,,,,Ö)(\\/)";
     private const string lightswitch29Text = "(✿ ♥‿♥)";
-    private const string lightswitch30Text = "(╯°□°)–︻╦╤─ – – –";
+    private const string lightswitch30Text = "(╯°□°)︻╦╤─ – – –";
     //Shifters
     private const string shifter1Text = "Sarcasm";
     private const string shifter2Text = "Altitude";
@@ -190,7 +190,7 @@ public class Command_Array : MonoBehaviour {
     private const string slider19Text = "The Scarab of Enchantment";
     private const string slider20Text = "The Perfect Lute of Days";
     //audio/words
-    private const string slider21Text = "♫♪.ılılıll|̲̅̅●̲̅̅|̲̅̅=̲̅̅|̲̅̅●̲̅̅|llılılı.♫♪";
+    private const string slider21Text = "♫♪..|̲̅̅●̲̅̅|̲̅̅=̲̅̅|̲̅̅●̲̅̅|..♫♪";
     private const string slider22Text = "❚█══█❚";
     private const string slider23Text = "█▬█ █▄█ █▬█ █▄█";
     private const string slider24Text = "┣▬▇▇▇═─";

@@ -63,4 +63,6 @@ MonoBehaviour:
   - RPCSetIsOtherHandColliding
   - GameOver
   - RpcStopText
+  - RPCStartTimer
+  - RPCStopTimer
   DisableAutoOpenWizard: 1

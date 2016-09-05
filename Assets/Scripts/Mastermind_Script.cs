@@ -20,6 +20,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private         float levelTimeoutSeconds = 100;
     private         float commandTimeoutSeconds = 10;
     private         System.DateTime levelStartTime = System.DateTime.Now;
+    private         Timer_Script timerScript;
     private         bool isGameOver = false;
     private         float easyPercent     = 0.8f;
     private         float mediumPercent = 0f;
@@ -93,6 +94,10 @@ public class Mastermind_Script : Photon.MonoBehaviour
     Console_Text_Script p2_consoleTextScript;
     Console_Text_Script p3_consoleTextScript;
     Console_Text_Script p4_consoleTextScript;
+    Console_Timer_Script p1_consoleTimerScript;
+    Console_Timer_Script p2_consoleTimerScript;
+    Console_Timer_Script p3_consoleTimerScript;
+    Console_Timer_Script p4_consoleTimerScript;
 
     /** P1 VARIABLES **/
     public  int     p1_rCommand = -1;
@@ -144,6 +149,9 @@ public class Mastermind_Script : Photon.MonoBehaviour
             //Get number of players by the NetwokManager.numPlayers
             numPlayers = PhotonNetwork.playerList.Length;
             Debug.Log("numPlayers: " + numPlayers);
+
+            //Get Timer object
+            timerScript = GameObject.FindGameObjectWithTag("Timer").GetComponent<Timer_Script>();
 
             //Set up level variables (score to win this round, number of seconds for each command, number of random objects to spawn per player)
             SetupLevel();
@@ -252,23 +260,23 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 break;
             case 8:
                 easyPercent     = 0.05f;
-                mediumPercent   = 0.45f;
-                hardPercent     = 0.5f;
+                mediumPercent   = 0.35f;
+                hardPercent     = 0.6f;
                 break;
             case 9:
                 easyPercent     = 0.05f;
-                mediumPercent   = 0.45f;
-                hardPercent     = 0.5f;
+                mediumPercent   = 0.25f;
+                hardPercent     = 0.7f;
                 break;
             case 10:
                 easyPercent     = 0.05f;
-                mediumPercent   = 0.35f;
-                hardPercent     = 0.6f;
+                mediumPercent   = 0.15f;
+                hardPercent     = 0.8f;
                 break;
             default:
                 easyPercent     = 0.05f;
-                mediumPercent   = 0.35f;
-                hardPercent     = 0.6f;
+                mediumPercent   = 0.15f;
+                hardPercent     = 0.8f;
                 break;
         }        
     }
@@ -364,11 +372,13 @@ public class Mastermind_Script : Photon.MonoBehaviour
         p1_FailLight = p1_PlayerControlDeck.transform.Find("Fail Light").GetComponent<Light>();
         p1_scoreTextScript = p1_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
         p1_consoleTextScript = p1_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
+        p1_consoleTimerScript = p1_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
         if (numPlayers > 1)
         {
             p2_PlayerControlDeck = GameObject.Find("Player Control Deck 2");
             p2_scoreTextScript = p2_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
             p2_consoleTextScript = p2_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
+            p2_consoleTimerScript = p2_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
             p2_SuccessAudio = p2_PlayerControlDeck.transform.Find("Success Audio").GetComponent<AudioSource>();
             p2_FailAudio = p2_PlayerControlDeck.transform.Find("Fail Audio").GetComponent<AudioSource>();
             p2_SuccessLight = p2_PlayerControlDeck.transform.Find("Success Light").GetComponent<Light>();
@@ -379,6 +389,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             p3_PlayerControlDeck = GameObject.Find("Player Control Deck 3");
             p3_scoreTextScript = p3_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
             p3_consoleTextScript = p3_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
+            p3_consoleTimerScript = p3_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
             p3_SuccessAudio = p3_PlayerControlDeck.transform.Find("Success Audio").GetComponent<AudioSource>();
             p3_FailAudio = p3_PlayerControlDeck.transform.Find("Fail Audio").GetComponent<AudioSource>();
             p3_SuccessLight = p3_PlayerControlDeck.transform.Find("Success Light").GetComponent<Light>();
@@ -389,6 +400,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             p4_PlayerControlDeck = GameObject.Find("Player Control Deck 4");
             p4_scoreTextScript = p4_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
             p4_consoleTextScript = p4_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
+            p4_consoleTimerScript = p4_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
             p4_SuccessAudio = p4_PlayerControlDeck.transform.Find("Success Audio").GetComponent<AudioSource>();
             p4_FailAudio = p4_PlayerControlDeck.transform.Find("Fail Audio").GetComponent<AudioSource>();
             p4_SuccessLight = p4_PlayerControlDeck.transform.Find("Success Light").GetComponent<Light>();
@@ -589,13 +601,13 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         newCommandText = GetRandomCommandText(ref lightswitchCommandArray_EASY, ref lightswitchCommandArray_MEDIUM, ref lightswitchCommandArray_HARD);
                         //copy randomObject from the default wLever
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.05f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.39f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.05f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.39f + (0.3f * xOffset));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.05f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.39f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.05f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.39f + (0.3f * xOffset));
                         //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Lightswitch"),
                         //    vector3,
                         //    Quaternion.Euler(new Vector3(xQuaternion, yQuaternion + 90, zQuaternion)));
@@ -797,6 +809,9 @@ public class Mastermind_Script : Photon.MonoBehaviour
             //Else if the score is less than or equal to the score to lose change the text to Red and say "Game Over"
             if (score >= scoreToWin)
             {
+                //Stop Timer
+                timerScript.StopTimer(false);
+
                 StartCoroutine(LoadNextLevel());
             }
             else if (score <= scoreToLose)
@@ -884,6 +899,9 @@ public class Mastermind_Script : Photon.MonoBehaviour
     {
         isGameOver = true;
 
+        //Stop Timer object
+        timerScript.StopTimer(true);
+
         UpdateAllConsoles("");
 
         p1_scoreTextScript.photonView.RPC("GameOver", PhotonTargets.All, true);
@@ -954,6 +972,9 @@ public class Mastermind_Script : Photon.MonoBehaviour
         p4_isDisplayStart = false;
 
         levelStartTime = System.DateTime.Now;
+
+        //Start Timer object
+        timerScript.StartTimer(levelTimeoutSeconds, levelStartTime);
     }
 
     public void UpdateAllConsoles(string msg)
@@ -982,6 +1003,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             if (player == 1)
             {
                 p1_gWaitSystem = seconds;
+                p1_consoleTimerScript.StartTimer(seconds);
                 while (p1_gWaitSystem > 0.0)
                 {
                     p1_gWaitSystem -= Time.deltaTime;
@@ -992,10 +1014,12 @@ public class Mastermind_Script : Photon.MonoBehaviour
                     }
                     yield return 0;
                 }
+                p1_consoleTimerScript.StopTimer(true);
             }
             else if (player == 2)
             {
                 p2_gWaitSystem = seconds;
+                p2_consoleTimerScript.StartTimer(seconds);
                 while (p2_gWaitSystem > 0.0)
                 {
                     p2_gWaitSystem -= Time.deltaTime;
@@ -1006,10 +1030,12 @@ public class Mastermind_Script : Photon.MonoBehaviour
                     }
                     yield return 0;
                 }
+                p2_consoleTimerScript.StopTimer(true);
             }
             else if (player == 3)
             {
                 p3_gWaitSystem = seconds;
+                p3_consoleTimerScript.StartTimer(seconds);
                 while (p3_gWaitSystem > 0.0)
                 {
                     p3_gWaitSystem -= Time.deltaTime;
@@ -1020,10 +1046,12 @@ public class Mastermind_Script : Photon.MonoBehaviour
                     }
                     yield return 0;
                 }
+                p3_consoleTimerScript.StopTimer(true);
             }
             else if (player == 4)
             {
                 p4_gWaitSystem = seconds;
+                p4_consoleTimerScript.StartTimer(seconds);
                 while (p4_gWaitSystem > 0.0)
                 {
                     p4_gWaitSystem -= Time.deltaTime;
@@ -1034,6 +1062,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                     }
                     yield return 0;
                 }
+                p4_consoleTimerScript.StopTimer(true);
             }
 
             //lower score if time reached (button was not tapped)
