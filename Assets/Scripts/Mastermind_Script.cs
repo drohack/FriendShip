@@ -476,6 +476,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 rObjectCount++;
             }
         }
+        Debug.Log("rObjectCount: " + rObjectCount);
     }
 
     rObjectType[] GenerateRandomObjects(rObjectType[] inRObjList, int intRObjListSize, GameObject playerControlDeck, int gridX, int gridY, int playerNum)
@@ -490,8 +491,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         rObjectTransform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
 
         rObjectType[] outRObjList = inRObjList;
-
-        int commandIndex;
+        
         string newCommandText;
 
         GameObject buttonInstance = (GameObject)Resources.Load("Prefabs/Button");
@@ -795,9 +795,22 @@ public class Mastermind_Script : Photon.MonoBehaviour
         {
             foreach (rObjectType rObjectType in rObjList)
             {
+                if (!rObjectType.rObject.GetPhotonView().isMine)
+                {
+                    StartCoroutine(RequestOwnership(rObjectType.rObject));
+                } 
                 PhotonNetwork.Destroy(rObjectType.rObject);
-                Destroy(rObjectType.rObject);
+                //Destroy(rObjectType.rObject);
             }
+        }
+    }
+
+    IEnumerator RequestOwnership(GameObject rObject)
+    {
+        rObject.GetPhotonView().RequestOwnership();
+        while (!rObject.GetPhotonView().isMine)
+        {
+            yield return 0;
         }
     }
 
