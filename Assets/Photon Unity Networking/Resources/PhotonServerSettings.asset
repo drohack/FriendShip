@@ -65,4 +65,5 @@ MonoBehaviour:
   - RpcStopText
   - RPCStartTimer
   - RPCStopTimer
+  - RPCDestroy
   DisableAutoOpenWizard: 1
