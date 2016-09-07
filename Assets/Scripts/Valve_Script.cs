@@ -18,6 +18,7 @@ public class Valve_Script : Photon.MonoBehaviour
     Transform handle;
     public string newName;
     public int rCommand = -1;
+    public int playerNum;
 
     // Use this for initialization
     void Start()
@@ -28,6 +29,7 @@ public class Valve_Script : Photon.MonoBehaviour
         {
             newName = transform.Find("Labels/Name").GetComponent<TextMesh>().text = (string)data[0];
             rCommand = (int)data[1];
+            playerNum = (int)data[2];
         }
 
         handleTransform = transform.Find("Handle");
@@ -142,6 +144,6 @@ public class Valve_Script : Photon.MonoBehaviour
     [PunRPC]
     void CmdSendTappedCommand(int sentRCommand)
     {
-        mastermindScript.TappedWaitForSecondsOrTap(sentRCommand);
+        mastermindScript.TappedWaitForSecondsOrTap(sentRCommand, playerNum);
     }
 }

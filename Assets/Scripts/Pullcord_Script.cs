@@ -17,6 +17,7 @@ public class Pullcord_Script : Photon.MonoBehaviour
     Transform handle;
     public string newName;
     public int rCommand = -1;
+    public int playerNum;
 
     // Use this for initialization
     void Start()
@@ -27,6 +28,7 @@ public class Pullcord_Script : Photon.MonoBehaviour
         {
             newName = transform.Find("Labels/Name").GetComponent<TextMesh>().text = (string)data[0];
             rCommand = (int)data[1];
+            playerNum = (int)data[2];
         }
 
         handleTransform = transform.Find("Handle");
@@ -98,6 +100,6 @@ public class Pullcord_Script : Photon.MonoBehaviour
     void CmdSendTappedCommand(int sentRCommand, bool sentIsDown)
     {
         isDown = sentIsDown;
-        mastermindScript.TappedWaitForSecondsOrTap(sentRCommand);
+        mastermindScript.TappedWaitForSecondsOrTap(sentRCommand, playerNum);
     }
 }

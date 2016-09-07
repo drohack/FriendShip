@@ -17,6 +17,7 @@ public class Lightswitch_Script : Photon.MonoBehaviour
     Transform handle;
     public string newName;
     public int rCommand = -1;
+    public int playerNum;
 
     // Use this for initialization
     void Start()
@@ -27,6 +28,7 @@ public class Lightswitch_Script : Photon.MonoBehaviour
         {
             newName = transform.Find("Labels/Name").GetComponent<TextMesh>().text = (string)data[0];
             rCommand = (int)data[1];
+            playerNum = (int)data[2];
         }
 
         handleScript = transform.Find("Handle").GetComponent<Highlight_Handle_Top_Script>();
@@ -86,7 +88,7 @@ public class Lightswitch_Script : Photon.MonoBehaviour
     void CmdSendTappedCommand(int sentRCommand, bool sentIsLightswitchOn)
     {
         isLightswitchOn = sentIsLightswitchOn;
-        mastermindScript.TappedWaitForSecondsOrTap(sentRCommand);
+        mastermindScript.TappedWaitForSecondsOrTap(sentRCommand, playerNum);
     }
 
     [PunRPC]

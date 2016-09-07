@@ -70,22 +70,10 @@ public class Mastermind_Script : Photon.MonoBehaviour
     GameObject          p2_PlayerControlDeck;
     GameObject          p3_PlayerControlDeck;
     GameObject          p4_PlayerControlDeck;
-    Light               p1_SuccessLight;
-    Light               p2_SuccessLight;
-    Light               p3_SuccessLight;
-    Light               p4_SuccessLight;
-    Light               p1_FailLight;
-    Light               p2_FailLight;
-    Light               p3_FailLight;
-    Light               p4_FailLight;
-    AudioSource         p1_SuccessAudio;
-    AudioSource         p2_SuccessAudio;
-    AudioSource         p3_SuccessAudio;
-    AudioSource         p4_SuccessAudio;
-    AudioSource         p1_FailAudio;
-    AudioSource         p2_FailAudio;
-    AudioSource         p3_FailAudio;
-    AudioSource         p4_FailAudio;
+    Command_Feedback_Script p1_CommandFeedbackScript;
+    Command_Feedback_Script p2_CommandFeedbackScript;
+    Command_Feedback_Script p3_CommandFeedbackScript;
+    Command_Feedback_Script p4_CommandFeedbackScript;
     Score_Text_Script   p1_scoreTextScript;
     Score_Text_Script   p2_scoreTextScript;
     Score_Text_Script   p3_scoreTextScript;
@@ -366,10 +354,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
         // Set player objects
         p1_PlayerControlDeck = GameObject.Find("Player Control Deck 1");
-        p1_SuccessAudio = p1_PlayerControlDeck.transform.Find("Success Audio").GetComponent<AudioSource>();
-        p1_FailAudio = p1_PlayerControlDeck.transform.Find("Fail Audio").GetComponent<AudioSource>();
-        p1_SuccessLight = p1_PlayerControlDeck.transform.Find("Success Light").GetComponent<Light>();
-        p1_FailLight = p1_PlayerControlDeck.transform.Find("Fail Light").GetComponent<Light>();
+        p1_CommandFeedbackScript = p1_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
         p1_scoreTextScript = p1_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
         p1_consoleTextScript = p1_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
         p1_consoleTimerScript = p1_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
@@ -379,10 +364,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             p2_scoreTextScript = p2_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
             p2_consoleTextScript = p2_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
             p2_consoleTimerScript = p2_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
-            p2_SuccessAudio = p2_PlayerControlDeck.transform.Find("Success Audio").GetComponent<AudioSource>();
-            p2_FailAudio = p2_PlayerControlDeck.transform.Find("Fail Audio").GetComponent<AudioSource>();
-            p2_SuccessLight = p2_PlayerControlDeck.transform.Find("Success Light").GetComponent<Light>();
-            p2_FailLight = p2_PlayerControlDeck.transform.Find("Fail Light").GetComponent<Light>();
+            p2_CommandFeedbackScript = p2_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
         }
         if (numPlayers > 2)
         {
@@ -390,10 +372,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             p3_scoreTextScript = p3_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
             p3_consoleTextScript = p3_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
             p3_consoleTimerScript = p3_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
-            p3_SuccessAudio = p3_PlayerControlDeck.transform.Find("Success Audio").GetComponent<AudioSource>();
-            p3_FailAudio = p3_PlayerControlDeck.transform.Find("Fail Audio").GetComponent<AudioSource>();
-            p3_SuccessLight = p3_PlayerControlDeck.transform.Find("Success Light").GetComponent<Light>();
-            p3_FailLight = p3_PlayerControlDeck.transform.Find("Fail Light").GetComponent<Light>();
+            p3_CommandFeedbackScript = p3_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
         }
         if (numPlayers > 3)
         {
@@ -401,10 +380,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             p4_scoreTextScript = p4_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
             p4_consoleTextScript = p4_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
             p4_consoleTimerScript = p4_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
-            p4_SuccessAudio = p4_PlayerControlDeck.transform.Find("Success Audio").GetComponent<AudioSource>();
-            p4_FailAudio = p4_PlayerControlDeck.transform.Find("Fail Audio").GetComponent<AudioSource>();
-            p4_SuccessLight = p4_PlayerControlDeck.transform.Find("Success Light").GetComponent<Light>();
-            p4_FailLight = p4_PlayerControlDeck.transform.Find("Fail Light").GetComponent<Light>();
+            p4_CommandFeedbackScript = p4_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
         }
     }
 
@@ -525,7 +501,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
                 rObjectType rObjectType = new rObjectType();
                 GameObject randObjectEmpty;
-                object[] data = new object[2];
+                object[] data = new object[3];
                 //roll for a random game object
                 int objNum = Random.Range(0, numOfDiffGameObjects);
 
@@ -744,6 +720,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
                 data[0] = newCommandText;
                 data[1] = intRObjListSize + ((x * gridY) + y);
+                data[2] = playerNum;
 
                 //add randomObject to grid
                 rObjectType.rObject = randObjectEmpty;
@@ -1022,8 +999,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                     p1_gWaitSystem -= Time.deltaTime;
                     if (p1_gWaitSystem == 0)
                     {
-                        p1_FailLight.enabled = true;
-                        p1_FailAudio.Play();
+                        p1_CommandFeedbackScript.PlayFailFeedback();
                     }
                     yield return 0;
                 }
@@ -1038,8 +1014,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                     p2_gWaitSystem -= Time.deltaTime;
                     if (p2_gWaitSystem == 0)
                     {
-                        p2_FailLight.enabled = true;
-                        p2_FailAudio.Play();
+                        p2_CommandFeedbackScript.PlayFailFeedback();
                     }
                     yield return 0;
                 }
@@ -1054,8 +1029,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                     p3_gWaitSystem -= Time.deltaTime;
                     if (p3_gWaitSystem == 0)
                     {
-                        p3_FailLight.enabled = true;
-                        p3_FailAudio.Play();
+                        p3_CommandFeedbackScript.PlayFailFeedback();
                     }
                     yield return 0;
                 }
@@ -1070,8 +1044,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                     p4_gWaitSystem -= Time.deltaTime;
                     if (p4_gWaitSystem == 0)
                     {
-                        p4_FailLight.enabled = true;
-                        p4_FailAudio.Play();
+                        p4_CommandFeedbackScript.PlayFailFeedback();
                     }
                     yield return 0;
                 }
@@ -1097,7 +1070,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
     }
 
     // End the waitForSeconds by setting the timer to zero AND signal that a button was tapped (isTapped = true)
-    public void TappedWaitForSecondsOrTap(int inputCommand)
+    public void TappedWaitForSecondsOrTap(int inputCommand, int playerNum)
     {
         if (!isGameOver)
         {
@@ -1114,14 +1087,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 //Set timer for that player to 0 to get next command
                 p1_gWaitSystem = 0.0f;
                 numFufilled += 1;
-                p1_SuccessAudio.Play();
-                p1_SuccessLight.enabled = true;
             }
-            if (p1_rCommand != inputCommand)
-            {
-                p1_FailLight.enabled = true;
-                p1_FailAudio.Play();
-            }
+
             if (p2_rCommand == inputCommand)
             {
                 p2_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
@@ -1129,14 +1096,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 //Set timer for that player to 0 to get next command
                 p2_gWaitSystem = 0.0f;
                 numFufilled += 1;
-                p2_SuccessAudio.Play();
-                p2_SuccessLight.enabled = true;
             }
-            if (p2_rCommand != inputCommand)
-            {
-                p2_FailLight.enabled = true;
-                p2_FailAudio.Play();
-            }
+
             if (p3_rCommand == inputCommand)
             {
                 p3_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
@@ -1144,14 +1105,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 //Set timer for that player to 0 to get next command
                 p3_gWaitSystem = 0.0f;
                 numFufilled += 1;
-                p3_SuccessAudio.Play();
-                p3_SuccessLight.enabled = true;
             }
-            if (p3_rCommand != inputCommand)
-            {
-                p3_FailLight.enabled = true;
-                p3_FailAudio.Play();
-            }
+
             if (p4_rCommand == inputCommand)
             {
                 p4_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
@@ -1159,24 +1114,53 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 //Set timer for that player to 0 to get next command
                 p4_gWaitSystem = 0.0f;
                 numFufilled += 1;
-                p4_SuccessAudio.Play();
-                p4_SuccessLight.enabled = true;
-            }
-            if (p4_rCommand != inputCommand)
-            {
-                p4_FailLight.enabled = true;
-                p4_FailAudio.Play();
             }
 
             // If no command matched lower score
             if (numFufilled == 0)
             {
                 ScoreDown();
+                if (playerNum == 1)
+                {
+                    p1_CommandFeedbackScript.PlayFailFeedback();
+                }
+                else if (playerNum == 2)
+                {
+                    p2_CommandFeedbackScript.PlayFailFeedback();
+                }
+                else if (playerNum == 3)
+                {
+                    p3_CommandFeedbackScript.PlayFailFeedback();
+                }
+                else if (playerNum == 4)
+                {
+                    p4_CommandFeedbackScript.PlayFailFeedback();
+                }
+            }
+            else
+            {
+                if (playerNum == 1)
+                {
+                    p1_CommandFeedbackScript.PlaySuccessFeedback();
+                }
+                else if (playerNum == 2)
+                {
+                    p2_CommandFeedbackScript.PlaySuccessFeedback();
+                }
+                else if (playerNum == 3)
+                {
+                    p3_CommandFeedbackScript.PlaySuccessFeedback();
+                }
+                else if (playerNum == 4)
+                {
+                    p4_CommandFeedbackScript.PlaySuccessFeedback();
+                }
             }
         }
     }
 
-    IEnumerator P1_DisplayRandomCommand()
+
+IEnumerator P1_DisplayRandomCommand()
     {
         p1_isDisplayingCommand = true;
 
@@ -1200,8 +1184,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             //Type out new command to console
             p1_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, message);
 
-            p1_SuccessLight.enabled = false;
-            p1_FailLight.enabled = false;
+            p1_CommandFeedbackScript.Reset();
 
             isCommandSet = true;
         } catch
@@ -1245,8 +1228,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             //Type out new command to console
             p2_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, message);
 
-            p2_SuccessLight.enabled = false;
-            p2_FailLight.enabled = false;
+            p2_CommandFeedbackScript.Reset();
 
             isCommandSet = true;
         }
@@ -1291,8 +1273,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             //Type out new command to console
             p3_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, message);
 
-            p3_SuccessLight.enabled = false;
-            p3_FailLight.enabled = false;
+            p3_CommandFeedbackScript.Reset();
 
             isCommandSet = true;
         }
@@ -1337,8 +1318,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             //Type out new command to console
             p4_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, message);
 
-            p4_SuccessLight.enabled = false;
-            p4_FailLight.enabled = false;
+            p4_CommandFeedbackScript.Reset();
 
             isCommandSet = true;
         }

@@ -19,6 +19,7 @@ public class Slider_Script : Photon.MonoBehaviour
     public int rCommand = -1;
     //Once object is in final resting position make sure to send that final position
     private bool sendLastStream = false;
+    public int playerNum;
 
     // Use this for initialization
     void Start()
@@ -29,6 +30,7 @@ public class Slider_Script : Photon.MonoBehaviour
         {
             newName = transform.Find("Labels/Name").GetComponent<TextMesh>().text = (string)data[0];
             rCommand = (int)data[1];
+            playerNum = (int)data[2];
         }
 
         handleTransform = transform.Find("Handle");
@@ -161,6 +163,6 @@ public class Slider_Script : Photon.MonoBehaviour
     void CmdSendTappedCommand(int sentRCommand, int sentSliderPosition)
     {
         sliderPosition = sentSliderPosition;
-        mastermindScript.TappedWaitForSecondsOrTap(sentRCommand);
+        mastermindScript.TappedWaitForSecondsOrTap(sentRCommand, playerNum);
     }
 }
