@@ -6,7 +6,7 @@ public class Command_Array : MonoBehaviour {
     public const string pullcordText = "(Everyone Pull Down)";
 
     //Buttons
-    public static readonly ArrayList buttonCommandArray_EASY = new ArrayList
+    public readonly ArrayList buttonCommandArray_EASY = new ArrayList
     {
         "Overdrive",
         "Beast Mode",
@@ -20,7 +20,7 @@ public class Command_Array : MonoBehaviour {
         "Flux Capacitors"
     };
     //sci-fi stuff
-    public static readonly ArrayList buttonCommandArray_MEDIUM = new ArrayList
+    public readonly ArrayList buttonCommandArray_MEDIUM = new ArrayList
     {
         "Interdimensional Time Warp",
         "Ludicrous Speed",
@@ -34,7 +34,7 @@ public class Command_Array : MonoBehaviour {
         "Bioluminescence"
     };
     //animals
-    public static readonly ArrayList buttonCommandArray_HARD = new ArrayList
+    public readonly ArrayList buttonCommandArray_HARD = new ArrayList
     {
         "><(((('>",
         "~~(__^·>",
@@ -48,7 +48,7 @@ public class Command_Array : MonoBehaviour {
         "°j°m"
     };
     //Dials
-    public static readonly ArrayList dialCommandArray_EASY = new ArrayList
+    public readonly ArrayList dialCommandArray_EASY = new ArrayList
     {
         "Rec Room Radio",
         "Bathroom TVs",
@@ -62,7 +62,7 @@ public class Command_Array : MonoBehaviour {
         "Cable"
     };
     //planets
-    public static readonly ArrayList dialCommandArray_MEDIUM = new ArrayList
+    public readonly ArrayList dialCommandArray_MEDIUM = new ArrayList
     {
         "Proxima Centauri b",
         "Kepler-9b",
@@ -76,7 +76,7 @@ public class Command_Array : MonoBehaviour {
         "NN Ser (AB) c"
     };
     //made up words
-    public static readonly ArrayList dialCommandArray_HARD = new ArrayList
+    public readonly ArrayList dialCommandArray_HARD = new ArrayList
     {
         "Carbonok Betanome",
         "Cortate Nonon",
@@ -90,7 +90,7 @@ public class Command_Array : MonoBehaviour {
         "Altolios Wavani"
     };
     //L levers
-    public static readonly ArrayList lLeverCommandArray_EASY = new ArrayList
+    public readonly ArrayList lLeverCommandArray_EASY = new ArrayList
     {
         "Trap Doors",
         "Steam Rollers",
@@ -104,7 +104,7 @@ public class Command_Array : MonoBehaviour {
         "Fasten Seatbelt Sign"
     };
     //sci-fi stuff
-    public static readonly ArrayList lLeverCommandArray_MEDIUM = new ArrayList
+    public readonly ArrayList lLeverCommandArray_MEDIUM = new ArrayList
     {
         "Life Support",
         "Communications",
@@ -118,7 +118,7 @@ public class Command_Array : MonoBehaviour {
         "Replicators"
     };
     //faces
-    public static readonly ArrayList lLeverCommandArray_HARD = new ArrayList
+    public readonly ArrayList lLeverCommandArray_HARD = new ArrayList
     {
         "(-(-_(-_-)_-)-)",
         "٩(̾●̮̮̃̾•̃̾)۶",
@@ -132,7 +132,7 @@ public class Command_Array : MonoBehaviour {
         "(ಠ_ಠ)"
     };
     //Lightswitches
-    public static readonly ArrayList lightswitchCommandArray_EASY = new ArrayList
+    public readonly ArrayList lightswitchCommandArray_EASY = new ArrayList
     {
         "Hazard Lights",
         "Surveillance Cameras",
@@ -146,7 +146,7 @@ public class Command_Array : MonoBehaviour {
         "Lamp"
     };
     //named objects
-    public static readonly ArrayList lightswitchCommandArray_MEDIUM = new ArrayList
+    public readonly ArrayList lightswitchCommandArray_MEDIUM = new ArrayList
     {
         "Automaton of Acid Beam",
         "Utensil of Darkness",
@@ -160,7 +160,7 @@ public class Command_Array : MonoBehaviour {
         "Glorified Rugged Switch"
         };
     //table flip
-    public static readonly ArrayList lightswitchCommandArray_HARD = new ArrayList
+    public readonly ArrayList lightswitchCommandArray_HARD = new ArrayList
     {
         "(╯°□°）╯︵┻━┻",
         "┻━┻︵\\(°□°)/︵┻━┻",
@@ -174,7 +174,7 @@ public class Command_Array : MonoBehaviour {
         "(╯°□°)︻╦╤─ – – –"
         };
     //Shifters
-    public static readonly ArrayList shifterCommandArray_EASY = new ArrayList
+    public readonly ArrayList shifterCommandArray_EASY = new ArrayList
     {
         "Sarcasm",
         "Altitude",
@@ -188,7 +188,7 @@ public class Command_Array : MonoBehaviour {
         "Value"
         };
     //tools
-    public static readonly ArrayList shifterCommandArray_MEDIUM = new ArrayList
+    public readonly ArrayList shifterCommandArray_MEDIUM = new ArrayList
     {
         "Bionic Opticoscope",
         "Flux Retinoscope",
@@ -202,7 +202,7 @@ public class Command_Array : MonoBehaviour {
         "Catalytic Chronohammer"
         };
     //objects
-    public static readonly ArrayList shifterCommandArray_HARD = new ArrayList
+    public readonly ArrayList shifterCommandArray_HARD = new ArrayList
     {
         "[̲̅$̲̅(̲̅ιοο̲̅)̲̅$̲̅]",
         "^(,,,)^",
@@ -216,7 +216,7 @@ public class Command_Array : MonoBehaviour {
         "இڿڰۣ-ڰۣ—"
         };
     //Sliders
-    public static readonly ArrayList sliderCommandArray_EASY = new ArrayList
+    public readonly ArrayList sliderCommandArray_EASY = new ArrayList
     {
         "Dat Bass",
         "Defcon Level",
@@ -230,7 +230,7 @@ public class Command_Array : MonoBehaviour {
         "Carbon Footprint"
     };
     //items
-    public static readonly ArrayList sliderCommandArray_MEDIUM = new ArrayList
+    public readonly ArrayList sliderCommandArray_MEDIUM = new ArrayList
     {
         "The Amulet of Time",
         "The Rods of Fear, and Greed",
@@ -244,7 +244,7 @@ public class Command_Array : MonoBehaviour {
         "The Perfect Lute of Days"
         };
     //audio/words
-    public static readonly ArrayList sliderCommandArray_HARD = new ArrayList
+    public readonly ArrayList sliderCommandArray_HARD = new ArrayList
     {
         "♫♪..|̲̅̅●̲̅̅|̲̅̅=̲̅̅|̲̅̅●̲̅̅|..♫♪",
         "❚█══█❚",
@@ -258,7 +258,7 @@ public class Command_Array : MonoBehaviour {
         "ⓛⓞⓥⓔ"
     };
     //Valves
-    public static readonly ArrayList valveCommandArray_EASY = new ArrayList
+    public readonly ArrayList valveCommandArray_EASY = new ArrayList
     {
         "Peanut Butter Lid",
         "Bike Chain",
@@ -272,7 +272,7 @@ public class Command_Array : MonoBehaviour {
         "Steering Wheel"
     };
     //real valves
-    public static readonly ArrayList valveCommandArray_MEDIUM = new ArrayList
+    public readonly ArrayList valveCommandArray_MEDIUM = new ArrayList
     {
         "Ball Valve",
         "Butterfly Valve",
@@ -286,7 +286,7 @@ public class Command_Array : MonoBehaviour {
         "Safety valve"
     };
     //concepts
-    public static readonly ArrayList valveCommandArray_HARD = new ArrayList
+    public readonly ArrayList valveCommandArray_HARD = new ArrayList
     {
         "Grasp on Reality",
         "Belief System",
@@ -300,7 +300,7 @@ public class Command_Array : MonoBehaviour {
         "Righteousness of Self"
     };
     //W Levers
-    public static readonly ArrayList wLeverCommandArray_EASY = new ArrayList
+    public readonly ArrayList wLeverCommandArray_EASY = new ArrayList
     {
         "Rear Flags",
         "Exterior Shutters",
@@ -314,7 +314,7 @@ public class Command_Array : MonoBehaviour {
         "The Seats"
     };
     //theories
-    public static readonly ArrayList wLeverCommandArray_MEDIUM = new ArrayList
+    public readonly ArrayList wLeverCommandArray_MEDIUM = new ArrayList
     {
         "Special Relativity",
         "General Relativity",
@@ -328,7 +328,7 @@ public class Command_Array : MonoBehaviour {
         "Wave-Particle Duality"
     };
     //Sets
-    public static readonly ArrayList wLeverCommandArray_HARD = new ArrayList
+    public readonly ArrayList wLeverCommandArray_HARD = new ArrayList
     {
         "@xxx[{::::::::::::>",
         "▬▬ι═══════ﺤ",
