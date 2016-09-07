@@ -15,6 +15,7 @@ public class Button_Script : Photon.MonoBehaviour
     //Network variables
     public string newName;
     public int rCommand = -1;
+    public int playerNum;
 
     // Use this for initialization
     void Start() {
@@ -24,6 +25,7 @@ public class Button_Script : Photon.MonoBehaviour
         {
             newName = transform.Find("Labels/Name").GetComponent<TextMesh>().text = (string)data[0];
             rCommand = (int)data[1];
+            playerNum = (int)data[2];
         }
 
         handleScript = transform.Find("Handle").GetComponent<Highlight_Handle_Top_Script>();
@@ -54,7 +56,7 @@ public class Button_Script : Photon.MonoBehaviour
             //send tapped rCommand to Server
             photonView.RPC("RPCPlayAnim", PhotonTargets.Others, "Button_Down_Anim");
             StartCoroutine(WaitForAnimation(anim, "Button_Down_Anim"));
-            photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommand);
+            photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommand, playerNum);
         }
     }
 
@@ -71,9 +73,9 @@ public class Button_Script : Photon.MonoBehaviour
     }
 
     [PunRPC]
-    void CmdSendTappedCommand(int sentRCommand)
+    void CmdSendTappedCommand(int sentRCommand, int sentPlayerNum)
     {
-        mastermindScript.TappedWaitForSecondsOrTap(sentRCommand);
+        mastermindScript.TappedWaitForSecondsOrTap(sentRCommand, sentPlayerNum);
     }
 
     [PunRPC]

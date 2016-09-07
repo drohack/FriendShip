@@ -66,4 +66,7 @@ MonoBehaviour:
   - RPCStartTimer
   - RPCStopTimer
   - RPCDestroy
+  - RPCPlayFailFeedback
+  - RPCPlayResetFeedback
+  - RPCPlaySuccessFeedback
   DisableAutoOpenWizard: 1
