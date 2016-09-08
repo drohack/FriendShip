@@ -146,4 +146,11 @@ public class Valve_Script : Photon.MonoBehaviour
     {
         mastermindScript.TappedWaitForSecondsOrTap(sentRCommand, playerNum);
     }
+
+    [PunRPC]
+    void RPCDestroy()
+    {
+        if (photonView.isMine)
+            PhotonNetwork.Destroy(gameObject);
+    }
 }

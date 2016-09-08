@@ -97,4 +97,11 @@ public class Lightswitch_Script : Photon.MonoBehaviour
         isLightswitchOn = newIsLightswitchOn;
         anim.Play(animationName);
     }
+
+    [PunRPC]
+    void RPCDestroy()
+    {
+        if (photonView.isMine)
+            PhotonNetwork.Destroy(gameObject);
+    }
 }

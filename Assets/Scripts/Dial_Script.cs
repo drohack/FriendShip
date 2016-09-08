@@ -192,4 +192,11 @@ public class Dial_Script : Photon.MonoBehaviour
         dialPosition = sentDialPosition;
         mastermindScript.TappedWaitForSecondsOrTap(sentRCommand, playerNum);
     }
+
+    [PunRPC]
+    void RPCDestroy()
+    {
+        if (photonView.isMine)
+            PhotonNetwork.Destroy(gameObject);
+    }
 }

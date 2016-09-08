@@ -165,4 +165,11 @@ public class Slider_Script : Photon.MonoBehaviour
         sliderPosition = sentSliderPosition;
         mastermindScript.TappedWaitForSecondsOrTap(sentRCommand, playerNum);
     }
+
+    [PunRPC]
+    void RPCDestroy()
+    {
+        if (photonView.isMine)
+            PhotonNetwork.Destroy(gameObject);
+    }
 }

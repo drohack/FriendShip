@@ -83,4 +83,11 @@ public class Button_Script : Photon.MonoBehaviour
     {
         anim.Play(animationName);
     }
+
+    [PunRPC]
+    void RPCDestroy()
+    {
+        if (photonView.isMine)
+            PhotonNetwork.Destroy(gameObject);
+    }
 }

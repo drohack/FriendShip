@@ -161,4 +161,11 @@ public class Shifter_Script : Photon.MonoBehaviour
         shifterPosition = sentShifterPosition;
         mastermindScript.TappedWaitForSecondsOrTap(sentRCommand, playerNum);
     }
+
+    [PunRPC]
+    void RPCDestroy()
+    {
+        if (photonView.isMine)
+            PhotonNetwork.Destroy(gameObject);
+    }
 }

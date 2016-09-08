@@ -102,4 +102,11 @@ public class Pullcord_Script : Photon.MonoBehaviour
         isDown = sentIsDown;
         mastermindScript.TappedWaitForSecondsOrTap(sentRCommand, playerNum);
     }
+
+    [PunRPC]
+    void RPCDestroy()
+    {
+        if (photonView.isMine)
+            PhotonNetwork.Destroy(gameObject);
+    }
 }

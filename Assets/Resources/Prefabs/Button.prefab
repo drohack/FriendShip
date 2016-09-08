@@ -448,12 +448,12 @@ MonoBehaviour:
   group: 0
   prefixBackup: -1
   observed: {fileID: 0}
-  synchronization: 1
+  synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 1
   ObservedComponents:
-  - {fileID: 11451538}
+  - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
@@ -491,6 +491,7 @@ MonoBehaviour:
   isButtonDown: 0
   newName: 
   rCommand: -1
+  playerNum: 0
 --- !u!114 &11487824
 MonoBehaviour:
   m_ObjectHideFlags: 1

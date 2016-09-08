@@ -140,4 +140,11 @@ public class L_Lever_Script : Photon.MonoBehaviour
         isLLeverUp = sentIsLeverUp;
         mastermindScript.TappedWaitForSecondsOrTap(sentRCommand, playerNum);
     }
+
+    [PunRPC]
+    void RPCDestroy()
+    {
+        if (photonView.isMine)
+            PhotonNetwork.Destroy(gameObject);
+    }
 }

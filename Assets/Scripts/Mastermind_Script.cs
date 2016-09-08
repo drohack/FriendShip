@@ -781,22 +781,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
         {
             foreach (rObjectType rObjectType in rObjList)
             {
-                if (!rObjectType.rObject.GetPhotonView().isMine)
-                {
-                    StartCoroutine(RequestOwnership(rObjectType.rObject));
-                } 
-                PhotonNetwork.Destroy(rObjectType.rObject);
-                //Destroy(rObjectType.rObject);
+                rObjectType.rObject.GetPhotonView().RPC("RPCDestroy", PhotonTargets.All);
             }
-        }
-    }
-
-    IEnumerator RequestOwnership(GameObject rObject)
-    {
-        rObject.GetPhotonView().RequestOwnership();
-        while (!rObject.GetPhotonView().isMine)
-        {
-            yield return 0;
         }
     }
 
