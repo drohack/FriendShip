@@ -12,6 +12,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
     /** SINGLE VARIABLES **/
     private         int numPlayers = 0;
+    private         bool[] playerPosOccupied = new bool[4] { false, false, false, false };
     private         int score = 0;
     private         int level = 1;
     private         bool isLoadingNextLevel = false;
@@ -137,6 +138,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
             //Get number of players by the NetwokManager.numPlayers
             numPlayers = PhotonNetwork.playerList.Length;
             Debug.Log("numPlayers: " + numPlayers);
+            playerPosOccupied = (bool[])PhotonNetwork.room.customProperties["pPosOccupied"];
+            Debug.Log("pPosOccupied: " + playerPosOccupied[0] + ", " + playerPosOccupied[1] + ", " + playerPosOccupied[2] + ", " + playerPosOccupied[3]);
 
             //Get Timer object
             timerScript = GameObject.FindGameObjectWithTag("Timer").GetComponent<Timer_Script>();
@@ -350,15 +353,16 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 break;
         }
 
-        //numPlayers = 4;
-
         // Set player objects
-        p1_PlayerControlDeck = GameObject.Find("Player Control Deck 1");
-        p1_CommandFeedbackScript = p1_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
-        p1_scoreTextScript = p1_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
-        p1_consoleTextScript = p1_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
-        p1_consoleTimerScript = p1_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
-        if (numPlayers > 1)
+        if (playerPosOccupied[0] == true)
+        {
+            p1_PlayerControlDeck = GameObject.Find("Player Control Deck 1");
+            p1_CommandFeedbackScript = p1_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
+            p1_scoreTextScript = p1_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
+            p1_consoleTextScript = p1_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
+            p1_consoleTimerScript = p1_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
+        }
+        if (playerPosOccupied[1] == true)
         {
             p2_PlayerControlDeck = GameObject.Find("Player Control Deck 2");
             p2_scoreTextScript = p2_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
@@ -366,7 +370,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             p2_consoleTimerScript = p2_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
             p2_CommandFeedbackScript = p2_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
         }
-        if (numPlayers > 2)
+        if (playerPosOccupied[2] == true)
         {
             p3_PlayerControlDeck = GameObject.Find("Player Control Deck 3");
             p3_scoreTextScript = p3_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
@@ -374,7 +378,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             p3_consoleTimerScript = p3_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
             p3_CommandFeedbackScript = p3_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
         }
-        if (numPlayers > 3)
+        if (playerPosOccupied[3] == true)
         {
             p4_PlayerControlDeck = GameObject.Find("Player Control Deck 4");
             p4_scoreTextScript = p4_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
@@ -388,28 +392,33 @@ public class Mastermind_Script : Photon.MonoBehaviour
     void GenerateRandomObjects ()
     {
         //Create a list to hold all of the random game objects
-        int rObjListSize = (p1_gridX * p1_gridY);
-        if (numPlayers > 1)
+        int rObjListSize = 0;
+        if (playerPosOccupied[0] == true)
+            rObjListSize += (p1_gridX * p1_gridY);
+        if (playerPosOccupied[1] == true)
             rObjListSize += (p2_gridX * p2_gridY);
-        if (numPlayers > 2)
+        if (playerPosOccupied[2] == true)
             rObjListSize += (p3_gridX * p3_gridY);
-        if (numPlayers > 3)
+        if (playerPosOccupied[3] == true)
             rObjListSize += (p4_gridX * p4_gridY);
         rObjList = new rObjectType[rObjListSize];
 
-        //Generate rObjList objects for PLAYER 1
-        rObjList = GenerateRandomObjects(rObjList, 0, p1_PlayerControlDeck, p1_gridX, p1_gridY, 1);
-        Transform p1_RObjectTransform = p1_PlayerControlDeck.transform.Find("RObjects");
-        p1_RObjectTransform.localRotation = Quaternion.Euler(new Vector3(45f, 0f, 0f));
         int rObjectCount = 0;
-        for(int i=0; i< p1_RObjectTransform.childCount; i++)
+        if (playerPosOccupied[0] == true)
         {
-            GameObject rObjectEmpty = p1_RObjectTransform.GetChild(i).gameObject;
-            GameObject rObject = PhotonNetwork.InstantiateSceneObject("Prefabs/" + rObjectEmpty.name, rObjectEmpty.transform.position, rObjectEmpty.transform.rotation, 0, rObjList[rObjectCount].data);
-            rObjList[rObjectCount].rObject = rObject;
-            rObjectCount++;
+            //Generate rObjList objects for PLAYER 1
+            rObjList = GenerateRandomObjects(rObjList, 0, p1_PlayerControlDeck, p1_gridX, p1_gridY, 1);
+            Transform p1_RObjectTransform = p1_PlayerControlDeck.transform.Find("RObjects");
+            p1_RObjectTransform.localRotation = Quaternion.Euler(new Vector3(45f, 0f, 0f));
+            for (int i = 0; i < p1_RObjectTransform.childCount; i++)
+            {
+                GameObject rObjectEmpty = p1_RObjectTransform.GetChild(i).gameObject;
+                GameObject rObject = PhotonNetwork.InstantiateSceneObject("Prefabs/" + rObjectEmpty.name, rObjectEmpty.transform.position, rObjectEmpty.transform.rotation, 0, rObjList[rObjectCount].data);
+                rObjList[rObjectCount].rObject = rObject;
+                rObjectCount++;
+            }
         }
-        if (numPlayers > 1)
+        if (playerPosOccupied[1] == true)
         {
             //Generate rObjList objects for PLAYER 2
             rObjList = GenerateRandomObjects(rObjList, (p1_gridX * p1_gridY), p2_PlayerControlDeck, p2_gridX, p2_gridY, 2);
@@ -424,7 +433,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 rObjectCount++;
             }
         }
-        if (numPlayers > 2)
+        if (playerPosOccupied[2] == true)
         {
             //Generate rObjList objects for PLAYER 3
             rObjList = GenerateRandomObjects(rObjList, (p1_gridX * p1_gridY) + (p2_gridX * p2_gridY), p3_PlayerControlDeck, p3_gridX, p3_gridY, 3);
@@ -438,7 +447,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 rObjectCount++;
             }
         }
-        if (numPlayers > 3)
+        if (playerPosOccupied[3] == true)
         {
             //Generate rObjList objects for PLAYER 4
             rObjList = GenerateRandomObjects(rObjList, (p1_gridX * p1_gridY) + (p2_gridX * p2_gridY) + (p3_gridX * p3_gridY), p4_PlayerControlDeck, p4_gridX, p4_gridY, 4);
@@ -822,19 +831,22 @@ public class Mastermind_Script : Photon.MonoBehaviour
             //generate and display a new random command
             if (!isGameOver)
             {
-                if (!p1_isDisplayStart && !p1_consoleTextScript.isTyping && !p1_isDisplayingCommand)
-                    StartCoroutine(P1_DisplayRandomCommand());
-                if (numPlayers > 1)
+                if (playerPosOccupied[0] == true)
+                {
+                    if (!p1_isDisplayStart && !p1_consoleTextScript.isTyping && !p1_isDisplayingCommand)
+                        StartCoroutine(P1_DisplayRandomCommand());
+                }
+                if (playerPosOccupied[1] == true)
                 {
                     if (!p2_isDisplayStart && !p2_consoleTextScript.isTyping && !p2_isDisplayingCommand)
                         StartCoroutine(P2_DisplayRandomCommand());
                 }
-                if (numPlayers > 2)
+                if (playerPosOccupied[2] == true)
                 {
                     if (!p3_isDisplayStart && !p3_consoleTextScript.isTyping && !p3_isDisplayingCommand)
                         StartCoroutine(P3_DisplayRandomCommand());
                 }
-                if (numPlayers > 3)
+                if (playerPosOccupied[3] == true)
                 {
                     if (!p4_isDisplayStart && !p4_consoleTextScript.isTyping && !p4_isDisplayingCommand)
                         StartCoroutine(P4_DisplayRandomCommand());
@@ -854,20 +866,22 @@ public class Mastermind_Script : Photon.MonoBehaviour
         DestroyRandomObjects();
 
         //Set all timers to 0
-        p1_gWaitSystem = 0f;
-        if (numPlayers > 1)
+        if (playerPosOccupied[0] == true)
+            p1_gWaitSystem = 0f;
+        if (playerPosOccupied[1] == true)
             p2_gWaitSystem = 0f;
-        if (numPlayers > 2)
+        if (playerPosOccupied[2] == true)
             p3_gWaitSystem = 0f;
-        if (numPlayers > 3)
+        if (playerPosOccupied[3] == true)
             p4_gWaitSystem = 0f;
 
-        p1_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
-        if (numPlayers > 1)
+        if (playerPosOccupied[0] == true)
+            p1_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
+        if (playerPosOccupied[1] == true)
             p2_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
-        if (numPlayers > 2)
+        if (playerPosOccupied[2] == true)
             p3_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
-        if (numPlayers > 3)
+        if (playerPosOccupied[3] == true)
             p4_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
 
         //Set up level variables (score to win this round, number of seconds for each command, number of random objects to spawn per player)
@@ -894,23 +908,25 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
         UpdateAllConsoles("");
 
+        if (playerPosOccupied[0] == true)
         p1_scoreTextScript.photonView.RPC("GameOver", PhotonTargets.All, true);
-        if (numPlayers > 1)
+        if (playerPosOccupied[1] == true)
             p2_scoreTextScript.photonView.RPC("GameOver", PhotonTargets.All, true);
-        if (numPlayers > 2)
+        if (playerPosOccupied[2] == true)
             p3_scoreTextScript.photonView.RPC("GameOver", PhotonTargets.All, true);
-        if (numPlayers > 3)
+        if (playerPosOccupied[3] == true)
             p4_scoreTextScript.photonView.RPC("GameOver", PhotonTargets.All, true);
     }
 
     public void UpdateScore()
     {
-        p1_scoreTextScript.photonView.RPC("ScoreUp", PhotonTargets.All, score);
-        if (numPlayers > 1)
+        if (playerPosOccupied[0] == true)
+            p1_scoreTextScript.photonView.RPC("ScoreUp", PhotonTargets.All, score);
+        if (playerPosOccupied[1] == true)
             p2_scoreTextScript.photonView.RPC("ScoreUp", PhotonTargets.All, score);
-        if (numPlayers > 2)
+        if (playerPosOccupied[2] == true)
             p3_scoreTextScript.photonView.RPC("ScoreUp", PhotonTargets.All, score);
-        if (numPlayers > 3)
+        if (playerPosOccupied[3] == true)
             p4_scoreTextScript.photonView.RPC("ScoreUp", PhotonTargets.All, score);
     }
 
@@ -969,19 +985,14 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
     public void UpdateAllConsoles(string msg)
     {
-        p1_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, msg);
-        if (numPlayers > 1)
-        {
+        if (playerPosOccupied[0] == true)
+            p1_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, msg);
+        if (playerPosOccupied[1] == true)
             p2_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, msg);
-        }
-        if (numPlayers > 2)
-        {
+        if (playerPosOccupied[2] == true)
             p3_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, msg);
-        }
-        if (numPlayers > 3)
-        {
+        if (playerPosOccupied[3] == true)
             p4_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, msg);
-        }
     }
 
     // Custom WaitForSeconds

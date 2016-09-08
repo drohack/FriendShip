@@ -62,6 +62,7 @@ public class Console_Timer_Script : Photon.MonoBehaviour
     void RPCStartTimer(float commandTimeoutSeconds)
     {
         this.commandTimeoutSeconds = commandTimeoutSeconds;
+        secondsDifference = commandTimeoutSeconds;
         isRunning = true;
     }
 

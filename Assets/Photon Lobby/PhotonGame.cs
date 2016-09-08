@@ -106,43 +106,37 @@ public class PhotonGame : Photon.MonoBehaviour
     void OnLevelWasLoaded(int level)
     {
         //Find which position you're player is in
-        int playerPosition = 1;
-        foreach (PhotonPlayer player in PhotonNetwork.playerList)
+        if (PhotonNetwork.player.customProperties.ContainsKey("pPos"))
         {
-            if (PhotonNetwork.playerName.Equals(player.name))
-                break;
-            else
-                playerPosition++;
-        }
+            int playerPosition = (int)PhotonNetwork.player.customProperties["pPos"];
 
-        //Get transform of your position
-        Transform currentPlayerTransform = player1Spawn;
-        if (PhotonNetwork.isMasterClient)
-            currentPlayerTransform = player1Spawn;
-        else if (playerPosition == 1)
-            currentPlayerTransform = player1Spawn;
-        else if (playerPosition == 2)
-            currentPlayerTransform = player2Spawn;
-        else if (playerPosition == 3)
-            currentPlayerTransform = player3Spawn;
-        else if (playerPosition == 4)
-            currentPlayerTransform = player4Spawn;
+            //Get transform of your position
+            Transform currentPlayerTransform = player1Spawn;
+            if (playerPosition == 0)
+                currentPlayerTransform = player1Spawn;
+            else if (playerPosition == 1)
+                currentPlayerTransform = player2Spawn;
+            else if (playerPosition == 2)
+                currentPlayerTransform = player3Spawn;
+            else if (playerPosition == 3)
+                currentPlayerTransform = player4Spawn;
 
-        // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-        Transform ovrRigPhoton = PhotonNetwork.Instantiate(this.playerPrefab.name, currentPlayerTransform.position, currentPlayerTransform.rotation, 0).transform;
+            // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
+            Transform ovrRigPhoton = PhotonNetwork.Instantiate(this.playerPrefab.name, currentPlayerTransform.position, currentPlayerTransform.rotation, 0).transform;
 
-        // Don't destroy the object when another client loads in
-        DontDestroyOnLoad(ovrRigPhoton.gameObject);
+            // Don't destroy the object when another client loads in
+            DontDestroyOnLoad(ovrRigPhoton.gameObject);
 
-        // Set your name
-        ovrRigPhoton.name = ovrRigPhoton.name + "-" + PhotonNetwork.playerName;
+            // Set your name
+            ovrRigPhoton.name = ovrRigPhoton.name + "-" + PhotonNetwork.playerName;
 
-        if (PhotonNetwork.isMasterClient)
-        {
-            object[] levelNumObj = new object[1];
-            levelNumObj[0] = levelNum;
-            GameObject mastermind = PhotonNetwork.InstantiateSceneObject("Mastermind", Vector3.zero, Quaternion.identity, 0, levelNumObj);
-            mastermind.name = "Mastermind";
+            if (PhotonNetwork.isMasterClient)
+            {
+                object[] levelNumObj = new object[1];
+                levelNumObj[0] = levelNum;
+                GameObject mastermind = PhotonNetwork.InstantiateSceneObject("Mastermind", Vector3.zero, Quaternion.identity, 0, levelNumObj);
+                mastermind.name = "Mastermind";
+            }
         }
     }
 }

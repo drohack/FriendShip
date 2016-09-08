@@ -9,6 +9,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using Oculus.Platform;
 using Oculus.Platform.Models;
+using ExitGames.Client.Photon;
 
 public class PhotonLobby : MonoBehaviour
 {
@@ -29,6 +30,9 @@ public class PhotonLobby : MonoBehaviour
 
     private bool showLobby = false;
     private bool showRoom = true;
+
+    private int playerPos = 0;
+    private bool[] playerPosOccupied = new bool[4] { false, false, false, false };
 
     public string ErrorDialog
     {
@@ -150,7 +154,13 @@ public class PhotonLobby : MonoBehaviour
 
             if (GUILayout.Button("Create Room", GUILayout.Width(150)))
             {
-                PhotonNetwork.CreateRoom(this.roomName, new RoomOptions() { isVisible = true, maxPlayers = 10 }, TypedLobby.Default);
+                RoomOptions roomOptions = new RoomOptions();
+                //Set all positions as empty
+                roomOptions.CustomRoomPropertiesForLobby = new string[] { "pPos" };
+                roomOptions.CustomRoomProperties = new Hashtable() { { "pPosOccupied", new bool[4] { false, false, false, false } } };
+                roomOptions.IsVisible = true;
+                roomOptions.MaxPlayers = 4;
+                PhotonNetwork.CreateRoom(this.roomName, roomOptions, TypedLobby.Default);
             }
 
             GUILayout.EndHorizontal();
@@ -256,6 +266,8 @@ public class PhotonLobby : MonoBehaviour
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Return to Lobby"))
             {
+                //Remove yourself from the list of ocu
+
                 PhotonNetwork.LeaveRoom();  // we will load the menu level when we successfully left the room
                 showRoom = false;
                 showLobby = true;
@@ -263,6 +275,7 @@ public class PhotonLobby : MonoBehaviour
 
             if (PhotonNetwork.isMasterClient && GUILayout.Button("Start Game"))
             {
+                Debug.Log("pPosOccupied: " + playerPosOccupied[0] + ", " + playerPosOccupied[1] + ", " + playerPosOccupied[2] + ", " + playerPosOccupied[3]);
                 PhotonNetwork.LoadLevel(SceneNameGame); //Start Game
             }
             GUILayout.EndHorizontal();
@@ -275,6 +288,30 @@ public class PhotonLobby : MonoBehaviour
     public void OnJoinedRoom()
     {
         Debug.Log("OnJoinedRoom");
+
+        //Get the room property "pPos"
+        if (PhotonNetwork.room.customProperties.ContainsKey("pPosOccupied"))
+        {
+            playerPosOccupied = (bool[])PhotonNetwork.room.customProperties["pPosOccupied"];
+
+            //Find the first open spot in pPos and set your player position
+            for (int i = 0; i < playerPosOccupied.Length; i++)
+            {
+                if (playerPosOccupied[i] == false)
+                {
+                    playerPosOccupied[i] = true;
+                    playerPos = i;
+                    break;
+                }
+            }
+
+            //Update the room's pPosOccupied
+            Hashtable ht1 = new Hashtable() { { "pPosOccupied", playerPosOccupied } };
+            PhotonNetwork.room.SetCustomProperties(ht1);
+            //Update player pPos
+            Hashtable ht2 = new Hashtable() { { "pPos", playerPos } };
+            PhotonNetwork.player.SetCustomProperties(ht2);
+        }
     }
 
     public void OnPhotonCreateRoomFailed()
@@ -312,5 +349,20 @@ public class PhotonLobby : MonoBehaviour
     {
         this.connectFailed = true;
         Debug.Log("OnFailedToConnectToPhoton. StatusCode: " + parameters + " ServerAddress: " + PhotonNetwork.ServerAddress);
+    }
+
+    public void OnPhotonPlayerDisconnected( PhotonPlayer otherPlayer )
+    {
+        Debug.Log(otherPlayer.name + " disconnected from the lobby.");
+
+        //Open up player position
+        if (PhotonNetwork.isMasterClient && otherPlayer.customProperties.ContainsKey("pPos") && PhotonNetwork.room.customProperties.ContainsKey("pPosOccupied"))
+        {
+            int otherPlayerPos = (int)otherPlayer.customProperties["pPos"];
+            playerPosOccupied = (bool[])PhotonNetwork.room.customProperties["pPos"];
+            playerPosOccupied[otherPlayerPos] = false;
+            Hashtable ht = new Hashtable() { { "pPosOccupied", playerPosOccupied } };
+            PhotonNetwork.room.SetCustomProperties(ht);
+        }
     }
 }
