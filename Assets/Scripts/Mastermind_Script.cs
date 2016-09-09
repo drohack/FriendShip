@@ -129,11 +129,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             isGameOver = false;
 
             //Load Network data
-            object[] data = photonView.instantiationData;
-            if (data != null)
-            {
-                level = (int)data[0];
-            }
+            level = (int)PhotonNetwork.room.customProperties["level"];
 
             //Get number of players by the NetwokManager.numPlayers
             numPlayers = PhotonNetwork.playerList.Length;
