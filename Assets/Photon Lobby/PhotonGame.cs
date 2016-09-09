@@ -17,8 +17,6 @@ public class PhotonGame : Photon.MonoBehaviour
     public Transform player3Spawn;
     public Transform player4Spawn;
 
-    private int levelNum = 1;
-
     public void Awake()
     {
         // in case we started this demo with the wrong scene being active, simply load the menu scene
@@ -132,9 +130,7 @@ public class PhotonGame : Photon.MonoBehaviour
 
             if (PhotonNetwork.isMasterClient)
             {
-                object[] levelNumObj = new object[1];
-                levelNumObj[0] = levelNum;
-                GameObject mastermind = PhotonNetwork.InstantiateSceneObject("Mastermind", Vector3.zero, Quaternion.identity, 0, levelNumObj);
+                GameObject mastermind = PhotonNetwork.InstantiateSceneObject("Mastermind", Vector3.zero, Quaternion.identity, 0, null);
                 mastermind.name = "Mastermind";
             }
         }
