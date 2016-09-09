@@ -33,6 +33,7 @@ public class PhotonLobby : MonoBehaviour
 
     private int playerPos = 0;
     private bool[] playerPosOccupied = new bool[4] { false, false, false, false };
+    private bool isOtherPlayerJoining = false;
 
     public string ErrorDialog
     {
@@ -154,10 +155,15 @@ public class PhotonLobby : MonoBehaviour
 
             if (GUILayout.Button("Create Room", GUILayout.Width(150)))
             {
+                //Set yourself as the first position and update your pPos
+                playerPosOccupied = new bool[4] { true, false, false, false }
+                Hashtable ht2 = new Hashtable() { { "pPos", 0 } };
+                PhotonNetwork.player.SetCustomProperties(ht2);
+                isOtherPlayerJoining = false;
+                
+                //Create room 
                 RoomOptions roomOptions = new RoomOptions();
-                //Set all positions as empty
-                roomOptions.CustomRoomPropertiesForLobby = new string[] { "pPos" };
-                roomOptions.CustomRoomProperties = new Hashtable() { { "pPosOccupied", new bool[4] { false, false, false, false } } };
+                roomOptions.CustomRoomProperties = new Hashtable() { { "pPosOccupied", playerPosOccupied } };
                 roomOptions.IsVisible = true;
                 roomOptions.MaxPlayers = 4;
                 PhotonNetwork.CreateRoom(this.roomName, roomOptions, TypedLobby.Default);
@@ -288,30 +294,6 @@ public class PhotonLobby : MonoBehaviour
     public void OnJoinedRoom()
     {
         Debug.Log("OnJoinedRoom");
-
-        //Get the room property "pPos"
-        if (PhotonNetwork.room.customProperties.ContainsKey("pPosOccupied"))
-        {
-            playerPosOccupied = (bool[])PhotonNetwork.room.customProperties["pPosOccupied"];
-
-            //Find the first open spot in pPos and set your player position
-            for (int i = 0; i < playerPosOccupied.Length; i++)
-            {
-                if (playerPosOccupied[i] == false)
-                {
-                    playerPosOccupied[i] = true;
-                    playerPos = i;
-                    break;
-                }
-            }
-
-            //Update the room's pPosOccupied
-            Hashtable ht1 = new Hashtable() { { "pPosOccupied", playerPosOccupied } };
-            PhotonNetwork.room.SetCustomProperties(ht1);
-            //Update player pPos
-            Hashtable ht2 = new Hashtable() { { "pPos", playerPos } };
-            PhotonNetwork.player.SetCustomProperties(ht2);
-        }
     }
 
     public void OnPhotonCreateRoomFailed()
@@ -350,10 +332,52 @@ public class PhotonLobby : MonoBehaviour
         this.connectFailed = true;
         Debug.Log("OnFailedToConnectToPhoton. StatusCode: " + parameters + " ServerAddress: " + PhotonNetwork.ServerAddress);
     }
+    
+    //Only called when another player enters the room
+    void OnPhotonPlayerConnected(PhotonPlayer newPlayer) 
+    {
+        Debug.Log(newPlayer.name + " has joined the room.");
+        
+        //Set new players pPos and update the pPosOccupied (if masterclient)
+        if (PhotonNetwork.isMasterClient)
+        {
+            //wait till you've finished adding the other player to join the room
+            StartCoroutine(WaitForOtherPlayersToJoin());
+            
+            isOtherPlayerJoining = true;
+            int newPlayerPos = 0;
+            //Find the first open spot in pPosOccupied and set the new player's position
+            for (int i = 0; i < playerPosOccupied.Length; i++)
+            {
+                if (playerPosOccupied[i] == false)
+                {
+                    playerPosOccupied[i] = true;
+                    newPlayerPos = i;
+                    break;
+                }
+            }
+            
+            //Update the room's pPosOccupied
+            Hashtable ht1 = new Hashtable() { { "pPosOccupied", playerPosOccupied } };
+            PhotonNetwork.room.SetCustomProperties(ht1);
+            //Update new player's pPos
+            Hashtable ht2 = new Hashtable() { { "pPos", newPlayerPos } };
+            newPlayer.SetCustomProperties(ht2);
+            isOtherPlayerJoining = false;
+        }
+    }
+    
+    private IEnumerator WaitForOtherPlayersToJoin()
+    {
+        while (isOtherPlayerJoining)
+        {
+            yield return null;
+        }
+    }
 
     public void OnPhotonPlayerDisconnected( PhotonPlayer otherPlayer )
     {
-        Debug.Log(otherPlayer.name + " disconnected from the lobby.");
+        Debug.Log(otherPlayer.name + " disconnected from the room.");
 
         //Open up player position
         if (PhotonNetwork.isMasterClient && otherPlayer.customProperties.ContainsKey("pPos") && PhotonNetwork.room.customProperties.ContainsKey("pPosOccupied"))
