@@ -32,8 +32,10 @@ public class PhotonLobby : MonoBehaviour
     private bool showRoom = true;
 
     private int playerPos = 0;
-    private bool[] playerPosOccupied = new bool[4] { false, false, false, false };
+    private bool[] playerPosOccupied = new bool[4] { true, false, false, false };
     private bool isOtherPlayerJoining = false;
+    
+    private int level = 1;
 
     public string ErrorDialog
     {
@@ -163,7 +165,7 @@ public class PhotonLobby : MonoBehaviour
                 
                 //Create room 
                 RoomOptions roomOptions = new RoomOptions();
-                roomOptions.CustomRoomProperties = new Hashtable() { { "pPosOccupied", playerPosOccupied } };
+                roomOptions.CustomRoomProperties = new Hashtable() { { "pPosOccupied", playerPosOccupied }, { "level", level } };
                 roomOptions.IsVisible = true;
                 roomOptions.MaxPlayers = 4;
                 PhotonNetwork.CreateRoom(this.roomName, roomOptions, TypedLobby.Default);
