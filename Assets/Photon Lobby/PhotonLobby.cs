@@ -31,7 +31,6 @@ public class PhotonLobby : MonoBehaviour
     private bool showLobby = false;
     private bool showRoom = true;
 
-    private int playerPos = 0;
     private bool[] playerPosOccupied = new bool[4] { true, false, false, false };
     private bool isOtherPlayerJoining = false;
     
@@ -158,7 +157,7 @@ public class PhotonLobby : MonoBehaviour
             if (GUILayout.Button("Create Room", GUILayout.Width(150)))
             {
                 //Set yourself as the first position and update your pPos
-                playerPosOccupied = new bool[4] { true, false, false, false }
+                playerPosOccupied = new bool[4] { true, false, false, false };
                 Hashtable ht2 = new Hashtable() { { "pPos", 0 } };
                 PhotonNetwork.player.SetCustomProperties(ht2);
                 isOtherPlayerJoining = false;
@@ -369,7 +368,7 @@ public class PhotonLobby : MonoBehaviour
         }
     }
     
-    private IEnumerator WaitForOtherPlayersToJoin()
+    private System.Collections.IEnumerator WaitForOtherPlayersToJoin()
     {
         while (isOtherPlayerJoining)
         {

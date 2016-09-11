@@ -12,7 +12,6 @@ public class Spawn_Toys_Script : Photon.MonoBehaviour
         {
             //Get number of players by the NetwokManager.numPlayers
             numPlayers = PhotonNetwork.playerList.Length;
-            Debug.Log("numPlayers: " + numPlayers);
 
             StartCoroutine(WaitForPlayersToSpawn());
 

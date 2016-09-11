@@ -79,14 +79,14 @@ public class Valve_Script_copy : MonoBehaviour {
             {
                 isCommandSent = true;
                 //send tapped command to Mastermind
-                int rCommandClockwise = (rCommand * 100) + 1;
+                //int rCommandClockwise = (rCommand * 100) + 1;
                 //CmdSendTappedCommand(rCommandClockwise);
             }
             else if (valveTotalRotation < -360)
             {
                 isCommandSent = true;
                 //send tapped command to Mastermind
-                int rCommandCounterClockwise = (rCommand * 100) + 2;
+                //int rCommandCounterClockwise = (rCommand * 100) + 2;
                 //CmdSendTappedCommand(rCommandCounterClockwise);
             }
         }

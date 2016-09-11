@@ -6,7 +6,6 @@ public class Shifter_Script : Photon.MonoBehaviour
 
     private Transform handleTransform;
     private Highlight_Handle_Top_Script handleScript;
-    private HingeJoint m_HingeJoint;
 
     public int shifterPosition;
     
@@ -49,7 +48,6 @@ public class Shifter_Script : Photon.MonoBehaviour
         hLimits.min = -45;
         hLimits.max = 45;
         handleTransform.GetComponent<HingeJoint>().limits = hLimits;
-        m_HingeJoint = handleTransform.GetComponent<HingeJoint>();
 
         if (PhotonNetwork.isMasterClient)
             mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();

@@ -5,7 +5,6 @@ public class L_Lever_Script_copy : MonoBehaviour {
 
     Transform handleTransform;
     private Highlight_Handle_Top_Script handleScript;
-    private HingeJoint handleJoint;
 
     public bool isLLeverUp = true;
     private bool isLocked = true;
@@ -30,7 +29,6 @@ public class L_Lever_Script_copy : MonoBehaviour {
         handleTransform.GetComponent<HingeJoint>().useLimits = true;
         handleTransform.GetComponent<HingeJoint>().axis = new Vector3(0, 1, 0);
         handleTransform.GetComponent<HingeJoint>().connectedBody = transform.Find("Case").GetComponent<Rigidbody>();
-        handleJoint = handleTransform.GetComponent<HingeJoint>();
 
         //if(isServer)
         //    mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
@@ -57,7 +55,7 @@ public class L_Lever_Script_copy : MonoBehaviour {
                 if (!isLocked)
                 {
                     //send command tapped to the Server with the lLeverUpCommand
-                    int rCommandUp = (rCommand * 100) + 2;
+                    //int rCommandUp = (rCommand * 100) + 2;
                     //CmdSendTappedCommand(rCommandUp, isLLeverUp);
                     //Lever changed positions
                     isLLeverUp = true;
@@ -77,7 +75,7 @@ public class L_Lever_Script_copy : MonoBehaviour {
                 if (!isLocked)
                 {
                     //send command tapped to the Server with the lLeverDownCommand
-                    int rCommandDown = (rCommand * 100) + 1;
+                    //int rCommandDown = (rCommand * 100) + 1;
                     //CmdSendTappedCommand(rCommandDown, isLLeverUp);
                     //Lever changed positions
                     isLLeverUp = false;

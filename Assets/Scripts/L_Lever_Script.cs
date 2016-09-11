@@ -6,7 +6,6 @@ public class L_Lever_Script : Photon.MonoBehaviour
 
     Transform handleTransform;
     private Highlight_Handle_Top_Script handleScript;
-    private HingeJoint handleJoint;
 
     public bool isLLeverUp = true;
     private bool isLocked = true;
@@ -48,7 +47,6 @@ public class L_Lever_Script : Photon.MonoBehaviour
         handleTransform.GetComponent<HingeJoint>().useLimits = true;
         handleTransform.GetComponent<HingeJoint>().axis = new Vector3(0, 1, 0);
         handleTransform.GetComponent<HingeJoint>().connectedBody = transform.Find("Case").GetComponent<Rigidbody>();
-        handleJoint = handleTransform.GetComponent<HingeJoint>();
 
         if (PhotonNetwork.isMasterClient)
             mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();

@@ -70,7 +70,7 @@ public class Dial_Script_copy : MonoBehaviour {
                     //Lever changed positions
                     dialPosition = 5;
                     //send command tapped to the Server
-                    int rCommandFive = (rCommand * 100) + 5;
+                    //int rCommandFive = (rCommand * 100) + 5;
                     //CmdSendTappedCommand(rCommandFive, dialPosition);
                 }
             }
@@ -84,7 +84,7 @@ public class Dial_Script_copy : MonoBehaviour {
                     //Lever changed positions
                     dialPosition = 4;
                     //send command tapped to the Server
-                    int rCommandFour = (rCommand * 100) + 4;
+                    //int rCommandFour = (rCommand * 100) + 4;
                     //CmdSendTappedCommand(rCommandFour, dialPosition);
                 }
             }
@@ -98,7 +98,7 @@ public class Dial_Script_copy : MonoBehaviour {
                     //Lever changed positions
                     dialPosition = 3;
                     //send command tapped to the Server
-                    int rCommandThree = (rCommand * 100) + 3;
+                    //int rCommandThree = (rCommand * 100) + 3;
                     //CmdSendTappedCommand(rCommandThree, dialPosition);
                 }
             }
@@ -112,7 +112,7 @@ public class Dial_Script_copy : MonoBehaviour {
                     //Lever changed positions
                     dialPosition = 2;
                     //send command tapped to the Server
-                    int rCommandTwo = (rCommand * 100) + 2;
+                    //int rCommandTwo = (rCommand * 100) + 2;
                     //CmdSendTappedCommand(rCommandTwo, dialPosition);
                 }
             }
@@ -126,7 +126,7 @@ public class Dial_Script_copy : MonoBehaviour {
                     //Lever changed positions
                     dialPosition = 1;
                     //send command tapped to the Server
-                    int rCommandOne = (rCommand * 100) + 1;
+                    //int rCommandOne = (rCommand * 100) + 1;
                     //CmdSendTappedCommand(rCommandOne, dialPosition);
                 }
             }
@@ -140,7 +140,7 @@ public class Dial_Script_copy : MonoBehaviour {
                     //Lever changed positions
                     dialPosition = 0;
                     //send command tapped to the Server
-                    int rCommandZero = (rCommand * 100) + 0;
+                    //int rCommandZero = (rCommand * 100) + 0;
                     //CmdSendTappedCommand(rCommandZero, dialPosition);
                 }
             }

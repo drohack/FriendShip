@@ -84,8 +84,8 @@ namespace OvrTouch.Hands {
         private TrackedController m_trackedController = null;
         private VelocityTracker m_velocityTracker = null;
         private Rigidbody m_rigidbody = null;
-        private Collider[] m_colliders = null;
-        private bool m_collisionEnabled = true;
+        //private Collider[] m_colliders = null;
+        //private bool m_collisionEnabled = true;
         private bool m_grabVolumeEnabled = true;
         private bool m_wasGrabVolumeEnabled = true;
 
@@ -151,7 +151,7 @@ namespace OvrTouch.Hands {
         //==============================================================================
         private void Start () {
             // Get all collision and disable it
-            m_colliders = this.GetComponentsInChildren<Collider>().Where(childCollider => !childCollider.isTrigger).ToArray();
+            //m_colliders = this.GetComponentsInChildren<Collider>().Where(childCollider => !childCollider.isTrigger).ToArray();
             //CollisionEnable(false);
 
             // Get components

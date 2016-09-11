@@ -58,7 +58,7 @@ public class Lightswitch_Script_copy : MonoBehaviour {
             {
                 isLightswitchOn = false;
                 //send tapped command to Mastermind
-                int rCommandUp = (rCommand * 100) + 1;
+                //int rCommandUp = (rCommand * 100) + 1;
                 //CmdSendTappedCommand(rCommandUp, isLightswitchOn);
                 StartCoroutine(WaitForAnimation(anim, "Lightswitch_Off_Anim"));
             }
@@ -66,7 +66,7 @@ public class Lightswitch_Script_copy : MonoBehaviour {
             {
                 isLightswitchOn = true;
                 //send tapped command to Mastermind
-                int rCommandDown = (rCommand * 100) + 2;
+                //int rCommandDown = (rCommand * 100) + 2;
                 //CmdSendTappedCommand(rCommandDown, isLightswitchOn);
                 StartCoroutine(WaitForAnimation(anim, "Lightswitch_On_Anim"));
             }

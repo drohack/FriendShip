@@ -62,7 +62,6 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private ArrayList valveCommandArray_HARD;
     private ArrayList wLeverCommandArray_HARD;
     private rObjectType[] rObjList; // The list of all random game objects get placed in current round
-    private bool  isTapped = false; // Variables for the custom WaitForSeconds function
     private int numFufilled = 0;
     private PhotonPlayer[] players;
 
@@ -313,17 +312,11 @@ public class Mastermind_Script : Photon.MonoBehaviour
     IEnumerator WaitForPlayersToSpawn()
     {
         GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
-        Debug.Log("numPlayers: " + numPlayers + "playerObjects.Length: " + playerObjects.Length);
         while (playerObjects.Length < numPlayers)
         {
             playerObjects = GameObject.FindGameObjectsWithTag("Player");
             Debug.Log("numPlayers: " + numPlayers + " playerObjects.Length: " + playerObjects.Length);
             yield return new WaitForSeconds(0.1f);
-        }
-
-        foreach (GameObject player in playerObjects)
-        {
-            Debug.Log("name: " + player.name);
         }
 
         Initialize();
@@ -457,7 +450,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 rObjectCount++;
             }
         }
-        Debug.Log("rObjectCount: " + rObjectCount);
+        //Debug.Log("rObjectCount: " + rObjectCount);
     }
 
     rObjectType[] GenerateRandomObjects(rObjectType[] inRObjList, int intRObjListSize, GameObject playerControlDeck, int gridX, int gridY, int playerNum)
@@ -844,6 +837,10 @@ public class Mastermind_Script : Photon.MonoBehaviour
         level += 1;
         levelStartTime = System.DateTime.Now;
 
+        //Update Room Custom Property level
+        ExitGames.Client.Photon.Hashtable ht = new ExitGames.Client.Photon.Hashtable() { { "level", level } };
+        PhotonNetwork.room.SetCustomProperties(ht);
+
         //Destroy all rObjects inside of rObjList
         DestroyRandomObjects();
 
@@ -978,7 +975,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
     }
 
     // Custom WaitForSeconds
-    // This will either wait for the given seconds, or until the isTapped boolean is set to TRUE
+    // This will either wait for the given seconds, or until the TappedWaitForSecondsOrTap forces the timer to zero
     IEnumerator WaitForSecondsOrTap(int player, float seconds)
     {
         if (!isGameOver)
@@ -1056,9 +1053,6 @@ public class Mastermind_Script : Photon.MonoBehaviour
                     numFufilled -= 1;
                 }
             }
-
-            //reset isTapped
-            isTapped = false;
         }
     }
 
@@ -1067,7 +1061,6 @@ public class Mastermind_Script : Photon.MonoBehaviour
     {
         if (!isGameOver)
         {
-            isTapped = true;
             numFufilled = 0;
 
             //Debug.Log("p1_command = " + p1_rCommand + " inputCommand = " + inputCommand);

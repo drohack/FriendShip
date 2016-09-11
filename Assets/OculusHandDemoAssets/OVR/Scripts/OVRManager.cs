@@ -427,7 +427,7 @@ public class OVRManager : MonoBehaviour
 	{
 		if (volumeController == null)
 		{
-			Debug.Log("Creating volume controller...");
+			//Debug.Log("Creating volume controller...");
 			// Create the volume control popup
 			GameObject go = GameObject.Instantiate(Resources.Load("OVRVolumeController")) as GameObject;
 			if (go != null)

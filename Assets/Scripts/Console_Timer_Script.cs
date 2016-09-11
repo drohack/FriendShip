@@ -12,7 +12,6 @@ public class Console_Timer_Script : Photon.MonoBehaviour
     private bool isRunning = false;
     private float commandTimeoutSeconds = 10f;
     private float secondsDifference = 10f;
-    private float fillAmount = 1.0f;
 
     // Use this for initialization
     void Start()
