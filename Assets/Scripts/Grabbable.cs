@@ -78,25 +78,10 @@ namespace OvrTouch.Hands
         private bool m_grabbedKinematic = false;
         private GrabPoint m_grabbedGrabPoint = null;
         private Hand m_grabbedHand = null;
-        [SerializeField]
-        private LockRotation lockRotation;
 
         //==============================================================================
         // Properties
         //==============================================================================
-
-        [System.Serializable]
-        public class LockRotation
-        {
-            public bool x = false;
-            public bool y = false;
-            public bool z = false;
-        }
-
-        public LockRotation LockedRotation
-        {
-            get { return lockRotation; }
-        }
 
         public bool AllowOffhandGrab
         {
@@ -196,7 +181,7 @@ namespace OvrTouch.Hands
         public void GrabEnd(Vector3 linearVelocity, Vector3 angularVelocity)
         {
             // Keep the object's velocity and angular velocity
-            if ( m_grabbedGrabPoint.Rigidbody != null)
+            if (m_grabbedGrabPoint.Rigidbody != null)
             {
                 m_grabbedGrabPoint.Rigidbody.isKinematic = m_grabbedKinematic;
                 m_grabbedGrabPoint.Rigidbody.velocity = linearVelocity;
@@ -219,7 +204,7 @@ namespace OvrTouch.Hands
         void Update()
         {
             // If grabbed call GrabEnd() if the spring breaks
-            if(isGrabbing && m_SpringJoint == null)
+            if (isGrabbing && m_SpringJoint == null)
             {
                 m_grabbedHand.GrabEnd();
             }
@@ -300,7 +285,7 @@ namespace OvrTouch.Hands
             }
 
             // Only allow offhand grab in if GrabMode is "Grab"
-            if(!m_grabMode.Equals(GrabMode.Grab))
+            if (!m_grabMode.Equals(GrabMode.Grab))
             {
                 m_allowOffhandGrab = false;
             }

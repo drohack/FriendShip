@@ -107,6 +107,8 @@ namespace OvrTouch.Hands {
         private Grabbable m_grabbedGrabbable = null;
         private Dictionary<Grabbable, int> m_grabCandidates = new Dictionary<Grabbable, int>();
 
+        private FixedJoint fixedJoint = null;
+
         //==============================================================================
         // Properties
         //==============================================================================
@@ -407,12 +409,26 @@ namespace OvrTouch.Hands {
 
                 // Grab the grabbable
                 GrabbableGrab(closestGrabbable, closestGrabPoint);
+
+                // If grabbable is Rotate attach the fixed joint to the object
+                if (m_grabbedGrabbable.m_grabMode.Equals(Grabbable.GrabMode.Rotate))
+                {
+                    fixedJoint = m_grabbedGrabbable.gameObject.AddComponent<FixedJoint>();
+                    fixedJoint.connectedBody = m_rigidbody;
+                }
             }
         }
 
         //==============================================================================
         public void GrabEnd () {
             if (IsGrabbingGrabbable) {
+                // If grabbable is Rotate remove fixed joint
+                if (m_grabbedGrabbable.m_grabMode.Equals(Grabbable.GrabMode.Rotate))
+                {
+                    Object.Destroy(fixedJoint);
+                    fixedJoint = null;
+                }
+
                 if (transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled == false)
                 { 
                     // Enable hand geometry to pop back in
@@ -484,28 +500,6 @@ namespace OvrTouch.Hands {
 
                 grabbedTransform.position = grabbablePosition;
                 grabbedTransform.rotation = grabbableRotation;
-            }
-            else if (m_grabbedGrabbable.m_grabMode.Equals(Grabbable.GrabMode.Rotate))
-            {
-                Quaternion inverseRotation = Quaternion.Inverse(this.transform.rotation);
-                if (m_grabbedGrabbable.LockedRotation.x)
-                {
-                    finalRotation.x = 0;
-                    inverseRotation.x = 0;
-                }
-                if (m_grabbedGrabbable.LockedRotation.y)
-                {
-                    finalRotation.y = 0;
-                    inverseRotation.y = 0;
-                }
-                if (m_grabbedGrabbable.LockedRotation.z)
-                {
-                    finalRotation.z = 0;
-                    inverseRotation.z = 0;
-                }
-                Quaternion deltaRotation = finalRotation * inverseRotation;
-                deltaRotation = Quaternion.Euler(deltaRotation.eulerAngles.x * 2, deltaRotation.eulerAngles.y * 2, deltaRotation.eulerAngles.z * 2);                
-                grabbedTransform.rotation = deltaRotation * grabbedTransform.rotation;
             }
         }
 
