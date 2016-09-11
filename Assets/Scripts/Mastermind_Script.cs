@@ -128,12 +128,12 @@ public class Mastermind_Script : Photon.MonoBehaviour
             isGameOver = false;
 
             //Load Network data
-            level = (int)PhotonNetwork.room.customProperties["level"];
+            level = (int)PhotonNetwork.room.customProperties[PhotonConstants.level];
 
             //Get number of players by the NetwokManager.numPlayers
             numPlayers = PhotonNetwork.playerList.Length;
             Debug.Log("numPlayers: " + numPlayers);
-            playerPosOccupied = (bool[])PhotonNetwork.room.customProperties["pPosOccupied"];
+            playerPosOccupied = (bool[])PhotonNetwork.room.customProperties[PhotonConstants.pPosOccupied];
             Debug.Log("pPosOccupied: " + playerPosOccupied[0] + ", " + playerPosOccupied[1] + ", " + playerPosOccupied[2] + ", " + playerPosOccupied[3]);
 
             //Get Timer object
@@ -838,7 +838,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         levelStartTime = System.DateTime.Now;
 
         //Update Room Custom Property level
-        ExitGames.Client.Photon.Hashtable ht = new ExitGames.Client.Photon.Hashtable() { { "level", level } };
+        ExitGames.Client.Photon.Hashtable ht = new ExitGames.Client.Photon.Hashtable() { { PhotonConstants.level , level } };
         PhotonNetwork.room.SetCustomProperties(ht);
 
         //Destroy all rObjects inside of rObjList

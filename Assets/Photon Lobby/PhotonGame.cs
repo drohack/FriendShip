@@ -104,9 +104,9 @@ public class PhotonGame : Photon.MonoBehaviour
     void OnLevelWasLoaded(int level)
     {
         //Find which position you're player is in
-        if (PhotonNetwork.player.customProperties.ContainsKey("pPos"))
+        if (PhotonNetwork.player.customProperties.ContainsKey(PhotonConstants.pPos))
         {
-            int playerPosition = (int)PhotonNetwork.player.customProperties["pPos"];
+            int playerPosition = (int)PhotonNetwork.player.customProperties[PhotonConstants.pPos];
 
             //Get transform of your position
             Transform currentPlayerTransform = player1Spawn;

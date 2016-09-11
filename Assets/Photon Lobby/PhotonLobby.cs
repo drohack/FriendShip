@@ -158,13 +158,13 @@ public class PhotonLobby : MonoBehaviour
             {
                 //Set yourself as the first position and update your pPos
                 playerPosOccupied = new bool[4] { true, false, false, false };
-                Hashtable ht2 = new Hashtable() { { "pPos", 0 } };
+                Hashtable ht2 = new Hashtable() { { PhotonConstants.pPos , 0 } };
                 PhotonNetwork.player.SetCustomProperties(ht2);
                 isOtherPlayerJoining = false;
                 
                 //Create room 
                 RoomOptions roomOptions = new RoomOptions();
-                roomOptions.CustomRoomProperties = new Hashtable() { { "pPosOccupied", playerPosOccupied }, { "level", level } };
+                roomOptions.CustomRoomProperties = new Hashtable() { { PhotonConstants.pPosOccupied , playerPosOccupied }, { PhotonConstants.level , level } };
                 roomOptions.IsVisible = true;
                 roomOptions.MaxPlayers = 4;
                 PhotonNetwork.CreateRoom(this.roomName, roomOptions, TypedLobby.Default);
@@ -359,10 +359,10 @@ public class PhotonLobby : MonoBehaviour
             }
             
             //Update the room's pPosOccupied
-            Hashtable ht1 = new Hashtable() { { "pPosOccupied", playerPosOccupied } };
+            Hashtable ht1 = new Hashtable() { { PhotonConstants.pPosOccupied , playerPosOccupied } };
             PhotonNetwork.room.SetCustomProperties(ht1);
             //Update new player's pPos
-            Hashtable ht2 = new Hashtable() { { "pPos", newPlayerPos } };
+            Hashtable ht2 = new Hashtable() { { PhotonConstants.pPos , newPlayerPos } };
             newPlayer.SetCustomProperties(ht2);
             isOtherPlayerJoining = false;
         }
@@ -381,12 +381,12 @@ public class PhotonLobby : MonoBehaviour
         Debug.Log(otherPlayer.name + " disconnected from the room.");
 
         //Open up player position
-        if (PhotonNetwork.isMasterClient && otherPlayer.customProperties.ContainsKey("pPos") && PhotonNetwork.room.customProperties.ContainsKey("pPosOccupied"))
+        if (PhotonNetwork.isMasterClient && otherPlayer.customProperties.ContainsKey(PhotonConstants.pPos) && PhotonNetwork.room.customProperties.ContainsKey(PhotonConstants.pPosOccupied))
         {
-            int otherPlayerPos = (int)otherPlayer.customProperties["pPos"];
-            playerPosOccupied = (bool[])PhotonNetwork.room.customProperties["pPos"];
+            int otherPlayerPos = (int)otherPlayer.customProperties[PhotonConstants.pPos];
+            playerPosOccupied = (bool[])PhotonNetwork.room.customProperties[PhotonConstants.pPos];
             playerPosOccupied[otherPlayerPos] = false;
-            Hashtable ht = new Hashtable() { { "pPosOccupied", playerPosOccupied } };
+            Hashtable ht = new Hashtable() { { PhotonConstants.pPosOccupied , playerPosOccupied } };
             PhotonNetwork.room.SetCustomProperties(ht);
         }
     }
