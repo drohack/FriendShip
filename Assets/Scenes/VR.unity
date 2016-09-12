@@ -122,8 +122,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isGrabbing: 0
   m_grabMode: 0
-  m_fromHandRotation: 0
-  m_toGrabbableRotation: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
@@ -516,78 +514,6 @@ Prefab:
     - {fileID: 11402002, guid: 0f4c71b9d43ea264b9148c0f90c34a17, type: 2}
     - {fileID: 11467080, guid: 0f4c71b9d43ea264b9148c0f90c34a17, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 0f4c71b9d43ea264b9148c0f90c34a17, type: 2}
-  m_IsPrefabParent: 0
---- !u!1001 &650077434
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4000012548871142, guid: c4bcdac8682eb2d448038e5f724b68a2, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000012548871142, guid: c4bcdac8682eb2d448038e5f724b68a2, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000012548871142, guid: c4bcdac8682eb2d448038e5f724b68a2, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -1.07
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000012548871142, guid: c4bcdac8682eb2d448038e5f724b68a2, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000012548871142, guid: c4bcdac8682eb2d448038e5f724b68a2, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000012548871142, guid: c4bcdac8682eb2d448038e5f724b68a2, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000012548871142, guid: c4bcdac8682eb2d448038e5f724b68a2, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000012548871142, guid: c4bcdac8682eb2d448038e5f724b68a2, type: 2}
-      propertyPath: m_RootOrder
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000010681795234, guid: c4bcdac8682eb2d448038e5f724b68a2,
-        type: 2}
-      propertyPath: viewIdField
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000010681795234, guid: c4bcdac8682eb2d448038e5f724b68a2,
-        type: 2}
-      propertyPath: instantiationId
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000013367261316, guid: c4bcdac8682eb2d448038e5f724b68a2,
-        type: 2}
-      propertyPath: viewIdField
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000013367261316, guid: c4bcdac8682eb2d448038e5f724b68a2,
-        type: 2}
-      propertyPath: instantiationId
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000012664196398, guid: c4bcdac8682eb2d448038e5f724b68a2,
-        type: 2}
-      propertyPath: viewIdField
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000012664196398, guid: c4bcdac8682eb2d448038e5f724b68a2,
-        type: 2}
-      propertyPath: instantiationId
-      value: 15
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: c4bcdac8682eb2d448038e5f724b68a2, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &654822128
 Prefab:
@@ -1627,8 +1553,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isGrabbing: 0
   m_grabMode: 1
-  m_fromHandRotation: 0
-  m_toGrabbableRotation: 0
   m_allowOffhandGrab: 0
   m_grabPoints:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
@@ -2016,31 +1940,3 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
---- !u!1 &1976050097
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 650077434}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1976050098}
-  m_Layer: 0
-  m_Name: Missing Prefab
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1976050098
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 650077434}
-  m_GameObject: {fileID: 1976050097}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 14

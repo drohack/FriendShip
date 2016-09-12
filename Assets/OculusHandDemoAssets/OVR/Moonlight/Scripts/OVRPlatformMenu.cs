@@ -2,14 +2,14 @@
 
 Copyright   :   Copyright 2014 Oculus VR, LLC. All Rights reserved.
 
-Licensed under the Oculus VR Rift SDK License Version 3.2 (the "License");
+Licensed under the Oculus VR Rift SDK License Version 3.3 (the "License");
 you may not use the Oculus VR Rift SDK except in compliance with the License,
 which is provided at the time of installation or download, or which
 otherwise accompanies this software in either electronic or hard copy form.
 
 You may obtain a copy of the License at
 
-http://www.oculusvr.com/licenses/LICENSE-3.2
+http://www.oculus.com/licenses/LICENSE-3.3
 
 Unless required by applicable law or agreed to in writing, the Oculus VR SDK
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -42,6 +42,22 @@ public class OVRPlatformMenu : MonoBehaviour
 	/// The distance at which the cursor timer appears.
 	/// </summary>
 	public float fixedDepth = 3.0f;
+
+	/// <summary>
+	/// The key code.
+	/// </summary>
+	public KeyCode keyCode = KeyCode.Escape;
+
+	public enum eHandler
+	{
+		ResetCursor,
+		ShowGlobalMenu,
+		ShowConfirmQuit,
+	};
+
+	public eHandler doubleTapHandler = eHandler.ResetCursor;
+	public eHandler shortPressHandler = eHandler.ShowConfirmQuit;
+	public eHandler longPressHandler = eHandler.ShowGlobalMenu;
 
 	private GameObject instantiatedCursorTimer = null;
 	private Material cursorTimerMaterial = null;
@@ -83,7 +99,7 @@ public class OVRPlatformMenu : MonoBehaviour
 	{
 		if ( waitForUp )
 		{
-			if ( !Input.GetKeyDown( KeyCode.Escape ) && !Input.GetKey( KeyCode.Escape ) )
+			if ( !Input.GetKeyDown( keyCode ) && !Input.GetKey( keyCode ) )
 			{
 				waitForUp = false;
 			}
@@ -93,7 +109,7 @@ public class OVRPlatformMenu : MonoBehaviour
 			}
 		}
 
-		if ( Input.GetKeyDown( KeyCode.Escape ) )
+		if ( Input.GetKeyDown( keyCode ) )
 		{
 			// just came down
 			downCount++;
@@ -104,7 +120,7 @@ public class OVRPlatformMenu : MonoBehaviour
 		}
 		else if ( downCount > 0 )
 		{
-			if ( Input.GetKey( KeyCode.Escape ) )
+			if ( Input.GetKey( keyCode ) )
 			{
 				if ( downCount <= upCount )
 				{
@@ -225,6 +241,8 @@ public class OVRPlatformMenu : MonoBehaviour
 	/// </summary>
 	void ShowConfirmQuitMenu()
 	{
+		ResetCursor();
+
 #if UNITY_ANDROID && !UNITY_EDITOR
 		Debug.Log("[PlatformUI-ConfirmQuit] Showing @ " + Time.time);
 		OVRManager.PlatformUIConfirmQuit();
@@ -242,6 +260,16 @@ public class OVRPlatformMenu : MonoBehaviour
 #endif
 	}
 
+	void DoHandler(eHandler handler)
+	{
+		if (handler == eHandler.ResetCursor)
+			ResetCursor ();
+		if (handler == eHandler.ShowConfirmQuit)
+			ShowConfirmQuitMenu ();
+		if (handler == eHandler.ShowGlobalMenu)
+			ShowGlobalMenu ();
+	}
+
 	/// <summary>
 	/// Tests for long-press and activates global platform menu when detected.
 	/// as per the Unity integration doc, the back button responds to "mouse 1" button down/up/etc
@@ -251,18 +279,11 @@ public class OVRPlatformMenu : MonoBehaviour
 #if UNITY_ANDROID
 		eBackButtonAction action = HandleBackButtonState();
 		if ( action == eBackButtonAction.DOUBLE_TAP )
-		{
-			ResetCursor();
-		}
+			DoHandler(doubleTapHandler);
 		else if ( action == eBackButtonAction.SHORT_PRESS )
-		{
-			ResetCursor();
-			ShowConfirmQuitMenu();
-		}
+			DoHandler(shortPressHandler);
 		else if ( action == eBackButtonAction.LONG_PRESS )
-		{
-			ShowGlobalMenu();
-		}
+			DoHandler(longPressHandler);
 #endif
 	}
 

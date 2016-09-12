@@ -56,8 +56,8 @@ public class OVRDebugGraph : MonoBehaviour
 			return;
 		}
 
-		OVRPlugin.debugDisplay = (debugMode != DebugPerfMode.DEBUG_PERF_OFF);
-		OVRPlugin.collectPerf = (debugMode != DebugPerfMode.DEBUG_PERF_FROZEN);
+		//OVRPlugin.debugDisplay = (debugMode != DebugPerfMode.DEBUG_PERF_OFF);
+		//OVRPlugin.collectPerf = (debugMode != DebugPerfMode.DEBUG_PERF_FROZEN);
 	}
 
 	/// <summary>
@@ -88,8 +88,8 @@ public class OVRDebugGraph : MonoBehaviour
 			}
 			
 			// Turn on/off debug graph
-			OVRPlugin.debugDisplay = (debugMode != DebugPerfMode.DEBUG_PERF_OFF);
-			OVRPlugin.collectPerf = (debugMode == DebugPerfMode.DEBUG_PERF_FROZEN);
+			//OVRPlugin.debugDisplay = (debugMode != DebugPerfMode.DEBUG_PERF_OFF);
+			//OVRPlugin.collectPerf = (debugMode == DebugPerfMode.DEBUG_PERF_FROZEN);
 		}
 	}
 }

@@ -192,10 +192,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: 1f1d000534116394b94ea9a41bbc2005, type: 2}
     m_grabCollider: {fileID: 10002706}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &10002703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -379,10 +375,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 146550613}
     m_grabOverride: {fileID: 17187157}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &17187161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -558,10 +550,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 25009612}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &25009609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -827,10 +815,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 51005012}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &51005009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1012,10 +996,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 65085632}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &65085629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1197,10 +1177,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 66850861}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &66850858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1584,10 +1560,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 104977392}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &104977389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2005,10 +1977,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 165958269}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &165958266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2281,10 +2249,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: 1f1d000534116394b94ea9a41bbc2005, type: 2}
     m_grabCollider: {fileID: 209334865}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &209334862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2550,10 +2514,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 244590101}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &244590098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2881,10 +2841,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 352550577}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &352550574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3066,10 +3022,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 373564779}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &373564776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3335,10 +3287,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 393669149}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &393669146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3520,10 +3468,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 399287384}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &399287381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3705,10 +3649,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 421804038}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &421804035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3969,10 +3909,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 483617153}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &483617150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7847,10 +7783,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 578155783}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &578155780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8032,10 +7964,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 587897247}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &587897244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8257,10 +8185,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 605402325}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &605402322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8442,10 +8366,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 620019392}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &620019389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10561,10 +10481,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 690866539}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &690866536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10748,10 +10664,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 35662685}
     m_grabOverride: {fileID: 746303623}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &746303627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10882,10 +10794,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 751151484}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &751151481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11157,10 +11065,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 759550770}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &759550767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11342,10 +11246,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 814761423}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &814761420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11886,10 +11786,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 898447757}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &898447754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12116,10 +12012,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: 1f1d000534116394b94ea9a41bbc2005, type: 2}
     m_grabCollider: {fileID: 909602042}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &909602039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12384,10 +12276,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 939712254}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &939712251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12569,10 +12457,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1002478077}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1002478074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12754,10 +12638,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1019273479}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1019273476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13169,10 +13049,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1055286880}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1055286877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13354,10 +13230,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1083596884}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1083596881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13602,10 +13474,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1106525920}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1106525917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13787,10 +13655,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1108806815}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1108806812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14038,10 +13902,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1114824912}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1114824909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14275,10 +14135,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: 1f1d000534116394b94ea9a41bbc2005, type: 2}
     m_grabCollider: {fileID: 1154740104}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1154740101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14460,10 +14316,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1180643204}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1180643201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14645,10 +14497,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1200355625}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1200355622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14830,10 +14678,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1207638386}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1207638383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15046,10 +14890,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1224982749}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1224982746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15271,10 +15111,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1330292963}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1330292960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15456,10 +15292,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1363114802}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1363114799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15641,10 +15473,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1381755689}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1381755686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15826,10 +15654,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: 1f1d000534116394b94ea9a41bbc2005, type: 2}
     m_grabCollider: {fileID: 1394106810}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1394106807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16097,10 +15921,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1396815832}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1396815829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16282,10 +16102,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: 1f1d000534116394b94ea9a41bbc2005, type: 2}
     m_grabCollider: {fileID: 1412327205}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1412327202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17019,10 +16835,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1425779899}
     m_grabOverride: {fileID: 1433678171}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1433678175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17198,10 +17010,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: 1f1d000534116394b94ea9a41bbc2005, type: 2}
     m_grabCollider: {fileID: 1462907123}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1462907120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17437,10 +17245,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1475851711}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1475851708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17686,10 +17490,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1537574084}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1537574081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17961,10 +17761,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1563085337}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1563085334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20019,10 +19815,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1614445756}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1614445753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20248,10 +20040,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1623280505}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1623280502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20433,10 +20221,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1651808473}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1651808470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20759,10 +20543,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1687814126}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1687814123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20977,10 +20757,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 218185030}
     m_grabOverride: {fileID: 1743873362}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1743873366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21111,10 +20887,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1748543161}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1748543158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21296,10 +21068,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1791209202}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1791209199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21481,10 +21249,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1807285942}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1807285939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21666,10 +21430,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1810109378}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1810109375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21851,10 +21611,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1819382946}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1819382943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22036,10 +21792,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1825553942}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1825553939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22221,10 +21973,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1839110562}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1839110559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22406,10 +22154,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1863286774}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1863286771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22591,10 +22335,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1919901642}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1919901639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22776,10 +22516,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 1939688941}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1939688938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24750,10 +24486,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: 1f1d000534116394b94ea9a41bbc2005, type: 2}
     m_grabCollider: {fileID: 1985464011}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &1985464008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24935,10 +24667,6 @@ MonoBehaviour:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 2039892043}
     m_grabOverride: {fileID: 0}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &2039892040
 MonoBehaviour:
   m_ObjectHideFlags: 0
