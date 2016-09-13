@@ -11,31 +11,31 @@ public class Mastermind_Script : Photon.MonoBehaviour
     }
 
     /** SINGLE VARIABLES **/
-    private         int numPlayers = 0;
-    private         bool[] playerPosOccupied = new bool[4] { false, false, false, false };
-    private         int score = 0;
-    private         int level = 1;
-    private         bool isLoadingNextLevel = false;
-    private         int scoreToWin = 10;
-    private         int scoreToLose = -10;
-    private         float levelTimeoutSeconds = 100;
-    private         float commandTimeoutSeconds = 10;
-    private         System.DateTime levelStartTime = System.DateTime.Now;
-    private         Timer_Script timerScript;
-    private         bool isGameOver = false;
-    private         float easyPercent     = 0.8f;
-    private         float mediumPercent = 0f;
-    private         float hardPercent = 0f;
-    private         int numOfDiffGameObjects = 8; // The number of different type of game objects total to be used for random rolling of said game objects
-    private const   int commandTextRowLimit = 15;
-    public const    int buttonCommand = 0;
-    public const    int dialCommand = 1;
-    public const    int lLeverCommand = 2;
-    public const    int lightswitchCommand = 3;
-    public const    int shifterCommand = 4;
-    public const    int sliderCommand = 5;
-    public const    int valveCommand = 6;
-    public const    int wLeverCommand = 7;
+    private int numPlayers = 0;
+    private bool[] playerPosOccupied = new bool[4] { false, false, false, false };
+    private int score = 0;
+    private int level = 1;
+    private bool isLoadingNextLevel = false;
+    private int scoreToWin = 10;
+    private int scoreToLose = -10;
+    private float levelTimeoutSeconds = 100;
+    private float commandTimeoutSeconds = 10;
+    private System.DateTime levelStartTime = System.DateTime.Now;
+    private Timer_Script timerScript;
+    private bool isGameOver = false;
+    private float easyPercent = 0.8f;
+    private float mediumPercent = 0f;
+    private float hardPercent = 0f;
+    private int numOfDiffGameObjects = 8; // The number of different type of game objects total to be used for random rolling of said game objects
+    private const int commandTextRowLimit = 15;
+    public const int buttonCommand = 0;
+    public const int dialCommand = 1;
+    public const int lLeverCommand = 2;
+    public const int lightswitchCommand = 3;
+    public const int shifterCommand = 4;
+    public const int sliderCommand = 5;
+    public const int valveCommand = 6;
+    public const int wLeverCommand = 7;
     private string pullcordCommandText;
     private ArrayList usedCommandArray;
     private ArrayList buttonCommandArray_EASY;
@@ -67,18 +67,18 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private PhotonPlayer[] players;
 
     // Player Objects
-    GameObject          p1_PlayerControlDeck;
-    GameObject          p2_PlayerControlDeck;
-    GameObject          p3_PlayerControlDeck;
-    GameObject          p4_PlayerControlDeck;
+    GameObject p1_PlayerControlDeck;
+    GameObject p2_PlayerControlDeck;
+    GameObject p3_PlayerControlDeck;
+    GameObject p4_PlayerControlDeck;
     Command_Feedback_Script p1_CommandFeedbackScript;
     Command_Feedback_Script p2_CommandFeedbackScript;
     Command_Feedback_Script p3_CommandFeedbackScript;
     Command_Feedback_Script p4_CommandFeedbackScript;
-    Score_Text_Script   p1_scoreTextScript;
-    Score_Text_Script   p2_scoreTextScript;
-    Score_Text_Script   p3_scoreTextScript;
-    Score_Text_Script   p4_scoreTextScript;
+    Score_Text_Script p1_scoreTextScript;
+    Score_Text_Script p2_scoreTextScript;
+    Score_Text_Script p3_scoreTextScript;
+    Score_Text_Script p4_scoreTextScript;
     Console_Text_Script p1_consoleTextScript;
     Console_Text_Script p2_consoleTextScript;
     Console_Text_Script p3_consoleTextScript;
@@ -89,39 +89,40 @@ public class Mastermind_Script : Photon.MonoBehaviour
     Console_Timer_Script p4_consoleTimerScript;
 
     /** P1 VARIABLES **/
-    public  int     p1_rCommand = -1;
-    private bool    p1_isDisplayStart = true;
-    public  bool    p1_isDisplayingCommand = false;
-    private float   p1_gWaitSystem;         // Variables for the custom WaitForSeconds function
-    private int     p1_gridX = 4;           // The grid which the random game objects get placed
-    private int     p1_gridY = 2;           // The grid which the random game objects get placed
+    public int p1_rCommand = -1;
+    private bool p1_isDisplayStart = true;
+    public bool p1_isDisplayingCommand = false;
+    private float p1_gWaitSystem;         // Variables for the custom WaitForSeconds function
+    private int p1_gridX = 4;           // The grid which the random game objects get placed
+    private int p1_gridY = 2;           // The grid which the random game objects get placed
 
     /** P2 VARIABLES **/
-    public int      p2_rCommand = -1;
-    private bool    p2_isDisplayStart = true;
-    public bool     p2_isDisplayingCommand = false;
-    private float   p2_gWaitSystem;         // Variables for the custom WaitForSeconds function
-    private int     p2_gridX = 4;           // The grid which the random game objects get placed
-    private int     p2_gridY = 2;           // The grid which the random game objects get placed
+    public int p2_rCommand = -1;
+    private bool p2_isDisplayStart = true;
+    public bool p2_isDisplayingCommand = false;
+    private float p2_gWaitSystem;         // Variables for the custom WaitForSeconds function
+    private int p2_gridX = 4;           // The grid which the random game objects get placed
+    private int p2_gridY = 2;           // The grid which the random game objects get placed
 
     /** P3 VARIABLES **/
-    public int      p3_rCommand = -1;
-    private bool    p3_isDisplayStart = true;
-    public bool     p3_isDisplayingCommand = false;
-    private float   p3_gWaitSystem;         // Variables for the custom WaitForSeconds function
-    private int     p3_gridX = 4;           // The grid which the random game objects get placed
-    private int     p3_gridY = 2;           // The grid which the random game objects get placed
+    public int p3_rCommand = -1;
+    private bool p3_isDisplayStart = true;
+    public bool p3_isDisplayingCommand = false;
+    private float p3_gWaitSystem;         // Variables for the custom WaitForSeconds function
+    private int p3_gridX = 4;           // The grid which the random game objects get placed
+    private int p3_gridY = 2;           // The grid which the random game objects get placed
 
     /** P4 VARIABLES **/
-    public int      p4_rCommand = -1;
-    private bool    p4_isDisplayStart = true;
-    public bool     p4_isDisplayingCommand = false;
-    private float   p4_gWaitSystem;         // Variables for the custom WaitForSeconds function
-    private int     p4_gridX = 4;           // The grid which the random game objects get placed
-    private int     p4_gridY = 2;           // The grid which the random game objects get placed
+    public int p4_rCommand = -1;
+    private bool p4_isDisplayStart = true;
+    public bool p4_isDisplayingCommand = false;
+    private float p4_gWaitSystem;         // Variables for the custom WaitForSeconds function
+    private int p4_gridX = 4;           // The grid which the random game objects get placed
+    private int p4_gridY = 2;           // The grid which the random game objects get placed
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         if (PhotonNetwork.isMasterClient)
         {
             isLoadingNextLevel = true;
@@ -139,7 +140,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
             //Get Timer object
             timerScript = GameObject.FindGameObjectWithTag("Timer").GetComponent<Timer_Script>();
-            
+
             // Set command arrays from Command_Array.cs so we can take away items from the array list so we have no repeats
             Command_Array commandArray = GetComponent<Command_Array>();
             pullcordCommandText = Command_Array.pullcordText;
@@ -206,7 +207,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         int[] xyNumObj_p4 = GetNumXYObjects(baseNumObjPerPlayer);
         p4_gridX = xyNumObj_p4[0];
         p4_gridY = xyNumObj_p4[1];
-        
+
         //Reset the usedCommandArray
         usedCommandArray = new ArrayList();
 
@@ -214,61 +215,61 @@ public class Mastermind_Script : Photon.MonoBehaviour
         switch (level)
         {
             case 1:
-                easyPercent     = 1.0f;
-                mediumPercent   = 0.0f;
-                hardPercent     = 0.0f;
+                easyPercent = 1.0f;
+                mediumPercent = 0.0f;
+                hardPercent = 0.0f;
                 break;
             case 2:
-                easyPercent     = 1.0f;
-                mediumPercent   = 0.0f;
-                hardPercent     = 0.0f;
+                easyPercent = 1.0f;
+                mediumPercent = 0.0f;
+                hardPercent = 0.0f;
                 break;
             case 3:
-                easyPercent     = 0.8f;
-                mediumPercent   = 0.2f;
-                hardPercent     = 0.0f;
+                easyPercent = 0.8f;
+                mediumPercent = 0.2f;
+                hardPercent = 0.0f;
                 break;
             case 4:
-                easyPercent     = 0.6f;
-                mediumPercent   = 0.4f;
-                hardPercent     = 0.0f;
+                easyPercent = 0.6f;
+                mediumPercent = 0.4f;
+                hardPercent = 0.0f;
                 break;
             case 5:
-                easyPercent     = 0.4f;
-                mediumPercent   = 0.5f;
-                hardPercent     = 0.1f;
+                easyPercent = 0.4f;
+                mediumPercent = 0.5f;
+                hardPercent = 0.1f;
                 break;
             case 6:
-                easyPercent     = 0.1f;
-                mediumPercent   = 0.6f;
-                hardPercent     = 0.3f;
+                easyPercent = 0.1f;
+                mediumPercent = 0.6f;
+                hardPercent = 0.3f;
                 break;
             case 7:
-                easyPercent     = 0.05f;
-                mediumPercent   = 0.55f;
-                hardPercent     = 0.4f;
+                easyPercent = 0.05f;
+                mediumPercent = 0.55f;
+                hardPercent = 0.4f;
                 break;
             case 8:
-                easyPercent     = 0.05f;
-                mediumPercent   = 0.35f;
-                hardPercent     = 0.6f;
+                easyPercent = 0.05f;
+                mediumPercent = 0.35f;
+                hardPercent = 0.6f;
                 break;
             case 9:
-                easyPercent     = 0.05f;
-                mediumPercent   = 0.25f;
-                hardPercent     = 0.7f;
+                easyPercent = 0.05f;
+                mediumPercent = 0.25f;
+                hardPercent = 0.7f;
                 break;
             case 10:
-                easyPercent     = 0.05f;
-                mediumPercent   = 0.15f;
-                hardPercent     = 0.8f;
+                easyPercent = 0.05f;
+                mediumPercent = 0.15f;
+                hardPercent = 0.8f;
                 break;
             default:
-                easyPercent     = 0.05f;
-                mediumPercent   = 0.15f;
-                hardPercent     = 0.8f;
+                easyPercent = 0.05f;
+                mediumPercent = 0.15f;
+                hardPercent = 0.8f;
                 break;
-        }        
+        }
     }
 
     private int[] GetNumXYObjects(int baseNumObjPerPlayer)
@@ -293,7 +294,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         else if (totalNumObj <= 4 && totalNumObj > 0)
         {
             //if the total number of objects is even and less than equal to 4 flip a coin to see if we should display the objects on a single row or two rows
-            if ((totalNumObj % 2) == 0 && Random.value < 0.5f) 
+            if ((totalNumObj % 2) == 0 && Random.value < 0.5f)
             {
                 returnXY[0] = totalNumObj / 2;
                 returnXY[1] = 2;
@@ -334,10 +335,10 @@ public class Mastermind_Script : Photon.MonoBehaviour
     void Initialize()
     {
         score = 0;
-        
+
         //Find all Player Objects
         players = PhotonNetwork.playerList;
-        
+
         foreach (PhotonPlayer player in players)
         {
             if (player != null)
@@ -382,7 +383,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
     }
 
     //Create new list of random objects
-    void GenerateRandomObjects ()
+    void GenerateRandomObjects()
     {
         //Create a list to hold all of the random game objects
         int rObjListSize = 0;
@@ -422,7 +423,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 GameObject rObjectEmpty = p2_RObjectTransform.GetChild(i).gameObject;
                 GameObject rObject = PhotonNetwork.InstantiateSceneObject("Prefabs/" + rObjectEmpty.name, rObjectEmpty.transform.position, rObjectEmpty.transform.rotation, 0, rObjList[rObjectCount].data);
                 rObjList[rObjectCount].rObject = rObject;
-                
+
                 rObjectCount++;
             }
         }
@@ -469,7 +470,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         rObjectTransform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
 
         rObjectType[] outRObjList = inRObjList;
-        
+
         string newCommandText;
 
         GameObject buttonInstance = (GameObject)Resources.Load("Prefabs/Button");
@@ -739,6 +740,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         //All arrays have been used for this command this game. Reload that command's arrays
         //Remove all used Commands in this level
         if (commandArray_EASY.Count == 0 && commandArray_MEDIUM.Count == 0 && commandArray_HARD.Count == 0)
+        {
             Command_Array commandArray = GetComponent<Command_Array>();
             //Re-load the command arrays for the given commandType
             switch (commandType)
@@ -797,7 +799,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             }
 
             //Remove all currently used commands this level so there are no repeats
-            foreach(string usedCommand in usedCommandArray) 
+            foreach (string usedCommand in usedCommandArray)
             {
                 if (commandArray_EASY.Contains(usedCommand))
                     commandArray_EASY.Remove(usedCommand);
@@ -807,7 +809,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                     commandArray_HARD.Remove(usedCommand);
             }
         }
-        
+
         string commandText = "";
         // roll to see the difficulty of the command to roll
         float difficulty = Random.Range(0.0f, 1.0f);
@@ -837,13 +839,13 @@ public class Mastermind_Script : Photon.MonoBehaviour
         {
             //Should not get here
             //Should only be possible if all commands for the commandType are being used in the current level and you're trying to get more
-            Debug.Error("No command found");
+            Debug.LogError("No command found");
             commandText = "Error";
         }
 
         return commandText;
     }
-    
+
     private string GenerateRandomCommandText(ref ArrayList commandArray_DIFFICULTY, ref ArrayList usedCommandArray)
     {
         //roll to get random command
@@ -852,7 +854,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         usedCommandArray.Add(commandText);
         //remove selected command from the array so it won't be used again this level
         commandArray_DIFFICULTY.RemoveAt(commandIndex);
-        
+
         return commandText;
     }
 
@@ -869,7 +871,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
         if (PhotonNetwork.isMasterClient && !isLoadingNextLevel && !isGameOver)
         {
             //If the user scores grater than or equal to the score to win change text to Green and to say "YOU WIN~"
@@ -931,7 +934,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         levelStartTime = System.DateTime.Now;
 
         //Update Room Custom Property level
-        ExitGames.Client.Photon.Hashtable ht = new ExitGames.Client.Photon.Hashtable() { { PhotonConstants.level , level } };
+        ExitGames.Client.Photon.Hashtable ht = new ExitGames.Client.Photon.Hashtable() { { PhotonConstants.level, level } };
         PhotonNetwork.room.SetCustomProperties(ht);
 
         //Destroy all rObjects inside of rObjList
@@ -981,7 +984,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         UpdateAllConsoles("");
 
         if (playerPosOccupied[0] == true)
-        p1_scoreTextScript.photonView.RPC("GameOver", PhotonTargets.All, true);
+            p1_scoreTextScript.photonView.RPC("GameOver", PhotonTargets.All, true);
         if (playerPosOccupied[1] == true)
             p2_scoreTextScript.photonView.RPC("GameOver", PhotonTargets.All, true);
         if (playerPosOccupied[2] == true)
@@ -1239,7 +1242,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
     }
 
 
-IEnumerator P1_DisplayRandomCommand()
+    IEnumerator P1_DisplayRandomCommand()
     {
         p1_isDisplayingCommand = true;
 
@@ -1255,7 +1258,8 @@ IEnumerator P1_DisplayRandomCommand()
         GameObject rObj = rObjList[p1_rCommand].rObject;
 
         bool isCommandSet = false;
-        try {
+        try
+        {
             string[] rCommandList = GetRandomCommand(rObj, p1_rCommand);
             p1_rCommand = int.Parse(rCommandList[0]);
             string message = rCommandList[1];
@@ -1266,14 +1270,15 @@ IEnumerator P1_DisplayRandomCommand()
             p1_CommandFeedbackScript.Reset();
 
             isCommandSet = true;
-        } catch
+        }
+        catch
         {
             Debug.LogWarning("P1_DisplayRandomCommand error, unable to get command");
             isCommandSet = false;
         }
 
         //Only wait for the command if it was set correctly
-        if(isCommandSet)
+        if (isCommandSet)
         {
             //Wait for the commandTimeoutSeconds or if a button gets tapped
             yield return WaitForSecondsOrTap(1, commandTimeoutSeconds);
@@ -1417,7 +1422,7 @@ IEnumerator P1_DisplayRandomCommand()
         p4_isDisplayingCommand = false;
     }
 
-    string[] GetRandomCommand (GameObject rObj, int rCommand)
+    string[] GetRandomCommand(GameObject rObj, int rCommand)
     {
         int commandType = buttonCommand;
         if (rObj.name.Contains("Button"))
@@ -1575,6 +1580,6 @@ IEnumerator P1_DisplayRandomCommand()
                 break;
         }
 
-        return new string[2]{ rCommand.ToString() , message };
+        return new string[2] { rCommand.ToString(), message };
     }
 }
