@@ -20,16 +20,9 @@ public class Score_Text_Script : Photon.MonoBehaviour
     }
 
     [PunRPC]
-    public void ScoreUp (int score)
+    public void UpdateScore(int level, int score)
     {
-        GetComponent<TextMesh>().text = "Score = " + score;
+        GetComponent<TextMesh>().text = "Level = " + level + " | Score = " + score;
         GetComponent<MeshRenderer>().material.color = Color.black;
-    }
-
-    [PunRPC]
-    public void ScoreDown(int score)
-    {
-        GetComponent<TextMesh>().text = "Score = " + score;
-        GetComponent<MeshRenderer>().material.color = Color.red;
     }
 }

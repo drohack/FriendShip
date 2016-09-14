@@ -996,13 +996,13 @@ public class Mastermind_Script : Photon.MonoBehaviour
     public void UpdateScore()
     {
         if (playerPosOccupied[0] == true)
-            p1_scoreTextScript.photonView.RPC("ScoreUp", PhotonTargets.All, score);
+            p1_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, score);
         if (playerPosOccupied[1] == true)
-            p2_scoreTextScript.photonView.RPC("ScoreUp", PhotonTargets.All, score);
+            p2_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, score);
         if (playerPosOccupied[2] == true)
-            p3_scoreTextScript.photonView.RPC("ScoreUp", PhotonTargets.All, score);
+            p3_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, score);
         if (playerPosOccupied[3] == true)
-            p4_scoreTextScript.photonView.RPC("ScoreUp", PhotonTargets.All, score);
+            p4_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, score);
     }
 
     public void ScoreUp()
