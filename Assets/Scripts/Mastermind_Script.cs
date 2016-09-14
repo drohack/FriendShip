@@ -4,9 +4,9 @@ using System.Linq;
 
 public class Mastermind_Script : Photon.MonoBehaviour
 {
-    public class rObjectType
+    public class moduleType
     {
-        public GameObject rObject;
+        public GameObject module;
         public object[] data;
     }
 
@@ -26,7 +26,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private float easyPercent = 0.8f;
     private float mediumPercent = 0f;
     private float hardPercent = 0f;
-    private int numOfDiffGameObjects = 8; // The number of different type of game objects total to be used for random rolling of said game objects
+    private int numOfDiffModules = 8; // The number of different type of modules total to be used for random rolling of said modules
     private const int commandTextRowLimit = 15;
     public const int buttonCommand = 0;
     public const int dialCommand = 1;
@@ -62,7 +62,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private ArrayList sliderCommandArray_HARD;
     private ArrayList valveCommandArray_HARD;
     private ArrayList wLeverCommandArray_HARD;
-    private rObjectType[] rObjList; // The list of all random game objects get placed in current round
+    private moduleType[] moduleList; // The list of all modules in current round
     private int numFufilled = 0;
     private PhotonPlayer[] players;
 
@@ -92,33 +92,33 @@ public class Mastermind_Script : Photon.MonoBehaviour
     public int p1_rCommand = -1;
     private bool p1_isDisplayStart = true;
     public bool p1_isDisplayingCommand = false;
-    private float p1_gWaitSystem;         // Variables for the custom WaitForSeconds function
-    private int p1_gridX = 4;           // The grid which the random game objects get placed
-    private int p1_gridY = 2;           // The grid which the random game objects get placed
+    private float p1_gWaitSystem;       // Variables for the custom WaitForSeconds function
+    private int p1_gridX = 4;           // The grid which the modules get placed
+    private int p1_gridY = 2;           // The grid which the modules get placed
 
     /** P2 VARIABLES **/
     public int p2_rCommand = -1;
     private bool p2_isDisplayStart = true;
     public bool p2_isDisplayingCommand = false;
-    private float p2_gWaitSystem;         // Variables for the custom WaitForSeconds function
-    private int p2_gridX = 4;           // The grid which the random game objects get placed
-    private int p2_gridY = 2;           // The grid which the random game objects get placed
+    private float p2_gWaitSystem;       // Variables for the custom WaitForSeconds function
+    private int p2_gridX = 4;           // The grid which the modules get placed
+    private int p2_gridY = 2;           // The grid which the modules get placed
 
     /** P3 VARIABLES **/
     public int p3_rCommand = -1;
     private bool p3_isDisplayStart = true;
     public bool p3_isDisplayingCommand = false;
-    private float p3_gWaitSystem;         // Variables for the custom WaitForSeconds function
-    private int p3_gridX = 4;           // The grid which the random game objects get placed
-    private int p3_gridY = 2;           // The grid which the random game objects get placed
+    private float p3_gWaitSystem;       // Variables for the custom WaitForSeconds function
+    private int p3_gridX = 4;           // The grid which the modules get placed
+    private int p3_gridY = 2;           // The grid which the modules get placed
 
     /** P4 VARIABLES **/
     public int p4_rCommand = -1;
     private bool p4_isDisplayStart = true;
     public bool p4_isDisplayingCommand = false;
-    private float p4_gWaitSystem;         // Variables for the custom WaitForSeconds function
-    private int p4_gridX = 4;           // The grid which the random game objects get placed
-    private int p4_gridY = 2;           // The grid which the random game objects get placed
+    private float p4_gWaitSystem;       // Variables for the custom WaitForSeconds function
+    private int p4_gridX = 4;           // The grid which the modules get placed
+    private int p4_gridY = 2;           // The grid which the modules get placed
 
     // Use this for initialization
     void Start()
@@ -169,7 +169,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             valveCommandArray_HARD = commandArray.valveCommandArray_HARD;
             wLeverCommandArray_HARD = commandArray.wLeverCommandArray_HARD;
 
-            //Set up level variables (score to win this round, number of seconds for each command, number of random objects to spawn per player)
+            //Set up level variables (score to win this round, number of seconds for each command, number of modules to spawn per player)
             SetupLevel();
 
             isLoadingNextLevel = false;
@@ -192,26 +192,26 @@ public class Mastermind_Script : Photon.MonoBehaviour
         //Number of seconds for each command before it times out
         //At level ONE this starts at 10 seconds, by level 5 this is 6.8 seconds, and by level 10 this is 4.737 seconds (converging to 1 second by level 35)
         commandTimeoutSeconds = Mathf.Pow(Mathf.Sqrt(9), (-0.08f * (level - 1)) + 2) + 1;
-        //The base number of objects a player can start with (this number will be varied +/- 1
-        //At level ONE this starts at 3 objects per player, by level 5 this is 7 objects, by level 8 this maxes out at 8 objects always for all players (converging to 8 objects)
-        int baseNumObjPerPlayer = Mathf.RoundToInt(-Mathf.Pow(Mathf.Sqrt(8), (-0.3f * (level - 1)) + 1.54f) + 8);
-        int[] xyNumObj_p1 = GetNumXYObjects(baseNumObjPerPlayer);
-        p1_gridX = xyNumObj_p1[0];
-        p1_gridY = xyNumObj_p1[1];
-        int[] xyNumObj_p2 = GetNumXYObjects(baseNumObjPerPlayer);
-        p2_gridX = xyNumObj_p2[0];
-        p2_gridY = xyNumObj_p2[1];
-        int[] xyNumObj_p3 = GetNumXYObjects(baseNumObjPerPlayer);
-        p3_gridX = xyNumObj_p3[0];
-        p3_gridY = xyNumObj_p3[1];
-        int[] xyNumObj_p4 = GetNumXYObjects(baseNumObjPerPlayer);
-        p4_gridX = xyNumObj_p4[0];
-        p4_gridY = xyNumObj_p4[1];
+        //The base number of modules a player can start with (this number will be varied +/- 1
+        //At level ONE this starts at 3 modules per player, by level 5 this is 7 modules, by level 8 this maxes out at 8 modules always for all players (converging to 8 modules)
+        int baseNumModulesPerPlayer = Mathf.RoundToInt(-Mathf.Pow(Mathf.Sqrt(8), (-0.3f * (level - 1)) + 1.54f) + 8);
+        int[] xyNumModules_p1 = GetNumXYModules(baseNumModulesPerPlayer);
+        p1_gridX = xyNumModules_p1[0];
+        p1_gridY = xyNumModules_p1[1];
+        int[] xyNumModules_p2 = GetNumXYModules(baseNumModulesPerPlayer);
+        p2_gridX = xyNumModules_p2[0];
+        p2_gridY = xyNumModules_p2[1];
+        int[] xyNumModules_p3 = GetNumXYModules(baseNumModulesPerPlayer);
+        p3_gridX = xyNumModules_p3[0];
+        p3_gridY = xyNumModules_p3[1];
+        int[] xyNumModules_p4 = GetNumXYModules(baseNumModulesPerPlayer);
+        p4_gridX = xyNumModules_p4[0];
+        p4_gridY = xyNumModules_p4[1];
 
         //Reset the usedCommandArray
         usedCommandArray = new ArrayList();
 
-        // Set percent of EASY, MEDIUM, and HARD objects to spawn by level
+        // Set percent of EASY, MEDIUM, and HARD modules to spawn by level
         switch (level)
         {
             case 1:
@@ -272,43 +272,43 @@ public class Mastermind_Script : Photon.MonoBehaviour
         }
     }
 
-    private int[] GetNumXYObjects(int baseNumObjPerPlayer)
+    private int[] GetNumXYModules(int baseNumModulesPerPlayer)
     {
         int[] returnXY = new int[2];
-        int totalNumObj = baseNumObjPerPlayer + Random.Range(-1, 2);
-        if (totalNumObj >= 7) //Can't display 7 objects, set to 8
-            totalNumObj = 8;
-        else if (totalNumObj == 5) //Can't display 5 objects set to 4
-            totalNumObj = 4;
+        int totalNumModules = baseNumModulesPerPlayer + Random.Range(-1, 2);
+        if (totalNumModules >= 7) //Can't display 7 modules, set to 8
+            totalNumModules = 8;
+        else if (totalNumModules == 5) //Can't display 5 modules set to 4
+            totalNumModules = 4;
 
-        if (totalNumObj >= 8) //if the total number of objects is 8 then do a full 4x2 grid of objects
+        if (totalNumModules >= 8) //if the total number of modules is 8 then do a full 4x2 grid of modules
         {
             returnXY[0] = 4;
             returnXY[1] = 2;
         }
-        else if (totalNumObj == 6) //if the total number of objects is 6 then do a 3x2 grid of objects
+        else if (totalNumModules == 6) //if the total number of modules is 6 then do a 3x2 grid of modules
         {
             returnXY[0] = 3;
             returnXY[1] = 2;
         }
-        else if (totalNumObj <= 4 && totalNumObj > 0)
+        else if (totalNumModules <= 4 && totalNumModules > 0)
         {
-            //if the total number of objects is even and less than equal to 4 flip a coin to see if we should display the objects on a single row or two rows
-            if ((totalNumObj % 2) == 0 && Random.value < 0.5f)
+            //if the total number of modules is even and less than equal to 4 flip a coin to see if we should display the modules on a single row or two rows
+            if ((totalNumModules % 2) == 0 && Random.value < 0.5f)
             {
-                returnXY[0] = totalNumObj / 2;
+                returnXY[0] = totalNumModules / 2;
                 returnXY[1] = 2;
             }
             else
             {
-                returnXY[0] = totalNumObj;
+                returnXY[0] = totalNumModules;
                 returnXY[1] = 1;
             }
         }
         else
         {
             //Should never get here
-            Debug.LogError("ERROR trying to generate too many or few objects. Base: " + baseNumObjPerPlayer + " total: " + totalNumObj);
+            Debug.LogError("ERROR trying to generate too many or few modules. Base: " + baseNumModulesPerPlayer + " total: " + totalNumModules);
         }
 
         return returnXY;
@@ -316,18 +316,18 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
     IEnumerator WaitForPlayersToSpawn()
     {
-        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
-        while (playerObjects.Length < numPlayers)
+        GameObject[] playeModules = GameObject.FindGameObjectsWithTag("Player");
+        while (playeModules.Length < numPlayers)
         {
-            playerObjects = GameObject.FindGameObjectsWithTag("Player");
-            Debug.Log("numPlayers: " + numPlayers + " playerObjects.Length: " + playerObjects.Length);
+            playeModules = GameObject.FindGameObjectsWithTag("Player");
+            Debug.Log("numPlayers: " + numPlayers + " playerModules.Length: " + playeModules.Length);
             yield return new WaitForSeconds(0.1f);
         }
 
         Initialize();
 
         //Count down from 3 to next level
-        //Generate new objects
+        //Generate new modules
         //And display "Start!" command
         StartCoroutine(StartNextRoundIn(3));
     }
@@ -382,94 +382,94 @@ public class Mastermind_Script : Photon.MonoBehaviour
         }
     }
 
-    //Create new list of random objects
-    void GenerateRandomObjects()
+    //Create new list of modules
+    void GenerateAllPlayerModules()
     {
-        //Create a list to hold all of the random game objects
-        int rObjListSize = 0;
+        //Create a list to hold all of the modules
+        int moduleListSize = 0;
         if (playerPosOccupied[0] == true)
-            rObjListSize += (p1_gridX * p1_gridY);
+            moduleListSize += (p1_gridX * p1_gridY);
         if (playerPosOccupied[1] == true)
-            rObjListSize += (p2_gridX * p2_gridY);
+            moduleListSize += (p2_gridX * p2_gridY);
         if (playerPosOccupied[2] == true)
-            rObjListSize += (p3_gridX * p3_gridY);
+            moduleListSize += (p3_gridX * p3_gridY);
         if (playerPosOccupied[3] == true)
-            rObjListSize += (p4_gridX * p4_gridY);
-        rObjList = new rObjectType[rObjListSize];
+            moduleListSize += (p4_gridX * p4_gridY);
+        moduleList = new moduleType[moduleListSize];
 
-        int rObjectCount = 0;
+        int moduleCount = 0;
         if (playerPosOccupied[0] == true)
         {
-            //Generate rObjList objects for PLAYER 1
-            rObjList = GenerateRandomObjects(rObjList, 0, p1_PlayerControlDeck, p1_gridX, p1_gridY, 1);
-            Transform p1_RObjectTransform = p1_PlayerControlDeck.transform.Find("RObjects");
-            p1_RObjectTransform.localRotation = Quaternion.Euler(new Vector3(45f, 0f, 0f));
-            for (int i = 0; i < p1_RObjectTransform.childCount; i++)
+            //Generate moduleList objects for PLAYER 1
+            moduleList = GenerateRandomModules(moduleList, 0, p1_PlayerControlDeck, p1_gridX, p1_gridY, 1);
+            Transform p1_moduleTransform = p1_PlayerControlDeck.transform.Find("Modules");
+            p1_moduleTransform.localRotation = Quaternion.Euler(new Vector3(45f, 0f, 0f));
+            for (int i = 0; i < p1_moduleTransform.childCount; i++)
             {
-                GameObject rObjectEmpty = p1_RObjectTransform.GetChild(i).gameObject;
-                GameObject rObject = PhotonNetwork.InstantiateSceneObject("Prefabs/" + rObjectEmpty.name, rObjectEmpty.transform.position, rObjectEmpty.transform.rotation, 0, rObjList[rObjectCount].data);
-                rObjList[rObjectCount].rObject = rObject;
-                rObjectCount++;
+                GameObject moduleEmpty = p1_moduleTransform.GetChild(i).gameObject;
+                GameObject module = PhotonNetwork.InstantiateSceneObject("Prefabs/" + moduleEmpty.name, moduleEmpty.transform.position, moduleEmpty.transform.rotation, 0, moduleList[moduleCount].data);
+                moduleList[moduleCount].module = module;
+                moduleCount++;
             }
         }
         if (playerPosOccupied[1] == true)
         {
-            //Generate rObjList objects for PLAYER 2
-            rObjList = GenerateRandomObjects(rObjList, (p1_gridX * p1_gridY), p2_PlayerControlDeck, p2_gridX, p2_gridY, 2);
-            Transform p2_RObjectTransform = p2_PlayerControlDeck.transform.Find("RObjects");
-            p2_RObjectTransform.localRotation = Quaternion.Euler(new Vector3(45f, 0f, 0f));
-            for (int i = 0; i < p2_RObjectTransform.childCount; i++)
+            //Generate moduleList objects for PLAYER 2
+            moduleList = GenerateRandomModules(moduleList, (p1_gridX * p1_gridY), p2_PlayerControlDeck, p2_gridX, p2_gridY, 2);
+            Transform p2_moduleTransform = p2_PlayerControlDeck.transform.Find("Modules");
+            p2_moduleTransform.localRotation = Quaternion.Euler(new Vector3(45f, 0f, 0f));
+            for (int i = 0; i < p2_moduleTransform.childCount; i++)
             {
-                GameObject rObjectEmpty = p2_RObjectTransform.GetChild(i).gameObject;
-                GameObject rObject = PhotonNetwork.InstantiateSceneObject("Prefabs/" + rObjectEmpty.name, rObjectEmpty.transform.position, rObjectEmpty.transform.rotation, 0, rObjList[rObjectCount].data);
-                rObjList[rObjectCount].rObject = rObject;
+                GameObject moduleEmpty = p2_moduleTransform.GetChild(i).gameObject;
+                GameObject module = PhotonNetwork.InstantiateSceneObject("Prefabs/" + moduleEmpty.name, moduleEmpty.transform.position, moduleEmpty.transform.rotation, 0, moduleList[moduleCount].data);
+                moduleList[moduleCount].module = module;
 
-                rObjectCount++;
+                moduleCount++;
             }
         }
         if (playerPosOccupied[2] == true)
         {
-            //Generate rObjList objects for PLAYER 3
-            rObjList = GenerateRandomObjects(rObjList, (p1_gridX * p1_gridY) + (p2_gridX * p2_gridY), p3_PlayerControlDeck, p3_gridX, p3_gridY, 3);
-            Transform p3_RObjectTransform = p3_PlayerControlDeck.transform.Find("RObjects");
-            p3_RObjectTransform.localRotation = Quaternion.Euler(new Vector3(45f, 0f, 0f));
-            for (int i = 0; i < p3_RObjectTransform.childCount; i++)
+            //Generate moduleList objects for PLAYER 3
+            moduleList = GenerateRandomModules(moduleList, (p1_gridX * p1_gridY) + (p2_gridX * p2_gridY), p3_PlayerControlDeck, p3_gridX, p3_gridY, 3);
+            Transform p3_moduleTransform = p3_PlayerControlDeck.transform.Find("Modules");
+            p3_moduleTransform.localRotation = Quaternion.Euler(new Vector3(45f, 0f, 0f));
+            for (int i = 0; i < p3_moduleTransform.childCount; i++)
             {
-                GameObject rObjectEmpty = p3_RObjectTransform.GetChild(i).gameObject;
-                GameObject rObject = PhotonNetwork.InstantiateSceneObject("Prefabs/" + rObjectEmpty.name, rObjectEmpty.transform.position, rObjectEmpty.transform.rotation, 0, rObjList[rObjectCount].data);
-                rObjList[rObjectCount].rObject = rObject;
-                rObjectCount++;
+                GameObject moduleEmpty = p3_moduleTransform.GetChild(i).gameObject;
+                GameObject module = PhotonNetwork.InstantiateSceneObject("Prefabs/" + moduleEmpty.name, moduleEmpty.transform.position, moduleEmpty.transform.rotation, 0, moduleList[moduleCount].data);
+                moduleList[moduleCount].module = module;
+                moduleCount++;
             }
         }
         if (playerPosOccupied[3] == true)
         {
-            //Generate rObjList objects for PLAYER 4
-            rObjList = GenerateRandomObjects(rObjList, (p1_gridX * p1_gridY) + (p2_gridX * p2_gridY) + (p3_gridX * p3_gridY), p4_PlayerControlDeck, p4_gridX, p4_gridY, 4);
-            Transform p4_RObjectTransform = p4_PlayerControlDeck.transform.Find("RObjects");
-            p4_RObjectTransform.localRotation = Quaternion.Euler(new Vector3(45f, 0f, 0f));
-            for (int i = 0; i < p4_RObjectTransform.childCount; i++)
+            //Generate moduleList objects for PLAYER 4
+            moduleList = GenerateRandomModules(moduleList, (p1_gridX * p1_gridY) + (p2_gridX * p2_gridY) + (p3_gridX * p3_gridY), p4_PlayerControlDeck, p4_gridX, p4_gridY, 4);
+            Transform p4_moduleTransform = p4_PlayerControlDeck.transform.Find("Modules");
+            p4_moduleTransform.localRotation = Quaternion.Euler(new Vector3(45f, 0f, 0f));
+            for (int i = 0; i < p4_moduleTransform.childCount; i++)
             {
-                GameObject rObjectEmpty = p4_RObjectTransform.GetChild(i).gameObject;
-                GameObject rObject = PhotonNetwork.InstantiateSceneObject("Prefabs/" + rObjectEmpty.name, rObjectEmpty.transform.position, rObjectEmpty.transform.rotation, 0, rObjList[rObjectCount].data);
-                rObjList[rObjectCount].rObject = rObject;
-                rObjectCount++;
+                GameObject moduleEmpty = p4_moduleTransform.GetChild(i).gameObject;
+                GameObject module = PhotonNetwork.InstantiateSceneObject("Prefabs/" + moduleEmpty.name, moduleEmpty.transform.position, moduleEmpty.transform.rotation, 0, moduleList[moduleCount].data);
+                moduleList[moduleCount].module = module;
+                moduleCount++;
             }
         }
-        //Debug.Log("rObjectCount: " + rObjectCount);
+        //Debug.Log("moduleCount: " + moduleCount);
     }
 
-    rObjectType[] GenerateRandomObjects(rObjectType[] inRObjList, int intRObjListSize, GameObject playerControlDeck, int gridX, int gridY, int playerNum)
+    moduleType[] GenerateRandomModules(moduleType[] inModuleList, int intModuleListSize, GameObject playerControlDeck, int gridX, int gridY, int playerNum)
     {
-        //Destroy all objects within the players RObjects list
-        Transform rObjectTransform = playerControlDeck.transform.Find("RObjects");
-        for (int i = rObjectTransform.childCount - 1; i >= 0; --i)
+        //Destroy all objects within the players Modules list
+        Transform moduleTransform = playerControlDeck.transform.Find("Modules");
+        for (int i = moduleTransform.childCount - 1; i >= 0; --i)
         {
-            GameObject.Destroy(rObjectTransform.GetChild(i).gameObject);
+            GameObject.Destroy(moduleTransform.GetChild(i).gameObject);
         }
-        rObjectTransform.DetachChildren();
-        rObjectTransform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+        moduleTransform.DetachChildren();
+        moduleTransform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
 
-        rObjectType[] outRObjList = inRObjList;
+        moduleType[] outModuleList = inModuleList;
 
         string newCommandText;
 
@@ -479,7 +479,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         float yQuaternion = buttonInstance.transform.rotation.eulerAngles.y + playerControlDeck.transform.rotation.eulerAngles.y;
         float zQuaternion = buttonInstance.transform.rotation.eulerAngles.z + playerControlDeck.transform.rotation.eulerAngles.z;
 
-        //for each grid position generate a random object and add it to the random object list
+        //for each grid position generate a module and add it to the module list
         for (int x = 0; x < gridX; x++)
         {
             if (x > 4)
@@ -502,20 +502,20 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 if (gridY == 1)
                     yOffset += 0.5f;
 
-                rObjectType rObjectType = new rObjectType();
-                GameObject randObjectEmpty;
+                moduleType moduleType = new moduleType();
+                GameObject randModuleEmpty;
                 object[] data = new object[3];
-                //roll for a random game object
-                int commandType = Random.Range(0, numOfDiffGameObjects);
+                //roll for a module
+                int commandType = Random.Range(0, numOfDiffModules);
 
                 Vector3 vector3 = new Vector3();
-                //for the given random game object create a copy of it to randObject
+                //for the given module create a copy of it to randModule
                 switch (commandType)
                 {
                     case buttonCommand:
                         //get a random command text based on the easy/medium/hard arrays
                         newCommandText = GetRandomCommandText(commandType, ref buttonCommandArray_EASY, ref buttonCommandArray_MEDIUM, ref buttonCommandArray_HARD, ref usedCommandArray);
-                        //copy randomObject from the default wLever
+                        //set modules position/rotation based on which player it's for
                         if (playerNum == 1)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.08f);
                         if (playerNum == 2)
@@ -524,19 +524,16 @@ public class Mastermind_Script : Photon.MonoBehaviour
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.08f);
                         if (playerNum == 4)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.08f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
-                        //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
-                        //    vector3,
-                        //    Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
-                        randObjectEmpty = new GameObject();
-                        randObjectEmpty.transform.position = vector3;
-                        randObjectEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion));
-                        randObjectEmpty.name = "Button";
-                        randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
+                        randModuleEmpty = new GameObject();
+                        randModuleEmpty.transform.position = vector3;
+                        randModuleEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion));
+                        randModuleEmpty.name = "Button";
+                        randModuleEmpty.transform.parent = playerControlDeck.transform.Find("Modules").transform;
                         break;
                     case dialCommand:
                         //get a random command text based on the easy/medium/hard arrays
                         newCommandText = GetRandomCommandText(commandType, ref dialCommandArray_EASY, ref dialCommandArray_MEDIUM, ref dialCommandArray_HARD, ref usedCommandArray);
-                        //copy randomObject from the default wLever
+                        //set modules position/rotation based on which player it's for
                         if (playerNum == 1)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.05f);
                         if (playerNum == 2)
@@ -545,19 +542,16 @@ public class Mastermind_Script : Photon.MonoBehaviour
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.05f);
                         if (playerNum == 4)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
-                        //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Dial"),
-                        //    vector3,
-                        //    Quaternion.Euler(new Vector3(xQuaternion - 90, yQuaternion + 90, zQuaternion)));
-                        randObjectEmpty = new GameObject();
-                        randObjectEmpty.transform.position = vector3;
-                        randObjectEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion - 90, yQuaternion + 90, zQuaternion));
-                        randObjectEmpty.name = "Dial";
-                        randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
+                        randModuleEmpty = new GameObject();
+                        randModuleEmpty.transform.position = vector3;
+                        randModuleEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion - 90, yQuaternion + 90, zQuaternion));
+                        randModuleEmpty.name = "Dial";
+                        randModuleEmpty.transform.parent = playerControlDeck.transform.Find("Modules").transform;
                         break;
                     case lLeverCommand:
                         //get a random command text based on the easy/medium/hard arrays
                         newCommandText = GetRandomCommandText(commandType, ref lLeverCommandArray_EASY, ref lLeverCommandArray_MEDIUM, ref lLeverCommandArray_HARD, ref usedCommandArray);
-                        //copy randomObject from the default wLever
+                        //set modules position/rotation based on which player it's for
                         if (playerNum == 1)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.147f);
                         if (playerNum == 2)
@@ -566,19 +560,16 @@ public class Mastermind_Script : Photon.MonoBehaviour
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.147f);
                         if (playerNum == 4)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.147f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
-                        //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/L_Lever"),
-                        //    vector3,
-                        //    Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
-                        randObjectEmpty = new GameObject();
-                        randObjectEmpty.transform.position = vector3;
-                        randObjectEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion));
-                        randObjectEmpty.name = "L_Lever";
-                        randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
+                        randModuleEmpty = new GameObject();
+                        randModuleEmpty.transform.position = vector3;
+                        randModuleEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion));
+                        randModuleEmpty.name = "L_Lever";
+                        randModuleEmpty.transform.parent = playerControlDeck.transform.Find("Modules").transform;
                         break;
                     case lightswitchCommand:
                         //get a random command text based on the easy/medium/hard arrays
                         newCommandText = GetRandomCommandText(commandType, ref lightswitchCommandArray_EASY, ref lightswitchCommandArray_MEDIUM, ref lightswitchCommandArray_HARD, ref usedCommandArray);
-                        //copy randomObject from the default wLever
+                        //set modules position/rotation based on which player it's for
                         if (playerNum == 1)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.39f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.05f);
                         if (playerNum == 2)
@@ -587,19 +578,16 @@ public class Mastermind_Script : Photon.MonoBehaviour
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.39f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.05f);
                         if (playerNum == 4)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.39f + (0.3f * xOffset));
-                        //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Lightswitch"),
-                        //    vector3,
-                        //    Quaternion.Euler(new Vector3(xQuaternion, yQuaternion + 90, zQuaternion)));
-                        randObjectEmpty = new GameObject();
-                        randObjectEmpty.transform.position = vector3;
-                        randObjectEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion, yQuaternion + 90, zQuaternion));
-                        randObjectEmpty.name = "Lightswitch";
-                        randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
+                        randModuleEmpty = new GameObject();
+                        randModuleEmpty.transform.position = vector3;
+                        randModuleEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion, yQuaternion + 90, zQuaternion));
+                        randModuleEmpty.name = "Lightswitch";
+                        randModuleEmpty.transform.parent = playerControlDeck.transform.Find("Modules").transform;
                         break;
                     case shifterCommand:
                         //get a random command text based on the easy/medium/hard arrays
                         newCommandText = GetRandomCommandText(commandType, ref shifterCommandArray_EASY, ref shifterCommandArray_MEDIUM, ref shifterCommandArray_HARD, ref usedCommandArray);
-                        //copy randomObject from the default wLever
+                        //set modules position/rotation based on which player it's for
                         if (playerNum == 1)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.05f);
                         if (playerNum == 2)
@@ -608,19 +596,16 @@ public class Mastermind_Script : Photon.MonoBehaviour
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.05f);
                         if (playerNum == 4)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
-                        //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Shifter"),
-                        //    vector3,
-                        //    Quaternion.Euler(new Vector3(xQuaternion + 180, yQuaternion + 90, zQuaternion)));
-                        randObjectEmpty = new GameObject();
-                        randObjectEmpty.transform.position = vector3;
-                        randObjectEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion + 180, yQuaternion + 90, zQuaternion));
-                        randObjectEmpty.name = "Shifter";
-                        randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
+                        randModuleEmpty = new GameObject();
+                        randModuleEmpty.transform.position = vector3;
+                        randModuleEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion + 180, yQuaternion + 90, zQuaternion));
+                        randModuleEmpty.name = "Shifter";
+                        randModuleEmpty.transform.parent = playerControlDeck.transform.Find("Modules").transform;
                         break;
                     case sliderCommand:
                         //get a random command text based on the easy/medium/hard arrays
                         newCommandText = GetRandomCommandText(commandType, ref sliderCommandArray_EASY, ref sliderCommandArray_MEDIUM, ref sliderCommandArray_HARD, ref usedCommandArray);
-                        //copy randomObject from the default wLever
+                        //set modules position/rotation based on which player it's for
                         if (playerNum == 1)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.05f);
                         if (playerNum == 2)
@@ -629,19 +614,16 @@ public class Mastermind_Script : Photon.MonoBehaviour
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.05f);
                         if (playerNum == 4)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
-                        //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Slider"),
-                        //    vector3,
-                        //    Quaternion.Euler(new Vector3(xQuaternion + 270, yQuaternion + 90, zQuaternion)));
-                        randObjectEmpty = new GameObject();
-                        randObjectEmpty.transform.position = vector3;
-                        randObjectEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion + 270, yQuaternion + 90, zQuaternion));
-                        randObjectEmpty.name = "Slider";
-                        randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
+                        randModuleEmpty = new GameObject();
+                        randModuleEmpty.transform.position = vector3;
+                        randModuleEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion + 270, yQuaternion + 90, zQuaternion));
+                        randModuleEmpty.name = "Slider";
+                        randModuleEmpty.transform.parent = playerControlDeck.transform.Find("Modules").transform;
                         break;
                     case valveCommand:
                         //get a random command text based on the easy/medium/hard arrays
                         newCommandText = GetRandomCommandText(commandType, ref valveCommandArray_EASY, ref valveCommandArray_MEDIUM, ref valveCommandArray_HARD, ref usedCommandArray);
-                        //copy randomObject from the default wLever
+                        //set modules position/rotation based on which player it's for
                         if (playerNum == 1)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.096f);
                         if (playerNum == 2)
@@ -650,19 +632,16 @@ public class Mastermind_Script : Photon.MonoBehaviour
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.096f);
                         if (playerNum == 4)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.096f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
-                        //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Valve"),
-                        //    vector3,
-                        //    Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion + 90)));
-                        randObjectEmpty = new GameObject();
-                        randObjectEmpty.transform.position = vector3;
-                        randObjectEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion + 90));
-                        randObjectEmpty.name = "Valve";
-                        randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
+                        randModuleEmpty = new GameObject();
+                        randModuleEmpty.transform.position = vector3;
+                        randModuleEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion + 90));
+                        randModuleEmpty.name = "Valve";
+                        randModuleEmpty.transform.parent = playerControlDeck.transform.Find("Modules").transform;
                         break;
                     case wLeverCommand:
                         //get a random command text based on the easy/medium/hard arrays
                         newCommandText = GetRandomCommandText(commandType, ref wLeverCommandArray_EASY, ref wLeverCommandArray_MEDIUM, ref wLeverCommandArray_HARD, ref usedCommandArray);
-                        //copy randomObject from the default wLever
+                        //set modules position/rotation based on which player it's for
                         if (playerNum == 1)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.152f);
                         if (playerNum == 2)
@@ -671,19 +650,16 @@ public class Mastermind_Script : Photon.MonoBehaviour
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.152f);
                         if (playerNum == 4)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.152f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
-                        //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/W_Lever"),
-                        //    vector3,
-                        //    Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
-                        randObjectEmpty = new GameObject();
-                        randObjectEmpty.transform.position = vector3;
-                        randObjectEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion));
-                        randObjectEmpty.name = "W_Lever";
-                        randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
+                        randModuleEmpty = new GameObject();
+                        randModuleEmpty.transform.position = vector3;
+                        randModuleEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion));
+                        randModuleEmpty.name = "W_Lever";
+                        randModuleEmpty.transform.parent = playerControlDeck.transform.Find("Modules").transform;
                         break;
                     default:
                         //get a random command text based on the easy/medium/hard arrays
                         newCommandText = GetRandomCommandText(commandType, ref buttonCommandArray_EASY, ref buttonCommandArray_MEDIUM, ref buttonCommandArray_HARD, ref usedCommandArray);
-                        //copy randomObject from the default wLever
+                        //set modules position/rotation based on which player it's for
                         if (playerNum == 1)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.09f);
                         if (playerNum == 2)
@@ -692,14 +668,11 @@ public class Mastermind_Script : Photon.MonoBehaviour
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.09f);
                         if (playerNum == 4)
                             vector3 = new Vector3(playerControlDeck.transform.position.x - 0.09f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
-                        //randObject = (GameObject)Instantiate(Resources.Load("Prefabs/Button"),
-                        //    vector3,
-                        //    Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion)));
-                        randObjectEmpty = new GameObject();
-                        randObjectEmpty.transform.position = vector3;
-                        randObjectEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion));
-                        randObjectEmpty.name = "Button";
-                        randObjectEmpty.transform.parent = playerControlDeck.transform.Find("RObjects").transform;
+                        randModuleEmpty = new GameObject();
+                        randModuleEmpty.transform.position = vector3;
+                        randModuleEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion));
+                        randModuleEmpty.name = "Button";
+                        randModuleEmpty.transform.parent = playerControlDeck.transform.Find("Modules").transform;
                         break;
                 }
 
@@ -722,17 +695,17 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 }
 
                 data[0] = newCommandText;
-                data[1] = intRObjListSize + ((x * gridY) + y);
+                data[1] = intModuleListSize + ((x * gridY) + y);
                 data[2] = playerNum;
 
-                //add randomObject to grid
-                rObjectType.rObject = randObjectEmpty;
-                rObjectType.data = data;
-                outRObjList[intRObjListSize + ((x * gridY) + y)] = rObjectType;
+                //add randomModule to grid
+                moduleType.module = randModuleEmpty;
+                moduleType.data = data;
+                outModuleList[intModuleListSize + ((x * gridY) + y)] = moduleType;
             }
         }
 
-        return outRObjList;
+        return outModuleList;
     }
 
     private string GetRandomCommandText(int commandType, ref ArrayList commandArray_EASY, ref ArrayList commandArray_MEDIUM, ref ArrayList commandArray_HARD, ref ArrayList usedCommandArray)
@@ -858,14 +831,14 @@ public class Mastermind_Script : Photon.MonoBehaviour
         return commandText;
     }
 
-    void DestroyRandomObjects()
+    void DestroyAllModules()
     {
-        //Destroy all rObjects on all clients
-        if (rObjList != null)
+        //Destroy all Modules on all clients
+        if (moduleList != null)
         {
-            foreach (rObjectType rObjectType in rObjList)
+            foreach (moduleType moduleType in moduleList)
             {
-                rObjectType.rObject.GetPhotonView().RPC("RPCDestroy", PhotonTargets.All);
+                moduleType.module.GetPhotonView().RPC("RPCDestroy", PhotonTargets.All);
             }
         }
     }
@@ -937,8 +910,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
         ExitGames.Client.Photon.Hashtable ht = new ExitGames.Client.Photon.Hashtable() { { PhotonConstants.level, level } };
         PhotonNetwork.room.SetCustomProperties(ht);
 
-        //Destroy all rObjects inside of rObjList
-        DestroyRandomObjects();
+        //Destroy all Modules inside of moduleList
+        DestroyAllModules();
 
         //Set all timers to 0
         if (playerPosOccupied[0] == true)
@@ -959,13 +932,13 @@ public class Mastermind_Script : Photon.MonoBehaviour
         if (playerPosOccupied[3] == true)
             p4_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
 
-        //Set up level variables (score to win this round, number of seconds for each command, number of random objects to spawn per player)
+        //Set up level variables (score to win this round, number of seconds for each command, number of modules to spawn per player)
         SetupLevel();
 
         yield return new WaitForSeconds(3);
 
         //Count down from 3 to next level
-        //Generate new objects
+        //Generate new modules
         //And display "Start!" command
         StartCoroutine(StartNextRoundIn(3));
 
@@ -1023,7 +996,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         }
     }
 
-    //Display a countdown till next round, call to generate the random objects, and display "START!"
+    //Display a countdown till next round, call to generate the random modules, and display "START!"
     IEnumerator StartNextRoundIn(int count)
     {
         p1_isDisplayStart = true;
@@ -1040,8 +1013,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
             yield return new WaitForSeconds(1);
         }
 
-        //Generate the random objects
-        GenerateRandomObjects();
+        //Generate the random modules
+        GenerateAllPlayerModules();
 
         //Start the next round!
         UpdateAllConsoles(" START!");
@@ -1251,16 +1224,16 @@ public class Mastermind_Script : Photon.MonoBehaviour
         yield return 0;
         yield return new WaitForSeconds(1);
 
-        //Roll random number to decide new command from the random object list
-        p1_rCommand = Random.Range(0, rObjList.Length);
+        //Roll random number to decide new command from the module list
+        p1_rCommand = Random.Range(0, moduleList.Length);
 
-        //get random game object from random object list
-        GameObject rObj = rObjList[p1_rCommand].rObject;
+        //get module from module list
+        GameObject module = moduleList[p1_rCommand].module;
 
         bool isCommandSet = false;
         try
         {
-            string[] rCommandList = GetRandomCommand(rObj, p1_rCommand);
+            string[] rCommandList = GetRandomCommand(module, p1_rCommand);
             p1_rCommand = int.Parse(rCommandList[0]);
             string message = rCommandList[1];
 
@@ -1296,16 +1269,16 @@ public class Mastermind_Script : Photon.MonoBehaviour
         yield return 0;
         yield return new WaitForSeconds(1);
 
-        //Roll random number to decide new command from the random object list
-        p2_rCommand = Random.Range(0, rObjList.Length);
+        //Roll random number to decide new command from the module list
+        p2_rCommand = Random.Range(0, moduleList.Length);
 
-        //get random game object from random object list
-        GameObject rObj = rObjList[p2_rCommand].rObject;
+        //get module from module list
+        GameObject module = moduleList[p2_rCommand].module;
 
         bool isCommandSet = false;
         try
         {
-            string[] rCommandList = GetRandomCommand(rObj, p2_rCommand);
+            string[] rCommandList = GetRandomCommand(module, p2_rCommand);
             p2_rCommand = int.Parse(rCommandList[0]);
             string message = rCommandList[1];
 
@@ -1341,16 +1314,16 @@ public class Mastermind_Script : Photon.MonoBehaviour
         yield return 0;
         yield return new WaitForSeconds(1);
 
-        //Roll random number to decide new command from the random object list
-        p3_rCommand = Random.Range(0, rObjList.Length);
+        //Roll random number to decide new command from the module list
+        p3_rCommand = Random.Range(0, moduleList.Length);
 
-        //get random game object from random object list
-        GameObject rObj = rObjList[p3_rCommand].rObject;
+        //get module from module list
+        GameObject module = moduleList[p3_rCommand].module;
 
         bool isCommandSet = false;
         try
         {
-            string[] rCommandList = GetRandomCommand(rObj, p3_rCommand);
+            string[] rCommandList = GetRandomCommand(module, p3_rCommand);
             p3_rCommand = int.Parse(rCommandList[0]);
             string message = rCommandList[1];
 
@@ -1386,16 +1359,16 @@ public class Mastermind_Script : Photon.MonoBehaviour
         yield return 0;
         yield return new WaitForSeconds(1);
 
-        //Roll random number to decide new command from the random object list
-        p4_rCommand = Random.Range(0, rObjList.Length);
+        //Roll random number to decide new command from the module list
+        p4_rCommand = Random.Range(0, moduleList.Length);
 
-        //get random game object from random object list
-        GameObject rObj = rObjList[p4_rCommand].rObject;
+        //get module from module list
+        GameObject module = moduleList[p4_rCommand].module;
 
         bool isCommandSet = false;
         try
         {
-            string[] rCommandList = GetRandomCommand(rObj, p4_rCommand);
+            string[] rCommandList = GetRandomCommand(module, p4_rCommand);
             p4_rCommand = int.Parse(rCommandList[0]);
             string message = rCommandList[1];
 
@@ -1422,24 +1395,24 @@ public class Mastermind_Script : Photon.MonoBehaviour
         p4_isDisplayingCommand = false;
     }
 
-    string[] GetRandomCommand(GameObject rObj, int rCommand)
+    string[] GetRandomCommand(GameObject module, int rCommand)
     {
         int commandType = buttonCommand;
-        if (rObj.name.Contains("Button"))
+        if (module.name.Contains("Button"))
             commandType = buttonCommand;
-        else if (rObj.name.Contains("Dial"))
+        else if (module.name.Contains("Dial"))
             commandType = dialCommand;
-        else if (rObj.name.Contains("L_Lever"))
+        else if (module.name.Contains("L_Lever"))
             commandType = lLeverCommand;
-        else if (rObj.name.Contains("Lightswitch"))
+        else if (module.name.Contains("Lightswitch"))
             commandType = lightswitchCommand;
-        else if (rObj.name.Contains("Shifter"))
+        else if (module.name.Contains("Shifter"))
             commandType = shifterCommand;
-        else if (rObj.name.Contains("Slider"))
+        else if (module.name.Contains("Slider"))
             commandType = sliderCommand;
-        else if (rObj.name.Contains("Valve"))
+        else if (module.name.Contains("Valve"))
             commandType = valveCommand;
-        else if (rObj.name.Contains("W_Lever"))
+        else if (module.name.Contains("W_Lever"))
             commandType = wLeverCommand;
 
         string message = "";
@@ -1449,12 +1422,12 @@ public class Mastermind_Script : Photon.MonoBehaviour
         {
             case buttonCommand:
                 //Button
-                string buttonText = rObj.GetComponent<Button_Script>().newName;
+                string buttonText = module.GetComponent<Button_Script>().newName;
                 message = "Engage " + buttonText;
                 break;
             case dialCommand:
                 //Dial
-                Dial_Script dialScript = rObj.GetComponent<Dial_Script>();
+                Dial_Script dialScript = module.GetComponent<Dial_Script>();
                 string dialText = dialScript.newName;
                 newRCommand = Random.Range(0, 5);
                 while (newRCommand == dialScript.dialPosition)
@@ -1466,7 +1439,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 break;
             case lLeverCommand:
                 //L_Lever
-                L_Lever_Script lLeverScript = rObj.GetComponent<L_Lever_Script>();
+                L_Lever_Script lLeverScript = module.GetComponent<L_Lever_Script>();
                 string lLeverText = lLeverScript.newName;
                 message = "Turn ";
                 if (lLeverScript.isLLeverUp)
@@ -1483,7 +1456,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 break;
             case lightswitchCommand:
                 //L_Lever
-                Lightswitch_Script lightswitchScript = rObj.GetComponent<Lightswitch_Script>();
+                Lightswitch_Script lightswitchScript = module.GetComponent<Lightswitch_Script>();
                 string lightswitchText = lightswitchScript.newName;
                 message = "Turn ";
                 if (lightswitchScript.isLightswitchOn)
@@ -1500,7 +1473,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 break;
             case shifterCommand:
                 //Dial
-                Shifter_Script shifterScript = rObj.GetComponent<Shifter_Script>();
+                Shifter_Script shifterScript = module.GetComponent<Shifter_Script>();
                 string shifterText = shifterScript.newName;
                 newRCommand = Random.Range(0, 3);
                 while (newRCommand == shifterScript.shifterPosition)
@@ -1521,7 +1494,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 break;
             case sliderCommand:
                 //Dial
-                Slider_Script sliderScript = rObj.GetComponent<Slider_Script>();
+                Slider_Script sliderScript = module.GetComponent<Slider_Script>();
                 string sliderText = sliderScript.newName;
                 newRCommand = Random.Range(0, 4);
                 while (newRCommand == sliderScript.sliderPosition)
@@ -1542,7 +1515,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 break;
             case valveCommand:
                 //Valve
-                Valve_Script valveScript = rObj.GetComponent<Valve_Script>();
+                Valve_Script valveScript = module.GetComponent<Valve_Script>();
                 string valveText = valveScript.newName;
                 newRCommand = Random.Range(0, 2);
                 message = "";
@@ -1560,8 +1533,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 break;
             case wLeverCommand:
                 //W_Lever
-                string wLeverText = rObj.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text;
-                W_Lever_Script wLeverHandleScript = rObj.GetComponent<W_Lever_Script>();
+                string wLeverText = module.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text;
+                W_Lever_Script wLeverHandleScript = module.GetComponent<W_Lever_Script>();
                 message = "";
                 if (wLeverHandleScript.isWLeverUp)
                 {
@@ -1576,7 +1549,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 message += wLeverText;
                 break;
             default:
-                Debug.LogError("Error - name: " + rObj.name);
+                Debug.LogError("Error - name: " + module.name);
                 break;
         }
 

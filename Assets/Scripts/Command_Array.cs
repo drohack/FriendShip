@@ -61,8 +61,27 @@ public class Command_Array : MonoBehaviour {
         "Boombbox",
         "Cable"
     };
-    //planets
+    //planets & galaxies
     public readonly ArrayList dialCommandArray_MEDIUM = new ArrayList
+    {
+        "Mercury",
+        "Venus",
+        "Earth",
+        "Mars",
+        "Jupiter",
+        "Saturn",
+        "Uranus",
+        "Neptune",
+        "Andromeda",
+        "The Cosmos",
+        "Large Magellanic",
+        "Small Magellanic",
+        "Triangulum",
+        "Centaurus A",
+        "Milky Way"
+    };
+    //hard planets & made up words
+    public readonly ArrayList dialCommandArray_HARD = new ArrayList
     {
         "Proxima Centauri b",
         "Kepler-9b",
@@ -73,11 +92,7 @@ public class Command_Array : MonoBehaviour {
         "HATS-10b",
         "KOI-192 b",
         "Lupus-TR 3b",
-        "NN Ser (AB) c"
-    };
-    //made up words
-    public readonly ArrayList dialCommandArray_HARD = new ArrayList
-    {
+        "NN Ser (AB) c",
         "Carbonok Betanome",
         "Cortate Nonon",
         "Wasapian Xenodeo",
