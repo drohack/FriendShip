@@ -120,6 +120,10 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private int p4_gridX = 4;           // The grid which the modules get placed
     private int p4_gridY = 2;           // The grid which the modules get placed
 
+    //##################################################################################################################################
+    //                                              INITIAL LOAD OF MASTERMIND
+    //##################################################################################################################################
+
     // Use this for initialization
     void Start()
     {
@@ -138,44 +142,213 @@ public class Mastermind_Script : Photon.MonoBehaviour
             playerPosOccupied = (bool[])PhotonNetwork.room.customProperties[PhotonConstants.pPosOccupied];
             Debug.Log("pPosOccupied: " + playerPosOccupied[0] + ", " + playerPosOccupied[1] + ", " + playerPosOccupied[2] + ", " + playerPosOccupied[3]);
 
-            //Get Timer object
-            timerScript = GameObject.FindGameObjectWithTag("Timer").GetComponent<Timer_Script>();
+            //Wait for all the players to load into the scene before starting the game
+            StartCoroutine(WaitForPlayersToSpawn());
 
-            // Set command arrays from Command_Array.cs so we can take away items from the array list so we have no repeats
-            Command_Array commandArray = GetComponent<Command_Array>();
-            pullcordCommandText = Command_Array.pullcordText;
-            buttonCommandArray_EASY = commandArray.buttonCommandArray_EASY;
-            dialCommandArray_EASY = commandArray.dialCommandArray_EASY;
-            lLeverCommandArray_EASY = commandArray.lLeverCommandArray_EASY;
-            lightswitchCommandArray_EASY = commandArray.lightswitchCommandArray_EASY;
-            shifterCommandArray_EASY = commandArray.shifterCommandArray_EASY;
-            sliderCommandArray_EASY = commandArray.sliderCommandArray_EASY;
-            valveCommandArray_EASY = commandArray.valveCommandArray_EASY;
-            wLeverCommandArray_EASY = commandArray.wLeverCommandArray_EASY;
-            buttonCommandArray_MEDIUM = commandArray.buttonCommandArray_MEDIUM;
-            dialCommandArray_MEDIUM = commandArray.dialCommandArray_MEDIUM;
-            lLeverCommandArray_MEDIUM = commandArray.lLeverCommandArray_MEDIUM;
-            lightswitchCommandArray_MEDIUM = commandArray.lightswitchCommandArray_MEDIUM;
-            shifterCommandArray_MEDIUM = commandArray.shifterCommandArray_MEDIUM;
-            sliderCommandArray_MEDIUM = commandArray.sliderCommandArray_MEDIUM;
-            valveCommandArray_MEDIUM = commandArray.valveCommandArray_MEDIUM;
-            wLeverCommandArray_MEDIUM = commandArray.wLeverCommandArray_MEDIUM;
-            buttonCommandArray_HARD = commandArray.buttonCommandArray_HARD;
-            dialCommandArray_HARD = commandArray.dialCommandArray_HARD;
-            lLeverCommandArray_HARD = commandArray.lLeverCommandArray_HARD;
-            lightswitchCommandArray_HARD = commandArray.lightswitchCommandArray_HARD;
-            shifterCommandArray_HARD = commandArray.shifterCommandArray_HARD;
-            sliderCommandArray_HARD = commandArray.sliderCommandArray_HARD;
-            valveCommandArray_HARD = commandArray.valveCommandArray_HARD;
-            wLeverCommandArray_HARD = commandArray.wLeverCommandArray_HARD;
+            //Initialize all variables at start of game
+            Initialize();
 
-            //Set up level variables (score to win this round, number of seconds for each command, number of modules to spawn per player)
+            //Set up level variables for Custom Room Property "Level" (score to win this round, number of seconds for each command, number of modules to spawn per player)
             SetupLevel();
 
             isLoadingNextLevel = false;
 
-            StartCoroutine(WaitForPlayersToSpawn());
+            //Count down from 3 to next level
+            //Generate new modules
+            //And display "Start!" command
+            StartCoroutine(StartNextRoundIn(3));
         }
+    }
+
+    IEnumerator WaitForPlayersToSpawn()
+    {
+        GameObject[] playeModules = GameObject.FindGameObjectsWithTag("Player");
+        while (playeModules.Length < numPlayers)
+        {
+            playeModules = GameObject.FindGameObjectsWithTag("Player");
+            Debug.Log("numPlayers: " + numPlayers + " playerModules.Length: " + playeModules.Length);
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    void Initialize()
+    {
+        score = 0;
+
+        //Get Timer object
+        timerScript = GameObject.FindGameObjectWithTag("Timer").GetComponent<Timer_Script>();
+
+        // Set command arrays from Command_Array.cs so we can take away items from the array list so we have no repeats
+        Command_Array commandArray = GetComponent<Command_Array>();
+        pullcordCommandText = Command_Array.pullcordText;
+        buttonCommandArray_EASY = commandArray.buttonCommandArray_EASY;
+        dialCommandArray_EASY = commandArray.dialCommandArray_EASY;
+        lLeverCommandArray_EASY = commandArray.lLeverCommandArray_EASY;
+        lightswitchCommandArray_EASY = commandArray.lightswitchCommandArray_EASY;
+        shifterCommandArray_EASY = commandArray.shifterCommandArray_EASY;
+        sliderCommandArray_EASY = commandArray.sliderCommandArray_EASY;
+        valveCommandArray_EASY = commandArray.valveCommandArray_EASY;
+        wLeverCommandArray_EASY = commandArray.wLeverCommandArray_EASY;
+        buttonCommandArray_MEDIUM = commandArray.buttonCommandArray_MEDIUM;
+        dialCommandArray_MEDIUM = commandArray.dialCommandArray_MEDIUM;
+        lLeverCommandArray_MEDIUM = commandArray.lLeverCommandArray_MEDIUM;
+        lightswitchCommandArray_MEDIUM = commandArray.lightswitchCommandArray_MEDIUM;
+        shifterCommandArray_MEDIUM = commandArray.shifterCommandArray_MEDIUM;
+        sliderCommandArray_MEDIUM = commandArray.sliderCommandArray_MEDIUM;
+        valveCommandArray_MEDIUM = commandArray.valveCommandArray_MEDIUM;
+        wLeverCommandArray_MEDIUM = commandArray.wLeverCommandArray_MEDIUM;
+        buttonCommandArray_HARD = commandArray.buttonCommandArray_HARD;
+        dialCommandArray_HARD = commandArray.dialCommandArray_HARD;
+        lLeverCommandArray_HARD = commandArray.lLeverCommandArray_HARD;
+        lightswitchCommandArray_HARD = commandArray.lightswitchCommandArray_HARD;
+        shifterCommandArray_HARD = commandArray.shifterCommandArray_HARD;
+        sliderCommandArray_HARD = commandArray.sliderCommandArray_HARD;
+        valveCommandArray_HARD = commandArray.valveCommandArray_HARD;
+        wLeverCommandArray_HARD = commandArray.wLeverCommandArray_HARD;
+
+        //Find all Player Objects
+        players = PhotonNetwork.playerList;
+
+        foreach (PhotonPlayer player in players)
+        {
+            if (player != null)
+                Debug.Log("name: " + player.name);
+            else
+                break;
+        }
+
+        // Set player objects
+        if (playerPosOccupied[0] == true)
+        {
+            p1_PlayerControlDeck = GameObject.Find("Player Control Deck 1");
+            p1_CommandFeedbackScript = p1_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
+            p1_scoreTextScript = p1_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
+            p1_consoleTextScript = p1_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
+            p1_consoleTimerScript = p1_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
+        }
+        if (playerPosOccupied[1] == true)
+        {
+            p2_PlayerControlDeck = GameObject.Find("Player Control Deck 2");
+            p2_scoreTextScript = p2_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
+            p2_consoleTextScript = p2_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
+            p2_consoleTimerScript = p2_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
+            p2_CommandFeedbackScript = p2_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
+        }
+        if (playerPosOccupied[2] == true)
+        {
+            p3_PlayerControlDeck = GameObject.Find("Player Control Deck 3");
+            p3_scoreTextScript = p3_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
+            p3_consoleTextScript = p3_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
+            p3_consoleTimerScript = p3_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
+            p3_CommandFeedbackScript = p3_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
+        }
+        if (playerPosOccupied[3] == true)
+        {
+            p4_PlayerControlDeck = GameObject.Find("Player Control Deck 4");
+            p4_scoreTextScript = p4_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
+            p4_consoleTextScript = p4_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
+            p4_consoleTimerScript = p4_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
+            p4_CommandFeedbackScript = p4_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
+        }
+    }
+
+    //##################################################################################################################################
+    //                                                      LEVEL SETUP
+    //##################################################################################################################################
+
+    IEnumerator LoadNextLevel()
+    {
+        isLoadingNextLevel = true;
+        score = 0;
+        level += 1;
+        levelStartTime = System.DateTime.Now;
+
+        //Update Room Custom Property level
+        ExitGames.Client.Photon.Hashtable ht = new ExitGames.Client.Photon.Hashtable() { { PhotonConstants.level, level } };
+        PhotonNetwork.room.SetCustomProperties(ht);
+
+        //Destroy all Modules inside of moduleList
+        DestroyAllModules();
+
+        //Set all timers to 0
+        if (playerPosOccupied[0] == true)
+            p1_gWaitSystem = 0f;
+        if (playerPosOccupied[1] == true)
+            p2_gWaitSystem = 0f;
+        if (playerPosOccupied[2] == true)
+            p3_gWaitSystem = 0f;
+        if (playerPosOccupied[3] == true)
+            p4_gWaitSystem = 0f;
+
+        if (playerPosOccupied[0] == true)
+            p1_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
+        if (playerPosOccupied[1] == true)
+            p2_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
+        if (playerPosOccupied[2] == true)
+            p3_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
+        if (playerPosOccupied[3] == true)
+            p4_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
+
+        //Set up level variables (score to win this round, number of seconds for each command, number of modules to spawn per player)
+        SetupLevel();
+
+        yield return new WaitForSeconds(3);
+
+        //Count down from 3 to next level
+        //Generate new modules
+        //And display "Start!" command
+        StartCoroutine(StartNextRoundIn(3));
+
+        UpdateScore();
+
+        isLoadingNextLevel = false;
+    }
+
+    void DestroyAllModules()
+    {
+        //Destroy all Modules on all clients
+        if (moduleList != null)
+        {
+            foreach (moduleType moduleType in moduleList)
+            {
+                moduleType.module.GetPhotonView().RPC("RPCDestroy", PhotonTargets.All);
+            }
+        }
+    }
+
+    //Display a countdown till next round, call to generate the random modules, and display "START!"
+    IEnumerator StartNextRoundIn(int count)
+    {
+        p1_isDisplayStart = true;
+        p2_isDisplayStart = true;
+        p3_isDisplayStart = true;
+        p4_isDisplayStart = true;
+
+        //Play countdown
+        UpdateAllConsoles(" Ready in");
+        yield return new WaitForSeconds(1);
+        for (int i = count; i > 0; i--)
+        {
+            UpdateAllConsoles(i.ToString());
+            yield return new WaitForSeconds(1);
+        }
+
+        //Generate the random modules
+        GenerateAllPlayerModules();
+
+        //Start the next round!
+        UpdateAllConsoles(" START!");
+        yield return new WaitForSeconds(1);
+
+        p1_isDisplayStart = false;
+        p2_isDisplayStart = false;
+        p3_isDisplayStart = false;
+        p4_isDisplayStart = false;
+
+        levelStartTime = System.DateTime.Now;
+
+        //Start Timer object
+        timerScript.StartTimer(levelTimeoutSeconds, levelStartTime);
     }
 
     private void SetupLevel()
@@ -314,73 +487,9 @@ public class Mastermind_Script : Photon.MonoBehaviour
         return returnXY;
     }
 
-    IEnumerator WaitForPlayersToSpawn()
-    {
-        GameObject[] playeModules = GameObject.FindGameObjectsWithTag("Player");
-        while (playeModules.Length < numPlayers)
-        {
-            playeModules = GameObject.FindGameObjectsWithTag("Player");
-            Debug.Log("numPlayers: " + numPlayers + " playerModules.Length: " + playeModules.Length);
-            yield return new WaitForSeconds(0.1f);
-        }
-
-        Initialize();
-
-        //Count down from 3 to next level
-        //Generate new modules
-        //And display "Start!" command
-        StartCoroutine(StartNextRoundIn(3));
-    }
-
-    void Initialize()
-    {
-        score = 0;
-
-        //Find all Player Objects
-        players = PhotonNetwork.playerList;
-
-        foreach (PhotonPlayer player in players)
-        {
-            if (player != null)
-                Debug.Log("name: " + player.name);
-            else
-                break;
-        }
-
-        // Set player objects
-        if (playerPosOccupied[0] == true)
-        {
-            p1_PlayerControlDeck = GameObject.Find("Player Control Deck 1");
-            p1_CommandFeedbackScript = p1_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
-            p1_scoreTextScript = p1_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
-            p1_consoleTextScript = p1_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
-            p1_consoleTimerScript = p1_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
-        }
-        if (playerPosOccupied[1] == true)
-        {
-            p2_PlayerControlDeck = GameObject.Find("Player Control Deck 2");
-            p2_scoreTextScript = p2_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
-            p2_consoleTextScript = p2_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
-            p2_consoleTimerScript = p2_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
-            p2_CommandFeedbackScript = p2_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
-        }
-        if (playerPosOccupied[2] == true)
-        {
-            p3_PlayerControlDeck = GameObject.Find("Player Control Deck 3");
-            p3_scoreTextScript = p3_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
-            p3_consoleTextScript = p3_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
-            p3_consoleTimerScript = p3_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
-            p3_CommandFeedbackScript = p3_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
-        }
-        if (playerPosOccupied[3] == true)
-        {
-            p4_PlayerControlDeck = GameObject.Find("Player Control Deck 4");
-            p4_scoreTextScript = p4_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
-            p4_consoleTextScript = p4_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
-            p4_consoleTimerScript = p4_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
-            p4_CommandFeedbackScript = p4_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
-        }
-    }
+    //##################################################################################################################################
+    //                                                      GENERATE MODULES
+    //##################################################################################################################################
 
     //Create new list of modules
     void GenerateAllPlayerModules()
@@ -831,17 +940,32 @@ public class Mastermind_Script : Photon.MonoBehaviour
         return commandText;
     }
 
-    void DestroyAllModules()
+    //##################################################################################################################################
+    //                                                      GAME OVER
+    //##################################################################################################################################
+
+    public void GameOver()
     {
-        //Destroy all Modules on all clients
-        if (moduleList != null)
-        {
-            foreach (moduleType moduleType in moduleList)
-            {
-                moduleType.module.GetPhotonView().RPC("RPCDestroy", PhotonTargets.All);
-            }
-        }
+        isGameOver = true;
+
+        //Stop Timer object
+        timerScript.StopTimer(true);
+
+        UpdateAllConsoles("");
+
+        if (playerPosOccupied[0] == true)
+            p1_scoreTextScript.photonView.RPC("GameOver", PhotonTargets.All, true);
+        if (playerPosOccupied[1] == true)
+            p2_scoreTextScript.photonView.RPC("GameOver", PhotonTargets.All, true);
+        if (playerPosOccupied[2] == true)
+            p3_scoreTextScript.photonView.RPC("GameOver", PhotonTargets.All, true);
+        if (playerPosOccupied[3] == true)
+            p4_scoreTextScript.photonView.RPC("GameOver", PhotonTargets.All, true);
     }
+
+    //##################################################################################################################################
+    //                                                        UPDATE
+    //##################################################################################################################################
 
     // Update is called once per frame
     void Update()
@@ -899,85 +1023,6 @@ public class Mastermind_Script : Photon.MonoBehaviour
         }
     }
 
-    IEnumerator LoadNextLevel()
-    {
-        isLoadingNextLevel = true;
-        score = 0;
-        level += 1;
-        levelStartTime = System.DateTime.Now;
-
-        //Update Room Custom Property level
-        ExitGames.Client.Photon.Hashtable ht = new ExitGames.Client.Photon.Hashtable() { { PhotonConstants.level, level } };
-        PhotonNetwork.room.SetCustomProperties(ht);
-
-        //Destroy all Modules inside of moduleList
-        DestroyAllModules();
-
-        //Set all timers to 0
-        if (playerPosOccupied[0] == true)
-            p1_gWaitSystem = 0f;
-        if (playerPosOccupied[1] == true)
-            p2_gWaitSystem = 0f;
-        if (playerPosOccupied[2] == true)
-            p3_gWaitSystem = 0f;
-        if (playerPosOccupied[3] == true)
-            p4_gWaitSystem = 0f;
-
-        if (playerPosOccupied[0] == true)
-            p1_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
-        if (playerPosOccupied[1] == true)
-            p2_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
-        if (playerPosOccupied[2] == true)
-            p3_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
-        if (playerPosOccupied[3] == true)
-            p4_scoreTextScript.photonView.RPC("Win", PhotonTargets.All, true);
-
-        //Set up level variables (score to win this round, number of seconds for each command, number of modules to spawn per player)
-        SetupLevel();
-
-        yield return new WaitForSeconds(3);
-
-        //Count down from 3 to next level
-        //Generate new modules
-        //And display "Start!" command
-        StartCoroutine(StartNextRoundIn(3));
-
-        UpdateScore();
-
-        isLoadingNextLevel = false;
-    }
-
-    public void GameOver()
-    {
-        isGameOver = true;
-
-        //Stop Timer object
-        timerScript.StopTimer(true);
-
-        UpdateAllConsoles("");
-
-        if (playerPosOccupied[0] == true)
-            p1_scoreTextScript.photonView.RPC("GameOver", PhotonTargets.All, true);
-        if (playerPosOccupied[1] == true)
-            p2_scoreTextScript.photonView.RPC("GameOver", PhotonTargets.All, true);
-        if (playerPosOccupied[2] == true)
-            p3_scoreTextScript.photonView.RPC("GameOver", PhotonTargets.All, true);
-        if (playerPosOccupied[3] == true)
-            p4_scoreTextScript.photonView.RPC("GameOver", PhotonTargets.All, true);
-    }
-
-    public void UpdateScore()
-    {
-        if (playerPosOccupied[0] == true)
-            p1_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, score);
-        if (playerPosOccupied[1] == true)
-            p2_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, score);
-        if (playerPosOccupied[2] == true)
-            p3_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, score);
-        if (playerPosOccupied[3] == true)
-            p4_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, score);
-    }
-
     public void ScoreUp()
     {
         if (!isGameOver)
@@ -996,40 +1041,17 @@ public class Mastermind_Script : Photon.MonoBehaviour
         }
     }
 
-    //Display a countdown till next round, call to generate the random modules, and display "START!"
-    IEnumerator StartNextRoundIn(int count)
+    public void UpdateScore()
     {
-        p1_isDisplayStart = true;
-        p2_isDisplayStart = true;
-        p3_isDisplayStart = true;
-        p4_isDisplayStart = true;
-
-        //Play countdown
-        UpdateAllConsoles(" Ready in");
-        yield return new WaitForSeconds(1);
-        for (int i = count; i > 0; i--)
-        {
-            UpdateAllConsoles(i.ToString());
-            yield return new WaitForSeconds(1);
-        }
-
-        //Generate the random modules
-        GenerateAllPlayerModules();
-
-        //Start the next round!
-        UpdateAllConsoles(" START!");
-        yield return new WaitForSeconds(1);
-
-        p1_isDisplayStart = false;
-        p2_isDisplayStart = false;
-        p3_isDisplayStart = false;
-        p4_isDisplayStart = false;
-
-        levelStartTime = System.DateTime.Now;
-
-        //Start Timer object
-        timerScript.StartTimer(levelTimeoutSeconds, levelStartTime);
-    }
+        if (playerPosOccupied[0] == true)
+            p1_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, score);
+        if (playerPosOccupied[1] == true)
+            p2_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, score);
+        if (playerPosOccupied[2] == true)
+            p3_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, score);
+        if (playerPosOccupied[3] == true)
+            p4_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, score);
+    }    
 
     public void UpdateAllConsoles(string msg)
     {
@@ -1043,177 +1065,9 @@ public class Mastermind_Script : Photon.MonoBehaviour
             p4_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, msg);
     }
 
-    // Custom WaitForSeconds
-    // This will either wait for the given seconds, or until the TappedWaitForSecondsOrTap forces the timer to zero
-    IEnumerator WaitForSecondsOrTap(int player, float seconds)
-    {
-        if (!isGameOver)
-        {
-            if (player == 1)
-            {
-                p1_gWaitSystem = seconds;
-                p1_consoleTimerScript.StartTimer(seconds);
-                while (p1_gWaitSystem > 0.0)
-                {
-                    p1_gWaitSystem -= Time.deltaTime;
-                    if (p1_gWaitSystem == 0)
-                    {
-                        p1_CommandFeedbackScript.PlayFailFeedback();
-                    }
-                    yield return 0;
-                }
-                p1_consoleTimerScript.StopTimer(true);
-            }
-            else if (player == 2)
-            {
-                p2_gWaitSystem = seconds;
-                p2_consoleTimerScript.StartTimer(seconds);
-                while (p2_gWaitSystem > 0.0)
-                {
-                    p2_gWaitSystem -= Time.deltaTime;
-                    if (p2_gWaitSystem == 0)
-                    {
-                        p2_CommandFeedbackScript.PlayFailFeedback();
-                    }
-                    yield return 0;
-                }
-                p2_consoleTimerScript.StopTimer(true);
-            }
-            else if (player == 3)
-            {
-                p3_gWaitSystem = seconds;
-                p3_consoleTimerScript.StartTimer(seconds);
-                while (p3_gWaitSystem > 0.0)
-                {
-                    p3_gWaitSystem -= Time.deltaTime;
-                    if (p3_gWaitSystem == 0)
-                    {
-                        p3_CommandFeedbackScript.PlayFailFeedback();
-                    }
-                    yield return 0;
-                }
-                p3_consoleTimerScript.StopTimer(true);
-            }
-            else if (player == 4)
-            {
-                p4_gWaitSystem = seconds;
-                p4_consoleTimerScript.StartTimer(seconds);
-                while (p4_gWaitSystem > 0.0)
-                {
-                    p4_gWaitSystem -= Time.deltaTime;
-                    if (p4_gWaitSystem == 0)
-                    {
-                        p4_CommandFeedbackScript.PlayFailFeedback();
-                    }
-                    yield return 0;
-                }
-                p4_consoleTimerScript.StopTimer(true);
-            }
-
-            //lower score if time reached (button was not tapped)
-            if (!isGameOver && !isLoadingNextLevel)
-            {
-                if (numFufilled == 0)
-                {
-                    ScoreDown();
-                }
-                else
-                {
-                    numFufilled -= 1;
-                }
-            }
-        }
-    }
-
-    // End the waitForSeconds by setting the timer to zero AND signal that a button was tapped (isTapped = true)
-    public void TappedWaitForSecondsOrTap(int inputCommand, int playerNum)
-    {
-        if (!isGameOver)
-        {
-            numFufilled = 0;
-
-            //Debug.Log("p1_command = " + p1_rCommand + " inputCommand = " + inputCommand);
-
-            //Check to see if the current command is the correct button pressed. Update score accordingly
-            if (p1_rCommand == inputCommand)
-            {
-                p1_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
-                ScoreUp();
-                //Set timer for that player to 0 to get next command
-                p1_gWaitSystem = 0.0f;
-                numFufilled += 1;
-            }
-
-            if (p2_rCommand == inputCommand)
-            {
-                p2_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
-                ScoreUp();
-                //Set timer for that player to 0 to get next command
-                p2_gWaitSystem = 0.0f;
-                numFufilled += 1;
-            }
-
-            if (p3_rCommand == inputCommand)
-            {
-                p3_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
-                ScoreUp();
-                //Set timer for that player to 0 to get next command
-                p3_gWaitSystem = 0.0f;
-                numFufilled += 1;
-            }
-
-            if (p4_rCommand == inputCommand)
-            {
-                p4_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
-                ScoreUp();
-                //Set timer for that player to 0 to get next command
-                p4_gWaitSystem = 0.0f;
-                numFufilled += 1;
-            }
-
-            // If no command matched lower score
-            if (numFufilled == 0)
-            {
-                ScoreDown();
-                if (playerNum == 1)
-                {
-                    p1_CommandFeedbackScript.PlayFailFeedback();
-                }
-                else if (playerNum == 2)
-                {
-                    p2_CommandFeedbackScript.PlayFailFeedback();
-                }
-                else if (playerNum == 3)
-                {
-                    p3_CommandFeedbackScript.PlayFailFeedback();
-                }
-                else if (playerNum == 4)
-                {
-                    p4_CommandFeedbackScript.PlayFailFeedback();
-                }
-            }
-            else
-            {
-                if (playerNum == 1)
-                {
-                    p1_CommandFeedbackScript.PlaySuccessFeedback();
-                }
-                else if (playerNum == 2)
-                {
-                    p2_CommandFeedbackScript.PlaySuccessFeedback();
-                }
-                else if (playerNum == 3)
-                {
-                    p3_CommandFeedbackScript.PlaySuccessFeedback();
-                }
-                else if (playerNum == 4)
-                {
-                    p4_CommandFeedbackScript.PlaySuccessFeedback();
-                }
-            }
-        }
-    }
-
+    //##################################################################################################################################
+    //                                                  GENERATE NEXT COMMAND
+    //##################################################################################################################################
 
     IEnumerator P1_DisplayRandomCommand()
     {
@@ -1554,5 +1408,180 @@ public class Mastermind_Script : Photon.MonoBehaviour
         }
 
         return new string[2] { rCommand.ToString(), message };
+    }
+
+    //##################################################################################################################################
+    //                                                      WAIT FOR COMMAND
+    //##################################################################################################################################
+
+    // Custom WaitForSeconds
+    // This will either wait for the given seconds, or until the TappedWaitForSecondsOrTap forces the timer to zero
+    IEnumerator WaitForSecondsOrTap(int player, float seconds)
+    {
+        if (!isGameOver)
+        {
+            if (player == 1)
+            {
+                p1_gWaitSystem = seconds;
+                p1_consoleTimerScript.StartTimer(seconds);
+                while (p1_gWaitSystem > 0.0)
+                {
+                    p1_gWaitSystem -= Time.deltaTime;
+                    if (p1_gWaitSystem == 0)
+                    {
+                        p1_CommandFeedbackScript.PlayFailFeedback();
+                    }
+                    yield return 0;
+                }
+                p1_consoleTimerScript.StopTimer(true);
+            }
+            else if (player == 2)
+            {
+                p2_gWaitSystem = seconds;
+                p2_consoleTimerScript.StartTimer(seconds);
+                while (p2_gWaitSystem > 0.0)
+                {
+                    p2_gWaitSystem -= Time.deltaTime;
+                    if (p2_gWaitSystem == 0)
+                    {
+                        p2_CommandFeedbackScript.PlayFailFeedback();
+                    }
+                    yield return 0;
+                }
+                p2_consoleTimerScript.StopTimer(true);
+            }
+            else if (player == 3)
+            {
+                p3_gWaitSystem = seconds;
+                p3_consoleTimerScript.StartTimer(seconds);
+                while (p3_gWaitSystem > 0.0)
+                {
+                    p3_gWaitSystem -= Time.deltaTime;
+                    if (p3_gWaitSystem == 0)
+                    {
+                        p3_CommandFeedbackScript.PlayFailFeedback();
+                    }
+                    yield return 0;
+                }
+                p3_consoleTimerScript.StopTimer(true);
+            }
+            else if (player == 4)
+            {
+                p4_gWaitSystem = seconds;
+                p4_consoleTimerScript.StartTimer(seconds);
+                while (p4_gWaitSystem > 0.0)
+                {
+                    p4_gWaitSystem -= Time.deltaTime;
+                    if (p4_gWaitSystem == 0)
+                    {
+                        p4_CommandFeedbackScript.PlayFailFeedback();
+                    }
+                    yield return 0;
+                }
+                p4_consoleTimerScript.StopTimer(true);
+            }
+
+            //lower score if time reached (button was not tapped)
+            if (!isGameOver && !isLoadingNextLevel)
+            {
+                if (numFufilled == 0)
+                {
+                    ScoreDown();
+                }
+                else
+                {
+                    numFufilled -= 1;
+                }
+            }
+        }
+    }
+
+    // End the waitForSeconds by setting the timer to zero AND signal that a button was tapped (isTapped = true)
+    public void TappedWaitForSecondsOrTap(int inputCommand, int playerNum)
+    {
+        if (!isGameOver)
+        {
+            numFufilled = 0;
+
+            //Debug.Log("p1_command = " + p1_rCommand + " inputCommand = " + inputCommand);
+
+            //Check to see if the current command is the correct button pressed. Update score accordingly
+            if (p1_rCommand == inputCommand)
+            {
+                p1_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
+                ScoreUp();
+                //Set timer for that player to 0 to get next command
+                p1_gWaitSystem = 0.0f;
+                numFufilled += 1;
+            }
+
+            if (p2_rCommand == inputCommand)
+            {
+                p2_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
+                ScoreUp();
+                //Set timer for that player to 0 to get next command
+                p2_gWaitSystem = 0.0f;
+                numFufilled += 1;
+            }
+
+            if (p3_rCommand == inputCommand)
+            {
+                p3_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
+                ScoreUp();
+                //Set timer for that player to 0 to get next command
+                p3_gWaitSystem = 0.0f;
+                numFufilled += 1;
+            }
+
+            if (p4_rCommand == inputCommand)
+            {
+                p4_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
+                ScoreUp();
+                //Set timer for that player to 0 to get next command
+                p4_gWaitSystem = 0.0f;
+                numFufilled += 1;
+            }
+
+            // If no command matched lower score
+            if (numFufilled == 0)
+            {
+                ScoreDown();
+                if (playerNum == 1)
+                {
+                    p1_CommandFeedbackScript.PlayFailFeedback();
+                }
+                else if (playerNum == 2)
+                {
+                    p2_CommandFeedbackScript.PlayFailFeedback();
+                }
+                else if (playerNum == 3)
+                {
+                    p3_CommandFeedbackScript.PlayFailFeedback();
+                }
+                else if (playerNum == 4)
+                {
+                    p4_CommandFeedbackScript.PlayFailFeedback();
+                }
+            }
+            else
+            {
+                if (playerNum == 1)
+                {
+                    p1_CommandFeedbackScript.PlaySuccessFeedback();
+                }
+                else if (playerNum == 2)
+                {
+                    p2_CommandFeedbackScript.PlaySuccessFeedback();
+                }
+                else if (playerNum == 3)
+                {
+                    p3_CommandFeedbackScript.PlaySuccessFeedback();
+                }
+                else if (playerNum == 4)
+                {
+                    p4_CommandFeedbackScript.PlaySuccessFeedback();
+                }
+            }
+        }
     }
 }
