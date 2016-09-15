@@ -55,7 +55,7 @@ public class Console_Text_Script : Photon.MonoBehaviour
         foreach (char letter in message.ToCharArray())
         {
             textMesh.text += letter;
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.035f);
         }
         isTyping = false;
     }
