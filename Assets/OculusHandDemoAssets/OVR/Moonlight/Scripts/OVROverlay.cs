@@ -50,15 +50,15 @@ using VR = UnityEngine.VR;
 ///		3. Cubemap: [Mobile Only], Display overlay as a cube map
 /// </summary>
 
-public enum OverlayShape
-{
-	Quad = 0,       // Display overlay as a quad
-	Cylinder = 1,   // [Mobile Only][Experimental] Display overlay as a cylinder, Translation only works correctly with vrDriver 1.04 or above 
-	Cubemap = 2,    // [Mobile Only] Display overlay as a cube map
-}
-
 public class OVROverlay : MonoBehaviour
 {
+	public enum OverlayShape
+	{
+		Quad = 0,       // Display overlay as a quad
+		Cylinder = 1,   // [Mobile Only][Experimental] Display overlay as a cylinder, Translation only works correctly with vrDriver 1.04 or above 
+		Cubemap = 2,    // [Mobile Only] Display overlay as a cube map
+	}
+
 	public enum OverlayType
 	{
 		None,           // Disabled the overlay
@@ -74,7 +74,11 @@ public class OVROverlay : MonoBehaviour
 #endif
 
 	static OVROverlay[] instances = new OVROverlay[maxInstances];
-	OverlayType currentOverlayType = OverlayType.Overlay;
+
+	/// <summary>
+	/// Specify overlay's type
+	/// </summary>
+	public OverlayType currentOverlayType = OverlayType.Overlay;
 
 	/// <summary>
 	/// Specify overlay's shape
@@ -85,9 +89,10 @@ public class OVROverlay : MonoBehaviour
 	/// Try to avoid setting texture frequently when app is running, texNativePtr updating is slow since rendering thread synchronization
 	/// Please cache your nativeTexturePtr and use  OverrideOverlayTextureInfo
 	/// </summary>
-	public Texture texture = null;
-	private Texture cachedTexture = null;
-	private IntPtr texNativePtr = IntPtr.Zero;
+	public Texture[] textures = new Texture[] { null, null };
+	private Texture[] cachedTextures = new Texture[] { null, null };
+	private IntPtr[] texNativePtrs = new IntPtr[] { IntPtr.Zero, IntPtr.Zero };
+
 	private int layerIndex = -1;
 	Renderer rend;
 
@@ -95,27 +100,30 @@ public class OVROverlay : MonoBehaviour
 	/// Use this function to set texture and texNativePtr when app is running 
 	/// GetNativeTexturePtr is a slow behavior, the value should be pre-cached 
 	/// </summary>
-	public void OverrideOverlayTextureInfo(Texture srcTexture, IntPtr nativePtr)
+	public void OverrideOverlayTextureInfo(Texture srcTexture, IntPtr nativePtr, VR.VRNode node)
 	{
-		texture = srcTexture;
-		cachedTexture = texture;
-		texNativePtr = nativePtr;
+		int index = (node == VR.VRNode.RightEye) ? 1 : 0;
+
+		textures[index] = srcTexture;
+		cachedTextures[index] = srcTexture;
+		texNativePtrs[index] = nativePtr;
 	}
 
 	void Awake()
 	{
 		Debug.Log("Overlay Awake");
 		rend = GetComponent<Renderer>();
-		if (texture)
+		for (int i = 0; i < 2; ++i)
 		{
-			cachedTexture = texture;
-			texNativePtr = texture.GetNativeTexturePtr();
-		}
-		else if (rend) // Backward compitability
-		{
-			texture = rend.material.mainTexture;
-			cachedTexture = texture;
-			texNativePtr = texture.GetNativeTexturePtr();
+			// Backward compatibility
+			if (rend != null && textures[i] == null)
+				textures[i] = rend.material.mainTexture;
+
+			if (textures[i] != null)
+			{
+				cachedTextures[i] = textures[i];
+				texNativePtrs[i] = textures[i].GetNativeTexturePtr();
+			}
 		}
 	}
 
@@ -145,7 +153,7 @@ public class OVROverlay : MonoBehaviour
 		if (layerIndex != -1)
 		{
 			// Turn off the overlay if it was on.
-			OVRPlugin.SetOverlayQuad(true, false, IntPtr.Zero, IntPtr.Zero, OVRPose.identity.ToPosef(), Vector3.one.ToVector3f(), layerIndex);
+			OVRPlugin.SetOverlayQuad(true, false, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, OVRPose.identity.ToPosef(), Vector3.one.ToVector3f(), layerIndex);
 			instances[layerIndex] = null;
 		}
 		layerIndex = -1;
@@ -156,7 +164,7 @@ public class OVROverlay : MonoBehaviour
 		// The overlay must be specified every eye frame, because it is positioned relative to the
 		// current head location.  If frames are dropped, it will be time warped appropriately,
 		// just like the eye buffers.
-		if (Camera.current != Camera.main || Camera.current.cameraType != CameraType.Game || layerIndex == -1 || currentOverlayType == OverlayType.None)
+		if (!Camera.current.CompareTag("MainCamera") || Camera.current.cameraType != CameraType.Game || layerIndex == -1 || currentOverlayType == OverlayType.None)
 			return;
 
 #if !UNITY_ANDROID || UNITY_EDITOR
@@ -166,24 +174,30 @@ public class OVROverlay : MonoBehaviour
 		}
 #endif
 
-		if (texture != cachedTexture)
+		for (int i = 0; i < 2; ++i)
 		{
-			cachedTexture = texture;
-			if (cachedTexture)
-				texNativePtr = cachedTexture.GetNativeTexturePtr();
-		}
-
-		if (cachedTexture == null || texNativePtr == IntPtr.Zero)
-			return;
-
-		if (currentOverlayShape == OverlayShape.Cubemap)
-		{
-			if (texture.GetType() != typeof(Cubemap))
+			if (i >= textures.Length)
+				continue;
+			
+			if (textures[i] != cachedTextures[i])
 			{
-				Debug.LogError("Need Cubemap texture for cube map overlay");
-				return;
+				cachedTextures[i] = textures[i];
+				if (cachedTextures[i] != null)
+					texNativePtrs[i] = cachedTextures[i].GetNativeTexturePtr();
+			}
+
+			if (currentOverlayShape == OverlayShape.Cubemap)
+			{
+				if (textures[i] != null && textures[i].GetType() != typeof(Cubemap))
+				{
+					Debug.LogError("Need Cubemap texture for cube map overlay");
+					return;
+				}
 			}
 		}
+
+		if (cachedTextures[0] == null || texNativePtrs[0] == IntPtr.Zero)
+			return;
 
 		bool overlay = (currentOverlayType == OverlayType.Overlay);
 		bool headLocked = false;
@@ -206,7 +220,7 @@ public class OVROverlay : MonoBehaviour
 			}
 		}
 
-		bool isOverlayVisible = OVRPlugin.SetOverlayQuad(overlay, headLocked, texNativePtr, IntPtr.Zero, pose.flipZ().ToPosef(), scale.ToVector3f(), layerIndex, currentOverlayShape);
+		bool isOverlayVisible = OVRPlugin.SetOverlayQuad(overlay, headLocked, texNativePtrs[0], texNativePtrs[1], IntPtr.Zero, pose.flipZ().ToPosef(), scale.ToVector3f(), layerIndex, (OVRPlugin.OverlayShape)currentOverlayShape);
 		if (rend)
 			rend.enabled = !isOverlayVisible;
 	}

@@ -95,9 +95,39 @@ public static class OVRExtensions
 		};
 	}
 
+	internal static Color FromColorf(this OVRPlugin.Colorf c)
+	{
+		return new Color() { r = c.r, g = c.g, b = c.b, a = c.a };
+	}
+
+	internal static OVRPlugin.Colorf ToColorf(this Color c)
+	{
+		return new OVRPlugin.Colorf() { r = c.r, g = c.g, b = c.b, a = c.a };
+	}
+
+	internal static Vector3 FromVector3f(this OVRPlugin.Vector3f v)
+	{
+		return new Vector3() { x = v.x, y = v.y, z = v.z };
+	}
+
+	internal static Vector3 FromFlippedZVector3f(this OVRPlugin.Vector3f v)
+	{
+		return new Vector3() { x = v.x, y = v.y, z = -v.z };
+	}
+
 	internal static OVRPlugin.Vector3f ToVector3f(this Vector3 v)
 	{
 		return new OVRPlugin.Vector3f() { x = v.x, y = v.y, z = v.z };
+	}
+
+	internal static OVRPlugin.Vector3f ToFlippedZVector3f(this Vector3 v)
+	{
+		return new OVRPlugin.Vector3f() { x = v.x, y = v.y, z = -v.z };
+	}
+
+	internal static Quaternion FromQuatf(this OVRPlugin.Quatf q)
+	{
+		return new Quaternion() { x = q.x, y = q.y, z = q.z, w = q.w };
 	}
 
 	internal static OVRPlugin.Quatf ToQuatf(this Quaternion q)

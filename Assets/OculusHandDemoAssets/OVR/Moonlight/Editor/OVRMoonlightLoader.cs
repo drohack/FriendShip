@@ -32,16 +32,9 @@ class OVRMoonlightLoader
 {
     static OVRMoonlightLoader()
 	{
-		var mgrs = GameObject.FindObjectsOfType<OVRManager>().Where(m => m.isActiveAndEnabled);
-
 		EnforceInputManagerBindings();
 		EditorApplication.update += EnforceBundleId;
-
-		if (mgrs.Count() != 0 && !PlayerSettings.virtualRealitySupported)
-		{
-			Debug.Log("Enabling Unity VR support");
-			PlayerSettings.virtualRealitySupported = true;
-		}
+		EditorApplication.delayCall += EnforceVRSupport;
 
 		if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.Android)
 			return;
@@ -75,6 +68,15 @@ class OVRMoonlightLoader
 			Debug.Log("MoonlightLoader: Setting vsyncCount to 0");
 			// We sync in the TimeWarp, so we don't want unity syncing elsewhere.
 			QualitySettings.vSyncCount = 0;
+		}
+	}
+
+	static void EnforceVRSupport()
+	{
+		var mgrs = GameObject.FindObjectsOfType<OVRManager> ().Where (m => m.isActiveAndEnabled);
+		if (mgrs.Count () != 0 && !PlayerSettings.virtualRealitySupported) {
+			Debug.Log ("Enabling Unity VR support");
+			PlayerSettings.virtualRealitySupported = true;
 		}
 	}
 

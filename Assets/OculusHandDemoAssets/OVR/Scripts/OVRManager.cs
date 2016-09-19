@@ -57,7 +57,11 @@ public class OVRManager : MonoBehaviour
 	/// </summary>
 	public static OVRTracker tracker { get; private set; }
 
-	private static bool _profileIsCached = false;
+	/// <summary>
+	/// Gets a reference to the active boundary system.
+	/// </summary>
+	public static OVRBoundary boundary { get; private set; }
+
 	private static OVRProfile _profile;
 	/// <summary>
 	/// Gets the current profile, which contains information about the user's settings and body dimensions.
@@ -65,19 +69,8 @@ public class OVRManager : MonoBehaviour
 	public static OVRProfile profile
 	{
 		get {
-			if (!_profileIsCached)
-			{
+			if (_profile == null)
 				_profile = new OVRProfile();
-				_profile.TriggerLoad();
-				
-				while (_profile.state == OVRProfile.State.LOADING)
-					System.Threading.Thread.Sleep(1);
-				
-				if (_profile.state != OVRProfile.State.READY)
-					Debug.LogWarning("Failed to load profile.");
-				
-				_profileIsCached = true;
-			}
 
 			return _profile;
 		}
@@ -588,6 +581,8 @@ public class OVRManager : MonoBehaviour
 			display = new OVRDisplay();
 		if (tracker == null)
 			tracker = new OVRTracker();
+		if (boundary == null)
+			boundary = new OVRBoundary();
 
 		if (resetTrackerOnLoad)
 			display.RecenterPose();
@@ -826,6 +821,11 @@ public class OVRManager : MonoBehaviour
 	private void LateUpdate()
 	{
 		OVRHaptics.Process();
+	}
+
+	private void FixedUpdate()
+	{
+		OVRInput.FixedUpdate();
 	}
 
 	/// <summary>
