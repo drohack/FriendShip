@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Command_Array : MonoBehaviour {
 
-    public const string pullcordText = "(Everyone Pull Down)";
+    public const string pullcordText = "Pullcord (Everyone Pull Down)";
 
     //Buttons
     public readonly ArrayList buttonCommandArray_EASY = new ArrayList

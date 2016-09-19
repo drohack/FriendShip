@@ -70,4 +70,5 @@ MonoBehaviour:
   - RPCPlayResetFeedback
   - RPCPlaySuccessFeedback
   - UpdateScore
+  - RPCUpdateIsDown
   DisableAutoOpenWizard: 1

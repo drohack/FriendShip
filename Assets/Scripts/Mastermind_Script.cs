@@ -36,6 +36,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
     public const int sliderCommand = 5;
     public const int valveCommand = 6;
     public const int wLeverCommand = 7;
+    public const int pullcordCommand = 8;
     private string pullcordCommandText;
     private ArrayList usedCommandArray;
     private ArrayList buttonCommandArray_EASY;
@@ -63,6 +64,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private ArrayList valveCommandArray_HARD;
     private ArrayList wLeverCommandArray_HARD;
     private moduleType[] moduleList; // The list of all modules in current round
+    private Pullcord_Script[] pullcordScriptList; // The list of all pullcords in current round
     private int numFufilled = 0;
     private PhotonPlayer[] players;
 
@@ -504,7 +506,9 @@ public class Mastermind_Script : Photon.MonoBehaviour
             moduleListSize += (p3_gridX * p3_gridY);
         if (playerPosOccupied[3] == true)
             moduleListSize += (p4_gridX * p4_gridY);
-        moduleList = new moduleType[moduleListSize];
+        //Create new moduleList with the size of all grid sizes + number of players for Global Modules (like pullcord)
+        moduleList = new moduleType[moduleListSize + numPlayers];
+        pullcordScriptList = new Pullcord_Script[numPlayers];
 
         int moduleCount = 0;
         if (playerPosOccupied[0] == true)
@@ -532,7 +536,6 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 GameObject moduleEmpty = p2_moduleTransform.GetChild(i).gameObject;
                 GameObject module = PhotonNetwork.InstantiateSceneObject("Prefabs/" + moduleEmpty.name, moduleEmpty.transform.position, moduleEmpty.transform.rotation, 0, moduleList[moduleCount].data);
                 moduleList[moduleCount].module = module;
-
                 moduleCount++;
             }
         }
@@ -564,6 +567,70 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 moduleCount++;
             }
         }
+
+        //Spawn Pullcords
+        int pullcordCount = 0;
+        if (playerPosOccupied[0] == true)
+        {
+            object[] data = new object[3];
+            data[0] = "test";
+            data[1] = pullcordCommand;
+            data[2] = 1;
+            GameObject module = PhotonNetwork.InstantiateSceneObject("Prefabs/Pullcord", new Vector3(0.4f, 1f, -1.55f), Quaternion.Euler(new Vector3(0, 90, 0)), 0, data);
+            moduleType moduleType = new moduleType();
+            moduleType.module = module;
+            moduleType.data = data;
+            moduleList[moduleCount] = moduleType;
+            pullcordScriptList[pullcordCount] = module.GetComponent<Pullcord_Script>();
+            moduleCount++;
+            pullcordCount++;
+        }
+        if (playerPosOccupied[1] == true)
+        {
+            object[] data = new object[3];
+            data[0] = "";
+            data[1] = pullcordCommand;
+            data[2] = 2;
+            GameObject module = PhotonNetwork.InstantiateSceneObject("Prefabs/Pullcord", new Vector3(1.55f, 1f, 0.4f), Quaternion.Euler(new Vector3(0, 0, 0)), 0, data);
+            moduleType moduleType = new moduleType();
+            moduleType.module = module;
+            moduleType.data = data;
+            moduleList[moduleCount] = moduleType;
+            pullcordScriptList[pullcordCount] = module.GetComponent<Pullcord_Script>();
+            moduleCount++;
+            pullcordCount++;
+        }
+        if (playerPosOccupied[2] == true)
+        {
+            object[] data = new object[3];
+            data[0] = "";
+            data[1] = pullcordCommand;
+            data[2] = 3;
+            GameObject module = PhotonNetwork.InstantiateSceneObject("Prefabs/Pullcord", new Vector3(-0.4f, 1f, 1.55f), Quaternion.Euler(new Vector3(0, -90, 0)), 0, data);
+            moduleType moduleType = new moduleType();
+            moduleType.module = module;
+            moduleType.data = data;
+            moduleList[moduleCount] = moduleType;
+            pullcordScriptList[pullcordCount] = module.GetComponent<Pullcord_Script>();
+            moduleCount++;
+            pullcordCount++;
+        }
+        if (playerPosOccupied[3] == true)
+        {
+            object[] data = new object[3];
+            data[0] = "";
+            data[1] = pullcordCommand;
+            data[2] = 4;
+            GameObject module = PhotonNetwork.InstantiateSceneObject("Prefabs/Pullcord", new Vector3(-1.55f, 1f, -0.4f), Quaternion.Euler(new Vector3(0, 180, 0)), 0, data);
+            moduleType moduleType = new moduleType();
+            moduleType.module = module;
+            moduleType.data = data;
+            moduleList[moduleCount] = moduleType;
+            pullcordScriptList[pullcordCount] = module.GetComponent<Pullcord_Script>();
+            moduleCount++;
+            pullcordCount++;
+        }
+
         //Debug.Log("moduleCount: " + moduleCount);
     }
 
@@ -1260,6 +1327,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
             commandType = lLeverCommand;
         else if (module.name.Contains("Lightswitch"))
             commandType = lightswitchCommand;
+        else if (module.name.Contains("Pullcord"))
+            commandType = pullcordCommand;
         else if (module.name.Contains("Shifter"))
             commandType = shifterCommand;
         else if (module.name.Contains("Slider"))
@@ -1324,6 +1393,10 @@ public class Mastermind_Script : Photon.MonoBehaviour
                     rCommand = (rCommand * 100) + 2;
                 }
                 message += lightswitchText;
+                break;
+            case pullcordCommand:
+                message = pullcordCommandText;
+                rCommand = pullcordCommand;
                 break;
             case shifterCommand:
                 //Dial
@@ -1502,11 +1575,30 @@ public class Mastermind_Script : Photon.MonoBehaviour
         if (!isGameOver)
         {
             numFufilled = 0;
+            bool isActivePullcordCommand = false;
+            bool isAllPullcordDown = false;
 
             //Debug.Log("p1_command = " + p1_rCommand + " inputCommand = " + inputCommand);
 
+            //Check to see if command is Pullcord (global), at least one players console wants you to pull the cord, and that all players are pulling down
+            if (inputCommand == pullcordCommand && (p1_rCommand == pullcordCommand || p2_rCommand == pullcordCommand || p3_rCommand == pullcordCommand || p4_rCommand == pullcordCommand))
+            {
+                isActivePullcordCommand = true;
+                //Loop through all scripts and see if all players are pulling down
+                int numDown = 0;
+                foreach(Pullcord_Script pScript in pullcordScriptList)
+                {
+                    if (pScript.isDown)
+                        numDown++;
+                }
+                if (numDown == pullcordScriptList.Length)
+                    isAllPullcordDown = true;
+            }
+
             //Check to see if the current command is the correct button pressed. Update score accordingly
-            if (p1_rCommand == inputCommand)
+            //if command is for a pullcord make sure all players have pulled down
+            if ((inputCommand != pullcordCommand && p1_rCommand == inputCommand) || 
+                (inputCommand == pullcordCommand && p1_rCommand == inputCommand && isAllPullcordDown))
             {
                 p1_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
                 ScoreUp();
@@ -1515,7 +1607,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 numFufilled += 1;
             }
 
-            if (p2_rCommand == inputCommand)
+            if ((inputCommand != pullcordCommand && p2_rCommand == inputCommand) ||
+                (inputCommand == pullcordCommand && p2_rCommand == inputCommand && isAllPullcordDown))
             {
                 p2_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
                 ScoreUp();
@@ -1524,7 +1617,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 numFufilled += 1;
             }
 
-            if (p3_rCommand == inputCommand)
+            if ((inputCommand != pullcordCommand && p3_rCommand == inputCommand) ||
+                (inputCommand == pullcordCommand && p3_rCommand == inputCommand && isAllPullcordDown))
             {
                 p3_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
                 ScoreUp();
@@ -1533,7 +1627,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 numFufilled += 1;
             }
 
-            if (p4_rCommand == inputCommand)
+            if ((inputCommand != pullcordCommand && p4_rCommand == inputCommand) ||
+                (inputCommand == pullcordCommand && p4_rCommand == inputCommand && isAllPullcordDown))
             {
                 p4_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
                 ScoreUp();
@@ -1542,45 +1637,45 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 numFufilled += 1;
             }
 
-            // If no command matched lower score
-            if (numFufilled == 0)
+            // If no command matched (and someone is not trying to fufill a pullcord) lower score
+            if (numFufilled == 0 && !isActivePullcordCommand)
             {
                 ScoreDown();
                 if (playerNum == 1)
-                {
                     p1_CommandFeedbackScript.PlayFailFeedback();
-                }
                 else if (playerNum == 2)
-                {
                     p2_CommandFeedbackScript.PlayFailFeedback();
-                }
                 else if (playerNum == 3)
-                {
                     p3_CommandFeedbackScript.PlayFailFeedback();
-                }
                 else if (playerNum == 4)
-                {
                     p4_CommandFeedbackScript.PlayFailFeedback();
-                }
             }
             else
             {
-                if (playerNum == 1)
+                if (isActivePullcordCommand)
                 {
+                    // Only play success feedback if all pullcards are down
+                    // else don't play anything as we're still waiting for all to be down
+                    if (isAllPullcordDown)
+                    {
+                        if (playerPosOccupied[0] == true)
+                            p1_CommandFeedbackScript.PlaySuccessFeedback();
+                        if (playerPosOccupied[1] == true)
+                            p2_CommandFeedbackScript.PlaySuccessFeedback();
+                        if (playerPosOccupied[2] == true)
+                            p3_CommandFeedbackScript.PlaySuccessFeedback();
+                        if (playerPosOccupied[3] == true)
+                            p4_CommandFeedbackScript.PlaySuccessFeedback();
+                    }
+                }
+                else if (playerNum == 1)
                     p1_CommandFeedbackScript.PlaySuccessFeedback();
-                }
                 else if (playerNum == 2)
-                {
                     p2_CommandFeedbackScript.PlaySuccessFeedback();
-                }
                 else if (playerNum == 3)
-                {
                     p3_CommandFeedbackScript.PlaySuccessFeedback();
-                }
                 else if (playerNum == 4)
-                {
                     p4_CommandFeedbackScript.PlaySuccessFeedback();
-                }
             }
         }
     }
