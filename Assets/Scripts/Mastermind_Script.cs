@@ -240,6 +240,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         if (playerPosOccupied[0] == true)
         {
             p1_PlayerControlDeck = GameObject.Find("Player Control Deck 1");
+            p1_PlayerAbortResetPanel = GameObject.Find("Abort Reset Panel 1");
             p1_CommandFeedbackScript = p1_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
             p1_scoreTextScript = p1_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
             p1_consoleTextScript = p1_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
@@ -249,6 +250,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         if (playerPosOccupied[1] == true)
         {
             p2_PlayerControlDeck = GameObject.Find("Player Control Deck 2");
+            p2_PlayerAbortResetPanel = GameObject.Find("Abort Reset Panel 2");
             p2_scoreTextScript = p2_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
             p2_consoleTextScript = p2_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
             p2_consoleTimerScript = p2_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
@@ -258,6 +260,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         if (playerPosOccupied[2] == true)
         {
             p3_PlayerControlDeck = GameObject.Find("Player Control Deck 3");
+            p3_PlayerAbortResetPanel = GameObject.Find("Abort Reset Panel 3");
             p3_scoreTextScript = p3_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
             p3_consoleTextScript = p3_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
             p3_consoleTimerScript = p3_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
@@ -267,6 +270,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         if (playerPosOccupied[3] == true)
         {
             p4_PlayerControlDeck = GameObject.Find("Player Control Deck 4");
+            p4_PlayerAbortResetPanel = GameObject.Find("Abort Reset Panel 4");
             p4_scoreTextScript = p4_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
             p4_consoleTextScript = p4_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
             p4_consoleTimerScript = p4_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();

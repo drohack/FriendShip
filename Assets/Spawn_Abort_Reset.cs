@@ -19,8 +19,8 @@ public class Spawn_Abort_Reset : Photon.MonoBehaviour
             numPlayers = PhotonNetwork.playerList.Length;
 
             StartCoroutine(WaitForPlayersToSpawn());
-            PhotonNetwork.InstantiateSceneObject("Resources/Abort Button", AbortButton.position, AbortButton.rotation, 0, null);
-            PhotonNetwork.InstantiateSceneObject("Resources/Reset Button", ResetButton.position, ResetButton.rotation, 0, null);
+            PhotonNetwork.InstantiateSceneObject("Abort Button", AbortButton.position, AbortButton.rotation, 0, null);
+            PhotonNetwork.InstantiateSceneObject("Reset Button", ResetButton.position, ResetButton.rotation, 0, null);
         }
     }
 

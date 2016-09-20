@@ -8,6 +8,9 @@ TagManager:
   - Hand
   - PlayerArea
   - Timer
+  - PlutoniumRodLeft
+  - PlutoniumRodRight
+  - PlutoniumRod
   layers:
   - Default
   - TransparentFX

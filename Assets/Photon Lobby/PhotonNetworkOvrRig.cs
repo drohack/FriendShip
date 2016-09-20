@@ -8,6 +8,8 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
     [SerializeField]
     Transform ovrCameraRig;
     [SerializeField]
+    OVRCameraRig ovrCameraRigScript;
+    [SerializeField]
     Transform centerEyeAnchor;
     [SerializeField]
     Transform LeftHandPf;
@@ -64,7 +66,7 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
         {
             // Enable your own camera and scripts
             ovrCameraRig.gameObject.AddComponent<OVRManager>();
-            ovrCameraRig.GetComponent<OVRCameraRig>().enabled = true;
+            ovrCameraRigScript.enabled = true;
             centerEyeAnchor.GetComponent<Camera>().enabled = true;
             centerEyeAnchor.GetComponent<AudioListener>().enabled = true;
             handScriptL.enabled = true;
