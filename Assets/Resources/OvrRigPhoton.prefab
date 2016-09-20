@@ -1314,7 +1314,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000012767789208}
-  - 114: {fileID: 114000010461675666}
   m_Layer: 0
   m_Name: OVRCameraRig
   m_TagString: Untagged
@@ -4403,18 +4402,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cbedf09ed546f5488ce617f8264d179, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114000010461675666
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012962097642}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df9f338034892c44ebb62d97894772f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  usePerEyeCameras: 0
 --- !u!114 &114000010482961638
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4528,7 +4515,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ovrCameraRig: {fileID: 4000012767789208}
-  ovrCameraRigScript: {fileID: 114000010461675666}
   centerEyeAnchor: {fileID: 4000011308105992}
   LeftHandPf: {fileID: 4000014008597336}
   handScriptL: {fileID: 114000010482961638}
