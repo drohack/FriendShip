@@ -70,10 +70,18 @@ public class Mastermind_Script : Photon.MonoBehaviour
     GameObject          p2_PlayerControlDeck;
     GameObject          p3_PlayerControlDeck;
     GameObject          p4_PlayerControlDeck;
+    GameObject          p1_PlayerAbortResetPanel;
+    GameObject          p2_PlayerAbortResetPanel;
+    GameObject          p3_PlayerAbortResetPanel;
+    GameObject          p4_PlayerAbortResetPanel;
     Command_Feedback_Script p1_CommandFeedbackScript;
     Command_Feedback_Script p2_CommandFeedbackScript;
     Command_Feedback_Script p3_CommandFeedbackScript;
     Command_Feedback_Script p4_CommandFeedbackScript;
+    Abort_Reset_Feedback_Script p1_AbortResetScript;
+    Abort_Reset_Feedback_Script p2_AbortResetScript;
+    Abort_Reset_Feedback_Script p3_AbortResetScript;
+    Abort_Reset_Feedback_Script p4_AbortResetScript;
     Score_Text_Script   p1_scoreTextScript;
     Score_Text_Script   p2_scoreTextScript;
     Score_Text_Script   p3_scoreTextScript;
@@ -94,6 +102,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private float   p1_gWaitSystem;         // Variables for the custom WaitForSeconds function
     private int     p1_gridX = 4;           // The grid which the random game objects get placed
     private int     p1_gridY = 2;           // The grid which the random game objects get placed
+    public bool     p1_Resetting = false;   // Is the player pressing their reset button?
+    public bool     p1_Aborting = false;    // Is the player pressing their abort button?    
 
     /** P2 VARIABLES **/
     public int      p2_rCommand = -1;
@@ -102,6 +112,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private float   p2_gWaitSystem;         // Variables for the custom WaitForSeconds function
     private int     p2_gridX = 4;           // The grid which the random game objects get placed
     private int     p2_gridY = 2;           // The grid which the random game objects get placed
+    public bool     p2_Resetting = false;   // Is the player pressing their reset button?
+    public bool     p2_Aborting = false;    // Is the player pressing their abort button?    
 
     /** P3 VARIABLES **/
     public int      p3_rCommand = -1;
@@ -110,6 +122,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private float   p3_gWaitSystem;         // Variables for the custom WaitForSeconds function
     private int     p3_gridX = 4;           // The grid which the random game objects get placed
     private int     p3_gridY = 2;           // The grid which the random game objects get placed
+    public bool     p3_Resetting = false;   // Is the player pressing their reset button?
+    public bool     p3_Aborting = false;    // Is the player pressing their abort button? 
 
     /** P4 VARIABLES **/
     public int      p4_rCommand = -1;
@@ -118,6 +132,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private float   p4_gWaitSystem;         // Variables for the custom WaitForSeconds function
     private int     p4_gridX = 4;           // The grid which the random game objects get placed
     private int     p4_gridY = 2;           // The grid which the random game objects get placed
+    public bool     p4_Resetting = false;   // Is the player pressing their reset button?
+    public bool     p4_Aborting = false;    // Is the player pressing their abort button? 
 
     // Use this for initialization
     void Start () {
@@ -346,34 +362,42 @@ public class Mastermind_Script : Photon.MonoBehaviour
         if (playerPosOccupied[0] == true)
         {
             p1_PlayerControlDeck = GameObject.Find("Player Control Deck 1");
+            p1_PlayerAbortResetPanel = GameObject.Find("Abort Reset Panel 1");
             p1_CommandFeedbackScript = p1_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
             p1_scoreTextScript = p1_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
             p1_consoleTextScript = p1_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
             p1_consoleTimerScript = p1_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
+            p1_AbortResetScript = p1_PlayerAbortResetPanel.GetComponent<Abort_Reset_Feedback_Script>();
         }
         if (playerPosOccupied[1] == true)
         {
             p2_PlayerControlDeck = GameObject.Find("Player Control Deck 2");
+            p2_PlayerAbortResetPanel = GameObject.Find("Abort Reset Panel 2");
             p2_scoreTextScript = p2_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
             p2_consoleTextScript = p2_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
             p2_consoleTimerScript = p2_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
             p2_CommandFeedbackScript = p2_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
+            p2_AbortResetScript = p2_PlayerAbortResetPanel.GetComponent<Abort_Reset_Feedback_Script>();
         }
         if (playerPosOccupied[2] == true)
         {
             p3_PlayerControlDeck = GameObject.Find("Player Control Deck 3");
+            p3_PlayerAbortResetPanel = GameObject.Find("Abort Reset Panel 3");
             p3_scoreTextScript = p3_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
             p3_consoleTextScript = p3_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
             p3_consoleTimerScript = p3_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
             p3_CommandFeedbackScript = p3_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
+            p3_AbortResetScript = p3_PlayerAbortResetPanel.GetComponent<Abort_Reset_Feedback_Script>();
         }
         if (playerPosOccupied[3] == true)
         {
             p4_PlayerControlDeck = GameObject.Find("Player Control Deck 4");
+            p4_PlayerAbortResetPanel = GameObject.Find("Abort Reset Panel 4");
             p4_scoreTextScript = p4_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
             p4_consoleTextScript = p4_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
             p4_consoleTimerScript = p4_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
             p4_CommandFeedbackScript = p4_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
+            p4_AbortResetScript = p4_PlayerAbortResetPanel.GetComponent<Abort_Reset_Feedback_Script>();
         }
     }
 
@@ -827,6 +851,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         StartCoroutine(P4_DisplayRandomCommand());
                 }
             }
+            ResetCheck();
+            AbortCheck();
         }
     }
 
@@ -925,6 +951,84 @@ public class Mastermind_Script : Photon.MonoBehaviour
             score--;
             UpdateScore();
         }
+    }
+
+    public void ResetCheck()
+    {
+        int resetCount = 0;
+        int playerCount = PhotonNetwork.playerList.Length;
+        //foreach (bool player in playerPosOccupied)
+        //{
+        //if (player)
+        //{
+        //playerCount += 1;
+        //}
+        //}
+
+        if (p1_Resetting == true)
+        {
+            resetCount += 1;
+        }
+        if (p2_Resetting == true)
+        {
+            resetCount += 1;
+        }
+        if (p3_Resetting == true)
+        {
+            resetCount += 1;
+        }
+        if (p4_Resetting == true)
+        {
+            resetCount += 1;
+        }
+        if (resetCount == playerCount)
+        {
+            ResetGame();
+        }
+    }
+
+    public void ResetGame()
+    {
+        //PhotonNetwork.LeaveRoom();
+    }
+
+    public void AbortCheck()
+    {
+        int abortCount = 0;
+        int playerCount = PhotonNetwork.playerList.Length;
+        //foreach (bool player in playerPosOccupied)
+        //{
+        //if (player)
+        //{
+        //playerCount += 1;
+        //}
+        //}
+
+        if (p1_Aborting == true)
+        {
+            abortCount += 1;
+        }
+        if (p2_Aborting == true)
+        {
+            abortCount += 1;
+        }
+        if (p3_Aborting == true)
+        {
+            abortCount += 1;
+        }
+        if (p4_Aborting == true)
+        {
+            abortCount += 1;
+        }
+        if (abortCount == playerCount)
+        {
+            AbortGame();
+        }
+    }
+
+    public void AbortGame()
+    {
+        //PhotonNetwork.LeaveRoom();
     }
 
     //Display a countdown till next round, call to generate the random objects, and display "START!"
@@ -1102,8 +1206,104 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 numFufilled += 1;
             }
 
+            if (inputCommand == -1)
+            {
+                if (playerNum == 1)
+                {
+                    p1_Aborting = false;
+                    p1_AbortResetScript.p1_NotAborting();
+                }
+                if (playerNum == 2)
+                {
+                    p2_Aborting = false;
+                    p2_AbortResetScript.p2_NotAborting();
+                }
+                if (playerNum == 3)
+                {
+                    p3_Aborting = false;
+                    p3_AbortResetScript.p3_NotAborting();
+                }
+                if (playerNum == 4)
+                {
+                    p4_Aborting = false;
+                    p4_AbortResetScript.p4_NotAborting();
+                }
+            }
+
+            if (inputCommand == -2)
+            {
+                if (playerNum == 1)
+                {
+                    p1_Aborting = true;
+                    p1_AbortResetScript.p1_Aborting();
+                }
+                if (playerNum == 2)
+                {
+                    p2_Aborting = true;
+                    p2_AbortResetScript.p2_Aborting();
+                }
+                if (playerNum == 3)
+                {
+                    p3_Aborting = true;
+                    p3_AbortResetScript.p3_Aborting();
+                }
+                if (playerNum == 4)
+                {
+                    p4_Aborting = true;
+                    p4_AbortResetScript.p4_Aborting();
+                }
+            }
+
+            if (inputCommand == -3)
+            {
+                if (playerNum == 1)
+                {
+                    p1_Resetting = false;
+                    p1_AbortResetScript.p1_NotResetting();
+                }
+                if (playerNum == 2)
+                {
+                    p2_Resetting = false;
+                    p2_AbortResetScript.p2_NotResetting();
+                }
+                if (playerNum == 3)
+                {
+                    p3_Resetting = false;
+                    p3_AbortResetScript.p3_NotResetting();
+                }
+                if (playerNum == 4)
+                {
+                    p4_Resetting = false;
+                    p4_AbortResetScript.p4_NotResetting();
+                }
+            }
+
+            if (inputCommand == -4)
+            {
+                if (playerNum == 1)
+                {
+                    p1_Resetting = true;
+                    p1_AbortResetScript.p1_Resetting();
+                }
+                if (playerNum == 2)
+                {
+                    p2_Resetting = true;
+                    p2_AbortResetScript.p2_Resetting();
+                }
+                if (playerNum == 3)
+                {
+                    p3_Resetting = true;
+                    p3_AbortResetScript.p3_Resetting();
+                }
+                if (playerNum == 4)
+                {
+                    p4_Resetting = true;
+                    p4_AbortResetScript.p4_Resetting();
+                }
+            }
+
             // If no command matched lower score
-            if (numFufilled == 0)
+            if (numFufilled == 0 && inputCommand > 0)
             {
                 ScoreDown();
                 if (playerNum == 1)
@@ -1125,19 +1325,19 @@ public class Mastermind_Script : Photon.MonoBehaviour
             }
             else
             {
-                if (playerNum == 1)
+                if (playerNum == 1 && inputCommand > 0)
                 {
                     p1_CommandFeedbackScript.PlaySuccessFeedback();
                 }
-                else if (playerNum == 2)
+                else if (playerNum == 2 && inputCommand > 0)
                 {
                     p2_CommandFeedbackScript.PlaySuccessFeedback();
                 }
-                else if (playerNum == 3)
+                else if (playerNum == 3 && inputCommand > 0)
                 {
                     p3_CommandFeedbackScript.PlaySuccessFeedback();
                 }
-                else if (playerNum == 4)
+                else if (playerNum == 4 && inputCommand > 0)
                 {
                     p4_CommandFeedbackScript.PlaySuccessFeedback();
                 }

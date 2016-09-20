@@ -69,4 +69,20 @@ MonoBehaviour:
   - RPCPlayFailFeedback
   - RPCPlayResetFeedback
   - RPCPlaySuccessFeedback
+  - RPC_p1_Aborting
+  - RPC_p1_NotAborting
+  - RPC_p1_NotResetting
+  - RPC_p1_Resetting
+  - RPC_p2_Aborting
+  - RPC_p2_NotAborting
+  - RPC_p2_NotResetting
+  - RPC_p2_Resetting
+  - RPC_p3_Aborting
+  - RPC_p3_NotAborting
+  - RPC_p3_NotResetting
+  - RPC_p3_Resetting
+  - RPC_p4_Aborting
+  - RPC_p4_NotAborting
+  - RPC_p4_NotResetting
+  - RPC_p4_Resetting
   DisableAutoOpenWizard: 1
