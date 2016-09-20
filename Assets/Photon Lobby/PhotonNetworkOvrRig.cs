@@ -276,4 +276,13 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
         }
     }
 
+    [PunRPC]
+    public void RpcLeaveRoom()
+    {
+        if (photonView.isMine) 
+        {
+            PhotonNetwork.LeaveRoom();
+        }
+    }
+
 }

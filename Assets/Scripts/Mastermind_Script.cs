@@ -12,6 +12,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
     /** SINGLE VARIABLES **/
     private int numPlayers = 0;
+    private GameObject[] playerModules;
     private bool[] playerPosOccupied = new bool[4] { false, false, false, false };
     private int score = 0;
     private int level = 1;
@@ -180,11 +181,11 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
     IEnumerator WaitForPlayersToSpawn()
     {
-        GameObject[] playeModules = GameObject.FindGameObjectsWithTag("Player");
-        while (playeModules.Length < numPlayers)
+        playerModules = GameObject.FindGameObjectsWithTag("Player");
+        while (playerModules.Length < numPlayers)
         {
-            playeModules = GameObject.FindGameObjectsWithTag("Player");
-            Debug.Log("numPlayers: " + numPlayers + " playerModules.Length: " + playeModules.Length);
+            playerModules = GameObject.FindGameObjectsWithTag("Player");
+            Debug.Log("numPlayers: " + numPlayers + " playerModules.Length: " + playerModules.Length);
             yield return new WaitForSeconds(0.1f);
         }
     }
@@ -1167,6 +1168,11 @@ public class Mastermind_Script : Photon.MonoBehaviour
     public void ResetGame()
     {
         //PhotonNetwork.LeaveRoom();
+        foreach (PhotonPlayer player in PhotonNetwork.playerList)
+        {
+            PhotonNetwork.DestroyPlayerObjects(player);
+        }
+        PhotonNetwork.LoadLevel("Game");
     }
 
     public void AbortCheck()
@@ -1205,7 +1211,11 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
     public void AbortGame()
     {
-        //PhotonNetwork.LeaveRoom();
+        foreach (GameObject player in playerModules)
+        {
+            player.GetPhotonView().RPC("RpcLeaveRoom",PhotonTargets.Others);
+        }
+        PhotonNetwork.LeaveRoom();
     }
 
     public void UpdateScore()
