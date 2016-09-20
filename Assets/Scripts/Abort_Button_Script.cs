@@ -24,9 +24,7 @@ public class Abort_Button_Script : Photon.MonoBehaviour
         object[] data = photonView.instantiationData;
         if (data != null)
         {
-            newName = transform.Find("Labels/Name").GetComponent<TextMesh>().text = (string)data[0];
-            rCommand = (int)data[1];
-            playerNum = (int)data[2];
+            playerNum = (int)data[0];
         }
 
         handleScript = transform.Find("Handle").GetComponent<Highlight_Handle_Top_Script>();

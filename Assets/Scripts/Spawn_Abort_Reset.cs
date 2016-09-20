@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Spawn_Abort_Reset : Photon.MonoBehaviour
 {
-
     int numPlayers = 0;
+    public int playerNum = 0;
     [SerializeField]
     Transform AbortButton;
     [SerializeField]
@@ -19,8 +19,10 @@ public class Spawn_Abort_Reset : Photon.MonoBehaviour
             numPlayers = PhotonNetwork.playerList.Length;
 
             StartCoroutine(WaitForPlayersToSpawn());
-            PhotonNetwork.InstantiateSceneObject("Abort Button", AbortButton.position, AbortButton.rotation, 0, null);
-            PhotonNetwork.InstantiateSceneObject("Reset Button", ResetButton.position, ResetButton.rotation, 0, null);
+            object[] data = new object[1];
+            data[0] = playerNum;
+            PhotonNetwork.InstantiateSceneObject("Abort Button", AbortButton.position, AbortButton.rotation, 0, data);
+            PhotonNetwork.InstantiateSceneObject("Reset Button", ResetButton.position, ResetButton.rotation, 0, data);
         }
     }
 
