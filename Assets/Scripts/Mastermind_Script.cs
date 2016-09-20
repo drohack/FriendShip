@@ -1686,6 +1686,102 @@ public class Mastermind_Script : Photon.MonoBehaviour
     // End the waitForSeconds by setting the timer to zero AND signal that a button was tapped (isTapped = true)
     public void TappedWaitForSecondsOrTap(int inputCommand, int playerNum)
     {
+        if (inputCommand == -1)
+        {
+            if (playerNum == 1)
+            {
+                p1_Aborting = false;
+                p1_AbortResetScript.p1_NotAborting();
+            }
+            if (playerNum == 2)
+            {
+                p2_Aborting = false;
+                p2_AbortResetScript.p2_NotAborting();
+            }
+            if (playerNum == 3)
+            {
+                p3_Aborting = false;
+                p3_AbortResetScript.p3_NotAborting();
+            }
+            if (playerNum == 4)
+            {
+                p4_Aborting = false;
+                p4_AbortResetScript.p4_NotAborting();
+            }
+        }
+
+        if (inputCommand == -2)
+        {
+            if (playerNum == 1)
+            {
+                p1_Aborting = true;
+                p1_AbortResetScript.p1_Aborting();
+            }
+            if (playerNum == 2)
+            {
+                p2_Aborting = true;
+                p2_AbortResetScript.p2_Aborting();
+            }
+            if (playerNum == 3)
+            {
+                p3_Aborting = true;
+                p3_AbortResetScript.p3_Aborting();
+            }
+            if (playerNum == 4)
+            {
+                p4_Aborting = true;
+                p4_AbortResetScript.p4_Aborting();
+            }
+        }
+
+        if (inputCommand == -3)
+        {
+            if (playerNum == 1)
+            {
+                p1_Resetting = false;
+                p1_AbortResetScript.p1_NotResetting();
+            }
+            if (playerNum == 2)
+            {
+                p2_Resetting = false;
+                p2_AbortResetScript.p2_NotResetting();
+            }
+            if (playerNum == 3)
+            {
+                p3_Resetting = false;
+                p3_AbortResetScript.p3_NotResetting();
+            }
+            if (playerNum == 4)
+            {
+                p4_Resetting = false;
+                p4_AbortResetScript.p4_NotResetting();
+            }
+        }
+
+        if (inputCommand == -4)
+        {
+            if (playerNum == 1)
+            {
+                p1_Resetting = true;
+                p1_AbortResetScript.p1_Resetting();
+            }
+            if (playerNum == 2)
+            {
+                p2_Resetting = true;
+                p2_AbortResetScript.p2_Resetting();
+            }
+            if (playerNum == 3)
+            {
+                p3_Resetting = true;
+                p3_AbortResetScript.p3_Resetting();
+            }
+            if (playerNum == 4)
+            {
+                p4_Resetting = true;
+                p4_AbortResetScript.p4_Resetting();
+            }
+        }
+
         if (!isGameOver)
         {
             numFufilled = 0;
@@ -1749,102 +1845,6 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 //Set timer for that player to 0 to get next command
                 p4_gWaitSystem = 0.0f;
                 numFufilled += 1;
-            }
-
-            if (inputCommand == -1)
-            {
-                if (playerNum == 1)
-                {
-                    p1_Aborting = false;
-                    p1_AbortResetScript.p1_NotAborting();
-                }
-                if (playerNum == 2)
-                {
-                    p2_Aborting = false;
-                    p2_AbortResetScript.p2_NotAborting();
-                }
-                if (playerNum == 3)
-                {
-                    p3_Aborting = false;
-                    p3_AbortResetScript.p3_NotAborting();
-                }
-                if (playerNum == 4)
-                {
-                    p4_Aborting = false;
-                    p4_AbortResetScript.p4_NotAborting();
-                }
-            }
-
-            if (inputCommand == -2)
-            {
-                if (playerNum == 1)
-                {
-                    p1_Aborting = true;
-                    p1_AbortResetScript.p1_Aborting();
-                }
-                if (playerNum == 2)
-                {
-                    p2_Aborting = true;
-                    p2_AbortResetScript.p2_Aborting();
-                }
-                if (playerNum == 3)
-                {
-                    p3_Aborting = true;
-                    p3_AbortResetScript.p3_Aborting();
-                }
-                if (playerNum == 4)
-                {
-                    p4_Aborting = true;
-                    p4_AbortResetScript.p4_Aborting();
-                }
-            }
-
-            if (inputCommand == -3)
-            {
-                if (playerNum == 1)
-                {
-                    p1_Resetting = false;
-                    p1_AbortResetScript.p1_NotResetting();
-                }
-                if (playerNum == 2)
-                {
-                    p2_Resetting = false;
-                    p2_AbortResetScript.p2_NotResetting();
-                }
-                if (playerNum == 3)
-                {
-                    p3_Resetting = false;
-                    p3_AbortResetScript.p3_NotResetting();
-                }
-                if (playerNum == 4)
-                {
-                    p4_Resetting = false;
-                    p4_AbortResetScript.p4_NotResetting();
-                }
-            }
-
-            if (inputCommand == -4)
-            {
-                if (playerNum == 1)
-                {
-                    p1_Resetting = true;
-                    p1_AbortResetScript.p1_Resetting();
-                }
-                if (playerNum == 2)
-                {
-                    p2_Resetting = true;
-                    p2_AbortResetScript.p2_Resetting();
-                }
-                if (playerNum == 3)
-                {
-                    p3_Resetting = true;
-                    p3_AbortResetScript.p3_Resetting();
-                }
-                if (playerNum == 4)
-                {
-                    p4_Resetting = true;
-                    p4_AbortResetScript.p4_Resetting();
-                }
             }
 
             // If no command matched (and someone is not trying to fufill a pullcord) lower score
