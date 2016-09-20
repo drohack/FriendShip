@@ -87,4 +87,5 @@ MonoBehaviour:
   - RPC_p4_Resetting
   - UpdateScore
   - RPCUpdateIsDown
+  - RpcLeaveRoom
   DisableAutoOpenWizard: 1
