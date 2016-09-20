@@ -26,7 +26,7 @@ using System.Runtime.InteropServices;
 
 internal static class OVRPlugin
 {
-	public static readonly System.Version wrapperVersion = OVRP_1_7_0.version;
+	public static readonly System.Version wrapperVersion = OVRP_1_8_0.version;
 
 	private static System.Version _version;
 	public static System.Version version
@@ -150,6 +150,9 @@ internal static class OVRPlugin
 		HandRight      = 4,
 		TrackerZero    = 5,
 		TrackerOne     = 6,
+		TrackerTwo     = 7,
+		TrackerThree   = 8,
+		Head           = 9,
 		Count,
 	}
 
@@ -200,6 +203,14 @@ internal static class OVRPlugin
 	{
 		Unspecified = 0,
 		Japan,
+		China,
+	}
+
+	public enum OverlayShape
+	{
+		Quad = 0,
+		Cylinder = 1,
+		Cubemap = 2,
 	}
 
 	private const int OverlayShapeFlagShift = 4;
@@ -207,13 +218,13 @@ internal static class OVRPlugin
 	{
 		None        = unchecked((int)0x00000000),
 		OnTop       = unchecked((int)0x00000001),
-		HeadLocked  = unchecked((int)0x00000002),
-
-		// Using the 5-8 bits for shapes, total 16 potential shapes can be supported 0x000000[0]0 ->  0x000000[F]0
-		ShapeFlag_Quad      = unchecked((int)OverlayShape.Quad << OverlayShapeFlagShift),
-		ShapeFlag_Cylinder  = unchecked((int)OverlayShape.Cylinder << OverlayShapeFlagShift),
-		ShapeFlag_Cubemap   = unchecked((int)OverlayShape.Cubemap << OverlayShapeFlagShift),
-		ShapeFlagRangeMask  = unchecked((int)0xF << OverlayShapeFlagShift),
+		HeadLocked  = unchecked((int)0x00000002),
+
+		// Using the 5-8 bits for shapes, total 16 potential shapes can be supported 0x000000[0]0 ->  0x000000[F]0
+		ShapeFlag_Quad      = unchecked((int)OverlayShape.Quad << OverlayShapeFlagShift),
+		ShapeFlag_Cylinder  = unchecked((int)OverlayShape.Cylinder << OverlayShapeFlagShift),
+		ShapeFlag_Cubemap   = unchecked((int)OverlayShape.Cubemap << OverlayShapeFlagShift),
+		ShapeFlagRangeMask  = unchecked((int)0xF << OverlayShapeFlagShift),
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -338,6 +349,45 @@ internal static class OVRPlugin
 		public float zFar;
 		public float fovX;
 		public float fovY;
+	}
+
+	public enum BoundaryType
+	{
+		OuterBoundary      = 0x0001,
+		PlayArea           = 0x0100,
+	}
+
+	[StructLayout(LayoutKind.Sequential)]
+	public struct BoundaryTestResult
+	{
+		public Bool IsTriggering;
+		public float ClosestDistance;
+		public Vector3f ClosestPoint;
+		public Vector3f ClosestPointNormal;
+	}
+
+	[StructLayout(LayoutKind.Sequential)]
+	public struct BoundaryLookAndFeel
+	{
+		public Colorf Color;
+	}
+
+	[StructLayout(LayoutKind.Sequential)]
+	public struct BoundaryGeometry
+	{
+		public BoundaryType BoundaryType;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst=256)]
+		public Vector3f[] Points;
+		public int PointsCount;
+	}
+
+	[StructLayout(LayoutKind.Sequential)]
+	public struct Colorf
+	{
+		public float r;
+		public float g;
+		public float b;
+		public float a;
 	}
 
 	public static bool initialized
@@ -583,14 +633,14 @@ internal static class OVRPlugin
 		get { return OVRP_1_1_0.ovrp_GetSystemBatteryStatus(); }
 	}
 
-	public static Posef GetEyeVelocity(Eye eyeId) { return GetNodeVelocity((Node)eyeId); }
-	public static Posef GetEyeAcceleration(Eye eyeId) { return GetNodeAcceleration((Node)eyeId); }
+	public static Posef GetEyeVelocity(Eye eyeId) { return GetNodeVelocity((Node)eyeId, false); }
+	public static Posef GetEyeAcceleration(Eye eyeId) { return GetNodeAcceleration((Node)eyeId, false); }
 	public static Frustumf GetEyeFrustum(Eye eyeId) { return OVRP_1_1_0.ovrp_GetNodeFrustum((Node)eyeId); }
 	public static Sizei GetEyeTextureSize(Eye eyeId) { return OVRP_0_1_0.ovrp_GetEyeTextureSize(eyeId); }
-	public static Posef GetTrackerPose(Tracker trackerId) { return GetNodePose((Node)((int)trackerId + (int)Node.TrackerZero)); }
+	public static Posef GetTrackerPose(Tracker trackerId) { return GetNodePose((Node)((int)trackerId + (int)Node.TrackerZero), false); }
 	public static Frustumf GetTrackerFrustum(Tracker trackerId) { return OVRP_1_1_0.ovrp_GetNodeFrustum((Node)((int)trackerId + (int)Node.TrackerZero)); }
 	public static bool ShowUI(PlatformUI ui) { return OVRP_1_1_0.ovrp_ShowSystemUI(ui) == Bool.True; }
-	public static bool SetOverlayQuad(bool onTop, bool headLocked, IntPtr texture, IntPtr device, Posef pose, Vector3f scale, int layerIndex=0, OverlayShape shape=OverlayShape.Quad)
+	public static bool SetOverlayQuad(bool onTop, bool headLocked, IntPtr leftTexture, IntPtr rightTexture, IntPtr device, Posef pose, Vector3f scale, int layerIndex=0, OverlayShape shape=OverlayShape.Quad)
 	{
 		if (version >= OVRP_1_6_0.version)
 		{
@@ -598,38 +648,56 @@ internal static class OVRPlugin
 			if (onTop)
 				flags |= (uint)OverlayFlag.OnTop;
 			if (headLocked)
-				flags |= (uint)OverlayFlag.HeadLocked;
-
-			if (shape == OverlayShape.Cylinder || shape == OverlayShape.Cubemap)
-			{
-#if UNITY_ANDROID
-				if (version >= OVRP_1_7_0.version)
-					flags |= (uint)(shape) << OverlayShapeFlagShift;
-				else
-#endif
-					return false;
-			}
-			return OVRP_1_6_0.ovrp_SetOverlayQuad3(flags, texture, IntPtr.Zero, device, pose, scale, layerIndex) == Bool.True;
+				flags |= (uint)OverlayFlag.HeadLocked;
+
+			if (shape == OverlayShape.Cylinder || shape == OverlayShape.Cubemap)
+			{
+#if UNITY_ANDROID
+				if (version >= OVRP_1_7_0.version)
+					flags |= (uint)(shape) << OverlayShapeFlagShift;
+				else
+#endif
+					return false;
+			}
+
+			return OVRP_1_6_0.ovrp_SetOverlayQuad3(flags, leftTexture, rightTexture, device, pose, scale, layerIndex) == Bool.True;
 		}
 
 		if (layerIndex != 0)
 			return false;
 		
-			return OVRP_0_1_1.ovrp_SetOverlayQuad2(ToBool(onTop), ToBool(headLocked), texture, device, pose, scale) == Bool.True;
+		return OVRP_0_1_1.ovrp_SetOverlayQuad2(ToBool(onTop), ToBool(headLocked), leftTexture, device, pose, scale) == Bool.True;
 	}
 
-	public static Posef GetNodePose(Node nodeId)
+	public static bool UpdateNodePhysicsPoses(int frameIndex, double predictionSeconds)
 	{
+		if (version >= OVRP_1_8_0.version)
+			return OVRP_1_8_0.ovrp_Update2(0, frameIndex, predictionSeconds) == Bool.True;
+
+		return false;
+	}
+
+	public static Posef GetNodePose(Node nodeId, bool usePhysicsPose)
+	{
+		if (version >= OVRP_1_8_0.version && usePhysicsPose)
+			return OVRP_1_8_0.ovrp_GetNodePose2(0, nodeId);
+		
 		return OVRP_0_1_2.ovrp_GetNodePose(nodeId);
 	}
 
-	public static Posef GetNodeVelocity(Node nodeId)
+	public static Posef GetNodeVelocity(Node nodeId, bool usePhysicsPose)
 	{
+		if (version >= OVRP_1_8_0.version && usePhysicsPose)
+			return OVRP_1_8_0.ovrp_GetNodeVelocity2(0, nodeId);
+		
 		return OVRP_0_1_3.ovrp_GetNodeVelocity(nodeId);
 	}
 
-	public static Posef GetNodeAcceleration(Node nodeId)
+	public static Posef GetNodeAcceleration(Node nodeId, bool usePhysicsPose)
 	{
+		if (version >= OVRP_1_8_0.version && usePhysicsPose)
+			return OVRP_1_8_0.ovrp_GetNodeAcceleration2(0, nodeId);
+		
 		return OVRP_0_1_3.ovrp_GetNodeAcceleration(nodeId);
 	}
 
@@ -715,6 +783,114 @@ internal static class OVRPlugin
 		else
 		{
 			return 0.0f;
+		}
+	}
+
+	public static bool GetBoundaryConfigured()
+	{
+		if (version >= OVRP_1_8_0.version)
+		{
+			return OVRP_1_8_0.ovrp_GetBoundaryConfigured() == OVRPlugin.Bool.True;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	public static BoundaryTestResult TestBoundaryNode(Node nodeId, BoundaryType boundaryType)
+	{
+		if (version >= OVRP_1_8_0.version)
+		{
+			return OVRP_1_8_0.ovrp_TestBoundaryNode(nodeId, boundaryType);
+		}
+		else
+		{
+			return new BoundaryTestResult();
+		}
+	}
+
+	public static BoundaryTestResult TestBoundaryPoint(Vector3f point, BoundaryType boundaryType)
+	{
+		if (version >= OVRP_1_8_0.version)
+		{
+			return OVRP_1_8_0.ovrp_TestBoundaryPoint(point, boundaryType);
+		}
+		else
+		{
+			return new BoundaryTestResult();
+		}
+	}
+
+	public static bool SetBoundaryLookAndFeel(BoundaryLookAndFeel lookAndFeel)
+	{
+		if (version >= OVRP_1_8_0.version)
+		{
+			return OVRP_1_8_0.ovrp_SetBoundaryLookAndFeel(lookAndFeel) == OVRPlugin.Bool.True;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	public static bool ResetBoundaryLookAndFeel()
+	{
+		if (version >= OVRP_1_8_0.version)
+		{
+			return OVRP_1_8_0.ovrp_ResetBoundaryLookAndFeel() == OVRPlugin.Bool.True;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	public static BoundaryGeometry GetBoundaryGeometry(BoundaryType boundaryType)
+	{
+		if (version >= OVRP_1_8_0.version)
+		{
+			return OVRP_1_8_0.ovrp_GetBoundaryGeometry(boundaryType);
+		}
+		else
+		{
+			return new BoundaryGeometry();
+		}
+	}
+
+	public static Vector3f GetBoundaryDimensions(BoundaryType boundaryType)
+	{
+		if (version >= OVRP_1_8_0.version)
+		{
+			return OVRP_1_8_0.ovrp_GetBoundaryDimensions(boundaryType);
+		}
+		else
+		{
+			return new Vector3f();
+		}
+	}
+
+	public static bool GetBoundaryVisible()
+	{
+		if (version >= OVRP_1_8_0.version)
+		{
+			return OVRP_1_8_0.ovrp_GetBoundaryVisible() == OVRPlugin.Bool.True;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	public static bool SetBoundaryVisible(bool value)
+	{
+		if (version >= OVRP_1_8_0.version)
+		{
+			return OVRP_1_8_0.ovrp_SetBoundaryVisible(ToBool(value)) == OVRPlugin.Bool.True;
+		}
+		else
+		{
+			return false;
 		}
 	}
 
@@ -1039,5 +1215,49 @@ internal static class OVRPlugin
 
 		[DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern Bool ovrp_SetAppChromaticCorrection(Bool value);
+	}
+
+	private static class OVRP_1_8_0
+	{
+		public static readonly System.Version version = new System.Version(1, 8, 0);
+
+		[DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern Bool ovrp_GetBoundaryConfigured();
+
+		[DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern BoundaryTestResult ovrp_TestBoundaryNode(Node nodeId, BoundaryType boundaryType);
+
+		[DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern BoundaryTestResult ovrp_TestBoundaryPoint(Vector3f point, BoundaryType boundaryType);
+
+		[DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern Bool ovrp_SetBoundaryLookAndFeel(BoundaryLookAndFeel lookAndFeel);
+
+		[DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern Bool ovrp_ResetBoundaryLookAndFeel();
+
+		[DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern BoundaryGeometry ovrp_GetBoundaryGeometry(BoundaryType boundaryType);
+
+		[DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern Vector3f ovrp_GetBoundaryDimensions(BoundaryType boundaryType);
+
+		[DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern Bool ovrp_GetBoundaryVisible();
+
+		[DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern Bool ovrp_SetBoundaryVisible(Bool value);
+
+		[DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern Bool ovrp_Update2(int stateId, int frameIndex, double predictionSeconds);
+
+		[DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern Posef ovrp_GetNodePose2(int stateId, Node nodeId);
+
+		[DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern Posef ovrp_GetNodeVelocity2(int stateId, Node nodeId);
+
+		[DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern Posef ovrp_GetNodeAcceleration2(int stateId, Node nodeId);
 	}
 }

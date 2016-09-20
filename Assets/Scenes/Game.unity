@@ -15904,42 +15904,46 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114000013802967178, guid: 3d35cd3fc2850a149ab9522064df3edd,
-        type: 2}
-      propertyPath: viewIdField
-      value: 78
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000013802967178, guid: 3d35cd3fc2850a149ab9522064df3edd,
-        type: 2}
-      propertyPath: instantiationId
-      value: 78
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000013007817392, guid: 3d35cd3fc2850a149ab9522064df3edd,
-        type: 2}
-      propertyPath: viewIdField
-      value: 28
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000013007817392, guid: 3d35cd3fc2850a149ab9522064df3edd,
-        type: 2}
-      propertyPath: instantiationId
-      value: 28
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000013124515078, guid: 3d35cd3fc2850a149ab9522064df3edd,
-        type: 2}
-      propertyPath: viewIdField
-      value: 27
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000013124515078, guid: 3d35cd3fc2850a149ab9522064df3edd,
-        type: 2}
-      propertyPath: instantiationId
-      value: 27
+    - target: {fileID: 1000010583606340, guid: 3d35cd3fc2850a149ab9522064df3edd, type: 2}
+      propertyPath: m_Name
+      value: Player Control Deck 1
       objectReference: {fileID: 0}
     - target: {fileID: 114000013107021102, guid: 3d35cd3fc2850a149ab9522064df3edd,
+        type: 2}
+      propertyPath: viewIdField
+      value: 78
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013107021102, guid: 3d35cd3fc2850a149ab9522064df3edd,
+        type: 2}
+      propertyPath: instantiationId
+      value: 78
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013124515078, guid: 3d35cd3fc2850a149ab9522064df3edd,
+        type: 2}
+      propertyPath: viewIdField
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013124515078, guid: 3d35cd3fc2850a149ab9522064df3edd,
+        type: 2}
+      propertyPath: instantiationId
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013007817392, guid: 3d35cd3fc2850a149ab9522064df3edd,
+        type: 2}
+      propertyPath: viewIdField
+      value: 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013007817392, guid: 3d35cd3fc2850a149ab9522064df3edd,
+        type: 2}
+      propertyPath: instantiationId
+      value: 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013802967178, guid: 3d35cd3fc2850a149ab9522064df3edd,
         type: 2}
       propertyPath: viewIdField
       value: 26
       objectReference: {fileID: 0}
-    - target: {fileID: 114000013107021102, guid: 3d35cd3fc2850a149ab9522064df3edd,
+    - target: {fileID: 114000013802967178, guid: 3d35cd3fc2850a149ab9522064df3edd,
         type: 2}
       propertyPath: instantiationId
       value: 26

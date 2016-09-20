@@ -180,6 +180,10 @@ namespace OvrTouch.Hands
         }
         public void GrabEnd(Vector3 linearVelocity, Vector3 angularVelocity)
         {
+            // Get rid of the spring joint
+            if (m_SpringJoint != null)
+                Destroy(m_SpringJoint);
+
             // Keep the object's velocity and angular velocity
             if (m_grabbedGrabPoint.Rigidbody != null)
             {

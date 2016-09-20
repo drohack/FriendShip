@@ -39,7 +39,7 @@ public static class OVRInput
 		Two                       = 0x00000002, ///< Maps to RawButton: [Gamepad, Touch, RTouch: B], [LTouch: Y]
 		Three                     = 0x00000004, ///< Maps to RawButton: [Gamepad, Touch: X], [LTouch, RTouch: None]
 		Four                      = 0x00000008, ///< Maps to RawButton: [Gamepad, Touch: Y], [LTouch, RTouch: None]
-		Start                     = 0x00000100, ///< Maps to RawButton: [Gamepad: Start], [Touch, LTouch, RTouch: None]
+		Start                     = 0x00000100, ///< Maps to RawButton: [Gamepad: Start], [Touch, LTouch: Start], [RTouch: None]
 		Back                      = 0x00000200, ///< Maps to RawButton: [Gamepad: Back], [Touch, LTouch, RTouch: None]
 		PrimaryShoulder           = 0x00001000, ///< Maps to RawButton: [Gamepad: LShoulder], [Touch, LTouch, RTouch: None]
 		PrimaryIndexTrigger       = 0x00002000, ///< Maps to RawButton: [Gamepad, Touch, LTouch: LIndexTrigger], [RTouch: RIndexTrigger]
@@ -77,7 +77,7 @@ public static class OVRInput
 		B                         = 0x00000002, ///< Maps to Physical Button: [Gamepad, Touch, RTouch: B], [LTouch: None]
 		X                         = 0x00000100, ///< Maps to Physical Button: [Gamepad, Touch, LTouch: X], [RTouch: None]
 		Y                         = 0x00000200, ///< Maps to Physical Button: [Gamepad, Touch, LTouch: Y], [RTouch: None]
-		Start                     = 0x00100000, ///< Maps to Physical Button: [Gamepad: Start], [Touch, LTouch, RTouch: None]
+		Start                     = 0x00100000, ///< Maps to Physical Button: [Gamepad: Start], [Touch, LTouch: Start], [RTouch: None]
 		Back                      = 0x00200000, ///< Maps to Physical Button: [Gamepad: Back], [Touch, LTouch, RTouch: None]
 		LShoulder                 = 0x00000800, ///< Maps to Physical Button: [Gamepad: LShoulder], [Touch, LTouch, RTouch: None]
 		LIndexTrigger             = 0x10000000, ///< Maps to Physical Button: [Gamepad, Touch, LTouch: LIndexTrigger], [RTouch: None]
@@ -226,6 +226,8 @@ public static class OVRInput
 	private static List<OVRControllerBase> controllers;
 	private static Controller activeControllerType = Controller.None;
 	private static Controller connectedControllerTypes = Controller.None;
+	private static bool useFixedPoses = false;
+	private static int fixedUpdateCount = 0;
 
 	/// <summary>
 	/// Creates an instance of OVRInput.
@@ -252,6 +254,8 @@ public static class OVRInput
 	public static void Update()
 	{
 		connectedControllerTypes = Controller.None;
+		useFixedPoses = false;
+		fixedUpdateCount = 0;
 
 		for (int i = 0; i < controllers.Count; i++)
 		{
@@ -279,6 +283,19 @@ public static class OVRInput
 		{
 			activeControllerType = Controller.None;
 		}
+	}
+
+	/// <summary>
+	/// Updates the internal physics state of the OVRInput. Must be called manually if used independently from OVRManager.
+	/// </summary>
+	public static void FixedUpdate()
+	{
+		useFixedPoses = true;
+
+		double predictionSeconds = (double)fixedUpdateCount * Time.fixedDeltaTime / Mathf.Max(Time.timeScale, 1e-6f);
+		fixedUpdateCount++;
+		
+		OVRPlugin.UpdateNodePhysicsPoses(0, predictionSeconds);
 	}
 
 	/// <summary>
@@ -324,9 +341,9 @@ public static class OVRInput
 		switch (controllerType)
 		{
 			case Controller.LTouch:
-                return OVRPlugin.GetNodePose(OVRPlugin.Node.HandLeft).ToOVRPose().position;
+                return OVRPlugin.GetNodePose(OVRPlugin.Node.HandLeft, useFixedPoses).ToOVRPose().position;
             case Controller.RTouch:
-                return OVRPlugin.GetNodePose(OVRPlugin.Node.HandRight).ToOVRPose().position;
+                return OVRPlugin.GetNodePose(OVRPlugin.Node.HandRight, useFixedPoses).ToOVRPose().position;
             default:
 				return Vector3.zero;
 		}
@@ -341,9 +358,9 @@ public static class OVRInput
         switch (controllerType)
         {
             case Controller.LTouch:
-                return OVRPlugin.GetNodeVelocity(OVRPlugin.Node.HandLeft).ToOVRPose().position;
+                return OVRPlugin.GetNodeVelocity(OVRPlugin.Node.HandLeft, useFixedPoses).ToOVRPose().position;
             case Controller.RTouch:
-                return OVRPlugin.GetNodeVelocity(OVRPlugin.Node.HandRight).ToOVRPose().position;
+                return OVRPlugin.GetNodeVelocity(OVRPlugin.Node.HandRight, useFixedPoses).ToOVRPose().position;
             default:
                 return Vector3.zero;
         }
@@ -358,9 +375,9 @@ public static class OVRInput
         switch (controllerType)
         {
             case Controller.LTouch:
-                return OVRPlugin.GetNodeAcceleration(OVRPlugin.Node.HandLeft).ToOVRPose().position;
+                return OVRPlugin.GetNodeAcceleration(OVRPlugin.Node.HandLeft, useFixedPoses).ToOVRPose().position;
             case Controller.RTouch:
-                return OVRPlugin.GetNodeAcceleration(OVRPlugin.Node.HandRight).ToOVRPose().position;
+                return OVRPlugin.GetNodeAcceleration(OVRPlugin.Node.HandRight, useFixedPoses).ToOVRPose().position;
             default:
                 return Vector3.zero;
         }
@@ -375,9 +392,9 @@ public static class OVRInput
 		switch (controllerType)
 		{
 			case Controller.LTouch:
-                return OVRPlugin.GetNodePose(OVRPlugin.Node.HandLeft).ToOVRPose().orientation;
+                return OVRPlugin.GetNodePose(OVRPlugin.Node.HandLeft, useFixedPoses).ToOVRPose().orientation;
             case Controller.RTouch:
-                return OVRPlugin.GetNodePose(OVRPlugin.Node.HandRight).ToOVRPose().orientation;
+                return OVRPlugin.GetNodePose(OVRPlugin.Node.HandRight, useFixedPoses).ToOVRPose().orientation;
             default:
 				return Quaternion.identity;
 		}
@@ -392,9 +409,9 @@ public static class OVRInput
         switch (controllerType)
         {
             case Controller.LTouch:
-                return OVRPlugin.GetNodeVelocity(OVRPlugin.Node.HandLeft).ToOVRPose().orientation;
+                return OVRPlugin.GetNodeVelocity(OVRPlugin.Node.HandLeft, useFixedPoses).ToOVRPose().orientation;
             case Controller.RTouch:
-                return OVRPlugin.GetNodeVelocity(OVRPlugin.Node.HandRight).ToOVRPose().orientation;
+                return OVRPlugin.GetNodeVelocity(OVRPlugin.Node.HandRight, useFixedPoses).ToOVRPose().orientation;
             default:
                 return Quaternion.identity;
         }
@@ -409,9 +426,9 @@ public static class OVRInput
         switch (controllerType)
         {
             case Controller.LTouch:
-                return OVRPlugin.GetNodeAcceleration(OVRPlugin.Node.HandLeft).ToOVRPose().orientation;
+                return OVRPlugin.GetNodeAcceleration(OVRPlugin.Node.HandLeft, useFixedPoses).ToOVRPose().orientation;
             case Controller.RTouch:
-                return OVRPlugin.GetNodeAcceleration(OVRPlugin.Node.HandRight).ToOVRPose().orientation;
+                return OVRPlugin.GetNodeAcceleration(OVRPlugin.Node.HandRight, useFixedPoses).ToOVRPose().orientation;
             default:
                 return Quaternion.identity;
         }
@@ -1387,7 +1404,7 @@ public static class OVRInput
 			buttonMap.Two                      = RawButton.B;
 			buttonMap.Three                    = RawButton.X;
 			buttonMap.Four                     = RawButton.Y;
-			buttonMap.Start                    = RawButton.None;
+			buttonMap.Start                    = RawButton.Start;
 			buttonMap.Back                     = RawButton.None;
 			buttonMap.PrimaryShoulder          = RawButton.None;
 			buttonMap.PrimaryIndexTrigger      = RawButton.LIndexTrigger;
@@ -1470,7 +1487,7 @@ public static class OVRInput
 			buttonMap.Two                      = RawButton.Y;
 			buttonMap.Three                    = RawButton.None;
 			buttonMap.Four                     = RawButton.None;
-			buttonMap.Start                    = RawButton.None;
+			buttonMap.Start                    = RawButton.Start;
 			buttonMap.Back                     = RawButton.None;
 			buttonMap.PrimaryShoulder          = RawButton.None;
 			buttonMap.PrimaryIndexTrigger      = RawButton.LIndexTrigger;
@@ -1744,9 +1761,6 @@ public static class OVRInput
 		};
 
 		private bool initialized = false;
-		private bool joystickDetected = false;
-		private float joystickCheckInterval = 1.0f;
-		private float joystickCheckTime = 0.0f;
 
 		public OVRControllerGamepadDesktop()
 		{

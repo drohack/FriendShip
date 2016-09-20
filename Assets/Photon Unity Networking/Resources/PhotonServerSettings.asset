@@ -85,4 +85,6 @@ MonoBehaviour:
   - RPC_p4_NotAborting
   - RPC_p4_NotResetting
   - RPC_p4_Resetting
+  - UpdateScore
+  - RPCUpdateIsDown
   DisableAutoOpenWizard: 1

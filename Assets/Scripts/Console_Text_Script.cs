@@ -41,13 +41,49 @@ public class Console_Text_Script : Photon.MonoBehaviour
             int currentLineLength = 0;
             for (int i = 0; i < parts.Length; i++)
             {
-                if ((currentLineLength + 1 + parts[i].Length) > rowLimit)
+                if (parts.Equals("[̲̅$̲̅(̲̅1̲̅)̲̅$̲̅]") || parts.Equals("[̲̅$̲̅(̲̅5̲̅)̲̅$̲̅]"))
                 {
-                    message += System.Environment.NewLine;
-                    currentLineLength = 0;
+                    //Treat $1 and $5 as 7 characters (instead of their actual 19 character)
+                    if ((currentLineLength + 1 + 7) > rowLimit)
+                    {
+                        message += System.Environment.NewLine;
+                        currentLineLength = 0;
+                    }
+                    message += " " + parts[i];
+                    currentLineLength += 7;
                 }
-                message += " " + parts[i];
-                currentLineLength += parts[i].Length;
+                else if (parts.Equals("[̲̅$̲̅(̲̅ιοο̲̅)̲̅$̲̅]"))
+                {
+                    //Treat $100 as 9 characters (instead of it's actual 21 characters)
+                    if ((currentLineLength + 1 + 9) > rowLimit)
+                    {
+                        message += System.Environment.NewLine;
+                        currentLineLength = 0;
+                    }
+                    message += " " + parts[i];
+                    currentLineLength += 9;
+                }
+                else if (parts.Equals("♫♪..|̲̅̅●̲̅̅|̲̅̅=̲̅̅|̲̅̅●̲̅̅|..♫♪"))
+                {
+                    //Treat the Boombox as 15 characters (instead of it's actual 33 characters)
+                    if ((currentLineLength + 1 + 15) > rowLimit)
+                    {
+                        message += System.Environment.NewLine;
+                        currentLineLength = 0;
+                    }
+                    message += " " + parts[i];
+                    currentLineLength += 15;
+                }
+                else
+                {
+                    if ((currentLineLength + 1 + parts[i].Length) > rowLimit)
+                    {
+                        message += System.Environment.NewLine;
+                        currentLineLength = 0;
+                    }
+                    message += " " + parts[i];
+                    currentLineLength += parts[i].Length;
+                }
             }
         }
 
@@ -55,7 +91,7 @@ public class Console_Text_Script : Photon.MonoBehaviour
         foreach (char letter in message.ToCharArray())
         {
             textMesh.text += letter;
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.035f);
         }
         isTyping = false;
     }
