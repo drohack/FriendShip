@@ -191,10 +191,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013927286084}
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: 0, y: 1.097, z: -1.365}
+  m_LocalRotation: {x: -0.6531732, y: 0.2706429, z: 0.27055317, w: 0.6533898}
+  m_LocalPosition: {x: 0.791, y: 0.75, z: -1.595}
   m_LocalScale: {x: 0.3, y: 0.3000003, z: 0.3000003}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -89.981, y: 45, z: 0}
   m_Children:
   - {fileID: 4000010829827288}
   - {fileID: 4000013800313394}
@@ -417,10 +417,10 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013927286084}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.6
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -476,10 +476,10 @@ MonoBehaviour:
   group: 0
   prefixBackup: -1
   observed: {fileID: 0}
-  synchronization: 0
+  synchronization: 1
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
+  ownershipTransfer: 1
   ObservedComponents:
   - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1

@@ -55,7 +55,7 @@ public class Lightswitch_Script : Photon.MonoBehaviour
             {
                 isLightswitchOn = false;
                 //send tapped command to Mastermind
-                int rCommandUp = (rCommand * 100) + 1;
+                int rCommandUp = rCommand + 1;
                 photonView.RPC("RPCPlayAnim", PhotonTargets.Others, "Lightswitch_Off_Anim", isLightswitchOn);
                 StartCoroutine(WaitForAnimation(anim, "Lightswitch_Off_Anim"));
                 photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandUp, isLightswitchOn);
@@ -64,7 +64,7 @@ public class Lightswitch_Script : Photon.MonoBehaviour
             {
                 isLightswitchOn = true;
                 //send tapped command to Mastermind
-                int rCommandDown = (rCommand * 100) + 2;
+                int rCommandDown = rCommand + 2;
                 photonView.RPC("RPCPlayAnim", PhotonTargets.Others, "Lightswitch_On_Anim", isLightswitchOn);
                 StartCoroutine(WaitForAnimation(anim, "Lightswitch_On_Anim"));
                 photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandDown, isLightswitchOn);

@@ -88,4 +88,5 @@ MonoBehaviour:
   - UpdateScore
   - RPCUpdateIsDown
   - RpcLeaveRoom
+  - RPCLoadLockedPlutoniumRod
   DisableAutoOpenWizard: 1

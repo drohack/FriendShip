@@ -104,7 +104,7 @@ public class W_Lever_Script : Photon.MonoBehaviour
                         //Lever changed positions
                         isWLeverUp = true;
                         //send command tapped to the Server with the lLeverUpCommand
-                        int rCommandUp = (rCommand * 100) + 2;
+                        int rCommandUp = rCommand + 2;
                         photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandUp, isWLeverUp);
                     }
                 }
@@ -125,7 +125,7 @@ public class W_Lever_Script : Photon.MonoBehaviour
                         //Lever changed positions
                         isWLeverUp = false;
                         //send command tapped to the Server with the lLeverDownCommand
-                        int rCommandDown = (rCommand * 100) + 1;
+                        int rCommandDown = rCommand + 1;
                         photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandDown, isWLeverUp);
                     }
                 }

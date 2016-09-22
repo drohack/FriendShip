@@ -107,7 +107,7 @@ public class Shifter_Script : Photon.MonoBehaviour
                         //Lever changed positions
                         shifterPosition = 2;
                         //send command tapped to the Server
-                        int rCommandTwo = (rCommand * 100) + 2;
+                        int rCommandTwo = rCommand + 2;
                         photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandTwo, shifterPosition);
                     }
                 }
@@ -126,7 +126,7 @@ public class Shifter_Script : Photon.MonoBehaviour
                         //Lever changed positions
                         shifterPosition = 1;
                         //send command tapped to the Server
-                        int rCommandOne = (rCommand * 100) + 1;
+                        int rCommandOne = rCommand + 1;
                         photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandOne, shifterPosition);
                     }
                 }
@@ -145,7 +145,7 @@ public class Shifter_Script : Photon.MonoBehaviour
                         //Lever changed positions
                         shifterPosition = 0;
                         //send command tapped to the Server
-                        int rCommandZero = (rCommand * 100) + 0;
+                        int rCommandZero = rCommand + 0;
                         photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandZero, shifterPosition);
                     }
                 }
