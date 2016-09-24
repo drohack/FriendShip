@@ -17,6 +17,7 @@ public class PhotonLobby_VR : MonoBehaviour
     public GUISkin Skin;
     public Vector2 WidthAndHeight = new Vector2(600, 400);
     private string roomName = "myRoom";
+    public GameObject ListItemPrefab;
 
     private Vector2 scrollPos = Vector2.zero;
 
@@ -234,6 +235,11 @@ public class PhotonLobby_VR : MonoBehaviour
                 {
                     GUILayout.BeginHorizontal();
                     GUILayout.Label(roomInfo.name + " " + roomInfo.playerCount + "/" + roomInfo.maxPlayers);
+
+                    Debug.Log("Creating object");
+                    GameObject rowItem = Instantiate(ListItemPrefab);
+                    Debug.Log("Created object");
+             
                     if (GUILayout.Button("Join", GUILayout.Width(150)))
                     {
                         PhotonNetwork.JoinRoom(roomInfo.name);
