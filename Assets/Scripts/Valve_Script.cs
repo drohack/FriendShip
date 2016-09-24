@@ -127,14 +127,14 @@ public class Valve_Script : Photon.MonoBehaviour
                 {
                     isCommandSent = true;
                     //send tapped command to Mastermind
-                    int rCommandClockwise = (rCommand * 100) + 1;
+                    int rCommandClockwise = rCommand + 1;
                     photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandClockwise);
                 }
                 else if (valveTotalRotation < -360)
                 {
                     isCommandSent = true;
                     //send tapped command to Mastermind
-                    int rCommandCounterClockwise = (rCommand * 100) + 2;
+                    int rCommandCounterClockwise = rCommand + 2;
                     photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandCounterClockwise);
                 }
             }

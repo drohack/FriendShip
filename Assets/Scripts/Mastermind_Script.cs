@@ -12,6 +12,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
     /** SINGLE VARIABLES **/
     private int numPlayers = 0;
+    private GameObject[] playerModules;
     private bool[] playerPosOccupied = new bool[4] { false, false, false, false };
     private int score = 0;
     private int level = 1;
@@ -26,23 +27,26 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private float easyPercent = 0.8f;
     private float mediumPercent = 0f;
     private float hardPercent = 0f;
-    private int numOfDiffModules = 8; // The number of different type of modules total to be used for random rolling of said modules
     private const int commandTextRowLimit = 15;
+    public const int pullcordCommand = 10000;
     public const int buttonCommand = 0;
     public const int dialCommand = 1;
     public const int lLeverCommand = 2;
     public const int lightswitchCommand = 3;
-    public const int shifterCommand = 4;
-    public const int sliderCommand = 5;
-    public const int valveCommand = 6;
-    public const int wLeverCommand = 7;
-    public const int pullcordCommand = 8;
+    public const int plutoniumBatteryCommand = 4;
+    public const int shifterCommand = 5;
+    public const int sliderCommand = 6;
+    public const int valveCommand = 7;
+    public const int wLeverCommand = 8;
+    private int firstRandomModuleCommand = 0;
+    private int lastRandomModuleCommandPlusOne = 9; // The number of different type of modules total to be used for random rolling of said modules
     private string pullcordCommandText;
     private ArrayList usedCommandArray;
     private ArrayList buttonCommandArray_EASY;
     private ArrayList dialCommandArray_EASY;
     private ArrayList lLeverCommandArray_EASY;
     private ArrayList lightswitchCommandArray_EASY;
+    private ArrayList plutoniumBatteryCommandArray_EASY;
     private ArrayList shifterCommandArray_EASY;
     private ArrayList sliderCommandArray_EASY;
     private ArrayList valveCommandArray_EASY;
@@ -51,6 +55,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private ArrayList dialCommandArray_MEDIUM;
     private ArrayList lLeverCommandArray_MEDIUM;
     private ArrayList lightswitchCommandArray_MEDIUM;
+    private ArrayList plutoniumBatteryCommandArray_MEDIUM;
     private ArrayList shifterCommandArray_MEDIUM;
     private ArrayList sliderCommandArray_MEDIUM;
     private ArrayList valveCommandArray_MEDIUM;
@@ -59,6 +64,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private ArrayList dialCommandArray_HARD;
     private ArrayList lLeverCommandArray_HARD;
     private ArrayList lightswitchCommandArray_HARD;
+    private ArrayList plutoniumBatteryCommandArray_HARD;
     private ArrayList shifterCommandArray_HARD;
     private ArrayList sliderCommandArray_HARD;
     private ArrayList valveCommandArray_HARD;
@@ -73,10 +79,18 @@ public class Mastermind_Script : Photon.MonoBehaviour
     GameObject p2_PlayerControlDeck;
     GameObject p3_PlayerControlDeck;
     GameObject p4_PlayerControlDeck;
+    GameObject p1_PlayerAbortResetPanel;
+    GameObject p2_PlayerAbortResetPanel;
+    GameObject p3_PlayerAbortResetPanel;
+    GameObject p4_PlayerAbortResetPanel;
     Command_Feedback_Script p1_CommandFeedbackScript;
     Command_Feedback_Script p2_CommandFeedbackScript;
     Command_Feedback_Script p3_CommandFeedbackScript;
     Command_Feedback_Script p4_CommandFeedbackScript;
+    Abort_Reset_Feedback_Script p1_AbortResetScript;
+    Abort_Reset_Feedback_Script p2_AbortResetScript;
+    Abort_Reset_Feedback_Script p3_AbortResetScript;
+    Abort_Reset_Feedback_Script p4_AbortResetScript;
     Score_Text_Script p1_scoreTextScript;
     Score_Text_Script p2_scoreTextScript;
     Score_Text_Script p3_scoreTextScript;
@@ -94,33 +108,41 @@ public class Mastermind_Script : Photon.MonoBehaviour
     public int p1_rCommand = -1;
     private bool p1_isDisplayStart = true;
     public bool p1_isDisplayingCommand = false;
-    private float p1_gWaitSystem;       // Variables for the custom WaitForSeconds function
-    private int p1_gridX = 4;           // The grid which the modules get placed
-    private int p1_gridY = 2;           // The grid which the modules get placed
+    private float p1_gWaitSystem;         // Variables for the custom WaitForSeconds function
+    private int p1_gridX = 4;           // The grid which the random game objects get placed
+    private int p1_gridY = 2;           // The grid which the random game objects get placed
+    public bool p1_Resetting = false;   // Is the player pressing their reset button?
+    public bool p1_Aborting = false;    // Is the player pressing their abort button?    
 
     /** P2 VARIABLES **/
     public int p2_rCommand = -1;
     private bool p2_isDisplayStart = true;
     public bool p2_isDisplayingCommand = false;
-    private float p2_gWaitSystem;       // Variables for the custom WaitForSeconds function
-    private int p2_gridX = 4;           // The grid which the modules get placed
-    private int p2_gridY = 2;           // The grid which the modules get placed
+    private float p2_gWaitSystem;         // Variables for the custom WaitForSeconds function
+    private int p2_gridX = 4;           // The grid which the random game objects get placed
+    private int p2_gridY = 2;           // The grid which the random game objects get placed
+    public bool p2_Resetting = false;   // Is the player pressing their reset button?
+    public bool p2_Aborting = false;    // Is the player pressing their abort button?    
 
     /** P3 VARIABLES **/
     public int p3_rCommand = -1;
     private bool p3_isDisplayStart = true;
     public bool p3_isDisplayingCommand = false;
-    private float p3_gWaitSystem;       // Variables for the custom WaitForSeconds function
-    private int p3_gridX = 4;           // The grid which the modules get placed
-    private int p3_gridY = 2;           // The grid which the modules get placed
+    private float p3_gWaitSystem;         // Variables for the custom WaitForSeconds function
+    private int p3_gridX = 4;           // The grid which the random game objects get placed
+    private int p3_gridY = 2;           // The grid which the random game objects get placed
+    public bool p3_Resetting = false;   // Is the player pressing their reset button?
+    public bool p3_Aborting = false;    // Is the player pressing their abort button? 
 
     /** P4 VARIABLES **/
     public int p4_rCommand = -1;
     private bool p4_isDisplayStart = true;
     public bool p4_isDisplayingCommand = false;
-    private float p4_gWaitSystem;       // Variables for the custom WaitForSeconds function
-    private int p4_gridX = 4;           // The grid which the modules get placed
-    private int p4_gridY = 2;           // The grid which the modules get placed
+    private float p4_gWaitSystem;         // Variables for the custom WaitForSeconds function
+    private int p4_gridX = 4;           // The grid which the random game objects get placed
+    private int p4_gridY = 2;           // The grid which the random game objects get placed
+    public bool p4_Resetting = false;   // Is the player pressing their reset button?
+    public bool p4_Aborting = false;    // Is the player pressing their abort button? 
 
     //##################################################################################################################################
     //                                              INITIAL LOAD OF MASTERMIND
@@ -164,11 +186,11 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
     IEnumerator WaitForPlayersToSpawn()
     {
-        GameObject[] playeModules = GameObject.FindGameObjectsWithTag("Player");
-        while (playeModules.Length < numPlayers)
+        playerModules = GameObject.FindGameObjectsWithTag("Player");
+        while (playerModules.Length < numPlayers)
         {
-            playeModules = GameObject.FindGameObjectsWithTag("Player");
-            Debug.Log("numPlayers: " + numPlayers + " playerModules.Length: " + playeModules.Length);
+            playerModules = GameObject.FindGameObjectsWithTag("Player");
+            Debug.Log("numPlayers: " + numPlayers + " playerModules.Length: " + playerModules.Length);
             yield return new WaitForSeconds(0.1f);
         }
     }
@@ -187,6 +209,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         dialCommandArray_EASY = commandArray.dialCommandArray_EASY;
         lLeverCommandArray_EASY = commandArray.lLeverCommandArray_EASY;
         lightswitchCommandArray_EASY = commandArray.lightswitchCommandArray_EASY;
+        plutoniumBatteryCommandArray_EASY = commandArray.plutoniumBatteryCommandArray_EASY;
         shifterCommandArray_EASY = commandArray.shifterCommandArray_EASY;
         sliderCommandArray_EASY = commandArray.sliderCommandArray_EASY;
         valveCommandArray_EASY = commandArray.valveCommandArray_EASY;
@@ -195,6 +218,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         dialCommandArray_MEDIUM = commandArray.dialCommandArray_MEDIUM;
         lLeverCommandArray_MEDIUM = commandArray.lLeverCommandArray_MEDIUM;
         lightswitchCommandArray_MEDIUM = commandArray.lightswitchCommandArray_MEDIUM;
+        plutoniumBatteryCommandArray_MEDIUM = commandArray.plutoniumBatteryCommandArray_MEDIUM;
         shifterCommandArray_MEDIUM = commandArray.shifterCommandArray_MEDIUM;
         sliderCommandArray_MEDIUM = commandArray.sliderCommandArray_MEDIUM;
         valveCommandArray_MEDIUM = commandArray.valveCommandArray_MEDIUM;
@@ -203,6 +227,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         dialCommandArray_HARD = commandArray.dialCommandArray_HARD;
         lLeverCommandArray_HARD = commandArray.lLeverCommandArray_HARD;
         lightswitchCommandArray_HARD = commandArray.lightswitchCommandArray_HARD;
+        plutoniumBatteryCommandArray_HARD = commandArray.plutoniumBatteryCommandArray_HARD;
         shifterCommandArray_HARD = commandArray.shifterCommandArray_HARD;
         sliderCommandArray_HARD = commandArray.sliderCommandArray_HARD;
         valveCommandArray_HARD = commandArray.valveCommandArray_HARD;
@@ -223,34 +248,42 @@ public class Mastermind_Script : Photon.MonoBehaviour
         if (playerPosOccupied[0] == true)
         {
             p1_PlayerControlDeck = GameObject.Find("Player Control Deck 1");
+            p1_PlayerAbortResetPanel = GameObject.Find("Abort Reset Panel 1");
             p1_CommandFeedbackScript = p1_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
             p1_scoreTextScript = p1_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
             p1_consoleTextScript = p1_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
             p1_consoleTimerScript = p1_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
+            p1_AbortResetScript = p1_PlayerAbortResetPanel.GetComponent<Abort_Reset_Feedback_Script>();
         }
         if (playerPosOccupied[1] == true)
         {
             p2_PlayerControlDeck = GameObject.Find("Player Control Deck 2");
+            p2_PlayerAbortResetPanel = GameObject.Find("Abort Reset Panel 2");
             p2_scoreTextScript = p2_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
             p2_consoleTextScript = p2_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
             p2_consoleTimerScript = p2_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
             p2_CommandFeedbackScript = p2_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
+            p2_AbortResetScript = p2_PlayerAbortResetPanel.GetComponent<Abort_Reset_Feedback_Script>();
         }
         if (playerPosOccupied[2] == true)
         {
             p3_PlayerControlDeck = GameObject.Find("Player Control Deck 3");
+            p3_PlayerAbortResetPanel = GameObject.Find("Abort Reset Panel 3");
             p3_scoreTextScript = p3_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
             p3_consoleTextScript = p3_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
             p3_consoleTimerScript = p3_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
             p3_CommandFeedbackScript = p3_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
+            p3_AbortResetScript = p3_PlayerAbortResetPanel.GetComponent<Abort_Reset_Feedback_Script>();
         }
         if (playerPosOccupied[3] == true)
         {
             p4_PlayerControlDeck = GameObject.Find("Player Control Deck 4");
+            p4_PlayerAbortResetPanel = GameObject.Find("Abort Reset Panel 4");
             p4_scoreTextScript = p4_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
             p4_consoleTextScript = p4_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
             p4_consoleTimerScript = p4_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
             p4_CommandFeedbackScript = p4_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
+            p4_AbortResetScript = p4_PlayerAbortResetPanel.GetComponent<Abort_Reset_Feedback_Script>();
         }
     }
 
@@ -682,7 +715,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 GameObject randModuleEmpty;
                 object[] data = new object[3];
                 //roll for a module
-                int commandType = Random.Range(0, numOfDiffModules);
+                int commandType = Random.Range(firstRandomModuleCommand, lastRandomModuleCommandPlusOne);
 
                 Vector3 vector3 = new Vector3();
                 //for the given module create a copy of it to randModule
@@ -693,13 +726,13 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         newCommandText = GetRandomCommandText(commandType, ref buttonCommandArray_EASY, ref buttonCommandArray_MEDIUM, ref buttonCommandArray_HARD, ref usedCommandArray);
                         //set modules position/rotation based on which player it's for
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.08f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.45f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.08f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.08f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.08f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.45f + (0.3f * xOffset));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.08f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.45f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.08f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.08f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.08f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.45f + (0.3f * xOffset));
                         randModuleEmpty = new GameObject();
                         randModuleEmpty.transform.position = vector3;
                         randModuleEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion));
@@ -711,13 +744,13 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         newCommandText = GetRandomCommandText(commandType, ref dialCommandArray_EASY, ref dialCommandArray_MEDIUM, ref dialCommandArray_HARD, ref usedCommandArray);
                         //set modules position/rotation based on which player it's for
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.05f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.45f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.05f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.45f + (0.3f * xOffset));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.05f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.45f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.05f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.45f + (0.3f * xOffset));
                         randModuleEmpty = new GameObject();
                         randModuleEmpty.transform.position = vector3;
                         randModuleEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion - 90, yQuaternion + 90, zQuaternion));
@@ -729,13 +762,13 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         newCommandText = GetRandomCommandText(commandType, ref lLeverCommandArray_EASY, ref lLeverCommandArray_MEDIUM, ref lLeverCommandArray_HARD, ref usedCommandArray);
                         //set modules position/rotation based on which player it's for
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.147f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.45f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.147f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.147f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.147f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.45f + (0.3f * xOffset));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.147f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.45f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.147f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.147f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.147f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.45f + (0.3f * xOffset));
                         randModuleEmpty = new GameObject();
                         randModuleEmpty.transform.position = vector3;
                         randModuleEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion));
@@ -747,17 +780,35 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         newCommandText = GetRandomCommandText(commandType, ref lightswitchCommandArray_EASY, ref lightswitchCommandArray_MEDIUM, ref lightswitchCommandArray_HARD, ref usedCommandArray);
                         //set modules position/rotation based on which player it's for
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.39f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.05f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.41f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.05f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.39f + (0.3f * xOffset));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.41f + (0.3f * xOffset));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.39f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.05f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.41f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.05f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.39f + (0.3f * xOffset));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.41f + (0.3f * xOffset));
                         randModuleEmpty = new GameObject();
                         randModuleEmpty.transform.position = vector3;
                         randModuleEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion, yQuaternion + 90, zQuaternion));
                         randModuleEmpty.name = "Lightswitch";
+                        randModuleEmpty.transform.parent = playerControlDeck.transform.Find("Modules").transform;
+                        break;
+                    case plutoniumBatteryCommand:
+                        //get a random command text based on the easy/medium/hard arrays
+                        newCommandText = GetRandomCommandText(commandType, ref plutoniumBatteryCommandArray_EASY, ref plutoniumBatteryCommandArray_MEDIUM, ref plutoniumBatteryCommandArray_HARD, ref usedCommandArray);
+                        //set modules position/rotation based on which player it's for
+                        if (playerNum == 1)
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.45f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.045f);
+                        if (playerNum == 2)
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.45f + (0.3f * xOffset));
+                        if (playerNum == 3)
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.45f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.05f);
+                        if (playerNum == 4)
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.45f + (0.3f * xOffset));
+                        randModuleEmpty = new GameObject();
+                        randModuleEmpty.transform.position = vector3;
+                        randModuleEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion, yQuaternion + 180, zQuaternion - 90));
+                        randModuleEmpty.name = "Plutonium_Case";
                         randModuleEmpty.transform.parent = playerControlDeck.transform.Find("Modules").transform;
                         break;
                     case shifterCommand:
@@ -765,13 +816,13 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         newCommandText = GetRandomCommandText(commandType, ref shifterCommandArray_EASY, ref shifterCommandArray_MEDIUM, ref shifterCommandArray_HARD, ref usedCommandArray);
                         //set modules position/rotation based on which player it's for
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.05f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.45f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.05f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.45f + (0.3f * xOffset));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.05f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.45f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.05f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.45f + (0.3f * xOffset));
                         randModuleEmpty = new GameObject();
                         randModuleEmpty.transform.position = vector3;
                         randModuleEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion + 180, yQuaternion + 90, zQuaternion));
@@ -783,13 +834,13 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         newCommandText = GetRandomCommandText(commandType, ref sliderCommandArray_EASY, ref sliderCommandArray_MEDIUM, ref sliderCommandArray_HARD, ref usedCommandArray);
                         //set modules position/rotation based on which player it's for
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.05f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.45f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.05f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.45f + (0.3f * xOffset));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.05f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.45f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.05f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.05f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.45f + (0.3f * xOffset));
                         randModuleEmpty = new GameObject();
                         randModuleEmpty.transform.position = vector3;
                         randModuleEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion + 270, yQuaternion + 90, zQuaternion));
@@ -801,13 +852,13 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         newCommandText = GetRandomCommandText(commandType, ref valveCommandArray_EASY, ref valveCommandArray_MEDIUM, ref valveCommandArray_HARD, ref usedCommandArray);
                         //set modules position/rotation based on which player it's for
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.096f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.45f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.096f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.096f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.096f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.45f + (0.3f * xOffset));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.096f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.45f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.096f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.096f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.096f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.45f + (0.3f * xOffset));
                         randModuleEmpty = new GameObject();
                         randModuleEmpty.transform.position = vector3;
                         randModuleEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion + 90));
@@ -819,13 +870,13 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         newCommandText = GetRandomCommandText(commandType, ref wLeverCommandArray_EASY, ref wLeverCommandArray_MEDIUM, ref wLeverCommandArray_HARD, ref usedCommandArray);
                         //set modules position/rotation based on which player it's for
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.152f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.45f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.152f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.152f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.152f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.45f + (0.3f * xOffset));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.152f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.45f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.152f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.152f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.152f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.45f + (0.3f * xOffset));
                         randModuleEmpty = new GameObject();
                         randModuleEmpty.transform.position = vector3;
                         randModuleEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion));
@@ -837,13 +888,13 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         newCommandText = GetRandomCommandText(commandType, ref buttonCommandArray_EASY, ref buttonCommandArray_MEDIUM, ref buttonCommandArray_HARD, ref usedCommandArray);
                         //set modules position/rotation based on which player it's for
                         if (playerNum == 1)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.09f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.45f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.09f);
                         if (playerNum == 2)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.09f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x + 0.09f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.45f + (0.3f * xOffset));
                         if (playerNum == 3)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.43f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.09f);
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.45f + (0.3f * xOffset), 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z + 0.09f);
                         if (playerNum == 4)
-                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.09f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.43f + (0.3f * xOffset));
+                            vector3 = new Vector3(playerControlDeck.transform.position.x - 0.09f, 0.6f + (0.4f * yOffset), playerControlDeck.transform.position.z - 0.45f + (0.3f * xOffset));
                         randModuleEmpty = new GameObject();
                         randModuleEmpty.transform.position = vector3;
                         randModuleEmpty.transform.rotation = Quaternion.Euler(new Vector3(xQuaternion, yQuaternion, zQuaternion));
@@ -871,7 +922,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 }
 
                 data[0] = newCommandText;
-                data[1] = intModuleListSize + ((x * gridY) + y);
+                data[1] = (intModuleListSize + ((x * gridY) + y)) * 100;
                 data[2] = playerNum;
 
                 //add randomModule to grid
@@ -917,6 +968,12 @@ public class Mastermind_Script : Photon.MonoBehaviour
                     commandArray_EASY = commandArray.lightswitchCommandArray_EASY;
                     commandArray_MEDIUM = commandArray.lightswitchCommandArray_MEDIUM;
                     commandArray_HARD = commandArray.lightswitchCommandArray_HARD;
+                    break;
+                case plutoniumBatteryCommand:
+                    //Plutonium Battery
+                    plutoniumBatteryCommandArray_EASY = commandArray.plutoniumBatteryCommandArray_EASY;
+                    plutoniumBatteryCommandArray_MEDIUM = commandArray.plutoniumBatteryCommandArray_MEDIUM;
+                    plutoniumBatteryCommandArray_HARD = commandArray.plutoniumBatteryCommandArray_HARD;
                     break;
                 case shifterCommand:
                     //Dial
@@ -1087,6 +1144,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         StartCoroutine(P4_DisplayRandomCommand());
                 }
             }
+            ResetCheck();
+            AbortCheck();
         }
     }
 
@@ -1108,6 +1167,93 @@ public class Mastermind_Script : Photon.MonoBehaviour
         }
     }
 
+    public void ResetCheck()
+    {
+        int resetCount = 0;
+        int playerCount = PhotonNetwork.playerList.Length;
+        //foreach (bool player in playerPosOccupied)
+        //{
+        //if (player)
+        //{
+        //playerCount += 1;
+        //}
+        //}
+
+        if (p1_Resetting == true)
+        {
+            resetCount += 1;
+        }
+        if (p2_Resetting == true)
+        {
+            resetCount += 1;
+        }
+        if (p3_Resetting == true)
+        {
+            resetCount += 1;
+        }
+        if (p4_Resetting == true)
+        {
+            resetCount += 1;
+        }
+        if (resetCount == playerCount)
+        {
+            ResetGame();
+        }
+    }
+
+    public void ResetGame()
+    {
+        //PhotonNetwork.LeaveRoom();
+        foreach (PhotonPlayer player in PhotonNetwork.playerList)
+        {
+            PhotonNetwork.DestroyPlayerObjects(player);
+        }
+        PhotonNetwork.LoadLevel("Game");
+    }
+
+    public void AbortCheck()
+    {
+        int abortCount = 0;
+        int playerCount = PhotonNetwork.playerList.Length;
+        //foreach (bool player in playerPosOccupied)
+        //{
+        //if (player)
+        //{
+        //playerCount += 1;
+        //}
+        //}
+
+        if (p1_Aborting == true)
+        {
+            abortCount += 1;
+        }
+        if (p2_Aborting == true)
+        {
+            abortCount += 1;
+        }
+        if (p3_Aborting == true)
+        {
+            abortCount += 1;
+        }
+        if (p4_Aborting == true)
+        {
+            abortCount += 1;
+        }
+        if (abortCount == playerCount)
+        {
+            AbortGame();
+        }
+    }
+
+    public void AbortGame()
+    {
+        foreach (GameObject player in playerModules)
+        {
+            player.GetPhotonView().RPC("RpcLeaveRoom",PhotonTargets.Others);
+        }
+        PhotonNetwork.LeaveRoom();
+    }
+
     public void UpdateScore()
     {
         if (playerPosOccupied[0] == true)
@@ -1118,7 +1264,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             p3_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, score);
         if (playerPosOccupied[3] == true)
             p4_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, score);
-    }    
+    }
 
     public void UpdateAllConsoles(string msg)
     {
@@ -1327,6 +1473,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
             commandType = lLeverCommand;
         else if (module.name.Contains("Lightswitch"))
             commandType = lightswitchCommand;
+        else if (module.name.Contains("Plutonium"))
+            commandType = plutoniumBatteryCommand;
         else if (module.name.Contains("Pullcord"))
             commandType = pullcordCommand;
         else if (module.name.Contains("Shifter"))
@@ -1340,6 +1488,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
         string message = "";
         int newRCommand;
+        rCommand = rCommand * 100;
         //Get new command
         switch (commandType)
         {
@@ -1358,7 +1507,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                     newRCommand = Random.Range(0, 5);
                 }
                 message = "Change " + dialText + " to Ch. " + newRCommand;
-                rCommand = (rCommand * 100) + newRCommand;
+                rCommand += newRCommand;
                 break;
             case lLeverCommand:
                 //L_Lever
@@ -1368,31 +1517,37 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 if (lLeverScript.isLLeverUp)
                 {
                     message += "OFF ";
-                    rCommand = (rCommand * 100) + 1;
+                    rCommand += 1;
                 }
                 else
                 {
                     message += "ON ";
-                    rCommand = (rCommand * 100) + 2;
+                    rCommand += 2;
                 }
                 message += lLeverText;
                 break;
             case lightswitchCommand:
-                //L_Lever
+                //Lightswitch
                 Lightswitch_Script lightswitchScript = module.GetComponent<Lightswitch_Script>();
                 string lightswitchText = lightswitchScript.newName;
                 message = "Turn ";
                 if (lightswitchScript.isLightswitchOn)
                 {
                     message += "OFF ";
-                    rCommand = (rCommand * 100) + 1;
+                    rCommand += 1;
                 }
                 else
                 {
                     message += "ON ";
-                    rCommand = (rCommand * 100) + 2;
+                    rCommand += 2;
                 }
                 message += lightswitchText;
+                break;
+            case plutoniumBatteryCommand:
+                //Plutonium Battery
+                Plutonium_Case_Script plutoniumCaseScript = module.GetComponent<Plutonium_Case_Script>();
+                string plutoniumBatteryText = plutoniumCaseScript.newName;
+                message = "Power " + plutoniumBatteryText;
                 break;
             case pullcordCommand:
                 message = pullcordCommandText;
@@ -1417,7 +1572,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                     message += "Increase ";
                 }
                 message += shifterText + " to " + newRCommand;
-                rCommand = (rCommand * 100) + newRCommand;
+                rCommand += newRCommand;
                 break;
             case sliderCommand:
                 //Dial
@@ -1438,7 +1593,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                     message += "Boost ";
                 }
                 message += sliderText + " to " + newRCommand;
-                rCommand = (rCommand * 100) + newRCommand;
+                rCommand += newRCommand;
                 break;
             case valveCommand:
                 //Valve
@@ -1449,12 +1604,12 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 if (newRCommand == 0)
                 {
                     message += "Tighten ";
-                    rCommand = (rCommand * 100) + 1;
+                    rCommand += 1;
                 }
                 else
                 {
                     message += "Loosen ";
-                    rCommand = (rCommand * 100) + 2;
+                    rCommand += 2;
                 }
                 message += valveText;
                 break;
@@ -1466,12 +1621,12 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 if (wLeverHandleScript.isWLeverUp)
                 {
                     message += "Lower ";
-                    rCommand = (rCommand * 100) + 1;
+                    rCommand += 1;
                 }
                 else
                 {
                     message += "Raise ";
-                    rCommand = (rCommand * 100) + 2;
+                    rCommand += 2;
                 }
                 message += wLeverText;
                 break;
@@ -1572,7 +1727,103 @@ public class Mastermind_Script : Photon.MonoBehaviour
     // End the waitForSeconds by setting the timer to zero AND signal that a button was tapped (isTapped = true)
     public void TappedWaitForSecondsOrTap(int inputCommand, int playerNum)
     {
-        if (!isGameOver)
+        if (inputCommand == -1)
+        {
+            if (playerNum == 1)
+            {
+                p1_Aborting = false;
+                p1_AbortResetScript.p1_NotAborting();
+            }
+            if (playerNum == 2)
+            {
+                p2_Aborting = false;
+                p2_AbortResetScript.p2_NotAborting();
+            }
+            if (playerNum == 3)
+            {
+                p3_Aborting = false;
+                p3_AbortResetScript.p3_NotAborting();
+            }
+            if (playerNum == 4)
+            {
+                p4_Aborting = false;
+                p4_AbortResetScript.p4_NotAborting();
+            }
+        }
+
+        if (inputCommand == -2)
+        {
+            if (playerNum == 1)
+            {
+                p1_Aborting = true;
+                p1_AbortResetScript.p1_Aborting();
+            }
+            if (playerNum == 2)
+            {
+                p2_Aborting = true;
+                p2_AbortResetScript.p2_Aborting();
+            }
+            if (playerNum == 3)
+            {
+                p3_Aborting = true;
+                p3_AbortResetScript.p3_Aborting();
+            }
+            if (playerNum == 4)
+            {
+                p4_Aborting = true;
+                p4_AbortResetScript.p4_Aborting();
+            }
+        }
+
+        if (inputCommand == -3)
+        {
+            if (playerNum == 1)
+            {
+                p1_Resetting = false;
+                p1_AbortResetScript.p1_NotResetting();
+            }
+            if (playerNum == 2)
+            {
+                p2_Resetting = false;
+                p2_AbortResetScript.p2_NotResetting();
+            }
+            if (playerNum == 3)
+            {
+                p3_Resetting = false;
+                p3_AbortResetScript.p3_NotResetting();
+            }
+            if (playerNum == 4)
+            {
+                p4_Resetting = false;
+                p4_AbortResetScript.p4_NotResetting();
+            }
+        }
+
+        if (inputCommand == -4)
+        {
+            if (playerNum == 1)
+            {
+                p1_Resetting = true;
+                p1_AbortResetScript.p1_Resetting();
+            }
+            if (playerNum == 2)
+            {
+                p2_Resetting = true;
+                p2_AbortResetScript.p2_Resetting();
+            }
+            if (playerNum == 3)
+            {
+                p3_Resetting = true;
+                p3_AbortResetScript.p3_Resetting();
+            }
+            if (playerNum == 4)
+            {
+                p4_Resetting = true;
+                p4_AbortResetScript.p4_Resetting();
+            }
+        }
+
+        if (!isGameOver && inputCommand >= 0)
         {
             numFufilled = 0;
             bool isActivePullcordCommand = false;
@@ -1586,7 +1837,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 isActivePullcordCommand = true;
                 //Loop through all scripts and see if all players are pulling down
                 int numDown = 0;
-                foreach(Pullcord_Script pScript in pullcordScriptList)
+                foreach (Pullcord_Script pScript in pullcordScriptList)
                 {
                     if (pScript.isDown)
                         numDown++;
@@ -1597,7 +1848,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
             //Check to see if the current command is the correct button pressed. Update score accordingly
             //if command is for a pullcord make sure all players have pulled down
-            if ((inputCommand != pullcordCommand && p1_rCommand == inputCommand) || 
+            if ((inputCommand != pullcordCommand && p1_rCommand == inputCommand) ||
                 (inputCommand == pullcordCommand && p1_rCommand == inputCommand && isAllPullcordDown))
             {
                 p1_consoleTextScript.photonView.RPC("RpcTypeText", PhotonTargets.All, "");
@@ -1638,7 +1889,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             }
 
             // If no command matched (and someone is not trying to fufill a pullcord) lower score
-            if (numFufilled == 0 && !isActivePullcordCommand)
+            if (numFufilled == 0 && !isActivePullcordCommand && inputCommand > 0)
             {
                 ScoreDown();
                 if (playerNum == 1)

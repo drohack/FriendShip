@@ -183,10 +183,52 @@ public class Command_Array : MonoBehaviour {
         "┏━┓︵/(^.^/)",
         "༼ つ ◕_◕ ༽つ",
         "( ͡° ͜ʖ ͡°)",
-        "／人 ⌒ ‿‿ ⌒ 人＼",
+        "／人◕‿‿◕人＼",
         "(\\/)(Ö,,,,Ö)(\\/)",
         "(✿ ♥‿♥)",
         "(╯°□°)︻╦╤─ – – –"
+        };
+    //Plutonium Batteries
+    public readonly ArrayList plutoniumBatteryCommandArray_EASY = new ArrayList
+    {
+        "Engines",
+        "Batteries",
+        "Turbines",
+        "Reactor",
+        "Generators",
+        "Fusion Core",
+        "Lithium-ion Battery",
+        "Plutonium Cell",
+        "Ship's Power Grid",
+        "Weapons"
+        };
+    //Sci fi engines/drives
+    public readonly ArrayList plutoniumBatteryCommandArray_MEDIUM = new ArrayList
+    {
+        "Quantum Flux Drive",
+        "Warp Drive System",
+        "Hyperdrive System",
+        "Infinite Improbability",
+        "FTL Drive",
+        "Holtzman Drive",
+        "Starburst System",
+        "Boom Tubes",
+        "Quantum Slip- Stream Drive",
+        "Timewarp"
+        };
+    //Objects
+    public readonly ArrayList plutoniumBatteryCommandArray_HARD = new ArrayList
+    {
+        "☢ ☢ ☢",
+        "☣ ☣ ☣",
+        "☠ ☠ ☠",
+        "☮ ☮ ☮",
+        "☭ ☭ ☭",
+        "✎ ✉ ✉",
+        "Ɛղցìղҽʂ",
+        "βąէէҽɾìҽʂ",
+        "Ͳմɾҍìղҽʂ",
+        "ɾҽąçէօɾ"
         };
     //Shifters
     public readonly ArrayList shifterCommandArray_EASY = new ArrayList
@@ -263,7 +305,7 @@ public class Command_Array : MonoBehaviour {
     {
         "♫♪..|̲̅̅●̲̅̅|̲̅̅=̲̅̅|̲̅̅●̲̅̅|..♫♪",
         "❚█══█❚",
-        "█▬█ █▄█ █▬█ █▄█",
+        "█▬█ █▄█ █▬█",
         "┣▬▇▇▇═─",
         "▇ ▂ ▃ ▁ ▅ ▃ ▅",
         "█▬█ █ ▀█▀",

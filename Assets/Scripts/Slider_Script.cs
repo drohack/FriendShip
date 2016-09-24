@@ -106,7 +106,7 @@ public class Slider_Script : Photon.MonoBehaviour
                         //Lever changed positions
                         sliderPosition = 3;
                         //send command tapped to the Server
-                        int rCommandThree = (rCommand * 100) + 3;
+                        int rCommandThree = rCommand + 3;
                         photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandThree, sliderPosition);
                     }
                 }
@@ -121,7 +121,7 @@ public class Slider_Script : Photon.MonoBehaviour
                         //Lever changed positions
                         sliderPosition = 2;
                         //send command tapped to the Server
-                        int rCommandTwo = (rCommand * 100) + 2;
+                        int rCommandTwo = rCommand + 2;
                         photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandTwo, sliderPosition);
                     }
                 }
@@ -136,7 +136,7 @@ public class Slider_Script : Photon.MonoBehaviour
                         //Lever changed positions
                         sliderPosition = 1;
                         //send command tapped to the Server
-                        int rCommandOne = (rCommand * 100) + 1;
+                        int rCommandOne = rCommand + 1;
                         photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandOne, sliderPosition);
                     }
                 }
@@ -151,7 +151,7 @@ public class Slider_Script : Photon.MonoBehaviour
                         //Lever changed positions
                         sliderPosition = 0;
                         //send command tapped to the Server
-                        int rCommandZero = (rCommand * 100) + 0;
+                        int rCommandZero = rCommand + 0;
                         photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandZero, sliderPosition);
                     }
                 }

@@ -64,7 +64,7 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
         {
             // Enable your own camera and scripts
             ovrCameraRig.gameObject.AddComponent<OVRManager>();
-            ovrCameraRig.GetComponent<OVRCameraRig>().enabled = true;
+            ovrCameraRig.gameObject.AddComponent<OVRCameraRig>();
             centerEyeAnchor.GetComponent<Camera>().enabled = true;
             centerEyeAnchor.GetComponent<AudioListener>().enabled = true;
             handScriptL.enabled = true;
@@ -273,6 +273,15 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
         else
         {
             transform.Find("RightHandPf").GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled = isEnabled;
+        }
+    }
+
+    [PunRPC]
+    public void RpcLeaveRoom()
+    {
+        if (photonView.isMine) 
+        {
+            PhotonNetwork.LeaveRoom();
         }
     }
 

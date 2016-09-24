@@ -103,7 +103,7 @@ public class Dial_Script : Photon.MonoBehaviour
                         //Lever changed positions
                         dialPosition = 5;
                         //send command tapped to the Server
-                        int rCommandFive = (rCommand * 100) + 5;
+                        int rCommandFive = rCommand + 5;
                         photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandFive, dialPosition);
                     }
                 }
@@ -118,7 +118,7 @@ public class Dial_Script : Photon.MonoBehaviour
                         //Lever changed positions
                         dialPosition = 4;
                         //send command tapped to the Server
-                        int rCommandFour = (rCommand * 100) + 4;
+                        int rCommandFour = rCommand + 4;
                         photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandFour, dialPosition);
                     }
                 }
@@ -133,7 +133,7 @@ public class Dial_Script : Photon.MonoBehaviour
                         //Lever changed positions
                         dialPosition = 3;
                         //send command tapped to the Server
-                        int rCommandThree = (rCommand * 100) + 3;
+                        int rCommandThree = rCommand + 3;
                         photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandThree, dialPosition);
                     }
                 }
@@ -148,7 +148,7 @@ public class Dial_Script : Photon.MonoBehaviour
                         //Lever changed positions
                         dialPosition = 2;
                         //send command tapped to the Server
-                        int rCommandTwo = (rCommand * 100) + 2;
+                        int rCommandTwo = rCommand + 2;
                         photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandTwo, dialPosition);
                     }
                 }
@@ -163,7 +163,7 @@ public class Dial_Script : Photon.MonoBehaviour
                         //Lever changed positions
                         dialPosition = 1;
                         //send command tapped to the Server
-                        int rCommandOne = (rCommand * 100) + 1;
+                        int rCommandOne = rCommand + 1;
                         photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandOne, dialPosition);
                     }
                 }
@@ -178,7 +178,7 @@ public class Dial_Script : Photon.MonoBehaviour
                         //Lever changed positions
                         dialPosition = 0;
                         //send command tapped to the Server
-                        int rCommandZero = (rCommand * 100) + 0;
+                        int rCommandZero = rCommand + 0;
                         photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandZero, dialPosition);
                     }
                 }
