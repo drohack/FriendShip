@@ -34,12 +34,12 @@ public class Plutonium_Rod_Script : Photon.MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-        if (photonView.isMine)
+        if (photonView != null && photonView.isMine)
         {
             // If the following is not true start the respawn countdown
             // Is in the spawn location
             // Is being grabbed
-            if (!isCollidingWithSpawn && !grabbable.isGrabbing)
+            if (!isCollidingWithSpawn && !grabbable.isGrabbed)
             {
                 currentRespawnTime -= Time.deltaTime;
                 if (currentRespawnTime <= 0f)
