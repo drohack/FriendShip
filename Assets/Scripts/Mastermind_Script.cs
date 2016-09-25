@@ -553,7 +553,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             for (int i = 0; i < p1_moduleTransform.childCount; i++)
             {
                 GameObject moduleEmpty = p1_moduleTransform.GetChild(i).gameObject;
-                GameObject module = PhotonNetwork.InstantiateSceneObject("Prefabs/" + moduleEmpty.name, moduleEmpty.transform.position, moduleEmpty.transform.rotation, 0, moduleList[moduleCount].data);
+                GameObject module = PhotonNetwork.InstantiateSceneObject("Modules/" + moduleEmpty.name, moduleEmpty.transform.position, moduleEmpty.transform.rotation, 0, moduleList[moduleCount].data);
                 moduleList[moduleCount].module = module;
                 moduleCount++;
             }
@@ -567,7 +567,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             for (int i = 0; i < p2_moduleTransform.childCount; i++)
             {
                 GameObject moduleEmpty = p2_moduleTransform.GetChild(i).gameObject;
-                GameObject module = PhotonNetwork.InstantiateSceneObject("Prefabs/" + moduleEmpty.name, moduleEmpty.transform.position, moduleEmpty.transform.rotation, 0, moduleList[moduleCount].data);
+                GameObject module = PhotonNetwork.InstantiateSceneObject("Modules/" + moduleEmpty.name, moduleEmpty.transform.position, moduleEmpty.transform.rotation, 0, moduleList[moduleCount].data);
                 moduleList[moduleCount].module = module;
                 moduleCount++;
             }
@@ -581,7 +581,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             for (int i = 0; i < p3_moduleTransform.childCount; i++)
             {
                 GameObject moduleEmpty = p3_moduleTransform.GetChild(i).gameObject;
-                GameObject module = PhotonNetwork.InstantiateSceneObject("Prefabs/" + moduleEmpty.name, moduleEmpty.transform.position, moduleEmpty.transform.rotation, 0, moduleList[moduleCount].data);
+                GameObject module = PhotonNetwork.InstantiateSceneObject("Modules/" + moduleEmpty.name, moduleEmpty.transform.position, moduleEmpty.transform.rotation, 0, moduleList[moduleCount].data);
                 moduleList[moduleCount].module = module;
                 moduleCount++;
             }
@@ -595,7 +595,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             for (int i = 0; i < p4_moduleTransform.childCount; i++)
             {
                 GameObject moduleEmpty = p4_moduleTransform.GetChild(i).gameObject;
-                GameObject module = PhotonNetwork.InstantiateSceneObject("Prefabs/" + moduleEmpty.name, moduleEmpty.transform.position, moduleEmpty.transform.rotation, 0, moduleList[moduleCount].data);
+                GameObject module = PhotonNetwork.InstantiateSceneObject("Modules/" + moduleEmpty.name, moduleEmpty.transform.position, moduleEmpty.transform.rotation, 0, moduleList[moduleCount].data);
                 moduleList[moduleCount].module = module;
                 moduleCount++;
             }
@@ -609,7 +609,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             data[0] = "test";
             data[1] = pullcordCommand;
             data[2] = 1;
-            GameObject module = PhotonNetwork.InstantiateSceneObject("Prefabs/Pullcord", new Vector3(0.4f, 1f, -1.55f), Quaternion.Euler(new Vector3(0, 90, 0)), 0, data);
+            GameObject module = PhotonNetwork.InstantiateSceneObject("Modules/Pullcord", new Vector3(0.4f, 1f, -1.55f), Quaternion.Euler(new Vector3(0, 90, 0)), 0, data);
             moduleType moduleType = new moduleType();
             moduleType.module = module;
             moduleType.data = data;
@@ -624,7 +624,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             data[0] = "";
             data[1] = pullcordCommand;
             data[2] = 2;
-            GameObject module = PhotonNetwork.InstantiateSceneObject("Prefabs/Pullcord", new Vector3(1.55f, 1f, 0.4f), Quaternion.Euler(new Vector3(0, 0, 0)), 0, data);
+            GameObject module = PhotonNetwork.InstantiateSceneObject("Modules/Pullcord", new Vector3(1.55f, 1f, 0.4f), Quaternion.Euler(new Vector3(0, 0, 0)), 0, data);
             moduleType moduleType = new moduleType();
             moduleType.module = module;
             moduleType.data = data;
@@ -639,7 +639,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             data[0] = "";
             data[1] = pullcordCommand;
             data[2] = 3;
-            GameObject module = PhotonNetwork.InstantiateSceneObject("Prefabs/Pullcord", new Vector3(-0.4f, 1f, 1.55f), Quaternion.Euler(new Vector3(0, -90, 0)), 0, data);
+            GameObject module = PhotonNetwork.InstantiateSceneObject("Modules/Pullcord", new Vector3(-0.4f, 1f, 1.55f), Quaternion.Euler(new Vector3(0, -90, 0)), 0, data);
             moduleType moduleType = new moduleType();
             moduleType.module = module;
             moduleType.data = data;
@@ -654,7 +654,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             data[0] = "";
             data[1] = pullcordCommand;
             data[2] = 4;
-            GameObject module = PhotonNetwork.InstantiateSceneObject("Prefabs/Pullcord", new Vector3(-1.55f, 1f, -0.4f), Quaternion.Euler(new Vector3(0, 180, 0)), 0, data);
+            GameObject module = PhotonNetwork.InstantiateSceneObject("Modules/Pullcord", new Vector3(-1.55f, 1f, -0.4f), Quaternion.Euler(new Vector3(0, 180, 0)), 0, data);
             moduleType moduleType = new moduleType();
             moduleType.module = module;
             moduleType.data = data;
@@ -682,7 +682,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
         string newCommandText;
 
-        GameObject buttonInstance = (GameObject)Resources.Load("Prefabs/Button");
+        GameObject buttonInstance = (GameObject)Resources.Load("Modules/Button");
 
         float xQuaternion = buttonInstance.transform.rotation.eulerAngles.x + playerControlDeck.transform.rotation.eulerAngles.x;
         float yQuaternion = buttonInstance.transform.rotation.eulerAngles.y + playerControlDeck.transform.rotation.eulerAngles.y;

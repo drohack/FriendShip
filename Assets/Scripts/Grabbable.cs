@@ -140,7 +140,10 @@ namespace OvrTouch.Hands
                 m_SpringJoint = rigidbodyDragger.AddComponent<SpringJoint>();
             }
 
-            m_SpringJoint.transform.position = m_grabbedHand.transform.position;
+            if (m_grabMode.Equals(GrabMode.Grab))
+                m_SpringJoint.transform.position = this.transform.position;
+            else 
+                m_SpringJoint.transform.position = m_grabbedHand.transform.position;
             m_SpringJoint.anchor = Vector3.zero;
             m_SpringJoint.maxDistance = k_Distance;
             m_SpringJoint.connectedBody = transform.GetComponent<Rigidbody>();
@@ -161,14 +164,6 @@ namespace OvrTouch.Hands
                 m_SpringJoint.tolerance = k_Tolerance;
                 m_SpringJoint.connectedBody.drag = k_Drag;
                 m_SpringJoint.connectedBody.angularDrag = k_AngularDrag;
-
-            }
-
-            if (m_grabMode.Equals(GrabMode.Grab) && m_grabbedGrabPoint.Rigidbody != null)
-            {
-                // Force to kinematic state
-                m_grabbedKinematic = m_grabbedGrabPoint.Rigidbody.isKinematic;
-                m_grabbedGrabPoint.Rigidbody.isKinematic = true;
             }
 
             // Send grab begin message

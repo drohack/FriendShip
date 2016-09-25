@@ -476,30 +476,31 @@ namespace OvrTouch.Hands {
             // Get grabbed object's transform
             Transform grabbedTransform = m_grabbedGrabbable.GrabTransform;
 
+            // If the grabbable is GrabMode "Grab" update the objects velocity/angularVelocity to match the hand so it keeps it's physics
             if (m_grabbedGrabbable.m_grabMode.Equals(Grabbable.GrabMode.Grab))
             {
-                // Determine grab snapping
-                bool snapPosition = (
-                    (m_grabbedHandPose != null) &&
-                    ((m_grabbedHandPose.AttachType == HandPoseAttachType.Snap) || (m_grabbedHandPose.AttachType == HandPoseAttachType.SnapPosition))
-                );
-                bool snapRotation = (
-                    (m_grabbedHandPose != null) &&
-                    (m_grabbedHandPose.AttachType == HandPoseAttachType.Snap)
-                );
+                Quaternion rotationDelta = this.transform.rotation * Quaternion.Inverse(grabbedTransform.rotation);
+                Vector3 positionDelta = (this.transform.position - grabbedTransform.position);
 
-                Quaternion deltaRotation = finalRotation * Quaternion.Inverse(this.transform.rotation);
+                float angle;
+                Vector3 axis;
+                float speed = 10000000f;
+                float maxAngularVelocity = 28f; //default is 7
+                rotationDelta.ToAngleAxis(out angle, out axis);
 
-                Vector3 grabbablePosition = snapPosition
-                    ? m_gripTransform.position
-                    : finalPosition + deltaRotation * (grabbedTransform.position - this.transform.position);
+                if (angle > 180)
+                    angle -= 360;
 
-                Quaternion grabbableRotation = snapRotation
-                    ? m_gripTransform.rotation
-                    : deltaRotation * grabbedTransform.rotation;
+                // If the angle has changed update the angularVelocity
+                if (angle != 0)
+                {
+                    Vector3 angularTarget = angle * axis;
+                    m_grabbedGrabbable.GetComponent<Rigidbody>().maxAngularVelocity = maxAngularVelocity;
+                    m_grabbedGrabbable.GetComponent<Rigidbody>().angularVelocity = Vector3.MoveTowards(m_grabbedGrabbable.GetComponent<Rigidbody>().angularVelocity, angularTarget, speed * Time.fixedDeltaTime);
+                }
 
-                grabbedTransform.position = grabbablePosition;
-                grabbedTransform.rotation = grabbableRotation;
+                Vector3 VelocityTarget = positionDelta / Time.fixedDeltaTime;
+                m_grabbedGrabbable.GetComponent<Rigidbody>().velocity = Vector3.MoveTowards(m_grabbedGrabbable.GetComponent<Rigidbody>().velocity, VelocityTarget, speed * Time.fixedDeltaTime);
             }
         }
 

@@ -24,7 +24,7 @@ public class Spawn_Plutonium_Rods : Photon.MonoBehaviour
                     data[0] = plutoniumRod.position;
                     data[1] = plutoniumRod.localRotation.eulerAngles;
                     //Instantiate the plutoniumRod
-                    PhotonNetwork.InstantiateSceneObject("Prefabs/Plutonium_Rod", plutoniumRod.position, plutoniumRod.rotation, 0, data);
+                    PhotonNetwork.InstantiateSceneObject("Modules/Plutonium_Rod", plutoniumRod.position, plutoniumRod.rotation, 0, data);
                 }
             }
         }

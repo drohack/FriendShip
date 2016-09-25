@@ -45,7 +45,7 @@ public class Plutonium_Rod_Script : Photon.MonoBehaviour
                 if (currentRespawnTime <= 0f)
                 {
                     //Respawn object before destroying this one
-                    PhotonNetwork.Instantiate("Prefabs/Plutonium_Rod", spawnPosition, spawnRotation, 0);
+                    PhotonNetwork.Instantiate("Modules/Plutonium_Rod", spawnPosition, spawnRotation, 0);
 
                     //Destroy this object
                     PhotonNetwork.Destroy(gameObject);
@@ -65,7 +65,7 @@ public class Plutonium_Rod_Script : Photon.MonoBehaviour
         if (photonView.isMine)
         {
             //Respawn object before destroying this one
-            PhotonNetwork.Instantiate("Prefabs/Plutonium_Rod", spawnPosition, spawnRotation, 0);
+            PhotonNetwork.Instantiate("Modules/Plutonium_Rod", spawnPosition, spawnRotation, 0);
 
             //Destroy this object
             PhotonNetwork.Destroy(gameObject);
