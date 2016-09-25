@@ -76,10 +76,10 @@ public class Grabbed_Hand_Script : MonoBehaviour {
 
         if (closestGrabbable != null && !closestGrabbable.m_grabMode.Equals(Grabbable.GrabMode.None))
         {
-            if (this.GetComponent<OvrTouch.Hands.Hand>() != null)
+            if (this.GetComponent<OVRTouchSample.Hand>() != null)
             {
                 // Disable grab volumes to prevent overlaps
-                this.GetComponent<OvrTouch.Hands.Hand>().GrabVolumeEnable(false);
+                this.GetComponent<OVRTouchSample.Hand>().GrabVolumeEnable(false);
             }
 
             // Only run if object GrabMode is "Drag" or "Rotate"
@@ -162,10 +162,10 @@ public class Grabbed_Hand_Script : MonoBehaviour {
             GrabbableRelease(linearVelocity, angularVelocity);
         }
 
-        if (this.GetComponent<OvrTouch.Hands.Hand>() != null)
+        if (this.GetComponent<OVRTouchSample.Hand>() != null)
         {
             // Re-enable grab volumes to allow overlap events
-            this.GetComponent<OvrTouch.Hands.Hand>().GrabVolumeEnable(true);
+            this.GetComponent<OVRTouchSample.Hand>().GrabVolumeEnable(true);
         }
     }
 
@@ -175,8 +175,8 @@ public class Grabbed_Hand_Script : MonoBehaviour {
         m_grabbedGrabbable = grabbable;
         m_grabbedGrabbable.GrabBegin(this, grabPoint);
         m_grabbedHandPose = m_grabbedGrabbable.HandPose;
-        if (this.GetComponent<OvrTouch.Hands.Hand>() != null)
-            this.GetComponent<OvrTouch.Hands.Hand>().m_grabbedHandPose = m_grabbedHandPose;
+        if (this.GetComponent<OVRTouchSample.Hand>() != null)
+            this.GetComponent<OVRTouchSample.Hand>().m_grabbedHandPose = m_grabbedHandPose;
     }
 
     //==============================================================================
@@ -185,8 +185,8 @@ public class Grabbed_Hand_Script : MonoBehaviour {
         m_grabbedGrabbable.GrabEnd(linearVelocity, angularVelocity);
         m_grabbedHandPose = null;
         m_grabbedGrabbable = null;
-        if (this.GetComponent<OvrTouch.Hands.Hand>() != null)
-            this.GetComponent<OvrTouch.Hands.Hand>().m_grabbedHandPose = m_grabbedHandPose;
+        if (this.GetComponent<OVRTouchSample.Hand>() != null)
+            this.GetComponent<OVRTouchSample.Hand>().m_grabbedHandPose = m_grabbedHandPose;
     }
 
     //==============================================================================

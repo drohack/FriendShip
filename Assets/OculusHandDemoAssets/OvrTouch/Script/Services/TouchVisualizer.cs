@@ -5,17 +5,11 @@
 ************************************************************************************/
 
 using UnityEngine;
-using OvrTouch.Controllers;
-using OvrTouch.Hands;
+using OVRTouchSample;
 
-namespace OvrTouch.Services {
+namespace OVRTouchSample {
 
     public class TouchVisualizer : MonoBehaviour {
-
-        //==============================================================================
-        // Nested Types
-        //==============================================================================
-
         private enum DisplayMode {
             Hand,
             Controller,
@@ -23,78 +17,40 @@ namespace OvrTouch.Services {
             Count,
         }
 
-        //==============================================================================
-        // Fields
-        //==============================================================================
-
         [SerializeField] private DisplayMode m_displayMode = DisplayMode.Controller;
         [SerializeField] private Hand m_hand = null;
         [SerializeField] private TouchController m_controller = null;
 
         private bool m_wasButtonDown = false;
 
-        //==============================================================================
-        // MonoBehaviour
-        //==============================================================================
-
-        //==============================================================================
         private void Awake () {
             ModeChange(m_displayMode);
         }
 
-        //==============================================================================
-        private void LateUpdate () {
-            bool isValid = (
-                (m_hand != null) &&
-                (m_hand.TrackedController != null)
-            );
-            if (!isValid) {
-                return;
-            }
+        // Cycles through controller visualization types on thumbstick click.
+        private void Update () {
+            TrackedController controller = m_hand != null ? TrackedController.GetController(m_hand.Handedness) : null;
+            if (controller != null)
+            {
+                DisplayMode nextDisplayMode = m_displayMode;
+                bool isButtonDown = controller.ButtonJoystick;
+                if (isButtonDown && !m_wasButtonDown)
+                {
+                    nextDisplayMode = (DisplayMode)((int)(m_displayMode + 1) % (int)DisplayMode.Count);
+                }
+                m_wasButtonDown = isButtonDown;
 
-            DisplayMode nextDisplayMode = m_displayMode;
-            bool isButtonDown = m_hand.TrackedController.ButtonJoystick;
-            if (isButtonDown && !m_wasButtonDown) {
-                nextDisplayMode = (DisplayMode)((int)(m_displayMode + 1) % (int)DisplayMode.Count);
-            }
-            m_wasButtonDown = isButtonDown;
-
-            if (m_displayMode != nextDisplayMode) {
-                ModeChange(nextDisplayMode);
+                if (m_displayMode != nextDisplayMode)
+                {
+                    ModeChange(nextDisplayMode);
+                }
             }
         }
 
-        //==============================================================================
-        // Private
-        //==============================================================================
-
-        //==============================================================================
         private void ModeChange (DisplayMode nextDisplayMode) {
-            // Hide visuals
-            m_controller.SetVisible(false);
-            m_hand.SetVisible(false);
-
-            // Change display mode
-            switch (nextDisplayMode) {
-                // Hand
-                case DisplayMode.Hand:
-                    m_hand.SetVisible(true);
-                    break;
-                
-                // Controller
-                case DisplayMode.Controller:
-                    m_controller.SetVisible(true);
-                    break;
-
-                // HandAndController
-                case DisplayMode.HandAndController:
-                    m_hand.SetVisible(true);
-                    m_controller.SetVisible(true);
-                    break;
-            }
+            m_controller.gameObject.SetActive(nextDisplayMode != DisplayMode.Hand);
+            m_hand.HandVisible = nextDisplayMode == DisplayMode.Hand || nextDisplayMode == DisplayMode.HandAndController;
             m_displayMode = nextDisplayMode;
         }
-
     }
-
 }

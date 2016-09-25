@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -366,7 +366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -547,7 +547,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -812,7 +812,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -993,7 +993,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -1174,7 +1174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -1577,7 +1577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -1758,7 +1758,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -2091,7 +2091,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -2363,7 +2363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -2628,7 +2628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -2913,7 +2913,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -3125,7 +3125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -3306,7 +3306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -3571,7 +3571,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -3752,7 +3752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -7895,7 +7895,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -8076,7 +8076,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -8297,7 +8297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -10498,7 +10498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -10678,7 +10678,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -10811,7 +10811,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -11189,7 +11189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -11454,7 +11454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -12024,7 +12024,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -12250,7 +12250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -12514,7 +12514,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -12695,7 +12695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -13022,7 +13022,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -13203,7 +13203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -13384,7 +13384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -13795,7 +13795,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -13976,7 +13976,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -14220,7 +14220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -14472,7 +14472,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -14653,7 +14653,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -14952,7 +14952,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -15163,7 +15163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -15344,7 +15344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -15556,7 +15556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -15736,7 +15736,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -15909,7 +15909,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -16090,7 +16090,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -16271,7 +16271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -16452,7 +16452,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -16719,7 +16719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -17483,7 +17483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -17748,7 +17748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -17929,7 +17929,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -18168,7 +18168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -20506,7 +20506,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -20960,7 +20960,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -21141,7 +21141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -21437,7 +21437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -21570,7 +21570,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -21751,7 +21751,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -21932,7 +21932,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -22113,7 +22113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -22294,7 +22294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -22475,7 +22475,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -22656,7 +22656,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -22837,7 +22837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -23018,7 +23018,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -23199,7 +23199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -23380,7 +23380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -23561,7 +23561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -23742,7 +23742,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:
@@ -25757,7 +25757,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 0
   m_allowOffhandGrab: 1
   m_grabPoints:

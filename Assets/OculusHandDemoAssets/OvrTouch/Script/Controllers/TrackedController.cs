@@ -1,40 +1,23 @@
 ﻿/********************************************************************************//**
 \file      TrackedController.cs
-\brief     Wrapper class for OVRInput to cleanly deal with a fluctuating API,
+\brief     Wrapper class for OVRInput to 
            perform debouncing on cap touch values and handle simple haptics.
 \copyright Copyright 2015 Oculus VR, LLC All Rights reserved.
 ************************************************************************************/
 
 using UnityEngine;
 
-namespace OvrTouch.Controllers {
+namespace OVRTouchSample
+{
 
-    public enum HandednessId {
-        Left,
-        Right,
-    }
+    public class TrackedController : MonoBehaviour
+    {
+        public const float TRIGGER_DEBOUNCE_TIME = 0.05f;
+        public const float THUMB_DEBOUNCE_TIME = 0.15f;
 
-    public class TrackedController : MonoBehaviour {
+        static private TrackedController[] m_cachedControllers = new TrackedController[2];
 
-        //==============================================================================
-        // Nested Types
-        //==============================================================================
-
-         private static class Const {
-
-            public const float TriggerDebounceTime = 0.05f;
-            public const float ThumbDebounceTime = 0.15f;
-
-         }
-
-        //==============================================================================
-        // Fields
-        //==============================================================================
-
-        [SerializeField] private HandednessId m_handedness = HandednessId.Left;
-        [SerializeField] private Transform m_trackedTransform = null;
-
-        private bool m_initialized = false;
+        [SerializeField]
         private OVRInput.Controller m_controllerType = OVRInput.Controller.None;
 
         private bool m_point = false;
@@ -45,121 +28,71 @@ namespace OvrTouch.Controllers {
         private float m_lastThumb = -1.0f;
         private float m_lastNonThumb = -1.0f;
 
-        private float m_hapticDuration = -1.0f;
-        private float m_hapticStartTime = -1.0f;
-
-        //==============================================================================
-        // Public
-        //==============================================================================
-
-        //==============================================================================
-        public static TrackedController FindOrCreate (HandednessId handedness) {
-            // Attempt to find an existing tracked controller
-            TrackedController[] trackedControllers = GameObject.FindObjectsOfType<TrackedController>();
-            foreach (TrackedController trackedContrller in trackedControllers) {
-                if (trackedContrller.Handedness == handedness) {
-                    return trackedContrller;
-                }
-            }
-            
-            // Create
-            GameObject trackedControllerObject = new GameObject("TrackedController");
-            TrackedController trackedController = trackedControllerObject.AddComponent<TrackedController>();
-
-            // Attempt to find the tracked transform
-            Transform trackedTransform = null;
-            OVRCameraRig cameraRig = GameObject.FindObjectOfType<OVRCameraRig>();
-            if (cameraRig != null) {
-                trackedTransform = (handedness == HandednessId.Left)
-                    ? cameraRig.leftHandAnchor
-                    : cameraRig.rightHandAnchor;
-            }
-
-            // Initialize
-            trackedController.Initialize(handedness, trackedTransform);
-            return trackedController;
+        static public TrackedController GetController(OVRInput.Controller controller)
+        {
+            return m_cachedControllers[controller == OVRInput.Controller.LTouch ? 0 : 1];
         }
 
-        //==============================================================================
-        public void PlayHapticEvent (float frequency, float amplitude, float duration) {
-            m_hapticStartTime = Time.time;
-            m_hapticDuration = duration;
-            OVRInput.SetControllerVibration(frequency, amplitude, m_controllerType);
+        public bool IsLeft
+        {
+            get { return m_controllerType == OVRInput.Controller.LTouch; }
         }
 
-        //==============================================================================
-        // Properties
-        //==============================================================================
-
-        public HandednessId Handedness {
-            get { return m_handedness; }
-        }
-
-        public bool IsLeft {
-            get { return m_handedness == HandednessId.Left; }
-        }
-
-        public bool IsPoint {
+        public bool IsPoint
+        {
             get { return m_point; }
         }
 
-        public bool IsThumbsUp {
+        public bool IsThumbsUp
+        {
             get { return m_thumbsUp; }
         }
 
-        public bool Button1 {
+        public bool Button1
+        {
             get { return OVRInput.Get(OVRInput.Button.One, m_controllerType); }
         }
 
-        public bool Button2 {
+        public bool Button2
+        {
             get { return OVRInput.Get(OVRInput.Button.Two, m_controllerType); }
         }
 
-        public bool ButtonJoystick {
+        public bool ButtonJoystick
+        {
             get { return OVRInput.Get(OVRInput.Button.PrimaryThumbstick, m_controllerType); }
         }
 
-        public float Trigger {
+        public float Trigger
+        {
             get { return OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, m_controllerType); }
         }
 
-        public float GripTrigger {
+        public float GripTrigger
+        {
             get { return OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, m_controllerType); }
         }
 
-        public Vector2 Joystick {
+        public Vector2 Joystick
+        {
             get { return OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, m_controllerType); }
         }
 
-        //==============================================================================
-        // MonoBehaviour
-        //==============================================================================
-
-        //==============================================================================
-        private void Awake () {
-            if (m_trackedTransform != null) {
-                Initialize(m_handedness, m_trackedTransform);
-            }
+        private void Awake()
+        {
+            Debug.Assert(m_controllerType == OVRInput.Controller.LTouch || m_controllerType == OVRInput.Controller.RTouch);
+            int idx = m_controllerType == OVRInput.Controller.LTouch ? 0 : 1;
+            Debug.Assert(m_cachedControllers[idx] == null, "Attempted to create multiple TrackedControllers for same hand. TrackedControllers should only be one per hand.");
+            m_cachedControllers[idx] = this;
         }
 
-        //==============================================================================
-        private void LateUpdate () {
-            if (m_trackedTransform != null) {
-                // Transform
-                this.transform.position = m_trackedTransform.position;
-                this.transform.rotation = m_trackedTransform.rotation;
-            }
-
-            // Haptics
-            float elapsed = Time.time - m_hapticStartTime;
-            if (elapsed >= m_hapticDuration) {
-                OVRInput.SetControllerVibration(0.0f, 0.0f, m_controllerType);
-            }
-
+        private void LateUpdate()
+        {
             // Cap touch
             float atT = Time.time;
             bool nowPoint = !OVRInput.Get(OVRInput.NearTouch.PrimaryIndexTrigger, m_controllerType);
-            if (nowPoint) {
+            if (nowPoint)
+            {
                 m_lastPoint = atT;
             }
             else {
@@ -167,58 +100,39 @@ namespace OvrTouch.Controllers {
             }
 
             bool nowThumb = !OVRInput.Get(OVRInput.NearTouch.PrimaryThumbButtons, m_controllerType);
-            if (nowThumb) {
+            if (nowThumb)
+            {
                 m_lastThumb = atT;
             }
             else {
                 m_lastNonThumb = atT;
             }
 
-            if (nowPoint != IsPoint) {
+            if (nowPoint != IsPoint)
+            {
                 // Check the hysteresis logic
                 bool pointChanged = (
-                    (nowPoint  && (atT - m_lastNonPoint) > Const.TriggerDebounceTime) ||
-                    (!nowPoint && (atT - m_lastPoint) > Const.TriggerDebounceTime)
+                    (nowPoint && (atT - m_lastNonPoint) > TRIGGER_DEBOUNCE_TIME) ||
+                    (!nowPoint && (atT - m_lastPoint) > TRIGGER_DEBOUNCE_TIME)
                 );
-                if (pointChanged) {
+                if (pointChanged)
+                {
                     m_point = nowPoint;
                 }
             }
 
-            if (nowThumb != IsThumbsUp) {
+            if (nowThumb != IsThumbsUp)
+            {
                 // Check the hysteresis logic
                 bool thumbChanged = (
-                    (nowThumb  && (atT - m_lastNonThumb) > Const.ThumbDebounceTime) ||
-                    (!nowThumb && (atT - m_lastThumb) > Const.ThumbDebounceTime)
+                    (nowThumb && (atT - m_lastNonThumb) > THUMB_DEBOUNCE_TIME) ||
+                    (!nowThumb && (atT - m_lastThumb) > THUMB_DEBOUNCE_TIME)
                 );
-                if (thumbChanged) {
+                if (thumbChanged)
+                {
                     m_thumbsUp = nowThumb;
                 }
             }
         }
-
-        //==============================================================================
-        // Private
-        //==============================================================================
-
-        //==============================================================================
-        private void Initialize (HandednessId handedness, Transform trackedTransform) {
-            if (m_initialized) {
-                return;
-            }
-
-            m_handedness = handedness;
-            m_controllerType = (m_handedness == HandednessId.Left) ? OVRInput.Controller.LTouch : OVRInput.Controller.RTouch;
-
-            if (trackedTransform != null) {
-                m_trackedTransform = trackedTransform;
-                this.transform.position = m_trackedTransform.position;
-                this.transform.rotation = m_trackedTransform.rotation;
-            }
-
-            m_initialized = true;
-        }
-
     }
-
 }

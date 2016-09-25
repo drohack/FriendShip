@@ -157,17 +157,19 @@ Shader "OvrTouch/Hand" {
 
 			// Texture lookups
 			half3 wireTex = tex2D(_WireTex, wireTexCoord);
-			half3 wireframeTex = tex2D(_MainTex, input.uv_MainTex);
+			half4 wireframeTex = tex2D(_MainTex, input.uv_MainTex);
 
 			// Compute emissive term
 			half3 emission = lerp(ColorBlack, _ColorPrimary, rim);
 			emission = lerp(emission, _ColorSecondary, 2 * wireframeTex.b * wireTex.g);
 			emission += rim * 0.5 * vertexColor.r;
+			emission *= wireframeTex.a;
 
 			// Compute alpha term
 			half aAlpha = 8 * wireframeTex.r * wireTex.g * vertexColor.r;
 			half bAlpha = rim * vertexColor.r;
 			half alpha = (aAlpha + bAlpha) * 3;
+			alpha = max(alpha, 1 - wireframeTex.a) * step(0.01, vertexColor.r);
 
 			// Perform depth fade
 			alpha *= UtilDepthFade(_CameraDepthTexture, input.projPos, -0.005, _DepthFade);

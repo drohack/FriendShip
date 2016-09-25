@@ -3966,11 +3966,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 354d4e2d64f622e48959d6d345eccb91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_useFixedJointForGrabbedObject: 0
+  m_parentHeldObject: 0
+  m_touchAnchor: {fileID: 137400}
   m_handedness: 1
   m_gripTransform: {fileID: 434998}
   m_animator: {fileID: 9528764}
-  m_meshRoot: {fileID: 486566}
-  m_handParticlesPf: {fileID: 11485458, guid: 47934afe2c3e9ab46a727b3e8a0a3d8c, type: 2}
+  m_particleEmissionRateVelocityScale: 50
   m_grabVolumes:
   - {fileID: 13669758}
   - {fileID: 13603518}
@@ -3998,14 +4000,15 @@ MonoBehaviour:
   - {fileID: 13669426}
   - {fileID: 13652104}
   - {fileID: 13636840}
+  m_handednessId: 0
+  m_defaultGrabPose: {fileID: 0}
+  handPoseId: 0
+  m_grabbedHandPose: {fileID: 0}
   m_flex: 0
-  m_trigger: 0
   m_point: 0
   m_thumbsUp: 0
-  handPoseId: 0
   canPoint: 0
   canThumbsUp: 0
-  m_grabbedHandPose: {fileID: 0}
 --- !u!114 &11434454
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4041,11 +4044,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 354d4e2d64f622e48959d6d345eccb91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_useFixedJointForGrabbedObject: 0
+  m_parentHeldObject: 0
+  m_touchAnchor: {fileID: 192316}
   m_handedness: 0
   m_gripTransform: {fileID: 462506}
   m_animator: {fileID: 9553680}
-  m_meshRoot: {fileID: 467614}
-  m_handParticlesPf: {fileID: 11485458, guid: 47934afe2c3e9ab46a727b3e8a0a3d8c, type: 2}
+  m_particleEmissionRateVelocityScale: 50
   m_grabVolumes:
   - {fileID: 13618096}
   - {fileID: 13636564}
@@ -4073,14 +4078,15 @@ MonoBehaviour:
   - {fileID: 13650370}
   - {fileID: 13617816}
   - {fileID: 13649042}
+  m_handednessId: 0
+  m_defaultGrabPose: {fileID: 0}
+  handPoseId: 0
+  m_grabbedHandPose: {fileID: 0}
   m_flex: 0
-  m_trigger: 0
   m_point: 0
   m_thumbsUp: 0
-  handPoseId: 0
   canPoint: 0
   canThumbsUp: 0
-  m_grabbedHandPose: {fileID: 0}
 --- !u!114 &11495670
 MonoBehaviour:
   m_ObjectHideFlags: 1
