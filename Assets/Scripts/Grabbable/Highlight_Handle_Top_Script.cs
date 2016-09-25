@@ -104,7 +104,7 @@ public class Highlight_Handle_Top_Script : MonoBehaviour {
             topRenderer.material.color = highlightColor;
         }
 
-        if(isGrabbing && !transform.GetComponent<Grabbable>().isGrabbing)
+        if(isGrabbing && !transform.GetComponent<Grabbable>().isGrabbed)
         {
             isGrabbing = false;
             topRenderer.material.color = startcolor;

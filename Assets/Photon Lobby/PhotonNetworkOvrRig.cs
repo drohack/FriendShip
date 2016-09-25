@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections;
 using OvrTouch.Hands;
-using OvrTouch.Controllers;
 
 public class PhotonNetworkOvrRig : Photon.MonoBehaviour
 {
@@ -16,6 +15,10 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
     [SerializeField]
     VelocityTracker velocityTrackerL;
     [SerializeField]
+    Grabbed_Hand_Script grabbedHandScriptL;
+    [SerializeField]
+    Velocity_Tracker velocity_TrackerL;
+    [SerializeField]
     GameObject l_hand_world;
     [SerializeField]
     GameObject GrabVolumeBigL;
@@ -27,6 +30,10 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
     Hand handScriptR;
     [SerializeField]
     VelocityTracker velocityTrackerR;
+    [SerializeField]
+    Grabbed_Hand_Script grabbedHandScriptR;
+    [SerializeField]
+    Velocity_Tracker velocity_TrackerR;
     [SerializeField]
     GameObject r_hand_world;
     [SerializeField]
@@ -69,10 +76,14 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
             centerEyeAnchor.GetComponent<AudioListener>().enabled = true;
             handScriptL.enabled = true;
             velocityTrackerL.enabled = true;
+            grabbedHandScriptL.enabled = true;
+            velocity_TrackerL.enabled = true;
             l_hand_world.SetActive(true);
             GrabVolumeBigL.SetActive(true);
             handScriptR.enabled = true;
             velocityTrackerR.enabled = true;
+            grabbedHandScriptR.enabled = true;
+            velocity_TrackerR.enabled = true;
             r_hand_world.SetActive(true);
             GrabVolumeBigR.SetActive(true);
             playerArea.SetActive(true);

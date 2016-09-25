@@ -718,6 +718,7 @@ MonoBehaviour:
   handle: {fileID: 477644}
   newName: 
   rCommand: -1
+  playerNum: 0
 --- !u!114 &11473066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -729,17 +730,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 1
   m_allowOffhandGrab: 0
   m_grabPoints:
   - m_handPose: {fileID: 11437176, guid: b9ee97f436f9f1c478f91fcd828a0354, type: 2}
     m_grabCollider: {fileID: 6543844}
     m_grabOverride: {fileID: 477644}
-  lockRotation:
-    x: 0
-    y: 0
-    z: 0
 --- !u!114 &11490506
 MonoBehaviour:
   m_ObjectHideFlags: 1

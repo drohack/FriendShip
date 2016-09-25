@@ -16,7 +16,7 @@ namespace OvrTouch.Hands {
         // Fields
         //==============================================================================
 
-        [SerializeField] private HandPose m_handPose = null;
+        [SerializeField] private Hand_Pose m_handPose = null;
         [SerializeField] private Collider m_grabCollider = null;
         [SerializeField] private Transform m_grabOverride = null;
 
@@ -27,7 +27,7 @@ namespace OvrTouch.Hands {
         // Properties
         //==============================================================================
 
-        public HandPose HandPose {
+        public Hand_Pose HandPose {
             get { return m_handPose; }
         }
 

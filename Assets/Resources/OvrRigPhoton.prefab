@@ -851,9 +851,11 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000012018074466}
+  - 54: {fileID: 54000010030841368}
   - 114: {fileID: 114000013775851324}
   - 114: {fileID: 114000010532263952}
-  - 54: {fileID: 54000010030841368}
+  - 114: {fileID: 114000012496204216}
+  - 114: {fileID: 114000013732638398}
   m_Layer: 0
   m_Name: RightHandPf
   m_TagString: Hand
@@ -1874,9 +1876,11 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000014008597336}
+  - 54: {fileID: 54000012850855510}
   - 114: {fileID: 114000010482961638}
   - 114: {fileID: 114000013677488410}
-  - 54: {fileID: 54000012850855510}
+  - 114: {fileID: 114000012963842906}
+  - 114: {fileID: 114000011442813700}
   m_Layer: 0
   m_Name: LeftHandPf
   m_TagString: Hand
@@ -4452,6 +4456,7 @@ MonoBehaviour:
   handPoseId: 0
   canPoint: 0
   canThumbsUp: 0
+  m_grabbedHandPose: {fileID: 0}
 --- !u!114 &114000010532263952
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4478,6 +4483,31 @@ MonoBehaviour:
   isTrans: 0
   AudioClip: {fileID: 0}
   LoopAudioClip: 1
+--- !u!114 &114000011442813700
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013990233502}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58e80f3d5dfe9ae4595cc395b3db1982, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_showGizmos: 1
+--- !u!114 &114000012496204216
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011911761398}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2aba836d89ac62439ea0720c9cc3799, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_handedness: 1
+  m_gripTransform: {fileID: 4000013215199642}
 --- !u!114 &114000012644487286
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4519,17 +4549,34 @@ MonoBehaviour:
   LeftHandPf: {fileID: 4000014008597336}
   handScriptL: {fileID: 114000010482961638}
   velocityTrackerL: {fileID: 114000013677488410}
+  grabbedHandScriptL: {fileID: 114000012963842906}
+  velocity_TrackerL: {fileID: 114000011442813700}
   l_hand_world: {fileID: 1000011985381234}
   GrabVolumeBigL: {fileID: 1000012909924696}
   animatorL: {fileID: 95000010394073252}
   RightHandPf: {fileID: 4000012018074466}
   handScriptR: {fileID: 114000013775851324}
   velocityTrackerR: {fileID: 114000010532263952}
+  grabbedHandScriptR: {fileID: 114000012496204216}
+  velocity_TrackerR: {fileID: 114000013732638398}
   r_hand_world: {fileID: 1000011500418950}
   GrabVolumeBigR: {fileID: 1000012974093018}
   animatorR: {fileID: 95000013262906442}
   playerArea: {fileID: 1000010004492150}
   photonVoiceRecorder: {fileID: 114000010683416894}
+--- !u!114 &114000012963842906
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013990233502}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2aba836d89ac62439ea0720c9cc3799, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_handedness: 0
+  m_gripTransform: {fileID: 4000013327936172}
 --- !u!114 &114000013020000186
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4578,6 +4625,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_showGizmos: 0
+--- !u!114 &114000013732638398
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011911761398}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58e80f3d5dfe9ae4595cc395b3db1982, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_showGizmos: 1
 --- !u!114 &114000013775851324
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4628,6 +4687,7 @@ MonoBehaviour:
   handPoseId: 0
   canPoint: 0
   canThumbsUp: 0
+  m_grabbedHandPose: {fileID: 0}
 --- !u!135 &135000010810155250
 SphereCollider:
   m_ObjectHideFlags: 1

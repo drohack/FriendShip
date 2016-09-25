@@ -74,7 +74,7 @@ namespace OvrTouch.Hands {
         // Fields
         //==============================================================================
 
-        [SerializeField] public HandednessId m_handedness = HandednessId.Left;
+        [SerializeField] public Controllers.HandednessId m_handedness = Controllers.HandednessId.Left;
         [SerializeField] private Transform m_gripTransform = null;
         [SerializeField] private Animator m_animator = null;
         [SerializeField] private Transform m_meshRoot = null;
@@ -103,17 +103,15 @@ namespace OvrTouch.Hands {
         public bool canPoint;
         public bool canThumbsUp;
 
-        private HandPose m_grabbedHandPose = null;
+        public Hand_Pose m_grabbedHandPose = null;
         private Grabbable m_grabbedGrabbable = null;
         private Dictionary<Grabbable, int> m_grabCandidates = new Dictionary<Grabbable, int>();
-
-        private FixedJoint fixedJoint = null;
 
         //==============================================================================
         // Properties
         //==============================================================================
 
-        public HandednessId Handedness {
+        public Controllers.HandednessId Handedness {
             get { return m_handedness; }
         }
 
@@ -205,9 +203,6 @@ namespace OvrTouch.Hands {
             finalPosition = m_trackedController.transform.position + m_trackedController.transform.rotation * handRegistration.Translation;
             finalRotation = m_trackedController.transform.rotation * handRegistration.Rotation;
 
-            // Move the grabbable
-            GrabbableAdvance(finalPosition, finalRotation);
-
             // Move the hand
             this.transform.position = finalPosition;
             this.transform.rotation = finalRotation;
@@ -216,7 +211,7 @@ namespace OvrTouch.Hands {
         //==============================================================================
         private void OnTriggerEnter (Collider otherCollider) {
             // Get the grab trigger
-            GrabTrigger grabTrigger = otherCollider.GetComponent<GrabTrigger>();
+            Grab_Trigger grabTrigger = otherCollider.GetComponent<Grab_Trigger>();
             if (grabTrigger == null) {
                 return;
             }
@@ -247,7 +242,7 @@ namespace OvrTouch.Hands {
         //==============================================================================
         private void OnTriggerExit (Collider otherCollider) {
             // Get the grab trigger
-            GrabTrigger grabbableVolume = otherCollider.GetComponent<GrabTrigger>();
+            Grab_Trigger grabbableVolume = otherCollider.GetComponent<Grab_Trigger>();
             if (grabbableVolume == null) {
                 return;
             }
@@ -321,201 +316,19 @@ namespace OvrTouch.Hands {
             this.canThumbsUp = !IsGrabbingGrabbable || ((m_grabbedHandPose != null) && (m_grabbedHandPose.AllowThumbsUp));
             float thumbsUp = canThumbsUp ? m_thumbsUp : 0.0f;
             m_animator.SetLayerWeight(m_animLayerIndexThumb, thumbsUp);
-    }
-
-        //==============================================================================
-        //private void CollisionAdvance () {
-        //    bool collisionEnabled = (
-        //        IsGrabbingGrabbable ||
-        //        (m_flex >= Const.ThreshCollisionFlex)
-        //    );
-        //    CollisionEnable(collisionEnabled);
-        //}
-
-        //==============================================================================
-        //private void CollisionEnable (bool enabled) {
-        //    if (m_collisionEnabled == enabled) {
-        //        return;
-        //    }
-
-        //    // Set collision state
-        //    m_collisionEnabled = enabled;
-        //    foreach (Collider collider in m_colliders) {
-        //        collider.enabled = m_collisionEnabled;
-        //    }
-        //}
+        }
 
         //==============================================================================
         private void GrabAdvance (float prevFlex, float prevTrigger) {
             if (((m_flex >= Const.ThreshGrabBegin) && (prevFlex < Const.ThreshGrabBegin)) || ((m_trigger >= Const.ThreshGrabBegin) && (prevTrigger < Const.ThreshGrabBegin))) {
-                GrabBegin();
+                if(this.GetComponent<Grabbed_Hand_Script>() != null)
+                    this.GetComponent<Grabbed_Hand_Script>().GrabBegin(m_grabCandidates);
             }
             else if (((m_flex <= Const.ThreshGrabEnd) && (prevFlex > Const.ThreshGrabEnd) && (m_trigger <= Const.ThreshGrabEnd)) || 
                 ((m_trigger <= Const.ThreshGrabEnd) && (prevTrigger > Const.ThreshGrabEnd) && (m_flex <= Const.ThreshGrabEnd))) {
-                GrabEnd();
+                if (this.GetComponent<Grabbed_Hand_Script>() != null)
+                    this.GetComponent<Grabbed_Hand_Script>().GrabEnd();
             }
-        }
-
-        //==============================================================================
-        private void GrabBegin () {
-            float closestMagSq = float.MaxValue;
-            Grabbable closestGrabbable = null;
-            GrabPoint closestGrabPoint = null;
-
-            // Iterate grab candidates and find the closest grabbable candidate
-            foreach (Grabbable grabbable in m_grabCandidates.Keys) {
-                // Determine if the grabbable can be grabbed
-                bool canGrab = grabbable != null && !(grabbable.IsGrabbed && !grabbable.AllowOffhandGrab);
-                if (!canGrab) {
-                    continue;
-                }
-
-                foreach (GrabPoint grabPoint in grabbable.GrabPoints) {
-                    // Store the closest grabbable
-                    Vector3 closestPointOnBounds = grabPoint.GrabCollider.ClosestPointOnBounds(m_gripTransform.position);
-                    float grabbableMagSq = (m_gripTransform.position - closestPointOnBounds).sqrMagnitude;
-                    if (grabbableMagSq < closestMagSq) {
-                        closestMagSq = grabbableMagSq;
-                        closestGrabbable = grabbable;
-                        closestGrabPoint = grabPoint;
-                    }
-                }
-            }
-
-            if (closestGrabbable != null && !closestGrabbable.m_grabMode.Equals(Grabbable.GrabMode.None))
-            {
-                // Disable grab volumes to prevent overlaps
-                GrabVolumeEnable(false);
-
-                // Only run if object GrabMode is "Drag" or "Rotate"
-                if (closestGrabbable.m_grabMode.Equals(Grabbable.GrabMode.Drag) || closestGrabbable.m_grabMode.Equals(Grabbable.GrabMode.Rotate))
-                {
-                    // Set isKinematic to false so the hand doesn't bump into things
-                    m_rigidbody.isKinematic = false;
-                    // disable the hand geometry
-                    transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled = false;
-                    if (transform.parent != null && transform.parent.GetComponent<PhotonNetworkOvrRig>() != null)
-                    {
-                        transform.parent.GetComponent<PhotonNetworkOvrRig>().ToggleMeshRenderer(m_handedness, transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled);
-                    }
-                }
-            }
-
-            if (closestGrabbable != null && !closestGrabbable.m_grabMode.Equals(Grabbable.GrabMode.None)) { 
-                if (closestGrabbable.IsGrabbed) {
-                    // Release the grabbable from the another hand
-                    closestGrabbable.GrabbedHand.OffhandGrabbed(closestGrabbable);
-                }
-
-                // Grab the grabbable
-                GrabbableGrab(closestGrabbable, closestGrabPoint);
-
-                // If grabbable is Rotate attach the fixed joint to the object
-                if (m_grabbedGrabbable.m_grabMode.Equals(Grabbable.GrabMode.Rotate))
-                {
-                    fixedJoint = m_grabbedGrabbable.gameObject.AddComponent<FixedJoint>();
-                    fixedJoint.connectedBody = m_rigidbody;
-                }
-            }
-        }
-
-        //==============================================================================
-        public void GrabEnd () {
-            if (IsGrabbingGrabbable) {
-                // If grabbable is Rotate remove fixed joint
-                if (m_grabbedGrabbable.m_grabMode.Equals(Grabbable.GrabMode.Rotate))
-                {
-                    Object.Destroy(fixedJoint);
-                    fixedJoint = null;
-                }
-
-                if (transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled == false)
-                { 
-                    // Enable hand geometry to pop back in
-                    transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled = true;
-                    if (transform.parent != null && transform.parent.GetComponent<PhotonNetworkOvrRig>() != null)
-                    {
-                        transform.parent.GetComponent<PhotonNetworkOvrRig>().ToggleMeshRenderer(m_handedness, transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled);
-                    }
-                    //set isKinematic to false so the hand doesn't bump into things
-                    m_rigidbody.isKinematic = true;
-                }
-
-                // Determine if the grabbable was thrown
-                bool wasThrown = m_velocityTracker.TrackedLinearVelocity.magnitude >= Const.ThreshThrowSpeed;
-                
-                // Compute release velocities
-                Vector3 linearVelocity = Vector3.zero;
-                Vector3 angularVelocity = Vector3.zero;
-                if (wasThrown) {
-                    // Throw velocity
-                    linearVelocity = m_velocityTracker.TrackedLinearVelocity;
-                    angularVelocity = m_velocityTracker.TrackedAngularVelocity;
-                }
-                else {
-                    // Drop velocity
-                    linearVelocity = m_velocityTracker.FrameLinearVelocity;
-                    angularVelocity = m_velocityTracker.FrameAngularVelocity;
-                }
-
-                // Release the grabbable
-                GrabbableRelease(linearVelocity, angularVelocity);
-            }
-
-            // Re-enable grab volumes to allow overlap events
-            GrabVolumeEnable(true);
-        }
-
-        //==============================================================================
-        private void GrabbableAdvance (Vector3 finalPosition, Quaternion finalRotation) {
-            if (!IsGrabbingGrabbable) {
-                // No grabbed grabbables
-                return;
-            }
-
-            // Get grabbed object's transform
-            Transform grabbedTransform = m_grabbedGrabbable.GrabTransform;
-
-            // If the grabbable is GrabMode "Grab" update the objects velocity/angularVelocity to match the hand so it keeps it's physics
-            if (m_grabbedGrabbable.m_grabMode.Equals(Grabbable.GrabMode.Grab))
-            {
-                Quaternion rotationDelta = this.transform.rotation * Quaternion.Inverse(grabbedTransform.rotation);
-                Vector3 positionDelta = (this.transform.position - grabbedTransform.position);
-
-                float angle;
-                Vector3 axis;
-                float speed = 10000000f;
-                float maxAngularVelocity = 28f; //default is 7
-                rotationDelta.ToAngleAxis(out angle, out axis);
-
-                if (angle > 180)
-                    angle -= 360;
-
-                // If the angle has changed update the angularVelocity
-                if (angle != 0)
-                {
-                    Vector3 angularTarget = angle * axis;
-                    m_grabbedGrabbable.GetComponent<Rigidbody>().maxAngularVelocity = maxAngularVelocity;
-                    m_grabbedGrabbable.GetComponent<Rigidbody>().angularVelocity = Vector3.MoveTowards(m_grabbedGrabbable.GetComponent<Rigidbody>().angularVelocity, angularTarget, speed * Time.fixedDeltaTime);
-                }
-
-                Vector3 VelocityTarget = positionDelta / Time.fixedDeltaTime;
-                m_grabbedGrabbable.GetComponent<Rigidbody>().velocity = Vector3.MoveTowards(m_grabbedGrabbable.GetComponent<Rigidbody>().velocity, VelocityTarget, speed * Time.fixedDeltaTime);
-            }
-        }
-
-        //==============================================================================
-        private void GrabbableGrab (Grabbable grabbable, GrabPoint grabPoint) {
-            m_grabbedGrabbable = grabbable;
-            m_grabbedGrabbable.GrabBegin(this, grabPoint);
-            m_grabbedHandPose = m_grabbedGrabbable.HandPose;
-        }
-
-        //==============================================================================
-        private void GrabbableRelease (Vector3 linearVelocity, Vector3 angularVelocity) {
-            m_grabbedGrabbable.GrabEnd(linearVelocity, angularVelocity);
-            m_grabbedHandPose = null;
-            m_grabbedGrabbable = null;
         }
 
         //==============================================================================
@@ -524,7 +337,7 @@ namespace OvrTouch.Hands {
         }
 
         //==============================================================================
-        private void GrabVolumeEnable (bool enabled) {
+        public void GrabVolumeEnable (bool enabled) {
             if (m_grabVolumeEnabled == enabled) {
                 return;
             }
@@ -548,15 +361,8 @@ namespace OvrTouch.Hands {
         }
 
         //==============================================================================
-        public void OffhandGrabbed (Grabbable grabbable) {
-            if (m_grabbedGrabbable == grabbable) {
-                GrabbableRelease(Vector3.zero, Vector3.zero);
-            }
-        }
-
-        //==============================================================================
         private RegistrationTransform HandRegistration () {
-            RegistrationTransform handRegistration = (m_handedness == HandednessId.Left)
+            RegistrationTransform handRegistration = (m_handedness == Controllers.HandednessId.Left)
                 ? Const.RegistrationLeft
                 : Const.RegistrationRight;
             return handRegistration;
