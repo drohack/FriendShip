@@ -214,6 +214,12 @@ public class Grabbable : MonoBehaviour
         // Keep the object's velocity and angular velocity
         if (m_grabbedGrabPoint.Rigidbody != null)
         {
+            // Reset the max angular velocity of this object if it has been changed
+            // This gets changed for Grab objects so it matches the hand faster
+            if (this.GetComponent<Rigidbody>() != null && this.GetComponent<Rigidbody>().maxAngularVelocity != 7)
+            {
+                this.GetComponent<Rigidbody>().maxAngularVelocity = 7;
+            }
             m_grabbedGrabPoint.Rigidbody.isKinematic = m_grabbedKinematic;
             m_grabbedGrabPoint.Rigidbody.velocity = linearVelocity;
             m_grabbedGrabPoint.Rigidbody.angularVelocity = angularVelocity;

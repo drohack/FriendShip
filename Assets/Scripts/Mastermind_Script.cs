@@ -1889,7 +1889,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             }
 
             // If no command matched (and someone is not trying to fufill a pullcord) lower score
-            if (numFufilled == 0 && !isActivePullcordCommand && inputCommand > 0)
+            if (numFufilled == 0 && !isActivePullcordCommand && inputCommand >= 0)
             {
                 ScoreDown();
                 if (playerNum == 1)
