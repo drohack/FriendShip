@@ -91,7 +91,7 @@ public class Pullcord_Script : Photon.MonoBehaviour
             // Else if not holding the handle and it's at the maximum, set handle just above maximum so it bounces back to the center (it locks at maximum)
             else if (!handleScript.isGrabbing && handleTransform.localPosition.y <= linearLimit)
             {
-                handleTransform.localPosition = new Vector3(handleTransform.localPosition.x, -1.99f, handleTransform.localPosition.z);
+                handleTransform.localPosition = new Vector3(handleTransform.localPosition.x, linearLimit + 0.01f, handleTransform.localPosition.z);
                 isDown = false;
                 photonView.RPC("RPCUpdateIsDown", PhotonTargets.Others, isDown);
             }

@@ -4,15 +4,15 @@ using System.Collections;
 public class Plutonium_Case_Script : Photon.MonoBehaviour
 {
     [SerializeField]
+    Plutonium_Case_Trigger_Script plutoniumCaseTriggerScript;
+    [SerializeField]
     GameObject lockedPlutoniumRod;
 
     private Vector3 lockedPlutoniumRodOriginalScale;
     private float targetScale = 0.001f;
     private float shrinkSpeed = 2f;
 
-    private bool isRodLoaded = false;
-    private bool isRodLeftColliding = false;
-    private bool isRodRightColliding = false;
+    public bool isRodLoaded = false;
 
     Mastermind_Script mastermindScript;
 
@@ -34,50 +34,23 @@ public class Plutonium_Case_Script : Photon.MonoBehaviour
 
         lockedPlutoniumRodOriginalScale = lockedPlutoniumRod.transform.localScale;
         isRodLoaded = false;
-        isRodLeftColliding = false;
-        isRodRightColliding = false;
 
         if (PhotonNetwork.isMasterClient)
             mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
     }
 
-    void OnTriggerEnter(Collider other)
+    public void LoadRod()
     {
-        // Check to see if it is a rod colliding
-        if (other.tag.Equals("PlutoniumRodLeft"))
-            isRodLeftColliding = true;
-        else if (other.tag.Equals("PlutoniumRodRight"))
-            isRodRightColliding = true;
+        //Enable the locked plutonium rod so it looks like it snapped into place
+        lockedPlutoniumRod.SetActive(true);
 
-        // Make sure there isn't a rod loaded already
-        // If both halves are colliding Destroy the object
-        // Enable the disabbled rod in the case
-        // Send tapped command to Mastermind
-        if (!isRodLoaded && isRodLeftColliding && isRodRightColliding && other != null && other.transform.parent != null && other.transform.parent.parent != null
-                && other.transform.parent.parent.tag.Equals("PlutoniumRod"))
-        {
-            //Destroy the free floating Plutonium Rod
-            other.transform.parent.parent.gameObject.GetPhotonView().RPC("RPCDestroy", PhotonTargets.All);
+        //send tapped command to Mastermind
+        photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommand, playerNum);
 
-            //Enable the locked plutonium rod so it looks like it snapped into place
-            lockedPlutoniumRod.SetActive(true);
+        isRodLoaded = true;
 
-            //send tapped command to Mastermind
-            photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommand, playerNum);
-
-            isRodLoaded = true;
-
-            //Load animation on all other versions of me
-            photonView.RPC("RPCLoadLockedPlutoniumRod", PhotonTargets.Others, isRodLoaded);
-        }
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.tag.Equals("PlutoniumRodLeft"))
-            isRodLeftColliding = false;
-        else if (other.tag.Equals("PlutoniumRodRight"))
-            isRodRightColliding = false;
+        //Load animation on all other versions of me
+        photonView.RPC("RPCLoadLockedPlutoniumRod", PhotonTargets.Others, isRodLoaded);
     }
 
     // Update is called once per frame
@@ -94,8 +67,8 @@ public class Plutonium_Case_Script : Photon.MonoBehaviour
                 lockedPlutoniumRod.SetActive(false);
                 lockedPlutoniumRod.transform.localScale = lockedPlutoniumRodOriginalScale;
                 isRodLoaded = false;
-                isRodLeftColliding = false;
-                isRodRightColliding = false;
+                plutoniumCaseTriggerScript.isRodLeftColliding = false;
+                plutoniumCaseTriggerScript.isRodRightColliding = false;
             }
         }
     }

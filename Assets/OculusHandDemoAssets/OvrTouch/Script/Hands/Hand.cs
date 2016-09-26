@@ -92,10 +92,19 @@ namespace OVRTouchSample
         public HandPoseId handPoseId;
         public Hand_Pose m_grabbedHandPose = null;
         public float m_flex = 0.0f;
+        public float m_trigger = 0.0f;
         public float m_point = 0.0f;
         public float m_thumbsUp = 0.0f;
         public bool canPoint;
         public bool canThumbsUp;
+
+        // HAPTICS
+        public const float HAPTIC_OVERLAP_AMPLITUDE = 0.25f;
+        public const float HAPTIC_OVERLAP_FREQUENCY = 320.0f;
+        public const float HAPTIC_OVERLAP_DURATION = 0.05f;
+        private OVRHaptics.OVRHapticsChannel m_hapticsChannel = null;
+        public AudioClip m_clipA;
+        private OVRHapticsClip m_hapticsClipA;
 
         public bool HandVisible
         {
@@ -165,6 +174,10 @@ namespace OVRTouchSample
             {
                 Debug.LogError("Hand: Hands should use a fixed timestep that is at least the refresh rate of the hmd (90hz) for responsive physics behavior.");
             }
+
+            // Haptics
+            m_hapticsChannel = m_handedness == OVRInput.Controller.LTouch ? OVRHaptics.LeftChannel : OVRHaptics.RightChannel;
+            if (m_clipA != null) m_hapticsClipA = new OVRHapticsClip(m_clipA);
         }
 
         private void Update()
@@ -175,13 +188,15 @@ namespace OVRTouchSample
             emission.rate = rateCurve;
 
             float prevFlex = m_flex;
+            float prevTrigger = m_trigger;
 
             // Update values from inputs
             m_flex = m_trackedController.GripTrigger;
+            m_trigger = m_trackedController.Trigger;
             m_point = InputValueRateChange(m_trackedController.IsPoint, m_point);
             m_thumbsUp = InputValueRateChange(m_trackedController.IsThumbsUp, m_thumbsUp);
 
-            CheckForGrabOrRelease(prevFlex);
+            CheckForGrabOrRelease(prevFlex, prevTrigger);
 
             bool collisionEnabled = (
                 m_grabbedObj != null ||
@@ -252,6 +267,23 @@ namespace OVRTouchSample
             int refCount = 0;
             m_grabCandidates.TryGetValue(grabbable, out refCount);
             m_grabCandidates[grabbable] = refCount + 1;
+
+            if (refCount == 0)
+            {
+                // Overlap begin
+                grabbable.OverlapBegin(this);
+
+                if (m_grabVolumeEnabled && m_trackedController != null)
+                {
+                    // Only play overlap haptics when there was no initial overlap (like after a grab release)
+                    //m_trackedController.PlayHapticEvent(
+                    //    HAPTIC_OVERLAP_FREQUENCY,
+                    //    HAPTIC_OVERLAP_AMPLITUDE,
+                    //    HAPTIC_OVERLAP_DURATION
+                    //);
+                    m_hapticsChannel.Queue(m_hapticsClipA);
+                }
+            }
         }
 
         private void OnTriggerExit(Collider otherCollider)
@@ -337,14 +369,15 @@ namespace OVRTouchSample
             }
         }
 
-        private void CheckForGrabOrRelease(float prevFlex)
+        private void CheckForGrabOrRelease(float prevFlex, float prevTrigger)
         {
-            if ((m_flex >= THRESH_GRAB_BEGIN) && (prevFlex < THRESH_GRAB_BEGIN))
+            if (((m_flex >= THRESH_GRAB_BEGIN) && (prevFlex < THRESH_GRAB_BEGIN)) || ((m_trigger >= THRESH_GRAB_BEGIN) && (prevTrigger < THRESH_GRAB_BEGIN)))
             {
                 if (this.GetComponent<Grabbed_Hand_Script>() != null)
                     this.GetComponent<Grabbed_Hand_Script>().GrabBegin(m_grabCandidates);
             }
-            else if ((m_flex <= THRESH_GRAB_END) && (prevFlex > THRESH_GRAB_END))
+            else if (((m_flex <= THRESH_GRAB_END) && (prevFlex > THRESH_GRAB_END) && (m_trigger <= THRESH_GRAB_END)) ||
+                ((m_trigger <= THRESH_GRAB_END) && (prevTrigger > THRESH_GRAB_END) && (m_flex <= THRESH_GRAB_END)))
             {
                 if (this.GetComponent<Grabbed_Hand_Script>() != null)
                     this.GetComponent<Grabbed_Hand_Script>().GrabEnd();
@@ -488,7 +521,7 @@ namespace OVRTouchSample
         {
             Destroy(gameObject.GetComponent<FixedJoint>());
             //m_grabbedObj.transform.parent = null;
-            m_grabbedObj.GrabEnd(linearVelocity, angularVelocity);
+            m_grabbedObj.GrabEnd(linearVelocity, angularVelocity, false);
             m_grabbedHandPose = null;
             if(m_parentHeldObject) m_grabbedObj.transform.parent = null;
             m_grabbedObj = null;

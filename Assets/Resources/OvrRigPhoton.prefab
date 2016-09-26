@@ -2906,7 +2906,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012635017314}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.81, z: -0.55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -3229,10 +3229,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013820763396}
-  m_LocalRotation: {x: -0.4066929, y: -0.32320184, z: 0.38017634, w: 0.76524997}
-  m_LocalPosition: {x: 0.01396214, y: 0.018991947, z: -0.0721582}
+  m_LocalRotation: {x: -0.3721915, y: -0.25476727, z: 0.41567585, w: 0.78979796}
+  m_LocalPosition: {x: 0.01396214, y: 0.018991947, z: -0.095}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: -22.1292, y: -60.2059, z: 65.7724}
+  m_LocalEulerAnglesHint: {x: -22.093, y: -50.198, z: 65.966}
   m_Children:
   - {fileID: 4000012137301794}
   - {fileID: 4000011009309162}
@@ -3501,10 +3501,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013716563812}
-  m_LocalRotation: {x: -0.40669793, y: 0.32319948, z: -0.38017192, w: 0.76525044}
-  m_LocalPosition: {x: -0.01396213, y: 0.018991947, z: -0.07215909}
+  m_LocalRotation: {x: -0.37219542, y: 0.25476557, z: -0.4156651, w: 0.78980225}
+  m_LocalPosition: {x: -0.01396213, y: 0.018991947, z: -0.095}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: -22.13, y: 60.206097, z: -65.7723}
+  m_LocalEulerAnglesHint: {x: -22.094002, y: 50.198, z: -65.965004}
   m_Children:
   - {fileID: 4000010531575070}
   - {fileID: 4000013908226150}
@@ -4520,10 +4520,12 @@ MonoBehaviour:
   handPoseId: 0
   m_grabbedHandPose: {fileID: 0}
   m_flex: 0
+  m_trigger: 0
   m_point: 0
   m_thumbsUp: 0
   canPoint: 0
   canThumbsUp: 0
+  m_clipA: {fileID: 8300000, guid: da8b8e20bcbf23948bb7f5ddbe3d20ef, type: 3}
 --- !u!114 &114000010532263952
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4573,7 +4575,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58e80f3d5dfe9ae4595cc395b3db1982, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_showGizmos: 1
+  m_showGizmos: 0
 --- !u!114 &114000012132374752
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4599,6 +4601,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_handedness: 1
   m_gripTransform: {fileID: 4000013215199642}
+  m_skinnedMeshRenderer: {fileID: 137000012638131322}
 --- !u!114 &114000012644487286
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4670,6 +4673,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_handedness: 0
   m_gripTransform: {fileID: 4000013327936172}
+  m_skinnedMeshRenderer: {fileID: 137000012653425474}
 --- !u!114 &114000013020000186
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4729,7 +4733,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58e80f3d5dfe9ae4595cc395b3db1982, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_showGizmos: 1
+  m_showGizmos: 0
 --- !u!114 &114000013775851324
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4780,10 +4784,12 @@ MonoBehaviour:
   handPoseId: 0
   m_grabbedHandPose: {fileID: 0}
   m_flex: 0
+  m_trigger: 0
   m_point: 0
   m_thumbsUp: 0
   canPoint: 0
   canThumbsUp: 0
+  m_clipA: {fileID: 8300000, guid: da8b8e20bcbf23948bb7f5ddbe3d20ef, type: 3}
 --- !u!135 &135000010810155250
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -5719,7 +5725,7 @@ ParticleSystem:
   moveWithTransform: 0
   autoRandomSeed: 1
   scalingMode: 2
-  randomSeed: -1976545593
+  randomSeed: 467281345
   InitialModule:
     serializedVersion: 2
     enabled: 1
@@ -7438,7 +7444,7 @@ ParticleSystem:
   moveWithTransform: 0
   autoRandomSeed: 1
   scalingMode: 2
-  randomSeed: -310549474
+  randomSeed: 2133402028
   InitialModule:
     serializedVersion: 2
     enabled: 1

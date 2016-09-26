@@ -835,6 +835,8 @@ GameObject:
   - 198: {fileID: 19816912}
   - 199: {fileID: 19984256}
   - 114: {fileID: 11480108}
+  - 114: {fileID: 114000011962583906}
+  - 114: {fileID: 114000012858999020}
   m_Layer: 0
   m_Name: LeftHandPf
   m_TagString: Untagged
@@ -1628,7 +1630,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 166128}
   m_LocalRotation: {x: -0.8286923, y: 0.49735907, z: -0.040285766, w: 0.25353533}
-  m_LocalPosition: {x: 0.03476566, y: -0.03266526, z: 0.03566133}
+  m_LocalPosition: {x: 0.03476566, y: -0.03266526, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -1666,10 +1668,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 102278}
-  m_LocalRotation: {x: -0.40669793, y: 0.32319948, z: -0.38017192, w: 0.76525044}
-  m_LocalPosition: {x: -0.01396213, y: 0.018991947, z: -0.07215909}
+  m_LocalRotation: {x: -0.37219542, y: 0.25476557, z: -0.4156651, w: 0.78980225}
+  m_LocalPosition: {x: -0.01396213, y: 0.018991947, z: -0.095}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -22.094002, y: 50.198, z: -65.965004}
   m_Children:
   - {fileID: 448480}
   - {fileID: 455462}
@@ -1807,6 +1809,7 @@ MonoBehaviour:
   handPoseId: 0
   m_grabbedHandPose: {fileID: 0}
   m_flex: 0
+  m_trigger: 0
   m_point: 0
   m_thumbsUp: 0
   canPoint: 0
@@ -2278,7 +2281,7 @@ ParticleSystem:
   moveWithTransform: 0
   autoRandomSeed: 1
   scalingMode: 2
-  randomSeed: -873894549
+  randomSeed: -1410185908
   InitialModule:
     serializedVersion: 2
     enabled: 1
@@ -4002,3 +4005,29 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 193896}
   m_IsPrefabParent: 1
+--- !u!114 &114000011962583906
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 193896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2aba836d89ac62439ea0720c9cc3799, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_handedness: 0
+  m_gripTransform: {fileID: 487706}
+  m_skinnedMeshRenderer: {fileID: 13771164}
+--- !u!114 &114000012858999020
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 193896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58e80f3d5dfe9ae4595cc395b3db1982, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_showGizmos: 0

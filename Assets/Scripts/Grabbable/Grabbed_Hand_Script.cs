@@ -13,6 +13,8 @@ public class Grabbed_Hand_Script : MonoBehaviour {
     public HandednessId m_handedness = HandednessId.Left;
     [SerializeField]
     private Transform m_gripTransform = null;
+    [SerializeField]
+    private SkinnedMeshRenderer m_skinnedMeshRenderer;
 
     private Rigidbody m_rigidbody = null;
     private Velocity_Tracker m_velocityTracker = null;
@@ -88,10 +90,10 @@ public class Grabbed_Hand_Script : MonoBehaviour {
                 // Set isKinematic to false so the hand doesn't bump into things
                 m_rigidbody.isKinematic = false;
                 // disable the hand geometry
-                transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled = false;
+                m_skinnedMeshRenderer.enabled = false;
                 if (transform.parent != null && transform.parent.GetComponent<PhotonNetworkOvrRig>() != null)
                 {
-                    transform.parent.GetComponent<PhotonNetworkOvrRig>().ToggleMeshRenderer(m_handedness, transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled);
+                    transform.parent.GetComponent<PhotonNetworkOvrRig>().ToggleMeshRenderer(m_handedness, m_skinnedMeshRenderer.enabled);
                 }
             }
         }
@@ -128,13 +130,13 @@ public class Grabbed_Hand_Script : MonoBehaviour {
                 fixedJoint = null;
             }
 
-            if (transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled == false)
+            if (m_skinnedMeshRenderer.enabled == false)
             {
                 // Enable hand geometry to pop back in
-                transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled = true;
+                m_skinnedMeshRenderer.enabled = true;
                 if (transform.parent != null && transform.parent.GetComponent<PhotonNetworkOvrRig>() != null)
                 {
-                    transform.parent.GetComponent<PhotonNetworkOvrRig>().ToggleMeshRenderer(m_handedness, transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled);
+                    transform.parent.GetComponent<PhotonNetworkOvrRig>().ToggleMeshRenderer(m_handedness, m_skinnedMeshRenderer.enabled);
                 }
                 //set isKinematic to false so the hand doesn't bump into things
                 m_rigidbody.isKinematic = true;
@@ -159,7 +161,7 @@ public class Grabbed_Hand_Script : MonoBehaviour {
             }
 
             // Release the grabbable
-            GrabbableRelease(linearVelocity, angularVelocity);
+            GrabbableRelease(linearVelocity, angularVelocity, false);
         }
 
         if (this.GetComponent<OVRTouchSample.Hand>() != null)
@@ -180,9 +182,9 @@ public class Grabbed_Hand_Script : MonoBehaviour {
     }
 
     //==============================================================================
-    private void GrabbableRelease(Vector3 linearVelocity, Vector3 angularVelocity)
+    private void GrabbableRelease(Vector3 linearVelocity, Vector3 angularVelocity, bool isOffhandGrab)
     {
-        m_grabbedGrabbable.GrabEnd(linearVelocity, angularVelocity);
+        m_grabbedGrabbable.GrabEnd(linearVelocity, angularVelocity, isOffhandGrab);
         m_grabbedHandPose = null;
         m_grabbedGrabbable = null;
         if (this.GetComponent<OVRTouchSample.Hand>() != null)
@@ -194,7 +196,7 @@ public class Grabbed_Hand_Script : MonoBehaviour {
     {
         if (m_grabbedGrabbable == grabbable)
         {
-            GrabbableRelease(Vector3.zero, Vector3.zero);
+            GrabbableRelease(Vector3.zero, Vector3.zero, true);
         }
     }
 }

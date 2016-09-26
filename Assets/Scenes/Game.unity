@@ -2779,6 +2779,16 @@ Prefab:
       propertyPath: m_Name
       value: Plutonium_Rod 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114000011909999306, guid: ed8dd4b75c3a2bd4abec0d22d82ced43,
+        type: 2}
+      propertyPath: instantiationId
+      value: 96
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011909999306, guid: ed8dd4b75c3a2bd4abec0d22d82ced43,
+        type: 2}
+      propertyPath: viewIdField
+      value: 96
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ed8dd4b75c3a2bd4abec0d22d82ced43, type: 2}
   m_IsPrefabParent: 0
@@ -5802,6 +5812,16 @@ Prefab:
       propertyPath: m_Name
       value: Plutonium_Rod 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114000011909999306, guid: ed8dd4b75c3a2bd4abec0d22d82ced43,
+        type: 2}
+      propertyPath: instantiationId
+      value: 97
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011909999306, guid: ed8dd4b75c3a2bd4abec0d22d82ced43,
+        type: 2}
+      propertyPath: viewIdField
+      value: 97
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ed8dd4b75c3a2bd4abec0d22d82ced43, type: 2}
   m_IsPrefabParent: 0
@@ -7792,6 +7812,16 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.x
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: 114000011909999306, guid: ed8dd4b75c3a2bd4abec0d22d82ced43,
+        type: 2}
+      propertyPath: instantiationId
+      value: 98
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011909999306, guid: ed8dd4b75c3a2bd4abec0d22d82ced43,
+        type: 2}
+      propertyPath: viewIdField
+      value: 98
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ed8dd4b75c3a2bd4abec0d22d82ced43, type: 2}
   m_IsPrefabParent: 0
@@ -8541,6 +8571,16 @@ Prefab:
     - target: {fileID: 4000012293294368, guid: ed8dd4b75c3a2bd4abec0d22d82ced43, type: 2}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011909999306, guid: ed8dd4b75c3a2bd4abec0d22d82ced43,
+        type: 2}
+      propertyPath: instantiationId
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011909999306, guid: ed8dd4b75c3a2bd4abec0d22d82ced43,
+        type: 2}
+      propertyPath: viewIdField
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ed8dd4b75c3a2bd4abec0d22d82ced43, type: 2}
@@ -12846,6 +12886,16 @@ Prefab:
       propertyPath: m_Name
       value: Plutonium_Rod 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114000011909999306, guid: ed8dd4b75c3a2bd4abec0d22d82ced43,
+        type: 2}
+      propertyPath: instantiationId
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011909999306, guid: ed8dd4b75c3a2bd4abec0d22d82ced43,
+        type: 2}
+      propertyPath: viewIdField
+      value: 17
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ed8dd4b75c3a2bd4abec0d22d82ced43, type: 2}
   m_IsPrefabParent: 0
@@ -12893,31 +12943,19 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114000012691538006, guid: ed8dd4b75c3a2bd4abec0d22d82ced43,
-        type: 2}
-      propertyPath: viewIdField
-      value: 96
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000012691538006, guid: ed8dd4b75c3a2bd4abec0d22d82ced43,
-        type: 2}
-      propertyPath: instantiationId
-      value: 96
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000012293294368, guid: ed8dd4b75c3a2bd4abec0d22d82ced43, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.30000025
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000012293294368, guid: ed8dd4b75c3a2bd4abec0d22d82ced43, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.30000073
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000012293294368, guid: ed8dd4b75c3a2bd4abec0d22d82ced43, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 0.3000008
-      objectReference: {fileID: 0}
     - target: {fileID: 1000013927286084, guid: ed8dd4b75c3a2bd4abec0d22d82ced43, type: 2}
       propertyPath: m_Name
       value: Plutonium_Rod 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011909999306, guid: ed8dd4b75c3a2bd4abec0d22d82ced43,
+        type: 2}
+      propertyPath: viewIdField
+      value: 101
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011909999306, guid: ed8dd4b75c3a2bd4abec0d22d82ced43,
+        type: 2}
+      propertyPath: instantiationId
+      value: 101
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ed8dd4b75c3a2bd4abec0d22d82ced43, type: 2}
@@ -15766,7 +15804,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1269602133}
   serializedVersion: 2
-  m_Mass: 0.2
+  m_Mass: 0.00667
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -18394,6 +18432,16 @@ Prefab:
     - target: {fileID: 4000012293294368, guid: ed8dd4b75c3a2bd4abec0d22d82ced43, type: 2}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011909999306, guid: ed8dd4b75c3a2bd4abec0d22d82ced43,
+        type: 2}
+      propertyPath: instantiationId
+      value: 99
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011909999306, guid: ed8dd4b75c3a2bd4abec0d22d82ced43,
+        type: 2}
+      propertyPath: viewIdField
+      value: 99
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ed8dd4b75c3a2bd4abec0d22d82ced43, type: 2}
@@ -21168,7 +21216,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1696201789}
   serializedVersion: 2
-  m_Mass: 0.2
+  m_Mass: 0.00667
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -21303,6 +21351,16 @@ Prefab:
     - target: {fileID: 4000012293294368, guid: ed8dd4b75c3a2bd4abec0d22d82ced43, type: 2}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011909999306, guid: ed8dd4b75c3a2bd4abec0d22d82ced43,
+        type: 2}
+      propertyPath: viewIdField
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011909999306, guid: ed8dd4b75c3a2bd4abec0d22d82ced43,
+        type: 2}
+      propertyPath: instantiationId
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ed8dd4b75c3a2bd4abec0d22d82ced43, type: 2}

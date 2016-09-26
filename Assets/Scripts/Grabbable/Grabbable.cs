@@ -205,10 +205,10 @@ public class Grabbable : MonoBehaviour
         };
         SendMsg(GrabbableGrabMsg.MsgNameGrabBegin, grabMsg);
     }
-    public void GrabEnd(Vector3 linearVelocity, Vector3 angularVelocity)
+    public void GrabEnd(Vector3 linearVelocity, Vector3 angularVelocity, bool isOffhandGrab)
     {
         // Get rid of the spring joint, but make sure it's not being grabbed by the off hand
-        if (m_SpringJoint != null && !isGrabbed)
+        if (m_SpringJoint != null && !isOffhandGrab)
             Destroy(m_SpringJoint);
 
         // Keep the object's velocity and angular velocity

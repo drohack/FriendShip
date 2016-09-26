@@ -1572,13 +1572,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114000012691538006, guid: ed8dd4b75c3a2bd4abec0d22d82ced43,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: viewIdField
       value: 15
       objectReference: {fileID: 0}
-    - target: {fileID: 114000012691538006, guid: ed8dd4b75c3a2bd4abec0d22d82ced43,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: instantiationId
       value: 15
       objectReference: {fileID: 0}
@@ -1610,9 +1608,19 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.x
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: 114000011909999306, guid: ed8dd4b75c3a2bd4abec0d22d82ced43,
+        type: 2}
+      propertyPath: viewIdField
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011909999306, guid: ed8dd4b75c3a2bd4abec0d22d82ced43,
+        type: 2}
+      propertyPath: instantiationId
+      value: 17
+      objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 114000012678552178, guid: ed8dd4b75c3a2bd4abec0d22d82ced43, type: 2}
-    - {fileID: 114000012691538006, guid: ed8dd4b75c3a2bd4abec0d22d82ced43, type: 2}
+    - {fileID: 0}
+    - {fileID: 0}
   m_ParentPrefab: {fileID: 100100000, guid: ed8dd4b75c3a2bd4abec0d22d82ced43, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &650473890 stripped
@@ -3205,35 +3213,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114000012691538006, guid: ed8dd4b75c3a2bd4abec0d22d82ced43,
-        type: 2}
-      propertyPath: viewIdField
-      value: 17
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000012691538006, guid: ed8dd4b75c3a2bd4abec0d22d82ced43,
-        type: 2}
-      propertyPath: instantiationId
-      value: 17
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000012293294368, guid: ed8dd4b75c3a2bd4abec0d22d82ced43, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.30000013
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000012293294368, guid: ed8dd4b75c3a2bd4abec0d22d82ced43, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.30000055
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000012293294368, guid: ed8dd4b75c3a2bd4abec0d22d82ced43, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 0.30000055
-      objectReference: {fileID: 0}
     - target: {fileID: 1000013927286084, guid: ed8dd4b75c3a2bd4abec0d22d82ced43, type: 2}
       propertyPath: m_Name
       value: Plutonium_Rod 1
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 114000012678552178, guid: ed8dd4b75c3a2bd4abec0d22d82ced43, type: 2}
-    - {fileID: 114000012691538006, guid: ed8dd4b75c3a2bd4abec0d22d82ced43, type: 2}
+    - target: {fileID: 114000011909999306, guid: ed8dd4b75c3a2bd4abec0d22d82ced43,
+        type: 2}
+      propertyPath: viewIdField
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011909999306, guid: ed8dd4b75c3a2bd4abec0d22d82ced43,
+        type: 2}
+      propertyPath: instantiationId
+      value: 15
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ed8dd4b75c3a2bd4abec0d22d82ced43, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1262419836
