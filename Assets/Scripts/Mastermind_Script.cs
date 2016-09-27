@@ -1727,103 +1727,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
     // End the waitForSeconds by setting the timer to zero AND signal that a button was tapped (isTapped = true)
     public void TappedWaitForSecondsOrTap(int inputCommand, int playerNum)
     {
-        if (inputCommand == -1)
-        {
-            if (playerNum == 1)
-            {
-                p1_Aborting = false;
-                p1_AbortResetScript.p1_NotAborting();
-            }
-            if (playerNum == 2)
-            {
-                p2_Aborting = false;
-                p2_AbortResetScript.p2_NotAborting();
-            }
-            if (playerNum == 3)
-            {
-                p3_Aborting = false;
-                p3_AbortResetScript.p3_NotAborting();
-            }
-            if (playerNum == 4)
-            {
-                p4_Aborting = false;
-                p4_AbortResetScript.p4_NotAborting();
-            }
-        }
-
-        if (inputCommand == -2)
-        {
-            if (playerNum == 1)
-            {
-                p1_Aborting = true;
-                p1_AbortResetScript.p1_Aborting();
-            }
-            if (playerNum == 2)
-            {
-                p2_Aborting = true;
-                p2_AbortResetScript.p2_Aborting();
-            }
-            if (playerNum == 3)
-            {
-                p3_Aborting = true;
-                p3_AbortResetScript.p3_Aborting();
-            }
-            if (playerNum == 4)
-            {
-                p4_Aborting = true;
-                p4_AbortResetScript.p4_Aborting();
-            }
-        }
-
-        if (inputCommand == -3)
-        {
-            if (playerNum == 1)
-            {
-                p1_Resetting = false;
-                p1_AbortResetScript.p1_NotResetting();
-            }
-            if (playerNum == 2)
-            {
-                p2_Resetting = false;
-                p2_AbortResetScript.p2_NotResetting();
-            }
-            if (playerNum == 3)
-            {
-                p3_Resetting = false;
-                p3_AbortResetScript.p3_NotResetting();
-            }
-            if (playerNum == 4)
-            {
-                p4_Resetting = false;
-                p4_AbortResetScript.p4_NotResetting();
-            }
-        }
-
-        if (inputCommand == -4)
-        {
-            if (playerNum == 1)
-            {
-                p1_Resetting = true;
-                p1_AbortResetScript.p1_Resetting();
-            }
-            if (playerNum == 2)
-            {
-                p2_Resetting = true;
-                p2_AbortResetScript.p2_Resetting();
-            }
-            if (playerNum == 3)
-            {
-                p3_Resetting = true;
-                p3_AbortResetScript.p3_Resetting();
-            }
-            if (playerNum == 4)
-            {
-                p4_Resetting = true;
-                p4_AbortResetScript.p4_Resetting();
-            }
-        }
-
-        if (!isGameOver && inputCommand >= 0)
+        if (!isGameOver)
         {
             numFufilled = 0;
             bool isActivePullcordCommand = false;
@@ -1889,7 +1793,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             }
 
             // If no command matched (and someone is not trying to fufill a pullcord) lower score
-            if (numFufilled == 0 && !isActivePullcordCommand && inputCommand >= 0)
+            if (numFufilled == 0 && !isActivePullcordCommand)
             {
                 ScoreDown();
                 if (playerNum == 1)
@@ -1928,6 +1832,152 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 else if (playerNum == 4)
                     p4_CommandFeedbackScript.PlaySuccessFeedback();
             }
+        }
+    }
+
+    public void AbortCheck(bool abortStatus, int playerNum)
+    {
+        int abortCount = 0;
+        int playerCount = PhotonNetwork.playerList.Length;
+        if (abortStatus)
+        {
+            if (playerNum == 1)
+            {
+                p1_AbortResetScript.p1_Aborting();
+                p1_Aborting = true;
+            }
+            else if (playerNum == 2)
+            {
+                p2_AbortResetScript.p2_Aborting();
+                p2_Aborting = true;
+            }
+            else if (playerNum == 3)
+            {
+                p3_AbortResetScript.p3_Aborting();
+                p3_Aborting = true;
+            }
+            else if (playerNum == 4)
+            {
+                p4_AbortResetScript.p4_Aborting();
+                p4_Aborting = true;
+            }
+        }
+        else
+        {
+            if (playerNum == 1)
+            {
+                p1_AbortResetScript.p1_NotAborting();
+                p1_Aborting = false;
+            }
+            else if (playerNum == 2)
+            {
+                p2_AbortResetScript.p2_NotAborting();
+                p2_Aborting = false;
+            }
+            else if (playerNum == 3)
+            {
+                p3_AbortResetScript.p3_NotAborting();
+                p3_Aborting = false;
+            }
+            else if (playerNum == 4)
+            {
+                p4_AbortResetScript.p4_NotAborting();
+                p4_Aborting = false;
+            }
+        }
+
+        if (p1_Aborting == true)
+        {
+            abortCount += 1;
+        }
+        if (p2_Aborting == true)
+        {
+            abortCount += 1;
+        }
+        if (p3_Aborting == true)
+        {
+            abortCount += 1;
+        }
+        if (p4_Aborting == true)
+        {
+            abortCount += 1;
+        }
+        if (abortCount == playerCount)
+        {
+            AbortGame();
+        }
+    }
+
+    public void ResetCheck(bool resetStatus, int playerNum)
+    {
+        int ResetCount = 0;
+        int playerCount = PhotonNetwork.playerList.Length;
+        if (resetStatus)
+        {
+            if (playerNum == 1)
+            {
+                p1_AbortResetScript.p1_Resetting();
+                p1_Resetting = true;
+            }
+            else if (playerNum == 2)
+            {
+                p2_AbortResetScript.p2_Resetting();
+                p2_Resetting = true;
+            }
+            else if (playerNum == 3)
+            {
+                p3_AbortResetScript.p3_Resetting();
+                p3_Resetting = true;
+            }
+            else if (playerNum == 4)
+            {
+                p4_AbortResetScript.p4_Resetting();
+                p4_Resetting = true;
+            }
+        }
+        else
+        {
+            if (playerNum == 1)
+            {
+                p1_AbortResetScript.p1_NotResetting();
+                p1_Resetting = false;
+            }
+            else if (playerNum == 2)
+            {
+                p2_AbortResetScript.p2_NotResetting();
+                p2_Resetting = false;
+            }
+            else if (playerNum == 3)
+            {
+                p3_AbortResetScript.p3_NotResetting();
+                p3_Resetting = false;
+            }
+            else if (playerNum == 4)
+            {
+                p4_AbortResetScript.p4_NotResetting();
+                p4_Resetting = false;
+            }
+        }
+
+        if (p1_Resetting == true)
+        {
+            ResetCount += 1;
+        }
+        if (p2_Resetting == true)
+        {
+            ResetCount += 1;
+        }
+        if (p3_Resetting == true)
+        {
+            ResetCount += 1;
+        }
+        if (p4_Resetting == true)
+        {
+            ResetCount += 1;
+        }
+        if (ResetCount == playerCount)
+        {
+            ResetGame();
         }
     }
 }

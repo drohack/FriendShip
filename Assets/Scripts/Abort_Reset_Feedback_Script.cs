@@ -21,7 +21,6 @@ public class Abort_Reset_Feedback_Script : Photon.MonoBehaviour
     [SerializeField]
     public GameObject p4_Reset_Light;
 
-
     // Use this for initialization
     void Start()
     {

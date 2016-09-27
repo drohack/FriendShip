@@ -14,7 +14,7 @@ public class Abort_Button_Script : Photon.MonoBehaviour
 
     //Network variables
     public string newName;
-    public int rCommand = 0;
+    public bool abortStatus = false;
     public int playerNum;
 
     // Use this for initialization
@@ -44,21 +44,21 @@ public class Abort_Button_Script : Photon.MonoBehaviour
         {
             isLocked = false;
             isButtonDown = false;
-            rCommand = -1;
+            abortStatus = false;
             photonView.RPC("RPCPlayAnim", PhotonTargets.Others, "Button_Up_Anim");
             StartCoroutine(WaitForAnimation(anim, "Button_Up_Anim"));
-            photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommand, playerNum);
+            photonView.RPC("CmdSendAbortCommand", PhotonTargets.MasterClient, abortStatus, playerNum);
         }
 
         if (!isAnimating && !isLocked && !isButtonDown && (handleScript.isGrabbing || handleScript.isColliding))
         {
             isLocked = true;
             isButtonDown = true;
-            rCommand = -2;
+            abortStatus = true;
             //send tapped rCommand to Server
             photonView.RPC("RPCPlayAnim", PhotonTargets.Others, "Button_Down_Anim");
             StartCoroutine(WaitForAnimation(anim, "Button_Down_Anim"));
-            photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommand, playerNum);
+            photonView.RPC("CmdSendAbortCommand", PhotonTargets.MasterClient, abortStatus, playerNum);
         }
     }
 
@@ -75,9 +75,9 @@ public class Abort_Button_Script : Photon.MonoBehaviour
     }
 
     [PunRPC]
-    void CmdSendTappedCommand(int sentRCommand, int sentPlayerNum)
+    void CmdSendAbortCommand(bool sentAbortStatus, int sentPlayerNum)
     {
-        mastermindScript.TappedWaitForSecondsOrTap(sentRCommand, sentPlayerNum);
+        mastermindScript.AbortCheck(sentAbortStatus, sentPlayerNum);
     }
 
     [PunRPC]
