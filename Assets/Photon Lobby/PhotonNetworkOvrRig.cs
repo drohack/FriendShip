@@ -27,6 +27,8 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
     [SerializeField]
     Animator animatorL;
     [SerializeField]
+    SkinnedMeshRenderer skinnedMeshRendererL;
+    [SerializeField]
     Transform RightHandPf;
     [SerializeField]
     Hand handScriptR;
@@ -44,6 +46,8 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
     GameObject GrabVolumeBigR;
     [SerializeField]
     Animator animatorR;
+    [SerializeField]
+    SkinnedMeshRenderer skinnedMeshRendererR;
     [SerializeField]
     GameObject playerArea;
     [SerializeField]
@@ -285,11 +289,11 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
     {
         if (m_handedness.Equals(HandednessId.Left))
         {
-            transform.Find("LeftHandPf").GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled = isEnabled;
+            skinnedMeshRendererL.enabled = isEnabled;
         }
         else
         {
-            transform.Find("RightHandPf").GetChild(0).GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled = isEnabled;
+            skinnedMeshRendererR.enabled = isEnabled;
         }
     }
 

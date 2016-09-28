@@ -63,7 +63,7 @@ public class Highlight_Lobby_Row : MonoBehaviour
    
     void Update()
     {
-        if (isGrabbing && !transform.GetComponent<Grabbable>().isGrabbing)
+        if (isGrabbing && !transform.GetComponent<Grabbable>().isGrabbed)
         {
             isGrabbing = false;
             topRenderer.color = startcolor;
