@@ -10,33 +10,37 @@ public class Spawn_Plutonium_Rods : Photon.MonoBehaviour
     void Start () {
         if (PhotonNetwork.isMasterClient)
         {
-            //Get number of players by the NetwokManager.numPlayers
-            numPlayers = PhotonNetwork.playerList.Length;
-
             StartCoroutine(WaitForPlayersToSpawn());
-
-            //For each child (set of toys) spawn all objects under that set
-            foreach (Transform plutoniumRodSet in transform)
-            {
-                foreach (Transform plutoniumRod in plutoniumRodSet)
-                {
-                    object[] data = new object[2];
-                    data[0] = plutoniumRod.position;
-                    data[1] = plutoniumRod.localRotation.eulerAngles;
-                    //Instantiate the plutoniumRod
-                    PhotonNetwork.InstantiateSceneObject("Modules/Plutonium_Rod", plutoniumRod.position, plutoniumRod.rotation, 0, data);
-                }
-            }
         }
     }
 
     IEnumerator WaitForPlayersToSpawn()
     {
+        //Get number of players by the NetwokManager.numPlayers
+        numPlayers = PhotonNetwork.playerList.Length;
         GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
         while (playerObjects.Length < numPlayers)
         {
             playerObjects = GameObject.FindGameObjectsWithTag("Player");
             yield return new WaitForSeconds(0.1f);
+        }
+
+        Spawn();
+    }
+
+    private void Spawn()
+    {
+        //For each child (set of toys) spawn all objects under that set
+        foreach (Transform plutoniumRodSet in transform)
+        {
+            foreach (Transform plutoniumRod in plutoniumRodSet)
+            {
+                object[] data = new object[2];
+                data[0] = plutoniumRod.position;
+                data[1] = plutoniumRod.localRotation.eulerAngles;
+                //Instantiate the plutoniumRod
+                PhotonNetwork.InstantiateSceneObject("Modules/Plutonium_Rod", plutoniumRod.position, plutoniumRod.rotation, 0, data);
+            }
         }
     }
 

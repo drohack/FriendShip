@@ -168,19 +168,6 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
             //Wait for all the players to load into the scene before starting the game
             StartCoroutine(WaitForPlayersToSpawn());
-
-            //Initialize all variables at start of game
-            Initialize();
-
-            //Set up level variables for Custom Room Property "Level" (score to win this round, number of seconds for each command, number of modules to spawn per player)
-            SetupLevel();
-
-            isLoadingNextLevel = false;
-
-            //Count down from 3 to next level
-            //Generate new modules
-            //And display "Start!" command
-            StartCoroutine(StartNextRoundIn(3));
         }
     }
 
@@ -193,6 +180,19 @@ public class Mastermind_Script : Photon.MonoBehaviour
             Debug.Log("numPlayers: " + numPlayers + " playerModules.Length: " + playerModules.Length);
             yield return new WaitForSeconds(0.1f);
         }
+
+        //Initialize all variables at start of game
+        Initialize();
+
+        //Set up level variables for Custom Room Property "Level" (score to win this round, number of seconds for each command, number of modules to spawn per player)
+        SetupLevel();
+
+        isLoadingNextLevel = false;
+
+        //Count down from 3 to next level
+        //Generate new modules
+        //And display "Start!" command
+        StartCoroutine(StartNextRoundIn(3));
     }
 
     void Initialize()
