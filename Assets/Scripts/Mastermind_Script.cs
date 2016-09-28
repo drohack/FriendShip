@@ -25,7 +25,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private Timer_Script timerScript;
     private bool isGameOver = false;
     private float easyPercent = 0.8f;
-    private float mediumPercent = 0f;
+    private float mediumPercent = 0.2f;
     private float hardPercent = 0f;
     private const int commandTextRowLimit = 15;
     public const int pullcordCommand = 10000;
@@ -205,33 +205,33 @@ public class Mastermind_Script : Photon.MonoBehaviour
         // Set command arrays from Command_Array.cs so we can take away items from the array list so we have no repeats
         Command_Array commandArray = GetComponent<Command_Array>();
         pullcordCommandText = Command_Array.pullcordText;
-        buttonCommandArray_EASY = commandArray.buttonCommandArray_EASY;
-        dialCommandArray_EASY = commandArray.dialCommandArray_EASY;
-        lLeverCommandArray_EASY = commandArray.lLeverCommandArray_EASY;
-        lightswitchCommandArray_EASY = commandArray.lightswitchCommandArray_EASY;
-        plutoniumBatteryCommandArray_EASY = commandArray.plutoniumBatteryCommandArray_EASY;
-        shifterCommandArray_EASY = commandArray.shifterCommandArray_EASY;
-        sliderCommandArray_EASY = commandArray.sliderCommandArray_EASY;
-        valveCommandArray_EASY = commandArray.valveCommandArray_EASY;
-        wLeverCommandArray_EASY = commandArray.wLeverCommandArray_EASY;
-        buttonCommandArray_MEDIUM = commandArray.buttonCommandArray_MEDIUM;
-        dialCommandArray_MEDIUM = commandArray.dialCommandArray_MEDIUM;
-        lLeverCommandArray_MEDIUM = commandArray.lLeverCommandArray_MEDIUM;
-        lightswitchCommandArray_MEDIUM = commandArray.lightswitchCommandArray_MEDIUM;
-        plutoniumBatteryCommandArray_MEDIUM = commandArray.plutoniumBatteryCommandArray_MEDIUM;
-        shifterCommandArray_MEDIUM = commandArray.shifterCommandArray_MEDIUM;
-        sliderCommandArray_MEDIUM = commandArray.sliderCommandArray_MEDIUM;
-        valveCommandArray_MEDIUM = commandArray.valveCommandArray_MEDIUM;
-        wLeverCommandArray_MEDIUM = commandArray.wLeverCommandArray_MEDIUM;
-        buttonCommandArray_HARD = commandArray.buttonCommandArray_HARD;
-        dialCommandArray_HARD = commandArray.dialCommandArray_HARD;
-        lLeverCommandArray_HARD = commandArray.lLeverCommandArray_HARD;
-        lightswitchCommandArray_HARD = commandArray.lightswitchCommandArray_HARD;
-        plutoniumBatteryCommandArray_HARD = commandArray.plutoniumBatteryCommandArray_HARD;
-        shifterCommandArray_HARD = commandArray.shifterCommandArray_HARD;
-        sliderCommandArray_HARD = commandArray.sliderCommandArray_HARD;
-        valveCommandArray_HARD = commandArray.valveCommandArray_HARD;
-        wLeverCommandArray_HARD = commandArray.wLeverCommandArray_HARD;
+        buttonCommandArray_EASY = new ArrayList(commandArray.buttonCommandArray_EASY);
+        dialCommandArray_EASY = new ArrayList(commandArray.dialCommandArray_EASY);
+        lLeverCommandArray_EASY = new ArrayList(commandArray.lLeverCommandArray_EASY);
+        lightswitchCommandArray_EASY = new ArrayList(commandArray.lightswitchCommandArray_EASY);
+        plutoniumBatteryCommandArray_EASY = new ArrayList(commandArray.plutoniumBatteryCommandArray_EASY);
+        shifterCommandArray_EASY = new ArrayList(commandArray.shifterCommandArray_EASY);
+        sliderCommandArray_EASY = new ArrayList(commandArray.sliderCommandArray_EASY);
+        valveCommandArray_EASY = new ArrayList(commandArray.valveCommandArray_EASY);
+        wLeverCommandArray_EASY = new ArrayList(commandArray.wLeverCommandArray_EASY);
+        buttonCommandArray_MEDIUM = new ArrayList(commandArray.buttonCommandArray_MEDIUM);
+        dialCommandArray_MEDIUM = new ArrayList(commandArray.dialCommandArray_MEDIUM);
+        lLeverCommandArray_MEDIUM = new ArrayList(commandArray.lLeverCommandArray_MEDIUM);
+        lightswitchCommandArray_MEDIUM = new ArrayList(commandArray.lightswitchCommandArray_MEDIUM);
+        plutoniumBatteryCommandArray_MEDIUM = new ArrayList(commandArray.plutoniumBatteryCommandArray_MEDIUM);
+        shifterCommandArray_MEDIUM = new ArrayList(commandArray.shifterCommandArray_MEDIUM);
+        sliderCommandArray_MEDIUM = new ArrayList(commandArray.sliderCommandArray_MEDIUM);
+        valveCommandArray_MEDIUM = new ArrayList(commandArray.valveCommandArray_MEDIUM);
+        wLeverCommandArray_MEDIUM = new ArrayList(commandArray.wLeverCommandArray_MEDIUM);
+        buttonCommandArray_HARD = new ArrayList(commandArray.buttonCommandArray_HARD);
+        dialCommandArray_HARD = new ArrayList(commandArray.dialCommandArray_HARD);
+        lLeverCommandArray_HARD = new ArrayList(commandArray.lLeverCommandArray_HARD);
+        lightswitchCommandArray_HARD = new ArrayList(commandArray.lightswitchCommandArray_HARD);
+        plutoniumBatteryCommandArray_HARD = new ArrayList(commandArray.plutoniumBatteryCommandArray_HARD);
+        shifterCommandArray_HARD = new ArrayList(commandArray.shifterCommandArray_HARD);
+        sliderCommandArray_HARD = new ArrayList(commandArray.sliderCommandArray_HARD);
+        valveCommandArray_HARD = new ArrayList(commandArray.valveCommandArray_HARD);
+        wLeverCommandArray_HARD = new ArrayList(commandArray.wLeverCommandArray_HARD);
 
         //Find all Player Objects
         players = PhotonNetwork.playerList;
@@ -947,57 +947,57 @@ public class Mastermind_Script : Photon.MonoBehaviour
             {
                 case buttonCommand:
                     //Button
-                    commandArray_EASY = commandArray.buttonCommandArray_EASY;
-                    commandArray_MEDIUM = commandArray.buttonCommandArray_MEDIUM;
-                    commandArray_HARD = commandArray.buttonCommandArray_HARD;
+                    commandArray_EASY = new ArrayList(commandArray.buttonCommandArray_EASY);
+                    commandArray_MEDIUM = new ArrayList(commandArray.buttonCommandArray_MEDIUM);
+                    commandArray_HARD = new ArrayList(commandArray.buttonCommandArray_HARD);
                     break;
                 case dialCommand:
                     //Dial
-                    commandArray_EASY = commandArray.dialCommandArray_EASY;
-                    commandArray_MEDIUM = commandArray.dialCommandArray_MEDIUM;
-                    commandArray_HARD = commandArray.dialCommandArray_HARD;
+                    commandArray_EASY = new ArrayList(commandArray.dialCommandArray_EASY);
+                    commandArray_MEDIUM = new ArrayList(commandArray.dialCommandArray_MEDIUM);
+                    commandArray_HARD = new ArrayList(commandArray.dialCommandArray_HARD);
                     break;
                 case lLeverCommand:
                     //L_Lever
-                    commandArray_EASY = commandArray.lLeverCommandArray_EASY;
-                    commandArray_MEDIUM = commandArray.lLeverCommandArray_MEDIUM;
-                    commandArray_HARD = commandArray.lLeverCommandArray_HARD;
+                    commandArray_EASY = new ArrayList(commandArray.lLeverCommandArray_EASY);
+                    commandArray_MEDIUM = new ArrayList(commandArray.lLeverCommandArray_MEDIUM);
+                    commandArray_HARD = new ArrayList(commandArray.lLeverCommandArray_HARD);
                     break;
                 case lightswitchCommand:
                     //Lightswitch
-                    commandArray_EASY = commandArray.lightswitchCommandArray_EASY;
-                    commandArray_MEDIUM = commandArray.lightswitchCommandArray_MEDIUM;
-                    commandArray_HARD = commandArray.lightswitchCommandArray_HARD;
+                    commandArray_EASY = new ArrayList(commandArray.lightswitchCommandArray_EASY);
+                    commandArray_MEDIUM = new ArrayList(commandArray.lightswitchCommandArray_MEDIUM);
+                    commandArray_HARD = new ArrayList(commandArray.lightswitchCommandArray_HARD);
                     break;
                 case plutoniumBatteryCommand:
                     //Plutonium Battery
-                    plutoniumBatteryCommandArray_EASY = commandArray.plutoniumBatteryCommandArray_EASY;
-                    plutoniumBatteryCommandArray_MEDIUM = commandArray.plutoniumBatteryCommandArray_MEDIUM;
-                    plutoniumBatteryCommandArray_HARD = commandArray.plutoniumBatteryCommandArray_HARD;
+                    plutoniumBatteryCommandArray_EASY = new ArrayList(commandArray.plutoniumBatteryCommandArray_EASY);
+                    plutoniumBatteryCommandArray_MEDIUM = new ArrayList(commandArray.plutoniumBatteryCommandArray_MEDIUM);
+                    plutoniumBatteryCommandArray_HARD = new ArrayList(commandArray.plutoniumBatteryCommandArray_HARD);
                     break;
                 case shifterCommand:
                     //Dial
-                    commandArray_EASY = commandArray.shifterCommandArray_EASY;
-                    commandArray_MEDIUM = commandArray.shifterCommandArray_MEDIUM;
-                    commandArray_HARD = commandArray.shifterCommandArray_HARD;
+                    commandArray_EASY = new ArrayList(commandArray.shifterCommandArray_EASY);
+                    commandArray_MEDIUM = new ArrayList(commandArray.shifterCommandArray_MEDIUM);
+                    commandArray_HARD = new ArrayList(commandArray.shifterCommandArray_HARD);
                     break;
                 case sliderCommand:
                     //Dial
-                    commandArray_EASY = commandArray.sliderCommandArray_EASY;
-                    commandArray_MEDIUM = commandArray.sliderCommandArray_MEDIUM;
-                    commandArray_HARD = commandArray.sliderCommandArray_HARD;
+                    commandArray_EASY = new ArrayList(commandArray.sliderCommandArray_EASY);
+                    commandArray_MEDIUM = new ArrayList(commandArray.sliderCommandArray_MEDIUM);
+                    commandArray_HARD = new ArrayList(commandArray.sliderCommandArray_HARD);
                     break;
                 case valveCommand:
                     //Valve
-                    commandArray_EASY = commandArray.valveCommandArray_EASY;
-                    commandArray_MEDIUM = commandArray.valveCommandArray_MEDIUM;
-                    commandArray_HARD = commandArray.valveCommandArray_HARD;
+                    commandArray_EASY = new ArrayList(commandArray.valveCommandArray_EASY);
+                    commandArray_MEDIUM = new ArrayList(commandArray.valveCommandArray_MEDIUM);
+                    commandArray_HARD = new ArrayList(commandArray.valveCommandArray_HARD);
                     break;
                 case wLeverCommand:
                     //W_Lever
-                    commandArray_EASY = commandArray.wLeverCommandArray_EASY;
-                    commandArray_MEDIUM = commandArray.wLeverCommandArray_MEDIUM;
-                    commandArray_HARD = commandArray.wLeverCommandArray_HARD;
+                    commandArray_EASY = new ArrayList(commandArray.wLeverCommandArray_EASY);
+                    commandArray_MEDIUM = new ArrayList(commandArray.wLeverCommandArray_MEDIUM);
+                    commandArray_HARD = new ArrayList(commandArray.wLeverCommandArray_HARD);
                     break;
                 default:
                     Debug.LogError("Error - Command Type not found");
@@ -1501,10 +1501,10 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 //Dial
                 Dial_Script dialScript = module.GetComponent<Dial_Script>();
                 string dialText = dialScript.newName;
-                newRCommand = Random.Range(0, 5);
+                newRCommand = Random.Range(0, 6);
                 while (newRCommand == dialScript.dialPosition)
                 {
-                    newRCommand = Random.Range(0, 5);
+                    newRCommand = Random.Range(0, 6);
                 }
                 message = "Change " + dialText + " to Ch. " + newRCommand;
                 rCommand += newRCommand;
