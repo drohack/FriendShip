@@ -14,7 +14,7 @@ public class Reset_Button_Script : Photon.MonoBehaviour
 
     //Network variables
     public string newName;
-    public int rCommand = 0;
+    public bool resetStatus = false;
     public int playerNum;
 
     // Use this for initialization
@@ -44,21 +44,21 @@ public class Reset_Button_Script : Photon.MonoBehaviour
         {
             isLocked = false;
             isButtonDown = false;
-            rCommand = -3;
+            resetStatus = false;
             photonView.RPC("RPCPlayAnim", PhotonTargets.Others, "Button_Up_Anim");
             StartCoroutine(WaitForAnimation(anim, "Button_Up_Anim"));
-            photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommand, playerNum);
+            photonView.RPC("CmdSendResetCommand", PhotonTargets.MasterClient, resetStatus, playerNum);
         }
 
         if (!isAnimating && !isLocked && !isButtonDown && (handleScript.isGrabbing || handleScript.isColliding))
         {
             isLocked = true;
             isButtonDown = true;
-            rCommand = -4;
+            resetStatus = true;
             //send tapped rCommand to Server
             photonView.RPC("RPCPlayAnim", PhotonTargets.Others, "Button_Down_Anim");
             StartCoroutine(WaitForAnimation(anim, "Button_Down_Anim"));
-            photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommand, playerNum);
+            photonView.RPC("CmdSendResetCommand", PhotonTargets.MasterClient, resetStatus, playerNum);
         }
     }
 
@@ -75,9 +75,9 @@ public class Reset_Button_Script : Photon.MonoBehaviour
     }
 
     [PunRPC]
-    void CmdSendTappedCommand(int sentRCommand, int sentPlayerNum)
+    void CmdSendResetCommand(bool sentResetCommand, int sentPlayerNum)
     {
-        mastermindScript.TappedWaitForSecondsOrTap(sentRCommand, sentPlayerNum);
+        mastermindScript.ResetCheck(sentResetCommand, sentPlayerNum);
     }
 
     [PunRPC]

@@ -1,8 +1,29 @@
-/********************************************************************************//**
+/********************************************************************************/
 \file      ReadMe.txt
 \brief     ReadMe.txt
 \copyright Copyright 2015 Oculus VR, LLC All Rights reserved.
 ************************************************************************************/
+
+Simple Usage:
+1. Create empty Unity project.
+2. Import OVR Unity utils.
+3. Import this package.
+4. Set: Edit->Project Settings->Time->Fixed Timestep = 0.01111111
+5. Open and run OvrTouch/Content/OvrTouchDemo scene.
+
+Optional: you can add the following code to OVRCameraRig.cs, to reduce hand latency.
+
+private void FixedUpdate()
+{
+	m_didFixedUpdate = true;
+	EnsureGameObjectIntegrity();
+		
+	if (!Application.isPlaying)
+		return;
+
+	UpdateAnchors();
+}
+
 
 //==============================================================================
 // Controls:
@@ -14,68 +35,19 @@
 * Cap Touch Thumb: Thumbs Up
 
 //==============================================================================
-// Components
-//==============================================================================
-
-//------------------------------------------------------------------------------
-// Hand
-//------------------------------------------------------------------------------
-
-This is a basic hand implementation that handles grabbing, throwing, poking and punching objects using tracked controllers.
-
-* Collision is only active on the hand when making a fist or holding an object.
-* The hands are updated in FixedUpdate since they are animating collision and toggling physics state.
-
-//------------------------------------------------------------------------------
-// Hand Pose
-//------------------------------------------------------------------------------
-
-The hand pose specifies how the hand will animate when grabbing an object and if that object will have its position or rotation snapped to the hand.
-
-* Hand Poses:
-  - HandPoseDefaultPf: No hand pose, no snap -- allows pointing and thumbs up
-  - HandPoseGenericPf: Generic hand pose, no snap -- allows pointing
-  - HandPosePingPongBallPf: Pinch pose for ping pong balls, snap -- disallows pointing and thumbs up
-
-//-----------------------------------------------------------------------------
-// Grabbable
-/------------------------------------------------------------------------------
-
-The grabbable component is what allows the hand to grab an object in the world.
-
-Sends the following messages to the owning game object:
-  - OnOverlapBegin\End: Occurs when an object overlaps the hand and can be grabbed
-  - OnGrabBegin\End: Occurs when an object is grabbed by the hand
-
-Grabbables have an array of grab points which define how and what colliders can be grabbed. It is an error to have a grabbable with zero grab points.
-
-//-----------------------------------------------------------------------------
-// GrabPoint
-/------------------------------------------------------------------------------
-
-Contains a hand pose, collider and an override transform.
-
-* Grab points must have a collider in order to have overlap events.
-* Allows for a grab override transform which redirects the hand to grab that transform instead. This is useful for multi-collider rigid bodies where the rigid body transform should be grabbed.
-* It is an error to have a grab point without a collider.
-
-//-----------------------------------------------------------------------------
-// GrabTrigger
-/------------------------------------------------------------------------------
-
-The grab trigger is automatically added to the game object of a grab point collider. When overlapped, this provides a link between the grab collider and the grabbable component that owns the collider.
-
-//==============================================================================
 // General Notes:
 //==============================================================================
 
-* Demo Scene: Content\OvrTouchDemo.unity
-* Hand Prefabs: Content\Hands\LeftHandPf and RightHandPf
-* Controller Prefabs: Content\Controllers\LeftControllerPf and RightControllerPf
-* Toy Prefabs: Content\Toys\ToyBallPf, ToyCubePf and ToyT-BlockPf (multiple grab point example)
+Hand and TouchController demonstrate two alternate methods of tracking.
+* Hand updates in FixedUpdate, and supports physics interaction. (Hand rigid body
+vs. environmental objects.) It used MovePosition to update its position each frame.
+* TouchController is parented to the hand anchors in the Avatar hierarchy. It's a
+much simpler integration, but does not support physics. Use for visual-only hands.
+(It may also allow later-in-frame updates in future revisions, allowing for
+decreased latency in hand position and orientation.)
 
-* Add controller prefabs and/or hand prefabs to a scene containing an OVRCameraRig and they will automaticlly work.
-* For better physics interactions between the hands, grabbed objects and other physics objects, try a FixedJoint instead of a kinematic rigid body.
+Known issue: Hands can sometimes appear juddery. This occurs when FixedUpdate is
+not called during a frame. To be fixed pending upcoming integration improvements
+in OVRPlugin. See comments on Hand::FixedUpdate.
 
-* For more stable and accurate physics behaviour, increase the fixed timestep to at least the v-sync rate of the device.
-    - Edit -> Project Settings -> Time: Fixed Timestep
+

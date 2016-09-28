@@ -179,14 +179,14 @@ public class Command_Array : MonoBehaviour {
     {
         "(╯°□°）╯︵┻━┻",
         "┻━┻︵\\(°□°)/︵┻━┻",
-        "(ノಠ益ಠ)ノ彡︵┻━┻︵┻━┻",
+        "(/ಠ益ಠ)/︵┻━┻    ︵┻━┻",
         "┏━┓︵/(^.^/)",
         "༼ つ ◕_◕ ༽つ",
         "( ͡° ͜ʖ ͡°)",
         "／人◕‿‿◕人＼",
         "(\\/)(Ö,,,,Ö)(\\/)",
         "(✿ ♥‿♥)",
-        "(╯°□°)︻╦╤─ – – –"
+        "(╯°□°)︻╦╤─–"
         };
     //Plutonium Batteries
     public readonly ArrayList plutoniumBatteryCommandArray_EASY = new ArrayList
@@ -296,7 +296,7 @@ public class Command_Array : MonoBehaviour {
         "The Idol of Blight",
         "The Ancient Hell Skull",
         "The Crystal of Insight",
-        "The Thunderbolt Medallion",
+        "The Thunderous Medallion",
         "The Scarab of Enchantment",
         "The Perfect Lute of Days"
         };

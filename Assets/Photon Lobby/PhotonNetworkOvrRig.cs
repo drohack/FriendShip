@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections;
-using OvrTouch.Hands;
-using OvrTouch.Controllers;
+using OVRTouchSample;
 
 public class PhotonNetworkOvrRig : Photon.MonoBehaviour
 {
@@ -16,6 +15,12 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
     [SerializeField]
     VelocityTracker velocityTrackerL;
     [SerializeField]
+    TrackedController trackedControllerL;
+    [SerializeField]
+    Grabbed_Hand_Script grabbedHandScriptL;
+    [SerializeField]
+    Velocity_Tracker velocity_TrackerL;
+    [SerializeField]
     GameObject l_hand_world;
     [SerializeField]
     GameObject GrabVolumeBigL;
@@ -27,6 +32,12 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
     Hand handScriptR;
     [SerializeField]
     VelocityTracker velocityTrackerR;
+    [SerializeField]
+    Grabbed_Hand_Script grabbedHandScriptR;
+    [SerializeField]
+    TrackedController trackedControllerR;
+    [SerializeField]
+    Velocity_Tracker velocity_TrackerR;
     [SerializeField]
     GameObject r_hand_world;
     [SerializeField]
@@ -69,10 +80,16 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
             centerEyeAnchor.GetComponent<AudioListener>().enabled = true;
             handScriptL.enabled = true;
             velocityTrackerL.enabled = true;
+            trackedControllerL.enabled = true;
+            grabbedHandScriptL.enabled = true;
+            velocity_TrackerL.enabled = true;
             l_hand_world.SetActive(true);
             GrabVolumeBigL.SetActive(true);
             handScriptR.enabled = true;
             velocityTrackerR.enabled = true;
+            trackedControllerR.enabled = true;
+            grabbedHandScriptR.enabled = true;
+            velocity_TrackerR.enabled = true;
             r_hand_world.SetActive(true);
             GrabVolumeBigR.SetActive(true);
             playerArea.SetActive(true);
@@ -127,14 +144,14 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
                 stream.SendNext(oldRightHandPf.position);
                 stream.SendNext(oldRightHandPf.rotation);
             }
-            stream.SendNext((int)handScriptL.m_handedness);
+            stream.SendNext((int)handScriptL.m_handednessId);
             stream.SendNext((int)handScriptL.handPoseId);
             stream.SendNext(handScriptL.m_flex);
             stream.SendNext(handScriptL.canPoint);
             stream.SendNext(handScriptL.m_point);
             stream.SendNext(handScriptL.canThumbsUp);
             stream.SendNext(handScriptL.m_thumbsUp);
-            stream.SendNext((int)handScriptR.m_handedness);
+            stream.SendNext((int)handScriptR.m_handednessId);
             stream.SendNext((int)handScriptR.handPoseId);
             stream.SendNext(handScriptR.m_flex);
             stream.SendNext(handScriptR.canPoint);

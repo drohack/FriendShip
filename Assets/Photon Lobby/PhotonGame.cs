@@ -6,8 +6,7 @@
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using OvrTouch.Hands;
-using OvrTouch.Controllers;
+using OVRTouchSample;
 
 public class PhotonGame : Photon.MonoBehaviour
 {

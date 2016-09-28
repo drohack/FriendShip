@@ -25,7 +25,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private Timer_Script timerScript;
     private bool isGameOver = false;
     private float easyPercent = 0.8f;
-    private float mediumPercent = 0f;
+    private float mediumPercent = 0.2f;
     private float hardPercent = 0f;
     private const int commandTextRowLimit = 15;
     public const int pullcordCommand = 10000;
@@ -168,19 +168,6 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
             //Wait for all the players to load into the scene before starting the game
             StartCoroutine(WaitForPlayersToSpawn());
-
-            //Initialize all variables at start of game
-            Initialize();
-
-            //Set up level variables for Custom Room Property "Level" (score to win this round, number of seconds for each command, number of modules to spawn per player)
-            SetupLevel();
-
-            isLoadingNextLevel = false;
-
-            //Count down from 3 to next level
-            //Generate new modules
-            //And display "Start!" command
-            StartCoroutine(StartNextRoundIn(3));
         }
     }
 
@@ -193,6 +180,19 @@ public class Mastermind_Script : Photon.MonoBehaviour
             Debug.Log("numPlayers: " + numPlayers + " playerModules.Length: " + playerModules.Length);
             yield return new WaitForSeconds(0.1f);
         }
+
+        //Initialize all variables at start of game
+        Initialize();
+
+        //Set up level variables for Custom Room Property "Level" (score to win this round, number of seconds for each command, number of modules to spawn per player)
+        SetupLevel();
+
+        isLoadingNextLevel = false;
+
+        //Count down from 3 to next level
+        //Generate new modules
+        //And display "Start!" command
+        StartCoroutine(StartNextRoundIn(3));
     }
 
     void Initialize()
@@ -205,33 +205,33 @@ public class Mastermind_Script : Photon.MonoBehaviour
         // Set command arrays from Command_Array.cs so we can take away items from the array list so we have no repeats
         Command_Array commandArray = GetComponent<Command_Array>();
         pullcordCommandText = Command_Array.pullcordText;
-        buttonCommandArray_EASY = commandArray.buttonCommandArray_EASY;
-        dialCommandArray_EASY = commandArray.dialCommandArray_EASY;
-        lLeverCommandArray_EASY = commandArray.lLeverCommandArray_EASY;
-        lightswitchCommandArray_EASY = commandArray.lightswitchCommandArray_EASY;
-        plutoniumBatteryCommandArray_EASY = commandArray.plutoniumBatteryCommandArray_EASY;
-        shifterCommandArray_EASY = commandArray.shifterCommandArray_EASY;
-        sliderCommandArray_EASY = commandArray.sliderCommandArray_EASY;
-        valveCommandArray_EASY = commandArray.valveCommandArray_EASY;
-        wLeverCommandArray_EASY = commandArray.wLeverCommandArray_EASY;
-        buttonCommandArray_MEDIUM = commandArray.buttonCommandArray_MEDIUM;
-        dialCommandArray_MEDIUM = commandArray.dialCommandArray_MEDIUM;
-        lLeverCommandArray_MEDIUM = commandArray.lLeverCommandArray_MEDIUM;
-        lightswitchCommandArray_MEDIUM = commandArray.lightswitchCommandArray_MEDIUM;
-        plutoniumBatteryCommandArray_MEDIUM = commandArray.plutoniumBatteryCommandArray_MEDIUM;
-        shifterCommandArray_MEDIUM = commandArray.shifterCommandArray_MEDIUM;
-        sliderCommandArray_MEDIUM = commandArray.sliderCommandArray_MEDIUM;
-        valveCommandArray_MEDIUM = commandArray.valveCommandArray_MEDIUM;
-        wLeverCommandArray_MEDIUM = commandArray.wLeverCommandArray_MEDIUM;
-        buttonCommandArray_HARD = commandArray.buttonCommandArray_HARD;
-        dialCommandArray_HARD = commandArray.dialCommandArray_HARD;
-        lLeverCommandArray_HARD = commandArray.lLeverCommandArray_HARD;
-        lightswitchCommandArray_HARD = commandArray.lightswitchCommandArray_HARD;
-        plutoniumBatteryCommandArray_HARD = commandArray.plutoniumBatteryCommandArray_HARD;
-        shifterCommandArray_HARD = commandArray.shifterCommandArray_HARD;
-        sliderCommandArray_HARD = commandArray.sliderCommandArray_HARD;
-        valveCommandArray_HARD = commandArray.valveCommandArray_HARD;
-        wLeverCommandArray_HARD = commandArray.wLeverCommandArray_HARD;
+        buttonCommandArray_EASY = new ArrayList(commandArray.buttonCommandArray_EASY);
+        dialCommandArray_EASY = new ArrayList(commandArray.dialCommandArray_EASY);
+        lLeverCommandArray_EASY = new ArrayList(commandArray.lLeverCommandArray_EASY);
+        lightswitchCommandArray_EASY = new ArrayList(commandArray.lightswitchCommandArray_EASY);
+        plutoniumBatteryCommandArray_EASY = new ArrayList(commandArray.plutoniumBatteryCommandArray_EASY);
+        shifterCommandArray_EASY = new ArrayList(commandArray.shifterCommandArray_EASY);
+        sliderCommandArray_EASY = new ArrayList(commandArray.sliderCommandArray_EASY);
+        valveCommandArray_EASY = new ArrayList(commandArray.valveCommandArray_EASY);
+        wLeverCommandArray_EASY = new ArrayList(commandArray.wLeverCommandArray_EASY);
+        buttonCommandArray_MEDIUM = new ArrayList(commandArray.buttonCommandArray_MEDIUM);
+        dialCommandArray_MEDIUM = new ArrayList(commandArray.dialCommandArray_MEDIUM);
+        lLeverCommandArray_MEDIUM = new ArrayList(commandArray.lLeverCommandArray_MEDIUM);
+        lightswitchCommandArray_MEDIUM = new ArrayList(commandArray.lightswitchCommandArray_MEDIUM);
+        plutoniumBatteryCommandArray_MEDIUM = new ArrayList(commandArray.plutoniumBatteryCommandArray_MEDIUM);
+        shifterCommandArray_MEDIUM = new ArrayList(commandArray.shifterCommandArray_MEDIUM);
+        sliderCommandArray_MEDIUM = new ArrayList(commandArray.sliderCommandArray_MEDIUM);
+        valveCommandArray_MEDIUM = new ArrayList(commandArray.valveCommandArray_MEDIUM);
+        wLeverCommandArray_MEDIUM = new ArrayList(commandArray.wLeverCommandArray_MEDIUM);
+        buttonCommandArray_HARD = new ArrayList(commandArray.buttonCommandArray_HARD);
+        dialCommandArray_HARD = new ArrayList(commandArray.dialCommandArray_HARD);
+        lLeverCommandArray_HARD = new ArrayList(commandArray.lLeverCommandArray_HARD);
+        lightswitchCommandArray_HARD = new ArrayList(commandArray.lightswitchCommandArray_HARD);
+        plutoniumBatteryCommandArray_HARD = new ArrayList(commandArray.plutoniumBatteryCommandArray_HARD);
+        shifterCommandArray_HARD = new ArrayList(commandArray.shifterCommandArray_HARD);
+        sliderCommandArray_HARD = new ArrayList(commandArray.sliderCommandArray_HARD);
+        valveCommandArray_HARD = new ArrayList(commandArray.valveCommandArray_HARD);
+        wLeverCommandArray_HARD = new ArrayList(commandArray.wLeverCommandArray_HARD);
 
         //Find all Player Objects
         players = PhotonNetwork.playerList;
@@ -553,7 +553,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             for (int i = 0; i < p1_moduleTransform.childCount; i++)
             {
                 GameObject moduleEmpty = p1_moduleTransform.GetChild(i).gameObject;
-                GameObject module = PhotonNetwork.InstantiateSceneObject("Prefabs/" + moduleEmpty.name, moduleEmpty.transform.position, moduleEmpty.transform.rotation, 0, moduleList[moduleCount].data);
+                GameObject module = PhotonNetwork.InstantiateSceneObject("Modules/" + moduleEmpty.name, moduleEmpty.transform.position, moduleEmpty.transform.rotation, 0, moduleList[moduleCount].data);
                 moduleList[moduleCount].module = module;
                 moduleCount++;
             }
@@ -567,7 +567,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             for (int i = 0; i < p2_moduleTransform.childCount; i++)
             {
                 GameObject moduleEmpty = p2_moduleTransform.GetChild(i).gameObject;
-                GameObject module = PhotonNetwork.InstantiateSceneObject("Prefabs/" + moduleEmpty.name, moduleEmpty.transform.position, moduleEmpty.transform.rotation, 0, moduleList[moduleCount].data);
+                GameObject module = PhotonNetwork.InstantiateSceneObject("Modules/" + moduleEmpty.name, moduleEmpty.transform.position, moduleEmpty.transform.rotation, 0, moduleList[moduleCount].data);
                 moduleList[moduleCount].module = module;
                 moduleCount++;
             }
@@ -581,7 +581,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             for (int i = 0; i < p3_moduleTransform.childCount; i++)
             {
                 GameObject moduleEmpty = p3_moduleTransform.GetChild(i).gameObject;
-                GameObject module = PhotonNetwork.InstantiateSceneObject("Prefabs/" + moduleEmpty.name, moduleEmpty.transform.position, moduleEmpty.transform.rotation, 0, moduleList[moduleCount].data);
+                GameObject module = PhotonNetwork.InstantiateSceneObject("Modules/" + moduleEmpty.name, moduleEmpty.transform.position, moduleEmpty.transform.rotation, 0, moduleList[moduleCount].data);
                 moduleList[moduleCount].module = module;
                 moduleCount++;
             }
@@ -595,7 +595,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             for (int i = 0; i < p4_moduleTransform.childCount; i++)
             {
                 GameObject moduleEmpty = p4_moduleTransform.GetChild(i).gameObject;
-                GameObject module = PhotonNetwork.InstantiateSceneObject("Prefabs/" + moduleEmpty.name, moduleEmpty.transform.position, moduleEmpty.transform.rotation, 0, moduleList[moduleCount].data);
+                GameObject module = PhotonNetwork.InstantiateSceneObject("Modules/" + moduleEmpty.name, moduleEmpty.transform.position, moduleEmpty.transform.rotation, 0, moduleList[moduleCount].data);
                 moduleList[moduleCount].module = module;
                 moduleCount++;
             }
@@ -609,7 +609,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             data[0] = "test";
             data[1] = pullcordCommand;
             data[2] = 1;
-            GameObject module = PhotonNetwork.InstantiateSceneObject("Prefabs/Pullcord", new Vector3(0.4f, 1f, -1.55f), Quaternion.Euler(new Vector3(0, 90, 0)), 0, data);
+            GameObject module = PhotonNetwork.InstantiateSceneObject("Modules/Pullcord", new Vector3(0.4f, 1f, -1.55f), Quaternion.Euler(new Vector3(0, 90, 0)), 0, data);
             moduleType moduleType = new moduleType();
             moduleType.module = module;
             moduleType.data = data;
@@ -624,7 +624,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             data[0] = "";
             data[1] = pullcordCommand;
             data[2] = 2;
-            GameObject module = PhotonNetwork.InstantiateSceneObject("Prefabs/Pullcord", new Vector3(1.55f, 1f, 0.4f), Quaternion.Euler(new Vector3(0, 0, 0)), 0, data);
+            GameObject module = PhotonNetwork.InstantiateSceneObject("Modules/Pullcord", new Vector3(1.55f, 1f, 0.4f), Quaternion.Euler(new Vector3(0, 0, 0)), 0, data);
             moduleType moduleType = new moduleType();
             moduleType.module = module;
             moduleType.data = data;
@@ -639,7 +639,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             data[0] = "";
             data[1] = pullcordCommand;
             data[2] = 3;
-            GameObject module = PhotonNetwork.InstantiateSceneObject("Prefabs/Pullcord", new Vector3(-0.4f, 1f, 1.55f), Quaternion.Euler(new Vector3(0, -90, 0)), 0, data);
+            GameObject module = PhotonNetwork.InstantiateSceneObject("Modules/Pullcord", new Vector3(-0.4f, 1f, 1.55f), Quaternion.Euler(new Vector3(0, -90, 0)), 0, data);
             moduleType moduleType = new moduleType();
             moduleType.module = module;
             moduleType.data = data;
@@ -654,7 +654,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             data[0] = "";
             data[1] = pullcordCommand;
             data[2] = 4;
-            GameObject module = PhotonNetwork.InstantiateSceneObject("Prefabs/Pullcord", new Vector3(-1.55f, 1f, -0.4f), Quaternion.Euler(new Vector3(0, 180, 0)), 0, data);
+            GameObject module = PhotonNetwork.InstantiateSceneObject("Modules/Pullcord", new Vector3(-1.55f, 1f, -0.4f), Quaternion.Euler(new Vector3(0, 180, 0)), 0, data);
             moduleType moduleType = new moduleType();
             moduleType.module = module;
             moduleType.data = data;
@@ -682,7 +682,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
         string newCommandText;
 
-        GameObject buttonInstance = (GameObject)Resources.Load("Prefabs/Button");
+        GameObject buttonInstance = (GameObject)Resources.Load("Modules/Button");
 
         float xQuaternion = buttonInstance.transform.rotation.eulerAngles.x + playerControlDeck.transform.rotation.eulerAngles.x;
         float yQuaternion = buttonInstance.transform.rotation.eulerAngles.y + playerControlDeck.transform.rotation.eulerAngles.y;
@@ -947,57 +947,57 @@ public class Mastermind_Script : Photon.MonoBehaviour
             {
                 case buttonCommand:
                     //Button
-                    commandArray_EASY = commandArray.buttonCommandArray_EASY;
-                    commandArray_MEDIUM = commandArray.buttonCommandArray_MEDIUM;
-                    commandArray_HARD = commandArray.buttonCommandArray_HARD;
+                    commandArray_EASY = new ArrayList(commandArray.buttonCommandArray_EASY);
+                    commandArray_MEDIUM = new ArrayList(commandArray.buttonCommandArray_MEDIUM);
+                    commandArray_HARD = new ArrayList(commandArray.buttonCommandArray_HARD);
                     break;
                 case dialCommand:
                     //Dial
-                    commandArray_EASY = commandArray.dialCommandArray_EASY;
-                    commandArray_MEDIUM = commandArray.dialCommandArray_MEDIUM;
-                    commandArray_HARD = commandArray.dialCommandArray_HARD;
+                    commandArray_EASY = new ArrayList(commandArray.dialCommandArray_EASY);
+                    commandArray_MEDIUM = new ArrayList(commandArray.dialCommandArray_MEDIUM);
+                    commandArray_HARD = new ArrayList(commandArray.dialCommandArray_HARD);
                     break;
                 case lLeverCommand:
                     //L_Lever
-                    commandArray_EASY = commandArray.lLeverCommandArray_EASY;
-                    commandArray_MEDIUM = commandArray.lLeverCommandArray_MEDIUM;
-                    commandArray_HARD = commandArray.lLeverCommandArray_HARD;
+                    commandArray_EASY = new ArrayList(commandArray.lLeverCommandArray_EASY);
+                    commandArray_MEDIUM = new ArrayList(commandArray.lLeverCommandArray_MEDIUM);
+                    commandArray_HARD = new ArrayList(commandArray.lLeverCommandArray_HARD);
                     break;
                 case lightswitchCommand:
                     //Lightswitch
-                    commandArray_EASY = commandArray.lightswitchCommandArray_EASY;
-                    commandArray_MEDIUM = commandArray.lightswitchCommandArray_MEDIUM;
-                    commandArray_HARD = commandArray.lightswitchCommandArray_HARD;
+                    commandArray_EASY = new ArrayList(commandArray.lightswitchCommandArray_EASY);
+                    commandArray_MEDIUM = new ArrayList(commandArray.lightswitchCommandArray_MEDIUM);
+                    commandArray_HARD = new ArrayList(commandArray.lightswitchCommandArray_HARD);
                     break;
                 case plutoniumBatteryCommand:
                     //Plutonium Battery
-                    plutoniumBatteryCommandArray_EASY = commandArray.plutoniumBatteryCommandArray_EASY;
-                    plutoniumBatteryCommandArray_MEDIUM = commandArray.plutoniumBatteryCommandArray_MEDIUM;
-                    plutoniumBatteryCommandArray_HARD = commandArray.plutoniumBatteryCommandArray_HARD;
+                    plutoniumBatteryCommandArray_EASY = new ArrayList(commandArray.plutoniumBatteryCommandArray_EASY);
+                    plutoniumBatteryCommandArray_MEDIUM = new ArrayList(commandArray.plutoniumBatteryCommandArray_MEDIUM);
+                    plutoniumBatteryCommandArray_HARD = new ArrayList(commandArray.plutoniumBatteryCommandArray_HARD);
                     break;
                 case shifterCommand:
                     //Dial
-                    commandArray_EASY = commandArray.shifterCommandArray_EASY;
-                    commandArray_MEDIUM = commandArray.shifterCommandArray_MEDIUM;
-                    commandArray_HARD = commandArray.shifterCommandArray_HARD;
+                    commandArray_EASY = new ArrayList(commandArray.shifterCommandArray_EASY);
+                    commandArray_MEDIUM = new ArrayList(commandArray.shifterCommandArray_MEDIUM);
+                    commandArray_HARD = new ArrayList(commandArray.shifterCommandArray_HARD);
                     break;
                 case sliderCommand:
                     //Dial
-                    commandArray_EASY = commandArray.sliderCommandArray_EASY;
-                    commandArray_MEDIUM = commandArray.sliderCommandArray_MEDIUM;
-                    commandArray_HARD = commandArray.sliderCommandArray_HARD;
+                    commandArray_EASY = new ArrayList(commandArray.sliderCommandArray_EASY);
+                    commandArray_MEDIUM = new ArrayList(commandArray.sliderCommandArray_MEDIUM);
+                    commandArray_HARD = new ArrayList(commandArray.sliderCommandArray_HARD);
                     break;
                 case valveCommand:
                     //Valve
-                    commandArray_EASY = commandArray.valveCommandArray_EASY;
-                    commandArray_MEDIUM = commandArray.valveCommandArray_MEDIUM;
-                    commandArray_HARD = commandArray.valveCommandArray_HARD;
+                    commandArray_EASY = new ArrayList(commandArray.valveCommandArray_EASY);
+                    commandArray_MEDIUM = new ArrayList(commandArray.valveCommandArray_MEDIUM);
+                    commandArray_HARD = new ArrayList(commandArray.valveCommandArray_HARD);
                     break;
                 case wLeverCommand:
                     //W_Lever
-                    commandArray_EASY = commandArray.wLeverCommandArray_EASY;
-                    commandArray_MEDIUM = commandArray.wLeverCommandArray_MEDIUM;
-                    commandArray_HARD = commandArray.wLeverCommandArray_HARD;
+                    commandArray_EASY = new ArrayList(commandArray.wLeverCommandArray_EASY);
+                    commandArray_MEDIUM = new ArrayList(commandArray.wLeverCommandArray_MEDIUM);
+                    commandArray_HARD = new ArrayList(commandArray.wLeverCommandArray_HARD);
                     break;
                 default:
                     Debug.LogError("Error - Command Type not found");
@@ -1501,10 +1501,10 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 //Dial
                 Dial_Script dialScript = module.GetComponent<Dial_Script>();
                 string dialText = dialScript.newName;
-                newRCommand = Random.Range(0, 5);
+                newRCommand = Random.Range(0, 6);
                 while (newRCommand == dialScript.dialPosition)
                 {
-                    newRCommand = Random.Range(0, 5);
+                    newRCommand = Random.Range(0, 6);
                 }
                 message = "Change " + dialText + " to Ch. " + newRCommand;
                 rCommand += newRCommand;
@@ -1727,103 +1727,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
     // End the waitForSeconds by setting the timer to zero AND signal that a button was tapped (isTapped = true)
     public void TappedWaitForSecondsOrTap(int inputCommand, int playerNum)
     {
-        if (inputCommand == -1)
-        {
-            if (playerNum == 1)
-            {
-                p1_Aborting = false;
-                p1_AbortResetScript.p1_NotAborting();
-            }
-            if (playerNum == 2)
-            {
-                p2_Aborting = false;
-                p2_AbortResetScript.p2_NotAborting();
-            }
-            if (playerNum == 3)
-            {
-                p3_Aborting = false;
-                p3_AbortResetScript.p3_NotAborting();
-            }
-            if (playerNum == 4)
-            {
-                p4_Aborting = false;
-                p4_AbortResetScript.p4_NotAborting();
-            }
-        }
-
-        if (inputCommand == -2)
-        {
-            if (playerNum == 1)
-            {
-                p1_Aborting = true;
-                p1_AbortResetScript.p1_Aborting();
-            }
-            if (playerNum == 2)
-            {
-                p2_Aborting = true;
-                p2_AbortResetScript.p2_Aborting();
-            }
-            if (playerNum == 3)
-            {
-                p3_Aborting = true;
-                p3_AbortResetScript.p3_Aborting();
-            }
-            if (playerNum == 4)
-            {
-                p4_Aborting = true;
-                p4_AbortResetScript.p4_Aborting();
-            }
-        }
-
-        if (inputCommand == -3)
-        {
-            if (playerNum == 1)
-            {
-                p1_Resetting = false;
-                p1_AbortResetScript.p1_NotResetting();
-            }
-            if (playerNum == 2)
-            {
-                p2_Resetting = false;
-                p2_AbortResetScript.p2_NotResetting();
-            }
-            if (playerNum == 3)
-            {
-                p3_Resetting = false;
-                p3_AbortResetScript.p3_NotResetting();
-            }
-            if (playerNum == 4)
-            {
-                p4_Resetting = false;
-                p4_AbortResetScript.p4_NotResetting();
-            }
-        }
-
-        if (inputCommand == -4)
-        {
-            if (playerNum == 1)
-            {
-                p1_Resetting = true;
-                p1_AbortResetScript.p1_Resetting();
-            }
-            if (playerNum == 2)
-            {
-                p2_Resetting = true;
-                p2_AbortResetScript.p2_Resetting();
-            }
-            if (playerNum == 3)
-            {
-                p3_Resetting = true;
-                p3_AbortResetScript.p3_Resetting();
-            }
-            if (playerNum == 4)
-            {
-                p4_Resetting = true;
-                p4_AbortResetScript.p4_Resetting();
-            }
-        }
-
-        if (!isGameOver && inputCommand >= 0)
+        if (!isGameOver)
         {
             numFufilled = 0;
             bool isActivePullcordCommand = false;
@@ -1889,7 +1793,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             }
 
             // If no command matched (and someone is not trying to fufill a pullcord) lower score
-            if (numFufilled == 0 && !isActivePullcordCommand && inputCommand > 0)
+            if (numFufilled == 0 && !isActivePullcordCommand)
             {
                 ScoreDown();
                 if (playerNum == 1)
@@ -1928,6 +1832,152 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 else if (playerNum == 4)
                     p4_CommandFeedbackScript.PlaySuccessFeedback();
             }
+        }
+    }
+
+    public void AbortCheck(bool abortStatus, int playerNum)
+    {
+        int abortCount = 0;
+        int playerCount = PhotonNetwork.playerList.Length;
+        if (abortStatus)
+        {
+            if (playerNum == 1)
+            {
+                p1_AbortResetScript.p1_Aborting();
+                p1_Aborting = true;
+            }
+            else if (playerNum == 2)
+            {
+                p2_AbortResetScript.p2_Aborting();
+                p2_Aborting = true;
+            }
+            else if (playerNum == 3)
+            {
+                p3_AbortResetScript.p3_Aborting();
+                p3_Aborting = true;
+            }
+            else if (playerNum == 4)
+            {
+                p4_AbortResetScript.p4_Aborting();
+                p4_Aborting = true;
+            }
+        }
+        else
+        {
+            if (playerNum == 1)
+            {
+                p1_AbortResetScript.p1_NotAborting();
+                p1_Aborting = false;
+            }
+            else if (playerNum == 2)
+            {
+                p2_AbortResetScript.p2_NotAborting();
+                p2_Aborting = false;
+            }
+            else if (playerNum == 3)
+            {
+                p3_AbortResetScript.p3_NotAborting();
+                p3_Aborting = false;
+            }
+            else if (playerNum == 4)
+            {
+                p4_AbortResetScript.p4_NotAborting();
+                p4_Aborting = false;
+            }
+        }
+
+        if (p1_Aborting == true)
+        {
+            abortCount += 1;
+        }
+        if (p2_Aborting == true)
+        {
+            abortCount += 1;
+        }
+        if (p3_Aborting == true)
+        {
+            abortCount += 1;
+        }
+        if (p4_Aborting == true)
+        {
+            abortCount += 1;
+        }
+        if (abortCount == playerCount)
+        {
+            AbortGame();
+        }
+    }
+
+    public void ResetCheck(bool resetStatus, int playerNum)
+    {
+        int ResetCount = 0;
+        int playerCount = PhotonNetwork.playerList.Length;
+        if (resetStatus)
+        {
+            if (playerNum == 1)
+            {
+                p1_AbortResetScript.p1_Resetting();
+                p1_Resetting = true;
+            }
+            else if (playerNum == 2)
+            {
+                p2_AbortResetScript.p2_Resetting();
+                p2_Resetting = true;
+            }
+            else if (playerNum == 3)
+            {
+                p3_AbortResetScript.p3_Resetting();
+                p3_Resetting = true;
+            }
+            else if (playerNum == 4)
+            {
+                p4_AbortResetScript.p4_Resetting();
+                p4_Resetting = true;
+            }
+        }
+        else
+        {
+            if (playerNum == 1)
+            {
+                p1_AbortResetScript.p1_NotResetting();
+                p1_Resetting = false;
+            }
+            else if (playerNum == 2)
+            {
+                p2_AbortResetScript.p2_NotResetting();
+                p2_Resetting = false;
+            }
+            else if (playerNum == 3)
+            {
+                p3_AbortResetScript.p3_NotResetting();
+                p3_Resetting = false;
+            }
+            else if (playerNum == 4)
+            {
+                p4_AbortResetScript.p4_NotResetting();
+                p4_Resetting = false;
+            }
+        }
+
+        if (p1_Resetting == true)
+        {
+            ResetCount += 1;
+        }
+        if (p2_Resetting == true)
+        {
+            ResetCount += 1;
+        }
+        if (p3_Resetting == true)
+        {
+            ResetCount += 1;
+        }
+        if (p4_Resetting == true)
+        {
+            ResetCount += 1;
+        }
+        if (ResetCount == playerCount)
+        {
+            ResetGame();
         }
     }
 }
