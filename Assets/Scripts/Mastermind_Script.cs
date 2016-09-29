@@ -1144,8 +1144,6 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         StartCoroutine(P4_DisplayRandomCommand());
                 }
             }
-            ResetCheck();
-            AbortCheck();
         }
     }
 
@@ -1165,93 +1163,6 @@ public class Mastermind_Script : Photon.MonoBehaviour
             score--;
             UpdateScore();
         }
-    }
-
-    public void ResetCheck()
-    {
-        int resetCount = 0;
-        int playerCount = PhotonNetwork.playerList.Length;
-        //foreach (bool player in playerPosOccupied)
-        //{
-        //if (player)
-        //{
-        //playerCount += 1;
-        //}
-        //}
-
-        if (p1_Resetting == true)
-        {
-            resetCount += 1;
-        }
-        if (p2_Resetting == true)
-        {
-            resetCount += 1;
-        }
-        if (p3_Resetting == true)
-        {
-            resetCount += 1;
-        }
-        if (p4_Resetting == true)
-        {
-            resetCount += 1;
-        }
-        if (resetCount == playerCount)
-        {
-            ResetGame();
-        }
-    }
-
-    public void ResetGame()
-    {
-        //PhotonNetwork.LeaveRoom();
-        foreach (PhotonPlayer player in PhotonNetwork.playerList)
-        {
-            PhotonNetwork.DestroyPlayerObjects(player);
-        }
-        PhotonNetwork.LoadLevel("Game");
-    }
-
-    public void AbortCheck()
-    {
-        int abortCount = 0;
-        int playerCount = PhotonNetwork.playerList.Length;
-        //foreach (bool player in playerPosOccupied)
-        //{
-        //if (player)
-        //{
-        //playerCount += 1;
-        //}
-        //}
-
-        if (p1_Aborting == true)
-        {
-            abortCount += 1;
-        }
-        if (p2_Aborting == true)
-        {
-            abortCount += 1;
-        }
-        if (p3_Aborting == true)
-        {
-            abortCount += 1;
-        }
-        if (p4_Aborting == true)
-        {
-            abortCount += 1;
-        }
-        if (abortCount == playerCount)
-        {
-            AbortGame();
-        }
-    }
-
-    public void AbortGame()
-    {
-        foreach (GameObject player in playerModules)
-        {
-            player.GetPhotonView().RPC("RpcLeaveRoom",PhotonTargets.Others);
-        }
-        PhotonNetwork.LeaveRoom();
     }
 
     public void UpdateScore()
@@ -1837,10 +1748,12 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
     public void AbortCheck(bool abortStatus, int playerNum)
     {
+        Debug.Log("Starting AbortCheck");
         int abortCount = 0;
         int playerCount = PhotonNetwork.playerList.Length;
         if (abortStatus)
         {
+            Debug.Log("Entered Abort Status Check");
             if (playerNum == 1)
             {
                 p1_AbortResetScript.p1_Aborting();
@@ -1886,6 +1799,11 @@ public class Mastermind_Script : Photon.MonoBehaviour
             }
         }
 
+        Debug.Log("Player 1 Abort Status: " + p1_Aborting);
+        Debug.Log("Player 2 Abort Status: " + p2_Aborting);
+        Debug.Log("Player 3 Abort Status: " + p3_Aborting);
+        Debug.Log("Player 4 Abort Status: " + p4_Aborting);
+
         if (p1_Aborting == true)
         {
             abortCount += 1;
@@ -1902,6 +1820,10 @@ public class Mastermind_Script : Photon.MonoBehaviour
         {
             abortCount += 1;
         }
+
+        Debug.Log("Abort Count: " + abortCount);
+        Debug.Log("Player Count: " + playerCount);
+
         if (abortCount == playerCount)
         {
             AbortGame();
@@ -1910,6 +1832,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
     public void ResetCheck(bool resetStatus, int playerNum)
     {
+        Debug.Log("Starting ResetCheck");
         int ResetCount = 0;
         int playerCount = PhotonNetwork.playerList.Length;
         if (resetStatus)
@@ -1959,6 +1882,11 @@ public class Mastermind_Script : Photon.MonoBehaviour
             }
         }
 
+        Debug.Log("Player 1 Reset Status: " + p1_Resetting);
+        Debug.Log("Player 2 Reset Status: " + p2_Resetting);
+        Debug.Log("Player 3 Reset Status: " + p3_Resetting);
+        Debug.Log("Player 4 Reset Status: " + p4_Resetting);
+
         if (p1_Resetting == true)
         {
             ResetCount += 1;
@@ -1975,9 +1903,32 @@ public class Mastermind_Script : Photon.MonoBehaviour
         {
             ResetCount += 1;
         }
+
+        Debug.Log("Reset Count: " + ResetCount);
+        Debug.Log("Player Count: " + playerCount);
+
         if (ResetCount == playerCount)
         {
             ResetGame();
         }
+    }
+
+    public void ResetGame()
+    {
+        //PhotonNetwork.LeaveRoom();
+        foreach (PhotonPlayer player in PhotonNetwork.playerList)
+        {
+            PhotonNetwork.DestroyPlayerObjects(player);
+        }
+        PhotonNetwork.LoadLevel("Game");
+    }
+
+    public void AbortGame()
+    {
+        foreach (GameObject player in playerModules)
+        {
+            player.GetPhotonView().RPC("RpcLeaveRoom", PhotonTargets.Others);
+        }
+        PhotonNetwork.LeaveRoom();
     }
 }
