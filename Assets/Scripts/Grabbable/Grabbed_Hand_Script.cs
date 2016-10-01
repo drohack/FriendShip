@@ -16,6 +16,8 @@ public class Grabbed_Hand_Script : MonoBehaviour {
     [SerializeField]
     private SkinnedMeshRenderer m_skinnedMeshRenderer;
 
+    public Vector3 m_lastPos;
+    public Quaternion m_lastRot;
     private Rigidbody m_rigidbody = null;
     private Velocity_Tracker m_velocityTracker = null;
     private Grabbable m_grabbedGrabbable = null;
@@ -35,15 +37,18 @@ public class Grabbed_Hand_Script : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        // initialize last rot/pos
+        m_lastPos = transform.position;
+        m_lastRot = transform.rotation;
         // Get components
         m_rigidbody = this.GetComponent<Rigidbody>();
         m_velocityTracker = this.GetComponent<Velocity_Tracker>();
     }
 	
 	// Update is called once per frame
-	void Update () {
-	
-	}
+	void FixedUpdate () {
+        
+    }
 
     //==============================================================================
     public void GrabBegin(Dictionary<Grabbable, int> m_grabCandidates)
