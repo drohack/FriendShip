@@ -67,6 +67,7 @@ public class Grabbable : MonoBehaviour
     private SpringJoint m_SpringJoint;
     private GameObject rigidbodyDragger;
     //Velocity variables
+    private Rigidbody m_Rigidbody;
     private Transform pickupTransform;
     private float maxVelocity = 10000000f;
     private float maxAngularVelocity = 28f; //default is 7
@@ -113,6 +114,8 @@ public class Grabbable : MonoBehaviour
     //==============================================================================
     private void Awake()
     {
+        m_Rigidbody = this.GetComponent<Rigidbody>();
+
         if (m_grabPoints.Length == 0)
         {
             // Get the collider from the grabbable
@@ -188,7 +191,7 @@ public class Grabbable : MonoBehaviour
 
         m_SpringJoint.anchor = Vector3.zero;
         m_SpringJoint.maxDistance = k_Distance;
-        m_SpringJoint.connectedBody = transform.GetComponent<Rigidbody>();
+        m_SpringJoint.connectedBody = m_Rigidbody;
 
         if (m_grabMode.Equals(GrabMode.Drag))
         {
@@ -228,9 +231,16 @@ public class Grabbable : MonoBehaviour
         
         // Reset the max angular velocity of this object if it has been changed
         // This gets changed for Grab objects so it matches the hand faster
-        if (this.GetComponent<Rigidbody>() != null && this.GetComponent<Rigidbody>().maxAngularVelocity != 7)
+        if (m_Rigidbody != null && m_Rigidbody.maxAngularVelocity != 7)
         {
-            this.GetComponent<Rigidbody>().maxAngularVelocity = 7;
+            m_Rigidbody.maxAngularVelocity = 7;
+        }
+
+        // Update the thrown Grab or Snap object's velocity
+        if (m_grabMode.Equals(GrabMode.Grab) || m_grabMode.Equals(GrabMode.Snap))
+        {
+            m_Rigidbody.velocity = linearVelocity;
+            m_Rigidbody.angularVelocity = angularVelocity;
         }
 
         // Send grab end message
@@ -288,12 +298,12 @@ public class Grabbable : MonoBehaviour
             if (angle != 0)
             {
                 Vector3 angularTarget = angle * axis;
-                this.GetComponent<Rigidbody>().maxAngularVelocity = maxAngularVelocity;
-                this.GetComponent<Rigidbody>().angularVelocity = Vector3.MoveTowards(this.GetComponent<Rigidbody>().angularVelocity, angularTarget, maxVelocity * Time.fixedDeltaTime);
+                m_Rigidbody.maxAngularVelocity = maxAngularVelocity;
+                m_Rigidbody.angularVelocity = Vector3.MoveTowards(m_Rigidbody.angularVelocity, angularTarget, maxVelocity * Time.fixedDeltaTime);
             }
 
             Vector3 VelocityTarget = positionDelta / Time.fixedDeltaTime;
-            this.GetComponent<Rigidbody>().velocity = Vector3.MoveTowards(this.GetComponent<Rigidbody>().velocity, VelocityTarget, maxVelocity * Time.fixedDeltaTime);
+            m_Rigidbody.velocity = Vector3.MoveTowards(m_Rigidbody.velocity, VelocityTarget, maxVelocity * Time.fixedDeltaTime);
         }
 
         if (m_grabbedHand != null)

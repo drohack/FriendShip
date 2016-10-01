@@ -201,12 +201,22 @@ public class Photon_Transform_Rotation_Script : Photon.MonoBehaviour
             syncDelay = Time.time - lastSynchronizationTime;
             lastSynchronizationTime = Time.time;
 
-            //predict end position/local euler angles based on current position/local euler angles, the velocity the object is moving in, and the delay time of commands
-            syncEndPosition = syncPosition + syncVelocity * syncDelay;
             syncStartPosition = transform.position;
-
-            syncEndLocalEulerAngles = syncLocalRotation + syncAngularVelocity * syncDelay;
             syncStartLocalEulerAngles = transform.localRotation.eulerAngles;
+
+            //If not grabbed predict end position/local euler angles based on current position/local euler angles, 
+            //the velocity the object is moving in, 
+            //and the delay time of commands
+            if (isGrabbed)
+            {
+                syncEndPosition = syncPosition;
+                syncEndLocalEulerAngles = syncLocalRotation;
+            }
+            else
+            {
+                syncEndPosition = syncPosition + syncVelocity * syncDelay;
+                syncEndLocalEulerAngles = syncLocalRotation + syncAngularVelocity * syncDelay;
+            }
 
             newVelocity = syncVelocity;
             newAngularVelocity = syncAngularVelocity;
@@ -223,8 +233,17 @@ public class Photon_Transform_Rotation_Script : Photon.MonoBehaviour
 
             transform.position = Vector3.Lerp(syncStartPosition, syncEndPosition, syncTime / syncDelay);
             transform.localRotation = Quaternion.Slerp(Quaternion.Euler(syncStartLocalEulerAngles), Quaternion.Euler(syncEndLocalEulerAngles), syncTime / syncDelay);
-            rigidBody.velocity = newVelocity;
-            rigidBody.angularVelocity = newAngularVelocity;
+            //Only update the velocity of not held objects
+            if (isGrabbed)
+            {
+                rigidBody.velocity = Vector3.zero;
+                rigidBody.angularVelocity = Vector3.zero;
+            }
+            else
+            {
+                rigidBody.velocity = newVelocity;
+                rigidBody.angularVelocity = newAngularVelocity;
+            }
         }
         else if (photonView.isMine && !isLoading)
         {
