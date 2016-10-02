@@ -114,7 +114,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1000013449826146
 GameObject:
   m_ObjectHideFlags: 0
@@ -511,7 +511,7 @@ MonoBehaviour:
   isButtonDown: 0
   labelName: {fileID: 0}
   PhotonLobby_VR: {fileID: 0}
-  gameName: {fileID: 1000013449826146}
+  gameName: {fileID: 8704}
 --- !u!114 &114000012123427894
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -523,7 +523,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1982ae483b6667642a542eedbef2e7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMouseOver: 0
   isGrabbing: 0
   isColliding: 0
 --- !u!114 &114000012228813388
@@ -537,7 +536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 3
   m_allowOffhandGrab: 1
   m_grabPoints: []
