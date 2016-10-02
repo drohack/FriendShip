@@ -14,7 +14,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private int numPlayers = 0;
     private GameObject[] playerModules;
     private bool[] playerPosOccupied = new bool[4] { false, false, false, false };
-    private int score = 0;
+    private int totalScore = 0;
+    private int levelScore = 0;
     private int level = 1;
     private bool isLoadingNextLevel = false;
     private int scoreToWin = 10;
@@ -197,7 +198,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
     void Initialize()
     {
-        score = 0;
+        totalScore = 0;
+        levelScore = 0;
 
         //Get Timer object
         timerScript = GameObject.FindGameObjectWithTag("Timer").GetComponent<Timer_Script>();
@@ -294,7 +296,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
     IEnumerator LoadNextLevel()
     {
         isLoadingNextLevel = true;
-        score = 0;
+        levelScore = 0;
         level += 1;
         levelStartTime = System.DateTime.Now;
 
@@ -1075,7 +1077,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         //Stop Timer object
         timerScript.StopTimer(true);
 
-        UpdateAllConsoles("");
+        UpdateAllConsoles("Level: " + level + " \n Final Score: " + totalScore);
 
         if (playerPosOccupied[0] == true)
             p1_scoreTextScript.photonView.RPC("GameOver", PhotonTargets.All, true);
@@ -1098,16 +1100,21 @@ public class Mastermind_Script : Photon.MonoBehaviour
         {
             //If the user scores grater than or equal to the score to win change text to Green and to say "YOU WIN~"
             //Else if the score is less than or equal to the score to lose change the text to Red and say "Game Over"
-            if (score >= scoreToWin)
+            if (levelScore >= scoreToWin)
             {
                 //Stop Timer
                 timerScript.StopTimer(false);
 
+                //Increase total score by (level * 10) & % time remaning in round
+                totalScore += level * 10;
+                System.TimeSpan ts = (System.DateTime.Now - levelStartTime);
+                totalScore += 100 - (int)((ts.Seconds / levelTimeoutSeconds) * 100);
+
                 StartCoroutine(LoadNextLevel());
             }
-            else if (score <= scoreToLose)
+            else if (levelScore <= scoreToLose)
             {
-                Debug.Log("Game Over; score: " + score + ", scoreToLose: " + scoreToLose);
+                Debug.Log("Game Over; score: " + levelScore + ", scoreToLose: " + scoreToLose);
                 GameOver();
             }
             else if (levelStartTime.AddSeconds(levelTimeoutSeconds) <= System.DateTime.Now)
@@ -1151,7 +1158,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
     {
         if (!isGameOver)
         {
-            score++;
+            levelScore++;
+            totalScore++;
             UpdateScore();
         }
     }
@@ -1160,7 +1168,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
     {
         if (!isGameOver)
         {
-            score--;
+            levelScore--;
+            totalScore--;
             UpdateScore();
         }
     }
@@ -1168,13 +1177,13 @@ public class Mastermind_Script : Photon.MonoBehaviour
     public void UpdateScore()
     {
         if (playerPosOccupied[0] == true)
-            p1_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, score);
+            p1_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, levelScore, scoreToWin);
         if (playerPosOccupied[1] == true)
-            p2_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, score);
+            p2_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, levelScore, scoreToWin);
         if (playerPosOccupied[2] == true)
-            p3_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, score);
+            p3_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, levelScore, scoreToWin);
         if (playerPosOccupied[3] == true)
-            p4_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, score);
+            p4_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, levelScore, scoreToWin);
     }
 
     public void UpdateAllConsoles(string msg)

@@ -42,48 +42,69 @@ public class Console_Text_Script : Photon.MonoBehaviour
             int currentLineLength = 0;
             for (int i = 0; i < parts.Length; i++)
             {
-                if (parts[i].Equals("[̲̅$̲̅(̲̅1̲̅)̲̅$̲̅]") || parts[i].Equals("[̲̅$̲̅(̲̅5̲̅)̲̅$̲̅]"))
+                if (!parts[i].Equals(""))
                 {
-                    //Treat $1 and $5 as 7 characters (instead of their actual 19 character)
-                    if ((currentLineLength + 1 + 7) > rowLimit)
+                    //Add space if nessesary
+                    if (currentLineLength > 0 && i != parts.Length && (currentLineLength + 1) <= rowLimit)
                     {
+                        message += " ";
+                        currentLineLength += 1;
+                    }
+
+                    if (parts[i].Equals("\n"))
+                    {
+                        //Add new line here
+                        message = message.TrimEnd(' ');
                         message += System.Environment.NewLine;
                         currentLineLength = 0;
                     }
-                    message += " " + parts[i];
-                    currentLineLength += 7;
-                }
-                else if (parts[i].Equals("[̲̅$̲̅(̲̅ιοο̲̅)̲̅$̲̅]"))
-                {
-                    //Treat $100 as 9 characters (instead of it's actual 21 characters)
-                    if ((currentLineLength + 1 + 9) > rowLimit)
+                    else if (parts[i].Equals("[̲̅$̲̅(̲̅1̲̅)̲̅$̲̅]") || parts[i].Equals("[̲̅$̲̅(̲̅5̲̅)̲̅$̲̅]"))
                     {
-                        message += System.Environment.NewLine;
-                        currentLineLength = 0;
+                        //Treat $1 and $5 as 7 characters (instead of their actual 19 character)
+                        if ((currentLineLength + 7) > rowLimit)
+                        {
+                            message = message.TrimEnd(' ');
+                            message += System.Environment.NewLine;
+                            currentLineLength = 0;
+                        }
+                        message += parts[i];
+                        currentLineLength += 7;
                     }
-                    message += " " + parts[i];
-                    currentLineLength += 9;
-                }
-                else if (parts[i].Equals("♫♪..|̲̅̅●̲̅̅|̲̅̅=̲̅̅|̲̅̅●̲̅̅|..♫♪"))
-                {
-                    //Treat the Boombox as 15 characters (instead of it's actual 33 characters)
-                    if ((currentLineLength + 1 + 15) > rowLimit)
+                    else if (parts[i].Equals("[̲̅$̲̅(̲̅ιοο̲̅)̲̅$̲̅]"))
                     {
-                        message += System.Environment.NewLine;
-                        currentLineLength = 0;
+                        //Treat $100 as 9 characters (instead of it's actual 21 characters)
+                        if ((currentLineLength + 9) > rowLimit)
+                        {
+                            message = message.TrimEnd(' ');
+                            message += System.Environment.NewLine;
+                            currentLineLength = 0;
+                        }
+                        message += parts[i];
+                        currentLineLength += 9;
                     }
-                    message += " " + parts[i];
-                    currentLineLength += 15;
-                }
-                else
-                {
-                    if ((currentLineLength + 1 + parts[i].Length) > rowLimit)
+                    else if (parts[i].Equals("♫♪..|̲̅̅●̲̅̅|̲̅̅=̲̅̅|̲̅̅●̲̅̅|..♫♪"))
                     {
-                        message += System.Environment.NewLine;
-                        currentLineLength = 0;
+                        //Treat the Boombox as 15 characters (instead of it's actual 33 characters)
+                        if ((currentLineLength + 15) > rowLimit)
+                        {
+                            message = message.TrimEnd(' ');
+                            message += System.Environment.NewLine;
+                            currentLineLength = 0;
+                        }
+                        message += parts[i];
+                        currentLineLength += 15;
                     }
-                    message += " " + parts[i];
-                    currentLineLength += parts[i].Length;
+                    else
+                    {
+                        if ((currentLineLength + parts[i].Length) > rowLimit)
+                        {
+                            message = message.TrimEnd(' ');
+                            message += System.Environment.NewLine;
+                            currentLineLength = 0;
+                        }
+                        message += parts[i];
+                        currentLineLength += parts[i].Length;
+                    }
                 }
             }
         }
