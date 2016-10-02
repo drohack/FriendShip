@@ -12,6 +12,14 @@ TagManager:
   - PlutoniumRodRight
   - PlutoniumRod
   - PlutoniumSpawn
+  - p1_Abort_Light
+  - p1_Reset_Light
+  - p2_Abort_Light
+  - p2_Reset_Light
+  - p3_Abort_Light
+  - p3_Reset_Light
+  - p4_Abort_Light
+  - p4_Reset_Light
   layers:
   - Default
   - TransparentFX

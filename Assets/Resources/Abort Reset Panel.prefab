@@ -42,7 +42,7 @@ GameObject:
   - 23: {fileID: 23000013241660776}
   m_Layer: 0
   m_Name: p3_Reset_Light
-  m_TagString: Untagged
+  m_TagString: p3_Reset_Light
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -251,7 +251,7 @@ GameObject:
   - 23: {fileID: 23000013677638870}
   m_Layer: 0
   m_Name: p1_Abort_Light
-  m_TagString: Untagged
+  m_TagString: p1_Abort_Light
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -302,7 +302,7 @@ GameObject:
   - 23: {fileID: 23000010004615718}
   m_Layer: 0
   m_Name: p4_Reset_Light
-  m_TagString: Untagged
+  m_TagString: p4_Reset_Light
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -420,7 +420,7 @@ GameObject:
   - 23: {fileID: 23000013468954144}
   m_Layer: 0
   m_Name: p2_Abort_Light
-  m_TagString: Untagged
+  m_TagString: p2_Abort_Light
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -569,7 +569,7 @@ GameObject:
   - 23: {fileID: 23000010847114406}
   m_Layer: 0
   m_Name: p2_Reset_Light
-  m_TagString: Untagged
+  m_TagString: p2_Reset_Light
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -669,7 +669,7 @@ GameObject:
   - 23: {fileID: 23000012687158064}
   m_Layer: 0
   m_Name: p3_Abort_Light
-  m_TagString: Untagged
+  m_TagString: p3_Abort_Light
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -702,6 +702,7 @@ GameObject:
   - 4: {fileID: 4000011459731582}
   - 114: {fileID: 114000010196793050}
   - 114: {fileID: 114000011020080918}
+  - 114: {fileID: 114000014125074304}
   m_Layer: 0
   m_Name: Abort Reset Panel
   m_TagString: Untagged
@@ -773,7 +774,7 @@ GameObject:
   - 23: {fileID: 23000013118550856}
   m_Layer: 0
   m_Name: p1_Reset_Light
-  m_TagString: Untagged
+  m_TagString: p1_Reset_Light
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1114,7 +1115,7 @@ GameObject:
   - 23: {fileID: 23000013414757962}
   m_Layer: 0
   m_Name: p4_Abort_Light
-  m_TagString: Untagged
+  m_TagString: p4_Abort_Light
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1450,7 +1451,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012537850222}
   m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: 0.234, y: 0.94348526, z: -2.217}
+  m_LocalPosition: {x: 0.68669266, y: 0.9593646, z: -3.1629148}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -3650,14 +3651,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f97d6d9b6445e664a842f0b67453b163, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  p1_Abort_Light: {fileID: 1000010899180440}
-  p2_Abort_Light: {fileID: 1000011384626686}
-  p3_Abort_Light: {fileID: 1000012392464232}
-  p4_Abort_Light: {fileID: 1000014070689248}
-  p1_Reset_Light: {fileID: 1000012759081218}
-  p2_Reset_Light: {fileID: 1000011906285006}
-  p3_Reset_Light: {fileID: 1000010110177620}
-  p4_Reset_Light: {fileID: 1000011115977430}
 --- !u!114 &114000010372496716
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3694,7 +3687,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1982ae483b6667642a542eedbef2e7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMouseOver: 0
   isGrabbing: 0
   isColliding: 0
 --- !u!114 &114000010676839236
@@ -3733,6 +3725,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edea9855859fe7a47bd84dab096c6ff5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerNum: 0
   AbortButton: {fileID: 4000014115902010}
   ResetButton: {fileID: 4000010522059482}
 --- !u!114 &114000011314144600
@@ -3746,7 +3739,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 3
   m_allowOffhandGrab: 1
   m_grabPoints: []
@@ -3761,7 +3754,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 3
   m_allowOffhandGrab: 1
   m_grabPoints: []
@@ -3778,7 +3771,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isButtonDown: 0
   newName: 
-  rCommand: 0
+  resetStatus: 0
   playerNum: 4
 --- !u!114 &114000012965726090
 MonoBehaviour:
@@ -3793,7 +3786,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isButtonDown: 0
   newName: 
-  rCommand: 0
+  abortStatus: 0
   playerNum: 4
 --- !u!114 &114000013039473134
 MonoBehaviour:
@@ -3806,9 +3799,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1982ae483b6667642a542eedbef2e7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMouseOver: 0
   isGrabbing: 0
   isColliding: 0
+--- !u!114 &114000014125074304
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012537850222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  isRuntimeInstantiated: 0
 --- !u!136 &136000010186164232
 CapsuleCollider:
   m_ObjectHideFlags: 1

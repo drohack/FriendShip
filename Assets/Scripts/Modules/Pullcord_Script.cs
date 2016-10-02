@@ -53,15 +53,18 @@ public class Pullcord_Script : Photon.MonoBehaviour
         {
             //We own this player: send the others our data
             stream.SendNext(handle.localPosition);
+            stream.SendNext(handle.localRotation);
         }
         else
         {
             //Network player, receive data
             handlePos = (Vector3)stream.ReceiveNext();
+            handleRot = (Quaternion)stream.ReceiveNext();
         }
     }
 
     private Vector3 handlePos = Vector3.zero; //We lerp towards this
+    private Quaternion handleRot = Quaternion.identity;
 
     private void Update()
     {
@@ -72,6 +75,7 @@ public class Pullcord_Script : Photon.MonoBehaviour
                 Destroy(handleJoint);
             //Update remote player (smooth this, this looks good, at the cost of some accuracy)
             handle.localPosition = Vector3.Lerp(handle.localPosition, handlePos, Time.deltaTime * 20);
+            handle.localRotation = handleRot;
         }
         else
         {
@@ -121,6 +125,7 @@ public class Pullcord_Script : Photon.MonoBehaviour
         JointDrive yDrive = new JointDrive();
         yDrive.maximumForce = 3.402823e+38f;
         yDrive.positionSpring = 20;
+        yDrive.positionDamper = 5;
         handleTransform.GetComponent<ConfigurableJoint>().yDrive = yDrive;
         handleJoint = handleTransform.GetComponent<ConfigurableJoint>();
 

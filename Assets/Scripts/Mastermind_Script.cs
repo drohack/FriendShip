@@ -14,7 +14,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private int numPlayers = 0;
     private GameObject[] playerModules;
     private bool[] playerPosOccupied = new bool[4] { false, false, false, false };
-    private int score = 0;
+    private int totalScore = 0;
+    private int levelScore = 0;
     private int level = 1;
     private bool isLoadingNextLevel = false;
     private int scoreToWin = 10;
@@ -197,7 +198,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
     void Initialize()
     {
-        score = 0;
+        totalScore = 0;
+        levelScore = 0;
 
         //Get Timer object
         timerScript = GameObject.FindGameObjectWithTag("Timer").GetComponent<Timer_Script>();
@@ -294,7 +296,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
     IEnumerator LoadNextLevel()
     {
         isLoadingNextLevel = true;
-        score = 0;
+        levelScore = 0;
         level += 1;
         levelStartTime = System.DateTime.Now;
 
@@ -1075,7 +1077,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         //Stop Timer object
         timerScript.StopTimer(true);
 
-        UpdateAllConsoles("");
+        UpdateAllConsoles("Level: " + level + " \n Final Score: " + totalScore);
 
         if (playerPosOccupied[0] == true)
             p1_scoreTextScript.photonView.RPC("GameOver", PhotonTargets.All, true);
@@ -1098,16 +1100,21 @@ public class Mastermind_Script : Photon.MonoBehaviour
         {
             //If the user scores grater than or equal to the score to win change text to Green and to say "YOU WIN~"
             //Else if the score is less than or equal to the score to lose change the text to Red and say "Game Over"
-            if (score >= scoreToWin)
+            if (levelScore >= scoreToWin)
             {
                 //Stop Timer
                 timerScript.StopTimer(false);
 
+                //Increase total score by (level * 10) & % time remaning in round
+                totalScore += level * 10;
+                System.TimeSpan ts = (System.DateTime.Now - levelStartTime);
+                totalScore += 100 - (int)((ts.Seconds / levelTimeoutSeconds) * 100);
+
                 StartCoroutine(LoadNextLevel());
             }
-            else if (score <= scoreToLose)
+            else if (levelScore <= scoreToLose)
             {
-                Debug.Log("Game Over; score: " + score + ", scoreToLose: " + scoreToLose);
+                Debug.Log("Game Over; score: " + levelScore + ", scoreToLose: " + scoreToLose);
                 GameOver();
             }
             else if (levelStartTime.AddSeconds(levelTimeoutSeconds) <= System.DateTime.Now)
@@ -1144,8 +1151,6 @@ public class Mastermind_Script : Photon.MonoBehaviour
                         StartCoroutine(P4_DisplayRandomCommand());
                 }
             }
-            ResetCheck();
-            AbortCheck();
         }
     }
 
@@ -1153,7 +1158,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
     {
         if (!isGameOver)
         {
-            score++;
+            levelScore++;
+            totalScore++;
             UpdateScore();
         }
     }
@@ -1162,108 +1168,22 @@ public class Mastermind_Script : Photon.MonoBehaviour
     {
         if (!isGameOver)
         {
-            score--;
+            levelScore--;
+            totalScore--;
             UpdateScore();
         }
-    }
-
-    public void ResetCheck()
-    {
-        int resetCount = 0;
-        int playerCount = PhotonNetwork.playerList.Length;
-        //foreach (bool player in playerPosOccupied)
-        //{
-        //if (player)
-        //{
-        //playerCount += 1;
-        //}
-        //}
-
-        if (p1_Resetting == true)
-        {
-            resetCount += 1;
-        }
-        if (p2_Resetting == true)
-        {
-            resetCount += 1;
-        }
-        if (p3_Resetting == true)
-        {
-            resetCount += 1;
-        }
-        if (p4_Resetting == true)
-        {
-            resetCount += 1;
-        }
-        if (resetCount == playerCount)
-        {
-            ResetGame();
-        }
-    }
-
-    public void ResetGame()
-    {
-        //PhotonNetwork.LeaveRoom();
-        foreach (PhotonPlayer player in PhotonNetwork.playerList)
-        {
-            PhotonNetwork.DestroyPlayerObjects(player);
-        }
-        PhotonNetwork.LoadLevel("Game");
-    }
-
-    public void AbortCheck()
-    {
-        int abortCount = 0;
-        int playerCount = PhotonNetwork.playerList.Length;
-        //foreach (bool player in playerPosOccupied)
-        //{
-        //if (player)
-        //{
-        //playerCount += 1;
-        //}
-        //}
-
-        if (p1_Aborting == true)
-        {
-            abortCount += 1;
-        }
-        if (p2_Aborting == true)
-        {
-            abortCount += 1;
-        }
-        if (p3_Aborting == true)
-        {
-            abortCount += 1;
-        }
-        if (p4_Aborting == true)
-        {
-            abortCount += 1;
-        }
-        if (abortCount == playerCount)
-        {
-            AbortGame();
-        }
-    }
-
-    public void AbortGame()
-    {
-        foreach (GameObject player in playerModules)
-        {
-            player.GetPhotonView().RPC("RpcLeaveRoom",PhotonTargets.Others);
-        }
-        PhotonNetwork.LeaveRoom();
     }
 
     public void UpdateScore()
     {
         if (playerPosOccupied[0] == true)
-            p1_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, score);
+            p1_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, levelScore, scoreToWin);
         if (playerPosOccupied[1] == true)
-            p2_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, score);
+            p2_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, levelScore, scoreToWin);
         if (playerPosOccupied[2] == true)
-            p3_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, score);
+            p3_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, levelScore, scoreToWin);
         if (playerPosOccupied[3] == true)
-            p4_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, score);
+            p4_scoreTextScript.photonView.RPC("UpdateScore", PhotonTargets.All, level, levelScore, scoreToWin);
     }
 
     public void UpdateAllConsoles(string msg)
@@ -1837,10 +1757,12 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
     public void AbortCheck(bool abortStatus, int playerNum)
     {
+        Debug.Log("Starting AbortCheck");
         int abortCount = 0;
         int playerCount = PhotonNetwork.playerList.Length;
         if (abortStatus)
         {
+            Debug.Log("Entered Abort Status Check");
             if (playerNum == 1)
             {
                 p1_AbortResetScript.p1_Aborting();
@@ -1886,6 +1808,11 @@ public class Mastermind_Script : Photon.MonoBehaviour
             }
         }
 
+        Debug.Log("Player 1 Abort Status: " + p1_Aborting);
+        Debug.Log("Player 2 Abort Status: " + p2_Aborting);
+        Debug.Log("Player 3 Abort Status: " + p3_Aborting);
+        Debug.Log("Player 4 Abort Status: " + p4_Aborting);
+
         if (p1_Aborting == true)
         {
             abortCount += 1;
@@ -1902,6 +1829,10 @@ public class Mastermind_Script : Photon.MonoBehaviour
         {
             abortCount += 1;
         }
+
+        Debug.Log("Abort Count: " + abortCount);
+        Debug.Log("Player Count: " + playerCount);
+
         if (abortCount == playerCount)
         {
             AbortGame();
@@ -1910,6 +1841,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
     public void ResetCheck(bool resetStatus, int playerNum)
     {
+        Debug.Log("Starting ResetCheck");
         int ResetCount = 0;
         int playerCount = PhotonNetwork.playerList.Length;
         if (resetStatus)
@@ -1959,6 +1891,11 @@ public class Mastermind_Script : Photon.MonoBehaviour
             }
         }
 
+        Debug.Log("Player 1 Reset Status: " + p1_Resetting);
+        Debug.Log("Player 2 Reset Status: " + p2_Resetting);
+        Debug.Log("Player 3 Reset Status: " + p3_Resetting);
+        Debug.Log("Player 4 Reset Status: " + p4_Resetting);
+
         if (p1_Resetting == true)
         {
             ResetCount += 1;
@@ -1975,9 +1912,32 @@ public class Mastermind_Script : Photon.MonoBehaviour
         {
             ResetCount += 1;
         }
+
+        Debug.Log("Reset Count: " + ResetCount);
+        Debug.Log("Player Count: " + playerCount);
+
         if (ResetCount == playerCount)
         {
             ResetGame();
         }
+    }
+
+    public void ResetGame()
+    {
+        //PhotonNetwork.LeaveRoom();
+        foreach (PhotonPlayer player in PhotonNetwork.playerList)
+        {
+            PhotonNetwork.DestroyPlayerObjects(player);
+        }
+        PhotonNetwork.LoadLevel("Game");
+    }
+
+    public void AbortGame()
+    {
+        foreach (GameObject player in playerModules)
+        {
+            player.GetPhotonView().RPC("RpcLeaveRoom", PhotonTargets.Others);
+        }
+        PhotonNetwork.LeaveRoom();
     }
 }

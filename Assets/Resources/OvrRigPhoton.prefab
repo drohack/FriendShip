@@ -4649,6 +4649,7 @@ MonoBehaviour:
   l_hand_world: {fileID: 1000011985381234}
   GrabVolumeBigL: {fileID: 1000012909924696}
   animatorL: {fileID: 95000010394073252}
+  skinnedMeshRendererL: {fileID: 137000012653425474}
   RightHandPf: {fileID: 4000012018074466}
   handScriptR: {fileID: 114000013775851324}
   velocityTrackerR: {fileID: 114000010532263952}
@@ -4658,6 +4659,7 @@ MonoBehaviour:
   r_hand_world: {fileID: 1000011500418950}
   GrabVolumeBigR: {fileID: 1000012974093018}
   animatorR: {fileID: 95000013262906442}
+  skinnedMeshRendererR: {fileID: 137000012638131322}
   playerArea: {fileID: 1000010004492150}
   photonVoiceRecorder: {fileID: 114000010683416894}
 --- !u!114 &114000012963842906

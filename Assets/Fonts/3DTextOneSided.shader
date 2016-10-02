@@ -10,6 +10,7 @@ Shader "GUI/3D Text Shader - Cull Back" {
 		Blend SrcAlpha OneMinusSrcAlpha
 		Pass {
 			Color [_Color]
+			ColorMaterial AmbientAndDiffuse // use material colour which includes vertex colour
 			SetTexture [_MainTex] {
 				combine primary, texture * primary
 			}

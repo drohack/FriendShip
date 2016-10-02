@@ -1816,7 +1816,7 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000014169163658}
-  m_Text: Level = 1 | Score = 0
+  m_Text: Level = 1 | [__________]
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1

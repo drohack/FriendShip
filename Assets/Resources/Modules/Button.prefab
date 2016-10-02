@@ -470,8 +470,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGrabbed: 0
-  m_grabMode: 3
-  m_allowOffhandGrab: 1
+  m_grabMode: 4
+  m_allowOffhandGrab: 0
   m_grabPoints: []
 --- !u!114 &11451538
 MonoBehaviour:
@@ -499,7 +499,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1982ae483b6667642a542eedbef2e7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMouseOver: 0
   isGrabbing: 0
   isColliding: 0
 --- !u!1001 &100100000

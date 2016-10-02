@@ -41,6 +41,7 @@ public class Grabbable : MonoBehaviour
     public enum GrabMode
     {
         Grab,
+        Snap,
         Drag,
         Rotate,
         None
@@ -66,6 +67,8 @@ public class Grabbable : MonoBehaviour
     private SpringJoint m_SpringJoint;
     private GameObject rigidbodyDragger;
     //Velocity variables
+    private Rigidbody m_Rigidbody;
+    private Transform pickupTransform;
     private float maxVelocity = 10000000f;
     private float maxAngularVelocity = 28f; //default is 7
 
@@ -76,7 +79,6 @@ public class Grabbable : MonoBehaviour
     private bool m_allowOffhandGrab = true;
     [SerializeField]
     private Grab_Point[] m_grabPoints = null;
-    private bool m_grabbedKinematic = false;
     private Grab_Point m_grabbedGrabPoint = null;
     private Grabbed_Hand_Script m_grabbedHand = null;
 
@@ -112,6 +114,8 @@ public class Grabbable : MonoBehaviour
     //==============================================================================
     private void Awake()
     {
+        m_Rigidbody = this.GetComponent<Rigidbody>();
+
         if (m_grabPoints.Length == 0)
         {
             // Get the collider from the grabbable
@@ -140,8 +144,8 @@ public class Grabbable : MonoBehaviour
             grabTrigger.SetGrabbable(this);
         }
 
-        // Only allow offhand grab in if GrabMode is "Grab"
-        if (!m_grabMode.Equals(GrabMode.Grab))
+        // Only allow offhand grab in if GrabMode is "Grab" or "Snap"
+        if (!m_grabMode.Equals(GrabMode.Grab) && !m_grabMode.Equals(GrabMode.Snap))
         {
             m_allowOffhandGrab = false;
         }
@@ -157,6 +161,15 @@ public class Grabbable : MonoBehaviour
         m_grabbedHand = grabbedHand;
         m_grabbedGrabPoint = grabPoint;
 
+        // If GrabMode "Grab" put the grabbed object as a child of a parent object to make the default center where the hand grabbed the object
+        if (m_grabMode.Equals(GrabMode.Grab))
+        {
+            pickupTransform = new GameObject(string.Format("[{0}] NVRPickupTransform", this.gameObject.name)).transform;
+            pickupTransform.parent = grabbedHand.transform;
+            pickupTransform.position = this.transform.position;
+            pickupTransform.rotation = this.transform.rotation;
+        }
+
         // Add Spring
         if (!rigidbodyDragger)
         {
@@ -171,14 +184,14 @@ public class Grabbable : MonoBehaviour
             m_SpringJoint = rigidbodyDragger.AddComponent<SpringJoint>();
         }
 
-        if (m_grabMode.Equals(GrabMode.Grab))
+        if (m_grabMode.Equals(GrabMode.Snap))
             m_SpringJoint.transform.position = this.transform.position;
         else 
             m_SpringJoint.transform.position = m_grabbedHand.transform.position;
 
         m_SpringJoint.anchor = Vector3.zero;
         m_SpringJoint.maxDistance = k_Distance;
-        m_SpringJoint.connectedBody = transform.GetComponent<Rigidbody>();
+        m_SpringJoint.connectedBody = m_Rigidbody;
 
         if (m_grabMode.Equals(GrabMode.Drag))
         {
@@ -207,22 +220,27 @@ public class Grabbable : MonoBehaviour
     }
     public void GrabEnd(Vector3 linearVelocity, Vector3 angularVelocity, bool isOffhandGrab)
     {
+        if (pickupTransform != null)
+        {
+            Destroy(pickupTransform.gameObject);
+        }
+
         // Get rid of the spring joint, but make sure it's not being grabbed by the off hand
         if (m_SpringJoint != null && !isOffhandGrab)
             Destroy(m_SpringJoint);
-
-        // Keep the object's velocity and angular velocity
-        if (m_grabbedGrabPoint.Rigidbody != null)
+        
+        // Reset the max angular velocity of this object if it has been changed
+        // This gets changed for Grab objects so it matches the hand faster
+        if (m_Rigidbody != null && m_Rigidbody.maxAngularVelocity != 7)
         {
-            // Reset the max angular velocity of this object if it has been changed
-            // This gets changed for Grab objects so it matches the hand faster
-            if (this.GetComponent<Rigidbody>() != null && this.GetComponent<Rigidbody>().maxAngularVelocity != 7)
-            {
-                this.GetComponent<Rigidbody>().maxAngularVelocity = 7;
-            }
-            m_grabbedGrabPoint.Rigidbody.isKinematic = m_grabbedKinematic;
-            m_grabbedGrabPoint.Rigidbody.velocity = linearVelocity;
-            m_grabbedGrabPoint.Rigidbody.angularVelocity = angularVelocity;
+            m_Rigidbody.maxAngularVelocity = 7;
+        }
+
+        // Update the thrown Grab or Snap object's velocity
+        if (m_grabMode.Equals(GrabMode.Grab) || m_grabMode.Equals(GrabMode.Snap))
+        {
+            m_Rigidbody.velocity = linearVelocity;
+            m_Rigidbody.angularVelocity = angularVelocity;
         }
 
         // Send grab end message
@@ -238,7 +256,7 @@ public class Grabbable : MonoBehaviour
         isGrabbed = false;
     }
 
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         if (isGrabbed && m_SpringJoint == null)
         {
@@ -251,11 +269,22 @@ public class Grabbable : MonoBehaviour
             m_SpringJoint.transform.position = m_grabbedHand.transform.position;
         }
 
-        // If the grabbable is GrabMode "Grab" update the objects velocity/angularVelocity to match the hand so it keeps it's physics
-        if (isGrabbed && m_grabMode.Equals(GrabMode.Grab))
+        // If the grabbable is GrabMode "Grab" or "Snap" update the objects velocity/angularVelocity to match the hand so it keeps it's physics
+        if (isGrabbed && (m_grabMode.Equals(GrabMode.Grab) || m_grabMode.Equals(GrabMode.Snap)))
         {
             Quaternion rotationDelta = m_grabbedHand.transform.rotation * Quaternion.Inverse(this.transform.rotation);
-            Vector3 positionDelta = (m_grabbedHand.transform.position - this.transform.position);
+            Vector3 positionDelta = m_grabbedHand.transform.position - this.transform.position;
+            // If the GrabMode is set to "Snap" pull the grabbable object to the center of the grabbedHand. Else pull the object to the original grab point
+            if (m_grabMode.Equals(GrabMode.Snap))
+            {
+                rotationDelta = m_grabbedHand.transform.rotation * Quaternion.Inverse(this.transform.rotation);
+                positionDelta = m_grabbedHand.transform.position - this.transform.position;
+            }
+            else
+            {
+                rotationDelta = pickupTransform.rotation * Quaternion.Inverse(this.transform.rotation);
+                positionDelta = pickupTransform.position - this.transform.position;
+            }
 
             float angle;
             Vector3 axis;
@@ -269,12 +298,18 @@ public class Grabbable : MonoBehaviour
             if (angle != 0)
             {
                 Vector3 angularTarget = angle * axis;
-                this.GetComponent<Rigidbody>().maxAngularVelocity = maxAngularVelocity;
-                this.GetComponent<Rigidbody>().angularVelocity = Vector3.MoveTowards(this.GetComponent<Rigidbody>().angularVelocity, angularTarget, maxVelocity * Time.fixedDeltaTime);
+                m_Rigidbody.maxAngularVelocity = maxAngularVelocity;
+                m_Rigidbody.angularVelocity = Vector3.MoveTowards(m_Rigidbody.angularVelocity, angularTarget, maxVelocity * Time.fixedDeltaTime);
             }
 
             Vector3 VelocityTarget = positionDelta / Time.fixedDeltaTime;
-            this.GetComponent<Rigidbody>().velocity = Vector3.MoveTowards(this.GetComponent<Rigidbody>().velocity, VelocityTarget, maxVelocity * Time.fixedDeltaTime);
+            m_Rigidbody.velocity = Vector3.MoveTowards(m_Rigidbody.velocity, VelocityTarget, maxVelocity * Time.fixedDeltaTime);
+        }
+
+        if (m_grabbedHand != null)
+        {
+            m_grabbedHand.m_lastPos = m_grabbedHand.transform.position;
+            m_grabbedHand.m_lastRot = m_grabbedHand.transform.rotation;
         }
     }
 
