@@ -23,6 +23,8 @@ public class PhotonLobby : MonoBehaviour
 
     public static readonly string SceneNameMenu = "Lobby";
 
+    public static readonly string SceneNameRoom = "LobbyRoom";
+
     public static readonly string SceneNameGame = "Game";
 
     private string errorDialog;
@@ -89,6 +91,8 @@ public class PhotonLobby : MonoBehaviour
 
         // if you wanted more debug out, turn this on:
         // PhotonNetwork.logLevel = NetworkLogLevel.Full;
+
+        PhotonNetwork.player.customProperties.Clear();
 
         showLobby = true;
     }
@@ -295,6 +299,7 @@ public class PhotonLobby : MonoBehaviour
     public void OnJoinedRoom()
     {
         Debug.Log("OnJoinedRoom");
+        PhotonNetwork.LoadLevel(SceneNameRoom); //Start Game
     }
 
     public void OnPhotonCreateRoomFailed()
@@ -321,11 +326,15 @@ public class PhotonLobby : MonoBehaviour
 
         showLobby = false;
         showRoom = true;
+
+        Debug.Log("pPosOccupied: " + playerPosOccupied[0] + ", " + playerPosOccupied[1] + ", " + playerPosOccupied[2] + ", " + playerPosOccupied[3]);
     }
 
     public void OnDisconnectedFromPhoton()
     {
         Debug.Log("Disconnected from Photon.");
+
+        PhotonNetwork.player.customProperties.Clear();
     }
 
     public void OnFailedToConnectToPhoton(object parameters)
@@ -384,10 +393,11 @@ public class PhotonLobby : MonoBehaviour
         if (PhotonNetwork.isMasterClient && otherPlayer.customProperties.ContainsKey(PhotonConstants.pPos) && PhotonNetwork.room.customProperties.ContainsKey(PhotonConstants.pPosOccupied))
         {
             int otherPlayerPos = (int)otherPlayer.customProperties[PhotonConstants.pPos];
-            playerPosOccupied = (bool[])PhotonNetwork.room.customProperties[PhotonConstants.pPos];
+            playerPosOccupied = (bool[])PhotonNetwork.room.customProperties[PhotonConstants.pPosOccupied];
             playerPosOccupied[otherPlayerPos] = false;
             Hashtable ht = new Hashtable() { { PhotonConstants.pPosOccupied , playerPosOccupied } };
             PhotonNetwork.room.SetCustomProperties(ht);
+            otherPlayer.customProperties.Clear();
         }
     }
 }

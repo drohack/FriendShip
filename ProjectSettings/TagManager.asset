@@ -20,6 +20,7 @@ TagManager:
   - p3_Reset_Light
   - p4_Abort_Light
   - p4_Reset_Light
+  - Ready_Lever
   layers:
   - Default
   - TransparentFX

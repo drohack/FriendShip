@@ -73,6 +73,9 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
     private Transform oldLeftHandPf = null;
     private Transform oldRightHandPf = null;
 
+    private static PhotonNetworkOvrRig instance;
+    private static object instanceLock = new object();
+
     void Awake()
     {
         if (photonView.isMine)
@@ -99,6 +102,9 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
             playerArea.SetActive(true);
             photonVoiceRecorder.enabled = true;
         }
+
+        // Don't destroy the object when another client loads in
+        DontDestroyOnLoad(this.gameObject);
     }
 
     void Start()

@@ -91,4 +91,7 @@ MonoBehaviour:
   - RPCLoadLockedPlutoniumRod
   - CmdSendAbortCommand
   - CmdSendResetCommand
+  - RpcUpdateText
+  - CmdSendReadyCommand
+  - RPCLowerReadyLever
   DisableAutoOpenWizard: 1
