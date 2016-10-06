@@ -285,6 +285,15 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
     {
         //wait till you've finished adding the other player to join the room
         StartCoroutine(SpawnOvrRigPhoton());
+
+        if (PhotonNetwork.isMasterClient)
+        {
+            string roomName = " " + PhotonNetwork.room.name;
+            p1_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
+            p2_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
+            p3_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
+            p4_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
+        }
     }
 
     private System.Collections.IEnumerator SpawnOvrRigPhoton()
@@ -322,12 +331,6 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
 
             // Set your name
             ovrRigPhoton.name = ovrRigPhoton.name + "-" + PhotonNetwork.playerName;
-
-            string roomName = " " + PhotonNetwork.room.name;
-            p1_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
-            p2_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
-            p3_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
-            p4_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
 
             UpdatePlayerText();
         }
