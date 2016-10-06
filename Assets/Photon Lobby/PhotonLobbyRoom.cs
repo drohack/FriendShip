@@ -76,7 +76,12 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
             SceneManager.LoadScene(PhotonLobby.SceneNameMenu);
             return;
         }
-        
+
+        isP1Ready = false;
+        isP2Ready = false;
+        isP3Ready = false;
+        isP4Ready = false;
+
         //Disable Main Camera (we will be using the OvrRigPhoton's camera
         GameObject.Find("Main Camera").SetActive(false);
     }
@@ -247,6 +252,12 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
 
         if (PhotonNetwork.isMasterClient)
         {
+            //Reset all ready players
+            isP1Ready = false;
+            isP2Ready = false;
+            isP3Ready = false;
+            isP4Ready = false;
+
             //Open up player position
             if (otherPlayer.customProperties.ContainsKey(PhotonConstants.pPos) && PhotonNetwork.room.customProperties.ContainsKey(PhotonConstants.pPosOccupied))
             {
@@ -257,12 +268,6 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
                 PhotonNetwork.room.SetCustomProperties(ht);
                 otherPlayer.customProperties.Clear();
             }
-
-            //Reset all ready players
-            isP1Ready = false;
-            isP2Ready = false;
-            isP3Ready = false;
-            isP4Ready = false;
 
             p1_Ready_Lever.GetPhotonView().RPC("RPCLowerReadyLever", PhotonTargets.All);
             p2_Ready_Lever.GetPhotonView().RPC("RPCLowerReadyLever", PhotonTargets.All);
