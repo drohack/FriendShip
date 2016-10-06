@@ -292,6 +292,8 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
         {
             int playerPosition = (int)PhotonNetwork.player.customProperties[PhotonConstants.pPos];
             Debug.Log("name: " + PhotonNetwork.player.name + "; pPos: " + playerPosition);
+            if (PhotonNetwork.player.customProperties.ContainsKey(PhotonConstants.isOvrRigLoaded))
+                Debug.Log("isOvrRigLoaded: " + (bool)PhotonNetwork.player.customProperties[PhotonConstants.isOvrRigLoaded]);
 
             //Get transform of your position
             Transform currentPlayerTransform = player1Spawn;
@@ -308,7 +310,7 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
             Transform ovrRigPhoton = PhotonNetwork.Instantiate(this.playerPrefab.name, currentPlayerTransform.position, currentPlayerTransform.rotation, 0).transform;
 
             Hashtable ht1 = new Hashtable() { { PhotonConstants.isOvrRigLoaded, true } };
-            PhotonNetwork.room.SetCustomProperties(ht1);
+            PhotonNetwork.player.SetCustomProperties(ht1);
 
             // Set your name
             ovrRigPhoton.name = ovrRigPhoton.name + "-" + PhotonNetwork.playerName;
