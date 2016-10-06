@@ -130,38 +130,24 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
     public void OnMasterClientSwitched(PhotonPlayer player)
     {
         Debug.Log("OnMasterClientSwitched: " + player);
-
-        string message;
-        InRoomChat chatComponent = GetComponent<InRoomChat>();  // if we find a InRoomChat component, we print out a short message
-
-        if (chatComponent != null)
+        // to check if this client is the new master...
+        if (player.isLocal)
         {
-            // to check if this client is the new master...
-            if (player.isLocal)
+            // Get all of the Ready_Levers
+            foreach(GameObject readyLever in GameObject.FindGameObjectsWithTag("Ready_Lever"))
             {
-                message = "You are Master Client now.";
-
-                // Get all of the Ready_Levers
-                foreach(GameObject readyLever in GameObject.FindGameObjectsWithTag("Ready_Lever"))
-                {
-                    Ready_Lever_Script readyLeverScript = readyLever.GetComponent<Ready_Lever_Script>();
-                    if (readyLeverScript.playerPosition == 0)
-                        p1_Ready_Lever = readyLever;
-                    else if (readyLeverScript.playerPosition == 1)
-                        p2_Ready_Lever = readyLever;
-                    else if (readyLeverScript.playerPosition == 2)
-                        p3_Ready_Lever = readyLever;
-                    else if (readyLeverScript.playerPosition == 3)
-                        p4_Ready_Lever = readyLever;
-                }
-            }
-            else
-            {
-                message = player.name + " is Master Client now.";
+                Ready_Lever_Script readyLeverScript = readyLever.GetComponent<Ready_Lever_Script>();
+                if (readyLeverScript.playerPosition == 0)
+                    p1_Ready_Lever = readyLever;
+                else if (readyLeverScript.playerPosition == 1)
+                    p2_Ready_Lever = readyLever;
+                else if (readyLeverScript.playerPosition == 2)
+                    p3_Ready_Lever = readyLever;
+                else if (readyLeverScript.playerPosition == 3)
+                    p4_Ready_Lever = readyLever;
             }
 
-
-            chatComponent.AddLine(message); // the Chat method is a RPC. as we don't want to send an RPC and neither create a PhotonMessageInfo, lets call AddLine()
+            UpdatePlayerText();
         }
     }
 
