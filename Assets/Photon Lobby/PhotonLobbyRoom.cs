@@ -77,26 +77,48 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
             return;
         }
         
-        if (PhotonNetwork.isMasterClient)
-        {
-            PhotonNetwork.InstantiateSceneObject("LobbyRoom/Leave_Button", p1_LeaveButtonTransform.position, p1_LeaveButtonTransform.rotation, 0, null);
-            PhotonNetwork.InstantiateSceneObject("LobbyRoom/Leave_Button", p2_LeaveButtonTransform.position, p2_LeaveButtonTransform.rotation, 0, null);
-            PhotonNetwork.InstantiateSceneObject("LobbyRoom/Leave_Button", p3_LeaveButtonTransform.position, p3_LeaveButtonTransform.rotation, 0, null);
-            PhotonNetwork.InstantiateSceneObject("LobbyRoom/Leave_Button", p4_LeaveButtonTransform.position, p4_LeaveButtonTransform.rotation, 0, null);
-
-            object[] data1 = new object[1] { 0 };
-            object[] data2 = new object[1] { 1 };
-            object[] data3 = new object[1] { 2 };
-            object[] data4 = new object[1] { 3 };
-
-            p1_Ready_Lever = PhotonNetwork.InstantiateSceneObject("LobbyRoom/Ready_Lever", p1_ReadyLeverTransform.position, p1_ReadyLeverTransform.rotation, 0, data1);
-            p2_Ready_Lever = PhotonNetwork.InstantiateSceneObject("LobbyRoom/Ready_Lever", p2_ReadyLeverTransform.position, p2_ReadyLeverTransform.rotation, 0, data2);
-            p3_Ready_Lever = PhotonNetwork.InstantiateSceneObject("LobbyRoom/Ready_Lever", p3_ReadyLeverTransform.position, p3_ReadyLeverTransform.rotation, 0, data3);
-            p4_Ready_Lever = PhotonNetwork.InstantiateSceneObject("LobbyRoom/Ready_Lever", p4_ReadyLeverTransform.position, p4_ReadyLeverTransform.rotation, 0, data4);
-        }
-
         //Disable Main Camera (we will be using the OvrRigPhoton's camera
         GameObject.Find("Main Camera").SetActive(false);
+    }
+
+    public void Start()
+    {
+        if (PhotonNetwork.isMasterClient)
+        {
+            StartCoroutine(WaitForPlayersToSpawn());
+        }
+    }
+
+    System.Collections.IEnumerator WaitForPlayersToSpawn()
+    {
+        //Get number of players by the NetwokManager.numPlayers
+        int numPlayers = PhotonNetwork.playerList.Length;
+        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
+        while (playerObjects.Length < numPlayers)
+        {
+            playerObjects = GameObject.FindGameObjectsWithTag("Player");
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        Spawn();
+    }
+
+    private void Spawn()
+    {
+        PhotonNetwork.InstantiateSceneObject("LobbyRoom/Leave_Button", p1_LeaveButtonTransform.position, p1_LeaveButtonTransform.rotation, 0, null);
+        PhotonNetwork.InstantiateSceneObject("LobbyRoom/Leave_Button", p2_LeaveButtonTransform.position, p2_LeaveButtonTransform.rotation, 0, null);
+        PhotonNetwork.InstantiateSceneObject("LobbyRoom/Leave_Button", p3_LeaveButtonTransform.position, p3_LeaveButtonTransform.rotation, 0, null);
+        PhotonNetwork.InstantiateSceneObject("LobbyRoom/Leave_Button", p4_LeaveButtonTransform.position, p4_LeaveButtonTransform.rotation, 0, null);
+
+        object[] data1 = new object[1] { 0 };
+        object[] data2 = new object[1] { 1 };
+        object[] data3 = new object[1] { 2 };
+        object[] data4 = new object[1] { 3 };
+
+        p1_Ready_Lever = PhotonNetwork.InstantiateSceneObject("LobbyRoom/Ready_Lever", p1_ReadyLeverTransform.position, p1_ReadyLeverTransform.rotation, 0, data1);
+        p2_Ready_Lever = PhotonNetwork.InstantiateSceneObject("LobbyRoom/Ready_Lever", p2_ReadyLeverTransform.position, p2_ReadyLeverTransform.rotation, 0, data2);
+        p3_Ready_Lever = PhotonNetwork.InstantiateSceneObject("LobbyRoom/Ready_Lever", p3_ReadyLeverTransform.position, p3_ReadyLeverTransform.rotation, 0, data3);
+        p4_Ready_Lever = PhotonNetwork.InstantiateSceneObject("LobbyRoom/Ready_Lever", p4_ReadyLeverTransform.position, p4_ReadyLeverTransform.rotation, 0, data4);
     }
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
