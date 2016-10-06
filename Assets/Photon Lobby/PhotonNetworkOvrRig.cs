@@ -117,6 +117,20 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
         m_animParamIndexPose = Animator.StringToHash(Const.AnimParamNamePose);
     }
 
+    public void OnDisconnectedFromPhoton()
+    {
+        Debug.Log("OnDisconnectedFromPhoton");
+
+        PhotonNetwork.player.customProperties.Clear();
+    }
+
+    public void OnLeftRoom()
+    {
+        Debug.Log("OnLeftRoom (local)");
+
+        PhotonNetwork.player.customProperties.Clear();
+    }
+
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.isWriting)

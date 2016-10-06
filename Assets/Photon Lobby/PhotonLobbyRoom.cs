@@ -277,7 +277,6 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
     {
         //wait till you've finished adding the other player to join the room
         StartCoroutine(SpawnOvrRigPhoton());
-        
     }
 
     private System.Collections.IEnumerator SpawnOvrRigPhoton()
@@ -288,7 +287,8 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
         }
 
         //Find which position your player is in
-        if (PhotonNetwork.player.customProperties.ContainsKey(PhotonConstants.pPos))
+        if (PhotonNetwork.player.customProperties.ContainsKey(PhotonConstants.pPos) &&
+            (!PhotonNetwork.player.customProperties.ContainsKey(PhotonConstants.isOvrRigLoaded) || !(bool)PhotonNetwork.player.customProperties[PhotonConstants.isOvrRigLoaded]))
         {
             int playerPosition = (int)PhotonNetwork.player.customProperties[PhotonConstants.pPos];
             Debug.Log("name: " + PhotonNetwork.player.name + "; pPos: " + playerPosition);
@@ -306,6 +306,9 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
 
             // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
             Transform ovrRigPhoton = PhotonNetwork.Instantiate(this.playerPrefab.name, currentPlayerTransform.position, currentPlayerTransform.rotation, 0).transform;
+
+            Hashtable ht1 = new Hashtable() { { PhotonConstants.isOvrRigLoaded, true } };
+            PhotonNetwork.room.SetCustomProperties(ht1);
 
             // Set your name
             ovrRigPhoton.name = ovrRigPhoton.name + "-" + PhotonNetwork.playerName;

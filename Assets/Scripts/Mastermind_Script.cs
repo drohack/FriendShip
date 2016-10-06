@@ -1925,11 +1925,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
     public void ResetGame()
     {
         //PhotonNetwork.LeaveRoom();
-        foreach (PhotonPlayer player in PhotonNetwork.playerList)
-        {
-            PhotonNetwork.DestroyPlayerObjects(player);
-        }
-        PhotonNetwork.LoadLevel("Game");
+        if (PhotonNetwork.isMasterClient)
+            PhotonNetwork.LoadLevel("LobbyRoom");
     }
 
     public void AbortGame()
