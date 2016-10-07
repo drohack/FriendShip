@@ -299,7 +299,7 @@ public class PhotonLobby : MonoBehaviour
     public void OnJoinedRoom()
     {
         Debug.Log("OnJoinedRoom");
-        PhotonNetwork.LoadLevel(SceneNameRoom); //Start Game
+        
     }
 
     public void OnPhotonCreateRoomFailed()
@@ -328,6 +328,8 @@ public class PhotonLobby : MonoBehaviour
         showRoom = true;
 
         Debug.Log("pPosOccupied: " + playerPosOccupied[0] + ", " + playerPosOccupied[1] + ", " + playerPosOccupied[2] + ", " + playerPosOccupied[3]);
+
+        PhotonNetwork.LoadLevel(SceneNameRoom); //Start Game
     }
 
     public void OnDisconnectedFromPhoton()
