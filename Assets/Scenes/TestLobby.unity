@@ -851,8 +851,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30806f7b7b063284b9c645f96adaca5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PhotonLobby_VR: {fileID: 0}
-  gameName: {fileID: 0}
+  photonLobby_VR_Script: {fileID: 1657443036}
 --- !u!1 &750678825
 GameObject:
   m_ObjectHideFlags: 0

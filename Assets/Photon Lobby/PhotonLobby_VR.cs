@@ -130,34 +130,6 @@ public class PhotonLobby_VR : MonoBehaviour
             // Save name
             PlayerPrefs.SetString("playerName", PhotonNetwork.playerName);
 
-
-            // Create Room Button - Modify Later -
-            /*
-            if (GUILayout.Button("Create Room", GUILayout.Width(150)))
-            {
-                //Set yourself as the first position and update your pPos
-                playerPosOccupied = new bool[4] { true, false, false, false };
-                Hashtable ht2 = new Hashtable() { { PhotonConstants.pPos, 0 } };
-                PhotonNetwork.player.SetCustomProperties(ht2);
-                isOtherPlayerJoining = false;
-
-                //Create room 
-                RoomOptions roomOptions = new RoomOptions();
-                roomOptions.CustomRoomProperties = new Hashtable() { { PhotonConstants.pPosOccupied, playerPosOccupied }, { PhotonConstants.level, level } };
-                roomOptions.IsVisible = true;
-                roomOptions.MaxPlayers = 4;
-                PhotonNetwork.CreateRoom(this.roomName, roomOptions, TypedLobby.Default);
-            }
-            */
-
-            // Join Room Button - Modify Later -
-            /*
-            if (GUILayout.Button("Join Room", GUILayout.Width(150)))
-            {
-                PhotonNetwork.JoinRoom(this.roomName);
-            }
-            */
-
             if (!string.IsNullOrEmpty(ErrorDialog))
             {
                 GUILayout.Label(ErrorDialog);
@@ -273,15 +245,37 @@ public class PhotonLobby_VR : MonoBehaviour
         showLobby = true;
     }
 
+    public void CreateGame()
+    {
+        Debug.Log("trying to create a game");
+        /*
+        //Set yourself as the first position and update your pPos
+        playerPosOccupied = new bool[4] { true, false, false, false };
+        Hashtable ht2 = new Hashtable() { { PhotonConstants.pPos, 0 } };
+        PhotonNetwork.player.SetCustomProperties(ht2);
+        isOtherPlayerJoining = false;
+
+        //Create room 
+        
+        RoomOptions roomOptions = new RoomOptions();
+        roomOptions.CustomRoomProperties = new Hashtable() { { PhotonConstants.pPosOccupied, playerPosOccupied }, { PhotonConstants.level, level } };
+        roomOptions.IsVisible = true;
+        roomOptions.MaxPlayers = 4;
+        PhotonNetwork.CreateRoom(this.roomName, roomOptions, TypedLobby.Default);
+        */
+    }
+
     public void JoinRoom(string joinGameName)
     {
-        PhotonNetwork.JoinRoom(joinGameName);
+        //PhotonNetwork.JoinRoom(joinGameName);
+        PhotonNetwork.LoadLevel(SceneNameGame); //Start Game
     }
 
     // We have two options here: we either joined(by title, list or random) or created a room.
     public void OnJoinedRoom()
     {
         Debug.Log("OnJoinedRoom");
+        PhotonNetwork.LoadLevel(SceneNameGame); //Start Game
     }
 
     public void OnPhotonCreateRoomFailed()

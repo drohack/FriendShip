@@ -9,8 +9,7 @@ public class CreateGameButton : Photon.MonoBehaviour
     private bool isButtonDown = false;
     private bool isAnimating = false;
     private bool isLocked = false;
-    public GameObject PhotonLobby_VR;
-    public GameObject gameName;
+    [SerializeField] public PhotonLobby_VR photonLobby_VR_Script;
 
 
     //Network variables
@@ -34,8 +33,7 @@ public class CreateGameButton : Photon.MonoBehaviour
         {
             isLocked = false;
             isButtonDown = false;
-            PhotonLobby_VR jn = PhotonLobby_VR.GetComponent<PhotonLobby_VR>();
-            jn.JoinRoom(gameName.GetComponent<TextMesh>().text);
+            photonLobby_VR_Script.CreateGame();
             StartCoroutine(WaitForAnimation(anim, "Button_Up_Anim"));
         }
 
