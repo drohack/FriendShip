@@ -12,8 +12,6 @@ using OVRTouchSample;
 
 public class PhotonLobbyRoom : Photon.MonoBehaviour
 {
-    public static readonly string SceneNameGame = "Game";
-
     private bool isOtherPlayerJoining = false;
 
     public Transform playerPrefab;
@@ -73,7 +71,7 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
         // in case we started this demo with the wrong scene being active, simply load the menu scene
         if (!PhotonNetwork.connected)
         {
-            SceneManager.LoadScene(PhotonLobby.SceneNameMenu);
+            SceneManager.LoadScene(PhotonLobby_VR.SceneNameMenu);
             return;
         }
 
@@ -195,7 +193,7 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
         PhotonNetwork.player.customProperties.Clear();
 
         // back to main menu
-        SceneManager.LoadScene(PhotonLobby.SceneNameMenu);
+        SceneManager.LoadScene(PhotonLobby_VR.SceneNameMenu);
     }
 
     public void OnPhotonInstantiate(PhotonMessageInfo info)
@@ -283,7 +281,7 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
         Debug.Log("OnFailedToConnectToPhoton");
 
         // back to main menu
-        SceneManager.LoadScene(PhotonLobby.SceneNameMenu);
+        SceneManager.LoadScene(PhotonLobby_VR.SceneNameMenu);
     }
 
     void OnLevelWasLoaded(int level)
@@ -403,7 +401,7 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
                     && ((playerPosOccupied[2] && isP3Ready) || !playerPosOccupied[2])
                     && ((playerPosOccupied[3] && isP4Ready) || !playerPosOccupied[3]))
                 {
-                    PhotonNetwork.LoadLevel(SceneNameGame); //Start Game
+                    PhotonNetwork.LoadLevel(PhotonLobby_VR.SceneNameGame); //Start Game
                 }
             }
         }

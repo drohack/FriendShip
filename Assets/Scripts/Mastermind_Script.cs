@@ -1926,7 +1926,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
     {
         //PhotonNetwork.LeaveRoom();
         if (PhotonNetwork.isMasterClient)
-            PhotonNetwork.LoadLevel("LobbyRoom");
+            PhotonNetwork.LoadLevel(PhotonLobby_VR.SceneNameLobbyRoom);
     }
 
     public void AbortGame()

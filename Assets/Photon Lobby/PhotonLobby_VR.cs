@@ -270,14 +270,14 @@ public class PhotonLobby_VR : MonoBehaviour
 
     public void JoinRoom(string joinGameName)
     {
-        Debug.Log("Joining Room");
+        Debug.Log("Joining Room: " + joinGameName);
+        PhotonNetwork.JoinRoom(joinGameName);
     }
 
     // We have two options here: we either joined(by title, list or random) or created a room.
     public void OnJoinedRoom()
     {
         Debug.Log("OnJoinedRoom");
-        PhotonNetwork.LoadLevel(SceneNameGame); //Start Game
     }
 
     public void OnPhotonCreateRoomFailed()
