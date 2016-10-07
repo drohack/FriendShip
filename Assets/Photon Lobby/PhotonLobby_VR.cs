@@ -29,9 +29,11 @@ public class PhotonLobby_VR : MonoBehaviour
 
     private bool connectFailed = false;
 
-    public static readonly string SceneNameMenu = "Lobby";
+    public static readonly string SceneNameMenu = "TestLobby";
 
     public static readonly string SceneNameGame = "Game";
+
+    public static readonly string SceneNameLobbyRoom = "LobbyRoom";
 
     private string errorDialog;
     private double timeToClearDialog;
@@ -248,7 +250,7 @@ public class PhotonLobby_VR : MonoBehaviour
     public void CreateGame()
     {
         Debug.Log("trying to create a game");
-        /*
+       
         //Set yourself as the first position and update your pPos
         playerPosOccupied = new bool[4] { true, false, false, false };
         Hashtable ht2 = new Hashtable() { { PhotonConstants.pPos, 0 } };
@@ -262,13 +264,13 @@ public class PhotonLobby_VR : MonoBehaviour
         roomOptions.IsVisible = true;
         roomOptions.MaxPlayers = 4;
         PhotonNetwork.CreateRoom(this.roomName, roomOptions, TypedLobby.Default);
-        */
+        
+
     }
 
     public void JoinRoom(string joinGameName)
     {
-        //PhotonNetwork.JoinRoom(joinGameName);
-        PhotonNetwork.LoadLevel(SceneNameGame); //Start Game
+        Debug.Log("Joining Room");
     }
 
     // We have two options here: we either joined(by title, list or random) or created a room.
@@ -302,6 +304,7 @@ public class PhotonLobby_VR : MonoBehaviour
 
         showLobby = false;
         showRoom = true;
+        PhotonNetwork.LoadLevel(SceneNameLobbyRoom);
     }
 
     public void OnDisconnectedFromPhoton()

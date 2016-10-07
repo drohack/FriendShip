@@ -185,7 +185,7 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
         PhotonNetwork.player.customProperties.Clear();
 
         // back to main menu
-        SceneManager.LoadScene(PhotonLobby.SceneNameMenu);
+        SceneManager.LoadScene(PhotonLobby_VR.SceneNameMenu);
     }
 
     public void OnDisconnectedFromPhoton()
