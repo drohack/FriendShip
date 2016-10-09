@@ -88,6 +88,8 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
     {
         if (PhotonNetwork.isMasterClient)
         {
+            PhotonNetwork.room.visible = true;
+            PhotonNetwork.room.open = true;
             StartCoroutine(WaitForPlayersToSpawn());
         }
     }
@@ -401,6 +403,8 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
                     && ((playerPosOccupied[2] && isP3Ready) || !playerPosOccupied[2])
                     && ((playerPosOccupied[3] && isP4Ready) || !playerPosOccupied[3]))
                 {
+                    PhotonNetwork.room.visible = false;
+                    PhotonNetwork.room.open = false;
                     PhotonNetwork.LoadLevel(PhotonLobby_VR.SceneNameGame); //Start Game
                 }
             }

@@ -83,6 +83,7 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
             // Enable your own camera and scripts
             ovrCameraRig.gameObject.AddComponent<OVRManager>();
             ovrCameraRig.gameObject.AddComponent<OVRCameraRig>();
+            gameObject.AddComponent<RecenterController>();
             centerEyeAnchor.GetComponent<Camera>().enabled = true;
             centerEyeAnchor.GetComponent<AudioListener>().enabled = true;
             handScriptL.enabled = true;
