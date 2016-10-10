@@ -21,6 +21,8 @@ TagManager:
   - p4_Abort_Light
   - p4_Reset_Light
   - Ready_Lever
+  - Player_Text
+  - Console_Text
   layers:
   - Default
   - TransparentFX

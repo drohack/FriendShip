@@ -44,11 +44,10 @@ public class PhotonLobby_VR : MonoBehaviour
     private bool[] playerPosOccupied = new bool[4] { true, false, false, false };
     private bool isOtherPlayerJoining = false;
 
-    private int level = 1;
-
     void Start()
     {
         InvokeRepeating("RoomListUpdate", 1.0f, 1.0f);
+        PhotonNetwork.player.customProperties.Clear();
     }
 
     void RoomListUpdate()
@@ -260,7 +259,7 @@ public class PhotonLobby_VR : MonoBehaviour
         //Create room 
         
         RoomOptions roomOptions = new RoomOptions();
-        roomOptions.CustomRoomProperties = new Hashtable() { { PhotonConstants.pPosOccupied, playerPosOccupied }, { PhotonConstants.level, level } };
+        roomOptions.CustomRoomProperties = new Hashtable() { { PhotonConstants.pPosOccupied, playerPosOccupied } };
         roomOptions.IsVisible = true;
         roomOptions.MaxPlayers = 4;
         PhotonNetwork.CreateRoom(this.roomName, roomOptions, TypedLobby.Default);
@@ -271,6 +270,7 @@ public class PhotonLobby_VR : MonoBehaviour
     public void JoinRoom(string joinGameName)
     {
         Debug.Log("Joining Room: " + joinGameName);
+        PhotonNetwork.player.customProperties.Clear();
         PhotonNetwork.JoinRoom(joinGameName);
     }
 

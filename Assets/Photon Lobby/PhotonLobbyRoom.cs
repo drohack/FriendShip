@@ -30,13 +30,13 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
     Console_Text_Script p4_ConsoleText;
 
     [SerializeField]
-    Players_Text_Script p1_PlayersText;
+    Transform p1_PlayersText;
     [SerializeField]
-    Players_Text_Script p2_PlayersText;
+    Transform p2_PlayersText;
     [SerializeField]
-    Players_Text_Script p3_PlayersText;
+    Transform p3_PlayersText;
     [SerializeField]
-    Players_Text_Script p4_PlayersText;
+    Transform p4_PlayersText;
 
     [SerializeField]
     Transform p1_LeaveButtonTransform;
@@ -61,10 +61,17 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
     GameObject p3_Ready_Lever;
     GameObject p4_Ready_Lever;
 
+    Players_Text_Script p1_Player_Text_Script;
+    Players_Text_Script p2_Player_Text_Script;
+    Players_Text_Script p3_Player_Text_Script;
+    Players_Text_Script p4_Player_Text_Script;
+
     private bool isP1Ready = false;
     private bool isP2Ready = false;
     private bool isP3Ready = false;
     private bool isP4Ready = false;
+
+    private int level = 1;
 
     public void Awake()
     {
@@ -90,6 +97,8 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
         {
             PhotonNetwork.room.visible = true;
             PhotonNetwork.room.open = true;
+            Hashtable ht1 = new Hashtable() { { PhotonConstants.level, level } };
+            PhotonNetwork.room.SetCustomProperties(ht1);
             StartCoroutine(WaitForPlayersToSpawn());
         }
     }
@@ -110,16 +119,31 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
 
     private void Spawn()
     {
-        PhotonNetwork.InstantiateSceneObject("LobbyRoom/Leave_Button", p1_LeaveButtonTransform.position, p1_LeaveButtonTransform.rotation, 0, null);
-        PhotonNetwork.InstantiateSceneObject("LobbyRoom/Leave_Button", p2_LeaveButtonTransform.position, p2_LeaveButtonTransform.rotation, 0, null);
-        PhotonNetwork.InstantiateSceneObject("LobbyRoom/Leave_Button", p3_LeaveButtonTransform.position, p3_LeaveButtonTransform.rotation, 0, null);
-        PhotonNetwork.InstantiateSceneObject("LobbyRoom/Leave_Button", p4_LeaveButtonTransform.position, p4_LeaveButtonTransform.rotation, 0, null);
-
+        // Set data for player position (to use on MasterClient switch)
         object[] data1 = new object[1] { 0 };
         object[] data2 = new object[1] { 1 };
         object[] data3 = new object[1] { 2 };
         object[] data4 = new object[1] { 3 };
 
+        // Spawn Player_Text
+        GameObject p1_PT = PhotonNetwork.InstantiateSceneObject("LobbyRoom/Players_Text", p1_PlayersText.position, p1_PlayersText.rotation, 0, data1);
+        GameObject p2_PT = PhotonNetwork.InstantiateSceneObject("LobbyRoom/Players_Text", p2_PlayersText.position, p2_PlayersText.rotation, 0, data2);
+        GameObject p3_PT = PhotonNetwork.InstantiateSceneObject("LobbyRoom/Players_Text", p3_PlayersText.position, p3_PlayersText.rotation, 0, data3);
+        GameObject p4_PT = PhotonNetwork.InstantiateSceneObject("LobbyRoom/Players_Text", p4_PlayersText.position, p4_PlayersText.rotation, 0, data4);
+
+        // Get the script of the Player_Text
+        p1_Player_Text_Script = p1_PT.GetComponent<Players_Text_Script>();
+        p2_Player_Text_Script = p2_PT.GetComponent<Players_Text_Script>();
+        p3_Player_Text_Script = p3_PT.GetComponent<Players_Text_Script>();
+        p4_Player_Text_Script = p4_PT.GetComponent<Players_Text_Script>();
+
+        // Spawn Leave_Button
+        PhotonNetwork.InstantiateSceneObject("LobbyRoom/Leave_Button", p1_LeaveButtonTransform.position, p1_LeaveButtonTransform.rotation, 0, null);
+        PhotonNetwork.InstantiateSceneObject("LobbyRoom/Leave_Button", p2_LeaveButtonTransform.position, p2_LeaveButtonTransform.rotation, 0, null);
+        PhotonNetwork.InstantiateSceneObject("LobbyRoom/Leave_Button", p3_LeaveButtonTransform.position, p3_LeaveButtonTransform.rotation, 0, null);
+        PhotonNetwork.InstantiateSceneObject("LobbyRoom/Leave_Button", p4_LeaveButtonTransform.position, p4_LeaveButtonTransform.rotation, 0, null);
+
+        // Spawn Ready_Lever
         p1_Ready_Lever = PhotonNetwork.InstantiateSceneObject("LobbyRoom/Ready_Lever", p1_ReadyLeverTransform.position, p1_ReadyLeverTransform.rotation, 0, data1);
         p2_Ready_Lever = PhotonNetwork.InstantiateSceneObject("LobbyRoom/Ready_Lever", p2_ReadyLeverTransform.position, p2_ReadyLeverTransform.rotation, 0, data2);
         p3_Ready_Lever = PhotonNetwork.InstantiateSceneObject("LobbyRoom/Ready_Lever", p3_ReadyLeverTransform.position, p3_ReadyLeverTransform.rotation, 0, data3);
@@ -161,7 +185,7 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
         if (player.isLocal)
         {
             // Get all of the Ready_Levers
-            foreach(GameObject readyLever in GameObject.FindGameObjectsWithTag("Ready_Lever"))
+            foreach (GameObject readyLever in GameObject.FindGameObjectsWithTag("Ready_Lever"))
             {
                 Ready_Lever_Script readyLeverScript = readyLever.GetComponent<Ready_Lever_Script>();
                 if (readyLeverScript.playerPosition == 0)
@@ -174,6 +198,20 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
                     p4_Ready_Lever = readyLever;
             }
 
+            // Get all of the Player_Text scripts
+            foreach (GameObject playersText in GameObject.FindGameObjectsWithTag("Player_Text"))
+            {
+                Players_Text_Script playersTextScript = playersText.GetComponent<Players_Text_Script>();
+                if (playersTextScript.playerPosition == 0)
+                    p1_Player_Text_Script = playersTextScript;
+                else if (playersTextScript.playerPosition == 1)
+                    p2_Player_Text_Script = playersTextScript;
+                else if (playersTextScript.playerPosition == 2)
+                    p3_Player_Text_Script = playersTextScript;
+                else if (playersTextScript.playerPosition == 3)
+                    p4_Player_Text_Script = playersTextScript;
+            }
+
             UpdatePlayerText();
         }
     }
@@ -181,7 +219,7 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
     public void OnLeftRoom()
     {
         Debug.Log("OnLeftRoom (local)");
-
+        
         PhotonNetwork.player.customProperties.Clear();
 
         // back to main menu
@@ -290,19 +328,18 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
     {
         //wait till you've finished adding the other player to join the room
         StartCoroutine(SpawnOvrRigPhoton());
-
-        if (PhotonNetwork.isMasterClient)
-        {
-            string roomName = " " + PhotonNetwork.room.name;
-            p1_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
-            p2_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
-            p3_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
-            p4_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
-        }
+        
+        //Update room name on player join
+        string roomName = " " + PhotonNetwork.room.name;
+        p1_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
+        p2_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
+        p3_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
+        p4_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
     }
 
     private System.Collections.IEnumerator SpawnOvrRigPhoton()
     {
+        //Wait for the MasterClient to assign you a pPos before spawning your OvrRigPhoton
         while (!PhotonNetwork.player.customProperties.ContainsKey(PhotonConstants.pPos))
         {
             yield return null;
@@ -383,10 +420,10 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
             if (isP4Ready)
                 text += " ✓";
 
-            p1_PlayersText.photonView.RPC("RpcUpdateText", PhotonTargets.All, text);
-            p2_PlayersText.photonView.RPC("RpcUpdateText", PhotonTargets.All, text);
-            p3_PlayersText.photonView.RPC("RpcUpdateText", PhotonTargets.All, text);
-            p4_PlayersText.photonView.RPC("RpcUpdateText", PhotonTargets.All, text);
+            p1_Player_Text_Script.photonView.RPC("RpcUpdateText", PhotonTargets.All, text);
+            p2_Player_Text_Script.photonView.RPC("RpcUpdateText", PhotonTargets.All, text);
+            p3_Player_Text_Script.photonView.RPC("RpcUpdateText", PhotonTargets.All, text);
+            p4_Player_Text_Script.photonView.RPC("RpcUpdateText", PhotonTargets.All, text);
         }
     }
 
@@ -403,6 +440,14 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
                     && ((playerPosOccupied[2] && isP3Ready) || !playerPosOccupied[2])
                     && ((playerPosOccupied[3] && isP4Ready) || !playerPosOccupied[3]))
                 {
+                    GameObject[] objects = GameObject.FindObjectsOfType<GameObject>();
+                    foreach (GameObject o in objects)
+                    {
+                        if (o.GetComponent<PhotonView>() != null && !o.tag.Equals("Player") && !o.tag.Equals("MainCamera") && !o.tag.Equals("Console_Text"))
+                        {
+                            PhotonNetwork.Destroy(o);
+                        }
+                    }
                     PhotonNetwork.room.visible = false;
                     PhotonNetwork.room.open = false;
                     PhotonNetwork.LoadLevel(PhotonLobby_VR.SceneNameGame); //Start Game

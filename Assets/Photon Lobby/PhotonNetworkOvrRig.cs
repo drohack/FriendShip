@@ -86,16 +86,16 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
             gameObject.AddComponent<RecenterController>();
             centerEyeAnchor.GetComponent<Camera>().enabled = true;
             centerEyeAnchor.GetComponent<AudioListener>().enabled = true;
+            trackedControllerL.enabled = true;
             handScriptL.enabled = true;
             velocityTrackerL.enabled = true;
-            trackedControllerL.enabled = true;
             grabbedHandScriptL.enabled = true;
             velocity_TrackerL.enabled = true;
             l_hand_world.SetActive(true);
             GrabVolumeBigL.SetActive(true);
+            trackedControllerR.enabled = true;
             handScriptR.enabled = true;
             velocityTrackerR.enabled = true;
-            trackedControllerR.enabled = true;
             grabbedHandScriptR.enabled = true;
             velocity_TrackerR.enabled = true;
             r_hand_world.SetActive(true);

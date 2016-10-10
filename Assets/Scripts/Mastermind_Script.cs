@@ -1926,7 +1926,17 @@ public class Mastermind_Script : Photon.MonoBehaviour
     {
         //PhotonNetwork.LeaveRoom();
         if (PhotonNetwork.isMasterClient)
+        {
+            GameObject[] objects = GameObject.FindObjectsOfType<GameObject>();
+            foreach (GameObject o in objects)
+            {
+                if (o.GetComponent<PhotonView>() != null && !o.tag.Equals("Player") && !o.tag.Equals("MainCamera") && !o.tag.Equals("Console_Text"))
+                {
+                    PhotonNetwork.Destroy(o);
+                }
+            }
             PhotonNetwork.LoadLevel(PhotonLobby_VR.SceneNameLobbyRoom);
+        }
     }
 
     public void AbortGame()
