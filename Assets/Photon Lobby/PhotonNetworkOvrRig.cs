@@ -78,11 +78,15 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
 
     void Awake()
     {
+        // Don't destroy the object when another client loads in
+        DontDestroyOnLoad(this.gameObject);
+    }
+
+    void Start()
+    {
         if (photonView.isMine)
         {
             // Enable your own camera and scripts
-            ovrCameraRig.gameObject.AddComponent<OVRManager>();
-            ovrCameraRig.gameObject.AddComponent<OVRCameraRig>();
             gameObject.AddComponent<RecenterController>();
             centerEyeAnchor.GetComponent<Camera>().enabled = true;
             centerEyeAnchor.GetComponent<AudioListener>().enabled = true;
@@ -102,14 +106,10 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
             GrabVolumeBigR.SetActive(true);
             playerArea.SetActive(true);
             photonVoiceRecorder.enabled = true;
+            ovrCameraRig.gameObject.AddComponent<OVRCameraRig>();
+            ovrCameraRig.gameObject.AddComponent<OVRManager>();
         }
 
-        // Don't destroy the object when another client loads in
-        DontDestroyOnLoad(this.gameObject);
-    }
-
-    void Start()
-    {
         m_animLayerIndexPointL = animatorL.GetLayerIndex(Const.AnimLayerNamePoint);
         m_animLayerIndexThumbL = animatorL.GetLayerIndex(Const.AnimLayerNameThumb);
         m_animLayerIndexPointR = animatorR.GetLayerIndex(Const.AnimLayerNamePoint);
