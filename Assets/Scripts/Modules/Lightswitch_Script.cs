@@ -36,9 +36,8 @@ public class Lightswitch_Script : Photon.MonoBehaviour
         isAnimating = false;
         isLocked = false;
         anim = transform.Find("Handle").GetComponent<Animator>();
-
-        if (PhotonNetwork.isMasterClient)
-            mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
+        
+        mastermindScript = GameObject.FindGameObjectWithTag("Mastermind").GetComponent<Mastermind_Script>();
     }
 
     private void Update()

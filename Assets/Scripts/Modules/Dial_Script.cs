@@ -48,9 +48,8 @@ public class Dial_Script : Photon.MonoBehaviour
         handleTransform.GetComponent<HingeJoint>().limits = hLimits;
 
         handleTransform.localEulerAngles = new Vector3(0, 0, 0);
-
-        if (PhotonNetwork.isMasterClient)
-            mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
+        
+        mastermindScript = GameObject.FindGameObjectWithTag("Mastermind").GetComponent<Mastermind_Script>();
     }
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

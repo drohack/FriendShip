@@ -34,9 +34,8 @@ public class Plutonium_Case_Script : Photon.MonoBehaviour
 
         lockedPlutoniumRodOriginalScale = lockedPlutoniumRod.transform.localScale;
         isRodLoaded = false;
-
-        if (PhotonNetwork.isMasterClient)
-            mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
+        
+        mastermindScript = GameObject.FindGameObjectWithTag("Mastermind").GetComponent<Mastermind_Script>();
     }
 
     public void LoadRod()

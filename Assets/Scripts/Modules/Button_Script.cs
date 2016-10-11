@@ -34,8 +34,7 @@ public class Button_Script : Photon.MonoBehaviour
         isAnimating = false;
         isLocked = false;
 
-        if(PhotonNetwork.isMasterClient)
-            mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
+        mastermindScript = GameObject.FindGameObjectWithTag("Mastermind").GetComponent<Mastermind_Script>();
     }
 
     // Update is called once per frame

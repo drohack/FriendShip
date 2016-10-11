@@ -42,9 +42,8 @@ public class Pullcord_Script : Photon.MonoBehaviour
         {
             CreateHandleJoint();
         }
-
-        if (PhotonNetwork.isMasterClient)
-            mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
+        
+        mastermindScript = GameObject.FindGameObjectWithTag("Mastermind").GetComponent<Mastermind_Script>();
     }
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

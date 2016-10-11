@@ -55,9 +55,8 @@ public class Valve_Script : Photon.MonoBehaviour
         springJoint.targetPosition = handleTransform.localEulerAngles.z;
         handleTransform.GetComponent<HingeJoint>().spring = springJoint;
         handleTransform.GetComponent<Rigidbody>().isKinematic = false;
-
-        if (PhotonNetwork.isMasterClient)
-            mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
+        
+        mastermindScript = GameObject.FindGameObjectWithTag("Mastermind").GetComponent<Mastermind_Script>();
     }
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

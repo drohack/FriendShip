@@ -22,10 +22,9 @@ GameObject:
   - 114: {fileID: 114000011585520878}
   - 114: {fileID: 114000013559013708}
   - 114: {fileID: 114000010803544866}
-  - 114: {fileID: 114000011050935130}
   m_Layer: 0
   m_Name: Mastermind
-  m_TagString: Untagged
+  m_TagString: Mastermind
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -68,7 +67,7 @@ MonoBehaviour:
   viewIdField: 0
   instantiationId: -1
   isRuntimeInstantiated: 0
---- !u!114 &114000011050935130
+--- !u!114 &114000011585520878
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -76,29 +75,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000011825609172}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80da3503d2218cc41a195c3da07b4216, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mastermindScript: {fileID: 114000011585520878}
---- !u!114 &114000011585520878
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011825609172}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e0f73b59998ee2e4b9f94b2cebe71581, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   p1_rCommand: -1
   p1_isDisplayingCommand: 0
+  p1_Resetting: 0
+  p1_Aborting: 0
   p2_rCommand: -1
   p2_isDisplayingCommand: 0
+  p2_Resetting: 0
+  p2_Aborting: 0
   p3_rCommand: -1
   p3_isDisplayingCommand: 0
+  p3_Resetting: 0
+  p3_Aborting: 0
   p4_rCommand: -1
   p4_isDisplayingCommand: 0
+  p4_Resetting: 0
+  p4_Aborting: 0
 --- !u!114 &114000013559013708
 MonoBehaviour:
   m_ObjectHideFlags: 1

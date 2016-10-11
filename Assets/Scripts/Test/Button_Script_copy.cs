@@ -36,7 +36,7 @@ public class Button_Script_copy : MonoBehaviour {
         isButtonDown = false;
         isAnimating = false;
         isLocked = false;
-        //mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
+        //mastermindScript = GameObject.FindGameObjectWithTag("Mastermind").GetComponent<Mastermind_Script>();
     }
 
     // Update is called once per frame

@@ -48,9 +48,8 @@ public class Slider_Script_copy : MonoBehaviour {
         handleTransform.localPosition = new Vector3(0, 0, -1.6f);
         sliderPosition = 0;
         isLocked = true;
-
-        //if (isServer)
-        //    mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
+        
+        //    mastermindScript = GameObject.FindGameObjectWithTag("Mastermind").GetComponent<Mastermind_Script>();
     }
 
     private void Update()

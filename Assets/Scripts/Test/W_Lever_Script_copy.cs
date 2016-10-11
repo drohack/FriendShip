@@ -44,9 +44,8 @@ public class W_Lever_Script_copy : MonoBehaviour
         hLimits.min = -35;
         handleTransform.GetComponent<HingeJoint>().limits = hLimits;
         handleTransform.GetComponent<HingeJoint>().connectedBody = transform.Find("Case").GetComponent<Rigidbody>();
-
-        //if (isServer)
-        //    mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
+        
+        //    mastermindScript = GameObject.FindGameObjectWithTag("Mastermind").GetComponent<Mastermind_Script>();
     }
 
     private void Update()

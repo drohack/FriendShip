@@ -54,9 +54,8 @@ public class Slider_Script : Photon.MonoBehaviour
         sliderPosition = 0;
         isLocked = true;
         sendLastStream = true;
-
-        if (PhotonNetwork.isMasterClient)
-            mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
+        
+        mastermindScript = GameObject.FindGameObjectWithTag("Mastermind").GetComponent<Mastermind_Script>();
     }
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

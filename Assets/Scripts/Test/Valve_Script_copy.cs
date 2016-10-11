@@ -32,9 +32,8 @@ public class Valve_Script_copy : MonoBehaviour {
         springJoint.targetPosition = handleTransform.localEulerAngles.z;
         handleTransform.GetComponent<HingeJoint>().spring = springJoint;
         handleTransform.GetComponent<Rigidbody>().isKinematic = false;
-
-        //if (isServer)
-        //    mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
+        
+        //    mastermindScript = GameObject.FindGameObjectWithTag("Mastermind").GetComponent<Mastermind_Script>();
     }
 	
 	// Update is called once per frame

@@ -47,9 +47,8 @@ public class L_Lever_Script : Photon.MonoBehaviour
         handleTransform.GetComponent<HingeJoint>().useLimits = true;
         handleTransform.GetComponent<HingeJoint>().axis = new Vector3(0, 1, 0);
         handleTransform.GetComponent<HingeJoint>().connectedBody = transform.Find("Case").GetComponent<Rigidbody>();
-
-        if (PhotonNetwork.isMasterClient)
-            mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
+        
+        mastermindScript = GameObject.FindGameObjectWithTag("Mastermind").GetComponent<Mastermind_Script>();
     }
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

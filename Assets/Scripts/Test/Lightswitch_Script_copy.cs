@@ -39,9 +39,8 @@ public class Lightswitch_Script_copy : MonoBehaviour {
         isAnimating = false;
         isLocked = false;
         anim = transform.Find("Handle").GetComponent<Animator>();
-
-        //if(isServer)
-        //    mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
+        
+        //    mastermindScript = GameObject.FindGameObjectWithTag("Mastermind").GetComponent<Mastermind_Script>();
     }
 	
 	// Update is called once per frame

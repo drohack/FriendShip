@@ -152,21 +152,24 @@ public class Mastermind_Script : Photon.MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        isLoadingNextLevel = true;
+
+        isGameOver = false;
+
+        //Load Network data
+        level = (int)PhotonNetwork.room.customProperties[PhotonConstants.level];
+
+        //Get number of players by the NetwokManager.numPlayers
+        numPlayers = PhotonNetwork.playerList.Length;
+        Debug.Log("numPlayers: " + numPlayers);
+        playerPosOccupied = (bool[])PhotonNetwork.room.customProperties[PhotonConstants.pPosOccupied];
+        Debug.Log("pPosOccupied: " + playerPosOccupied[0] + ", " + playerPosOccupied[1] + ", " + playerPosOccupied[2] + ", " + playerPosOccupied[3]);
+
+        //Initialize all variables at start of game
+        Initialize();
+
         if (PhotonNetwork.isMasterClient)
         {
-            isLoadingNextLevel = true;
-
-            isGameOver = false;
-
-            //Load Network data
-            level = (int)PhotonNetwork.room.customProperties[PhotonConstants.level];
-
-            //Get number of players by the NetwokManager.numPlayers
-            numPlayers = PhotonNetwork.playerList.Length;
-            Debug.Log("numPlayers: " + numPlayers);
-            playerPosOccupied = (bool[])PhotonNetwork.room.customProperties[PhotonConstants.pPosOccupied];
-            Debug.Log("pPosOccupied: " + playerPosOccupied[0] + ", " + playerPosOccupied[1] + ", " + playerPosOccupied[2] + ", " + playerPosOccupied[3]);
-
             //Wait for all the players to load into the scene before starting the game
             StartCoroutine(WaitForPlayersToSpawn());
         }
@@ -181,9 +184,6 @@ public class Mastermind_Script : Photon.MonoBehaviour
             Debug.Log("numPlayers: " + numPlayers + " playerModules.Length: " + playerModules.Length);
             yield return new WaitForSeconds(0.1f);
         }
-
-        //Initialize all variables at start of game
-        Initialize();
 
         //Set up level variables for Custom Room Property "Level" (score to win this round, number of seconds for each command, number of modules to spawn per player)
         SetupLevel();
@@ -234,17 +234,6 @@ public class Mastermind_Script : Photon.MonoBehaviour
         sliderCommandArray_HARD = new ArrayList(commandArray.sliderCommandArray_HARD);
         valveCommandArray_HARD = new ArrayList(commandArray.valveCommandArray_HARD);
         wLeverCommandArray_HARD = new ArrayList(commandArray.wLeverCommandArray_HARD);
-
-        //Find all Player Objects
-        players = PhotonNetwork.playerList;
-
-        foreach (PhotonPlayer player in players)
-        {
-            if (player != null)
-                Debug.Log("name: " + player.name);
-            else
-                break;
-        }
 
         // Set player objects
         if (playerPosOccupied[0] == true)

@@ -16,12 +16,14 @@ public class PhotonGame : Photon.MonoBehaviour
     public Transform player3Spawn;
     public Transform player4Spawn;
 
+    GameObject mastermind = null;
+
     public void Awake()
     {
         // in case we started this demo with the wrong scene being active, simply load the menu scene
         if (!PhotonNetwork.connected)
         {
-            SceneManager.LoadScene(PhotonLobby.SceneNameMenu);
+            SceneManager.LoadScene(PhotonLobby_VR.SceneNameMenu);
             return;
         }
 
@@ -41,23 +43,10 @@ public class PhotonGame : Photon.MonoBehaviour
     {
         Debug.Log("OnMasterClientSwitched: " + player);
 
-        string message;
-        InRoomChat chatComponent = GetComponent<InRoomChat>();  // if we find a InRoomChat component, we print out a short message
-
-        if (chatComponent != null)
+        // to check if this client is the new master...
+        if (player.isLocal)
         {
-            // to check if this client is the new master...
-            if (player.isLocal)
-            {
-                message = "You are Master Client now.";
-            }
-            else
-            {
-                message = player.name + " is Master Client now.";
-            }
-
-
-            chatComponent.AddLine(message); // the Chat method is a RPC. as we don't want to send an RPC and neither create a PhotonMessageInfo, lets call AddLine()
+            //You are now the MasterClient
         }
     }
 
@@ -66,7 +55,7 @@ public class PhotonGame : Photon.MonoBehaviour
         Debug.Log("OnLeftRoom (local)");
 
         // back to main menu
-        SceneManager.LoadScene(PhotonLobby.SceneNameMenu);
+        SceneManager.LoadScene(PhotonLobby_VR.SceneNameMenu);
     }
 
     public void OnDisconnectedFromPhoton()
@@ -74,7 +63,7 @@ public class PhotonGame : Photon.MonoBehaviour
         Debug.Log("OnDisconnectedFromPhoton");
 
         // back to main menu
-        SceneManager.LoadScene(PhotonLobby.SceneNameMenu);
+        SceneManager.LoadScene(PhotonLobby_VR.SceneNameMenu);
     }
 
     public void OnPhotonInstantiate(PhotonMessageInfo info)
@@ -87,9 +76,36 @@ public class PhotonGame : Photon.MonoBehaviour
         Debug.Log("OnPhotonPlayerConnected: " + player);
     }
 
-    public void OnPhotonPlayerDisconnected(PhotonPlayer player)
+    public void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
     {
-        Debug.Log("OnPlayerDisconneced: " + player);
+        Debug.Log("OnPlayerDisconneced: " + otherPlayer);
+
+        if (PhotonNetwork.isMasterClient)
+        {
+            //End the game
+            if (mastermind != null)
+            {
+                //You were the original MasterClient you can just end the game
+                mastermind.GetComponent<Mastermind_Script>().GameOver();
+            }
+            else
+            {
+                //You are the new MasterClient, find the Mastermine script and end the game
+                mastermind = GameObject.FindGameObjectWithTag("Mastermind");
+                mastermind.GetComponent<Mastermind_Script>().GameOver();
+            }
+
+            //Open up player position
+            if (otherPlayer.customProperties.ContainsKey(PhotonConstants.pPos) && PhotonNetwork.room.customProperties.ContainsKey(PhotonConstants.pPosOccupied))
+            {
+                int otherPlayerPos = (int)otherPlayer.customProperties[PhotonConstants.pPos];
+                bool[] playerPosOccupied = (bool[])PhotonNetwork.room.customProperties[PhotonConstants.pPosOccupied];
+                playerPosOccupied[otherPlayerPos] = false;
+                ExitGames.Client.Photon.Hashtable ht = new ExitGames.Client.Photon.Hashtable() { { PhotonConstants.pPosOccupied, playerPosOccupied } };
+                PhotonNetwork.room.SetCustomProperties(ht);
+                otherPlayer.customProperties.Clear();
+            }
+        }
     }
 
     public void OnFailedToConnectToPhoton()
@@ -97,15 +113,14 @@ public class PhotonGame : Photon.MonoBehaviour
         Debug.Log("OnFailedToConnectToPhoton");
 
         // back to main menu
-        SceneManager.LoadScene(PhotonLobby.SceneNameMenu);
+        SceneManager.LoadScene(PhotonLobby_VR.SceneNameMenu);
     }
 
     void OnLevelWasLoaded(int level)
     {
         if (PhotonNetwork.isMasterClient)
         {
-            GameObject mastermind = PhotonNetwork.InstantiateSceneObject("Mastermind", Vector3.zero, Quaternion.identity, 0, null);
-            mastermind.name = "Mastermind";
+            mastermind = PhotonNetwork.InstantiateSceneObject("Mastermind", Vector3.zero, Quaternion.identity, 0, null);
         }
     }
 }

@@ -48,9 +48,8 @@ public class Shifter_Script : Photon.MonoBehaviour
         hLimits.min = -45;
         hLimits.max = 45;
         handleTransform.GetComponent<HingeJoint>().limits = hLimits;
-
-        if (PhotonNetwork.isMasterClient)
-            mastermindScript = GameObject.Find("Mastermind").GetComponent<Mastermind_Script>();
+        
+        mastermindScript = GameObject.FindGameObjectWithTag("Mastermind").GetComponent<Mastermind_Script>();
     }
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

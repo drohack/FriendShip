@@ -23,6 +23,7 @@ TagManager:
   - Ready_Lever
   - Player_Text
   - Console_Text
+  - Mastermind
   layers:
   - Default
   - TransparentFX
