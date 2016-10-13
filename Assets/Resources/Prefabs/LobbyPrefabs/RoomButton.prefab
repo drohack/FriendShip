@@ -508,10 +508,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0d9343c33a7fdb4cb70c8d458d25525, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isButtonDown: 0
-  labelName: {fileID: 0}
-  PhotonLobby_VR: {fileID: 0}
-  gameName: {fileID: 8704}
+  photonLobby_VR_Script: {fileID: 0}
+  gameName: {fileID: 0}
 --- !u!114 &114000012123427894
 MonoBehaviour:
   m_ObjectHideFlags: 1
