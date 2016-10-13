@@ -1936,6 +1936,10 @@ public class Mastermind_Script : Photon.MonoBehaviour
             {
                 if (o.GetComponent<PhotonView>() != null && !o.tag.Equals("Player") && !o.tag.Equals("MainCamera") && !o.tag.Equals("Console_Text"))
                 {
+                    if (!o.GetPhotonView().isMine)
+                    {
+                        o.GetPhotonView().RPC("Destroy", PhotonTargets.Others, null);
+                    }
                     PhotonNetwork.Destroy(o);
                 }
             }

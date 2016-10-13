@@ -385,8 +385,6 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
     {
         if(PhotonNetwork.isMasterClient)
         {
-            CheckIfAllPlayersReady();
-
             string text = "";
             string p1_name = "";
             string p2_name = "";
@@ -427,6 +425,8 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
             p2_Player_Text_Script.photonView.RPC("RpcUpdateText", PhotonTargets.All, text);
             p3_Player_Text_Script.photonView.RPC("RpcUpdateText", PhotonTargets.All, text);
             p4_Player_Text_Script.photonView.RPC("RpcUpdateText", PhotonTargets.All, text);
+
+            CheckIfAllPlayersReady();
         }
     }
 
@@ -443,11 +443,16 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
                     && ((playerPosOccupied[2] && isP3Ready) || !playerPosOccupied[2])
                     && ((playerPosOccupied[3] && isP4Ready) || !playerPosOccupied[3]))
                 {
+                    //Destroy all GameObjects that have a PhotonView so they are no longer buffered.
                     GameObject[] objects = GameObject.FindObjectsOfType<GameObject>();
                     foreach (GameObject o in objects)
                     {
                         if (o.GetComponent<PhotonView>() != null && !o.tag.Equals("Player") && !o.tag.Equals("MainCamera") && !o.tag.Equals("Console_Text"))
                         {
+                            if(!o.GetPhotonView().isMine)
+                            {
+                                o.GetPhotonView().RPC("Destroy", PhotonTargets.Others, null);
+                            }
                             PhotonNetwork.Destroy(o);
                         }
                     }
