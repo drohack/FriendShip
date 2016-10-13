@@ -177,16 +177,31 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
     IEnumerator WaitForPlayersToSpawn()
     {
-        playerModules = GameObject.FindGameObjectsWithTag("Player");
-        while (playerModules.Length < numPlayers)
+        //Wait for all players to load into the scene
+        bool areAllPlayersReady = false;
+        do
         {
-            playerModules = GameObject.FindGameObjectsWithTag("Player");
-            Debug.Log("numPlayers: " + numPlayers + " playerModules.Length: " + playerModules.Length);
+            bool[] playerPosOccupied = (bool[])PhotonNetwork.room.customProperties[PhotonConstants.pPosOccupied];
+            bool[] playerLoadedList = new bool[playerPosOccupied.Length];
+            foreach (PhotonPlayer p in PhotonNetwork.playerList)
+            {
+                if(p.customProperties.ContainsKey(PhotonConstants.isLoadedIntoGame) && p.customProperties.ContainsKey(PhotonConstants.pPos))
+                {
+                    playerLoadedList[(int)p.customProperties[PhotonConstants.pPos]] = (bool)p.customProperties[PhotonConstants.isLoadedIntoGame];
+                }
+            }
+            if (playerPosOccupied.SequenceEqual(playerLoadedList))
+            {
+                areAllPlayersReady = true;
+            }
+            Debug.Log("areAllPlayersReady: " + areAllPlayersReady);
+            Debug.Log("pPosOccupied: " + playerPosOccupied[0] + ", " + playerPosOccupied[1] + ", " + playerPosOccupied[2] + ", " + playerPosOccupied[3]);
+            Debug.Log("playerLoadedList: " + playerLoadedList[0] + ", " + playerLoadedList[1] + ", " + playerLoadedList[2] + ", " + playerLoadedList[3]);
             yield return new WaitForSeconds(0.1f);
-        }
+        } while (!areAllPlayersReady);
 
-        //Set up level variables for Custom Room Property "Level" (score to win this round, number of seconds for each command, number of modules to spawn per player)
-        SetupLevel();
+            //Set up level variables for Custom Room Property "Level" (score to win this round, number of seconds for each command, number of modules to spawn per player)
+            SetupLevel();
 
         isLoadingNextLevel = false;
 

@@ -6,6 +6,7 @@
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using ExitGames.Client.Photon;
 using OVRTouchSample;
 
 public class PhotonGame : Photon.MonoBehaviour
@@ -122,5 +123,9 @@ public class PhotonGame : Photon.MonoBehaviour
         {
             mastermind = PhotonNetwork.InstantiateSceneObject("Mastermind", Vector3.zero, Quaternion.identity, 0, null);
         }
+
+        //Update new player's isLoadedIntoGame
+        Hashtable ht2 = new Hashtable() { { PhotonConstants.isLoadedIntoGame, true } };
+        PhotonNetwork.player.SetCustomProperties(ht2);
     }
 }

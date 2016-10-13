@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class Spawn_Toys_Script : Photon.MonoBehaviour
 {
@@ -16,14 +17,28 @@ public class Spawn_Toys_Script : Photon.MonoBehaviour
 
     IEnumerator WaitForPlayersToSpawn()
     {
-        //Get number of players by the NetwokManager.numPlayers
-        numPlayers = PhotonNetwork.playerList.Length;
-        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
-        while (playerObjects.Length < numPlayers)
+        //Wait for all players to load into the scene
+        bool areAllPlayersReady = false;
+        do
         {
-            playerObjects = GameObject.FindGameObjectsWithTag("Player");
+            bool[] playerPosOccupied = (bool[])PhotonNetwork.room.customProperties[PhotonConstants.pPosOccupied];
+            bool[] playerLoadedList = new bool[playerPosOccupied.Length];
+            foreach (PhotonPlayer p in PhotonNetwork.playerList)
+            {
+                if (p.customProperties.ContainsKey(PhotonConstants.isLoadedIntoGame) && p.customProperties.ContainsKey(PhotonConstants.pPos))
+                {
+                    playerLoadedList[(int)p.customProperties[PhotonConstants.pPos]] = (bool)p.customProperties[PhotonConstants.isLoadedIntoGame];
+                }
+            }
+            if (playerPosOccupied.SequenceEqual(playerLoadedList))
+            {
+                areAllPlayersReady = true;
+            }
+            Debug.Log("areAllPlayersReady: " + areAllPlayersReady);
+            Debug.Log("pPosOccupied: " + playerPosOccupied[0] + ", " + playerPosOccupied[1] + ", " + playerPosOccupied[2] + ", " + playerPosOccupied[3]);
+            Debug.Log("playerLoadedList: " + playerLoadedList[0] + ", " + playerLoadedList[1] + ", " + playerLoadedList[2] + ", " + playerLoadedList[3]);
             yield return new WaitForSeconds(0.1f);
-        }
+        } while (!areAllPlayersReady);
 
         Spawn();
     }

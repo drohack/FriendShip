@@ -279,6 +279,9 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
         //Update new player's pPos
         Hashtable ht2 = new Hashtable() { { PhotonConstants.pPos, newPlayerPos } };
         newPlayer.SetCustomProperties(ht2);
+        //Update new player's isLoadedIntoGame
+        Hashtable ht3 = new Hashtable() { { PhotonConstants.isLoadedIntoGame, false } };
+        PhotonNetwork.player.SetCustomProperties(ht3);
         isOtherPlayerJoining = false;
 
         UpdatePlayerText();
