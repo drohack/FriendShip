@@ -451,7 +451,7 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
                         {
                             if(!o.GetPhotonView().isMine)
                             {
-                                o.GetPhotonView().RPC("Destroy", PhotonTargets.Others, null);
+                                o.GetPhotonView().RPC("RPCDestroy", PhotonTargets.Others, null);
                             }
                             PhotonNetwork.Destroy(o);
                         }
