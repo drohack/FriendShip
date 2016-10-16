@@ -18,27 +18,30 @@ public class Spawn_Toys_Script : Photon.MonoBehaviour
     IEnumerator WaitForPlayersToSpawn()
     {
         //Wait for all players to load into the scene
-        bool areAllPlayersReady = false;
-        do
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.Contains(PhotonLobby.SceneNameGame))
         {
-            bool[] playerPosOccupied = (bool[])PhotonNetwork.room.customProperties[PhotonConstants.pPosOccupied];
-            bool[] playerLoadedList = new bool[playerPosOccupied.Length];
-            foreach (PhotonPlayer p in PhotonNetwork.playerList)
+            bool areAllPlayersReady = false;
+            do
             {
-                if (p.customProperties.ContainsKey(PhotonConstants.isLoadedIntoGame) && p.customProperties.ContainsKey(PhotonConstants.pPos))
+                bool[] playerPosOccupied = (bool[])PhotonNetwork.room.customProperties[PhotonConstants.pPosOccupied];
+                bool[] playerLoadedList = new bool[playerPosOccupied.Length];
+                foreach (PhotonPlayer p in PhotonNetwork.playerList)
                 {
-                    playerLoadedList[(int)p.customProperties[PhotonConstants.pPos]] = (bool)p.customProperties[PhotonConstants.isLoadedIntoGame];
+                    if (p.customProperties.ContainsKey(PhotonConstants.isLoadedIntoGame) && p.customProperties.ContainsKey(PhotonConstants.pPos))
+                    {
+                        playerLoadedList[(int)p.customProperties[PhotonConstants.pPos]] = (bool)p.customProperties[PhotonConstants.isLoadedIntoGame];
+                    }
                 }
-            }
-            if (playerPosOccupied.SequenceEqual(playerLoadedList))
-            {
-                areAllPlayersReady = true;
-            }
-            Debug.Log("areAllPlayersReady: " + areAllPlayersReady);
-            Debug.Log("pPosOccupied: " + playerPosOccupied[0] + ", " + playerPosOccupied[1] + ", " + playerPosOccupied[2] + ", " + playerPosOccupied[3]);
-            Debug.Log("playerLoadedList: " + playerLoadedList[0] + ", " + playerLoadedList[1] + ", " + playerLoadedList[2] + ", " + playerLoadedList[3]);
-            yield return new WaitForSeconds(0.1f);
-        } while (!areAllPlayersReady);
+                if (playerPosOccupied.SequenceEqual(playerLoadedList))
+                {
+                    areAllPlayersReady = true;
+                }
+                Debug.Log("areAllPlayersReady: " + areAllPlayersReady);
+                Debug.Log("pPosOccupied: " + playerPosOccupied[0] + ", " + playerPosOccupied[1] + ", " + playerPosOccupied[2] + ", " + playerPosOccupied[3]);
+                Debug.Log("playerLoadedList: " + playerLoadedList[0] + ", " + playerLoadedList[1] + ", " + playerLoadedList[2] + ", " + playerLoadedList[3]);
+                yield return new WaitForSeconds(0.1f);
+            } while (!areAllPlayersReady);
+        }
 
         Spawn();
     }

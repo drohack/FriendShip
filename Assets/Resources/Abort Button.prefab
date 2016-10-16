@@ -459,12 +459,12 @@ MonoBehaviour:
   group: 0
   prefixBackup: -1
   observed: {fileID: 0}
-  synchronization: 3
+  synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 1
   ObservedComponents:
-  - {fileID: 4000010448516072}
+  - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
@@ -480,7 +480,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1982ae483b6667642a542eedbef2e7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMouseOver: 0
   isGrabbing: 0
   isColliding: 0
 --- !u!114 &114000012257467530
@@ -496,7 +495,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isButtonDown: 0
   newName: 
-  rCommand: 0
+  abortStatus: 0
   playerNum: 4
 --- !u!114 &114000013559027292
 MonoBehaviour:
@@ -509,7 +508,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2517cd6597adb04bbb239e35cecfcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrabbing: 0
+  isGrabbed: 0
   m_grabMode: 3
   m_allowOffhandGrab: 1
   m_grabPoints: []
