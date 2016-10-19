@@ -163,6 +163,7 @@ GameObject:
   - 4: {fileID: 699243531}
   - 114: {fileID: 699243530}
   - 114: {fileID: 699243532}
+  - 114: {fileID: 699243533}
   m_Layer: 0
   m_Name: PhotonLobby
   m_TagString: Untagged
@@ -218,6 +219,17 @@ MonoBehaviour:
   PlayDelayMs: 200
   DebugLostPercent: 0
   DebugInfo: 0
+--- !u!114 &699243533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 699243529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03d4ed1ce33fe0a42bb1fcb3ebacea03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2056121473
 GameObject:
   m_ObjectHideFlags: 0

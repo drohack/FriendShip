@@ -13,8 +13,7 @@ using OVRTouchSample;
 public class PhotonLobbyRoom : Photon.MonoBehaviour
 {
     private bool isOtherPlayerJoining = false;
-
-    public Transform playerPrefab;
+    
     public Transform player1Spawn;
     public Transform player2Spawn;
     public Transform player3Spawn;
@@ -368,14 +367,18 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
             else if (playerPosition == 3)
                 currentPlayerTransform = player4Spawn;
 
-            // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-            Transform ovrRigPhoton = PhotonNetwork.Instantiate(this.playerPrefab.name, currentPlayerTransform.position, currentPlayerTransform.rotation, 0).transform;
+            // we're in a room, spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
+#if OCULUS
+            Transform vrRigPhoton = PhotonNetwork.Instantiate("Oculus/OvrRigPhoton", currentPlayerTransform.position, currentPlayerTransform.rotation, 0).transform;
+#else
+            Transform vrRigPhoton = PhotonNetwork.Instantiate("Vive/ViveRigPhoton", currentPlayerTransform.position, currentPlayerTransform.rotation, 0).transform;
+#endif
 
             Hashtable ht1 = new Hashtable() { { PhotonConstants.isOvrRigLoaded, true } };
             PhotonNetwork.player.SetCustomProperties(ht1);
 
             // Set your name
-            ovrRigPhoton.name = ovrRigPhoton.name + "-" + PhotonNetwork.playerName;
+            vrRigPhoton.name = vrRigPhoton.name + "-" + PhotonNetwork.playerName;
 
             UpdatePlayerText();
         }
@@ -421,10 +424,14 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
             if (isP4Ready)
                 text += " ✓";
 
-            p1_Player_Text_Script.photonView.RPC("RpcUpdateText", PhotonTargets.All, text);
-            p2_Player_Text_Script.photonView.RPC("RpcUpdateText", PhotonTargets.All, text);
-            p3_Player_Text_Script.photonView.RPC("RpcUpdateText", PhotonTargets.All, text);
-            p4_Player_Text_Script.photonView.RPC("RpcUpdateText", PhotonTargets.All, text);
+            if(p1_Player_Text_Script != null)
+                p1_Player_Text_Script.photonView.RPC("RpcUpdateText", PhotonTargets.All, text);
+            if (p2_Player_Text_Script != null)
+                p2_Player_Text_Script.photonView.RPC("RpcUpdateText", PhotonTargets.All, text);
+            if (p3_Player_Text_Script != null)
+                p3_Player_Text_Script.photonView.RPC("RpcUpdateText", PhotonTargets.All, text);
+            if (p4_Player_Text_Script != null)
+                p4_Player_Text_Script.photonView.RPC("RpcUpdateText", PhotonTargets.All, text);
 
             CheckIfAllPlayersReady();
         }

@@ -11,6 +11,7 @@ using Oculus.Platform;
 using Oculus.Platform.Models;
 using ExitGames.Client.Photon;
 using UnityEngine.UI;
+using Steamworks;
 using System.Collections.Generic;
 
 public class PhotonLobby_VR : MonoBehaviour
@@ -44,10 +45,72 @@ public class PhotonLobby_VR : MonoBehaviour
     private bool[] playerPosOccupied = new bool[4] { true, false, false, false };
     private bool isOtherPlayerJoining = false;
 
+    [SerializeField]
+    Transform spawnTransform;
+    [SerializeField]
+    GameObject steamManager_GO;
+
+    public void Awake()
+    {
+#if OCULUS
+        //Initialize the Oculus Platform.
+        Oculus.Platform.Core.Initialize("1219926394692968");
+#else
+        //Initialize the Steam Manager
+        steamManager_GO.AddComponent<SteamManager>();
+#endif
+
+        // this makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically
+        PhotonNetwork.automaticallySyncScene = true;
+
+        // the following line checks if this client was just created (and not yet online). if so, we connect
+        if (PhotonNetwork.connectionStateDetailed == ClientState.PeerCreated)
+        {
+            // Connect to the photon master-server. We use the settings saved in PhotonServerSettings (a .asset file in this project)
+            PhotonNetwork.ConnectUsingSettings("0.9");
+        }
+
+        // if you wanted more debug out, turn this on:
+        // PhotonNetwork.logLevel = NetworkLogLevel.Full;
+
+        showLobby = true;
+    }
+
     void Start()
     {
         InvokeRepeating("RoomListUpdate", 1.0f, 1.0f);
         PhotonNetwork.player.customProperties.Clear();
+
+        // generate a name for this player, if none is assigned yet
+        if (String.IsNullOrEmpty(PhotonNetwork.playerName))
+        {
+            //Try to find Oculus Username of logged in user.  If one exists, use it.  Otherwise, use random name.
+            try
+            {
+#if OCULUS
+                Users.GetLoggedInUser().OnComplete(GetLoggedInOculusUserCallback);
+#else
+                if(SteamManager.Initialized) 
+                {
+                    PhotonNetwork.playerName = SteamFriends.GetPersonaName();
+                }
+#endif
+            }
+            catch
+            {
+                PhotonNetwork.playerName = "Guest" + Random.Range(1, 9999);
+            }
+        }
+
+        //Spawn the correct VR rig
+#if OCULUS
+        //Instantiate OvrRig
+        Instantiate(Resources.Load("Oculus/OvrRig"), spawnTransform.position, spawnTransform.rotation);
+#else
+        //Instantiate [SteamVR] and ViveRig
+        Instantiate(Resources.Load("Vive/[SteamVR]"), Vector3.zero, Quaternion.identity);
+        Instantiate(Resources.Load("Vive/ViveRig"), spawnTransform.position, spawnTransform.rotation);
+#endif
     }
 
     void RoomListUpdate()
@@ -146,48 +209,48 @@ public class PhotonLobby_VR : MonoBehaviour
 
             
         }
-        else if (showRoom)
-        {
-            Rect content = new Rect((Screen.width - this.WidthAndHeight.x) / 2, (Screen.height - this.WidthAndHeight.y) / 2, this.WidthAndHeight.x, this.WidthAndHeight.y);
-            GUI.Box(content, "Room: " + this.roomName);
-            GUILayout.BeginArea(content);
+        //else if (showRoom)
+        //{
+        //    Rect content = new Rect((Screen.width - this.WidthAndHeight.x) / 2, (Screen.height - this.WidthAndHeight.y) / 2, this.WidthAndHeight.x, this.WidthAndHeight.y);
+        //    GUI.Box(content, "Room: " + this.roomName);
+        //    GUILayout.BeginArea(content);
 
-            GUILayout.Space(40);
+        //    GUILayout.Space(40);
 
-            // Display all players
-            foreach (PhotonPlayer player in PhotonNetwork.playerList)
-            {
-                GUILayout.BeginHorizontal();
-                GUILayout.Label(player.name);
-                if (GUILayout.Button("Start", GUILayout.Width(150)))
-                {
-                    //Set player as started.
-                }
-                GUILayout.EndHorizontal();
-            }
+        //    // Display all players
+        //    foreach (PhotonPlayer player in PhotonNetwork.playerList)
+        //    {
+        //        GUILayout.BeginHorizontal();
+        //        GUILayout.Label(player.name);
+        //        if (GUILayout.Button("Start", GUILayout.Width(150)))
+        //        {
+        //            //Set player as started.
+        //        }
+        //        GUILayout.EndHorizontal();
+        //    }
 
-            GUILayout.Space(15);
+        //    GUILayout.Space(15);
 
-            // Buttons
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Return to Lobby"))
-            {
-                //Remove yourself from the list of ocu
+        //    // Buttons
+        //    GUILayout.BeginHorizontal();
+        //    if (GUILayout.Button("Return to Lobby"))
+        //    {
+        //        //Remove yourself from the list of ocu
 
-                PhotonNetwork.LeaveRoom();  // we will load the menu level when we successfully left the room
-                showRoom = false;
-                showLobby = true;
-            }
+        //        PhotonNetwork.LeaveRoom();  // we will load the menu level when we successfully left the room
+        //        showRoom = false;
+        //        showLobby = true;
+        //    }
 
-            if (PhotonNetwork.isMasterClient && GUILayout.Button("Start Game"))
-            {
-                Debug.Log("pPosOccupied: " + playerPosOccupied[0] + ", " + playerPosOccupied[1] + ", " + playerPosOccupied[2] + ", " + playerPosOccupied[3]);
-                PhotonNetwork.LoadLevel(SceneNameGame); //Start Game
-            }
-            GUILayout.EndHorizontal();
+        //    if (PhotonNetwork.isMasterClient && GUILayout.Button("Start Game"))
+        //    {
+        //        Debug.Log("pPosOccupied: " + playerPosOccupied[0] + ", " + playerPosOccupied[1] + ", " + playerPosOccupied[2] + ", " + playerPosOccupied[3]);
+        //        PhotonNetwork.LoadLevel(SceneNameGame); //Start Game
+        //    }
+        //    GUILayout.EndHorizontal();
 
-            GUILayout.EndArea();
-        }
+        //    GUILayout.EndArea();
+        //}
     }
     public string ErrorDialog
     {
@@ -209,41 +272,6 @@ public class PhotonLobby_VR : MonoBehaviour
             User u = msg.GetUser();
             PhotonNetwork.playerName = u.OculusID;
         }
-    }
-
-    public void Awake()
-    {
-        //Initialize the Oculus Platform.
-        Oculus.Platform.Core.Initialize("1219926394692968");
-
-        // this makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically
-        PhotonNetwork.automaticallySyncScene = true;
-
-        // the following line checks if this client was just created (and not yet online). if so, we connect
-        if (PhotonNetwork.connectionStateDetailed == ClientState.PeerCreated)
-        {
-            // Connect to the photon master-server. We use the settings saved in PhotonServerSettings (a .asset file in this project)
-            PhotonNetwork.ConnectUsingSettings("0.9");
-        }
-
-        // generate a name for this player, if none is assigned yet
-        if (String.IsNullOrEmpty(PhotonNetwork.playerName))
-        {
-            //Try to find Oculus Username of logged in user.  If one exists, use it.  Otherwise, use random name.
-            try
-            {
-                Users.GetLoggedInUser().OnComplete(GetLoggedInOculusUserCallback);
-            }
-            catch
-            {
-                PhotonNetwork.playerName = "Guest" + Random.Range(1, 9999);
-            }
-        }
-
-        // if you wanted more debug out, turn this on:
-        // PhotonNetwork.logLevel = NetworkLogLevel.Full;
-
-        showLobby = true;
     }
 
     public void CreateGame()

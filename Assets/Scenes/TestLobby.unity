@@ -253,6 +253,34 @@ Transform:
   m_PrefabParentObject: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41,
     type: 2}
   m_PrefabInternal: {fileID: 10033642}
+--- !u!1 &50768808
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 50768809}
+  m_Layer: 0
+  m_Name: SteamManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &50768809
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 50768808}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
 --- !u!1001 &53611070
 Prefab:
   m_ObjectHideFlags: 0
@@ -1681,6 +1709,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c18445b9476c477468c35235ba7ceb2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1278725536
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1278725537}
+  m_Layer: 0
+  m_Name: SpawnLocation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1278725537
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1278725536}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.297, y: 0.552, z: 0.0135}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
 --- !u!1 &1322946752
 GameObject:
   m_ObjectHideFlags: 0
@@ -1871,472 +1927,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1559357203}
---- !u!1001 &1585082645
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 415636, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -0.297
-      objectReference: {fileID: 0}
-    - target: {fileID: 415636, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0.552
-      objectReference: {fileID: 0}
-    - target: {fileID: 415636, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0.2905
-      objectReference: {fileID: 0}
-    - target: {fileID: 415636, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 415636, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 415636, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 415636, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 415636, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 128586, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 173828, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 163196, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 188816, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 191488, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 108794, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 106132, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 141842, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 189410, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 105398, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 143972, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 115784, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 195066, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 164550, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 135554, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 163412, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 191828, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 121886, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 145200, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 169342, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 147878, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 125100, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 194082, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 163442, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 128496, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 150794, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 151510, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 145010, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 140234, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 115310, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 158718, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 190596, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 133386, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 147530, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 187230, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 146700, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 174754, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 164708, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 132946, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 162508, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 170292, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 155056, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 192360, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 168190, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 170428, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 188604, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 128544, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 135792, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 119414, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 188024, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 192740, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 117232, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 105286, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 163650, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 176712, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 164044, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 157770, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 136880, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 175626, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 163570, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 160602, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 177280, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 103228, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 199056, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 174442, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 166220, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 165894, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 187244, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 166818, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 186682, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 100562, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 158174, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 195654, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 143886, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 130060, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 152646, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 165512, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 166490, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 151852, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 193010, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 156754, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 190362, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 125726, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 121618, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 147448, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 197478, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 135478, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 119572, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 112114, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 121948, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 194538, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 179348, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 182048, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 165948, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 150682, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 160964, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 138608, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 141192, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 167108, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 169088, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 131314, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 112236, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000013633301364, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000011947643778, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000013127782022, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000013098738092, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 1a60066e2805e744eb487504b7193c1c, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &1586957677
 GameObject:
   m_ObjectHideFlags: 0
@@ -2434,6 +2024,8 @@ MonoBehaviour:
   UsersText: {fileID: 212841681}
   GamesText: {fileID: 1125746970}
   RoomsGrid: {fileID: 149241560}
+  spawnTransform: {fileID: 1278725537}
+  steamManager_GO: {fileID: 50768808}
 --- !u!4 &1657443037
 Transform:
   m_ObjectHideFlags: 0
@@ -2446,7 +2038,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
 --- !u!4 &1716381811 stripped
 Transform:
   m_PrefabParentObject: {fileID: 424844, guid: 414f3c7f2b7b70f4d9b4fd6d63eafaf8, type: 2}
