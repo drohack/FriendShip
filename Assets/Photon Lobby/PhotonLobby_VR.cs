@@ -47,17 +47,16 @@ public class PhotonLobby_VR : MonoBehaviour
 
     [SerializeField]
     Transform spawnTransform;
-    [SerializeField]
-    GameObject steamManager_GO;
 
     public void Awake()
     {
 #if OCULUS
         //Initialize the Oculus Platform.
         Oculus.Platform.Core.Initialize("1219926394692968");
+        Instantiate(Resources.Load("Oculus/[OvrManager]"));
 #else
         //Initialize the Steam Manager
-        steamManager_GO.AddComponent<SteamManager>();
+        Instantiate(Resources.Load("Vive/[SteamManager]"));
 #endif
 
         // this makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically

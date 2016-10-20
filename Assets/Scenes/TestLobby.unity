@@ -253,34 +253,6 @@ Transform:
   m_PrefabParentObject: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41,
     type: 2}
   m_PrefabInternal: {fileID: 10033642}
---- !u!1 &50768808
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 50768809}
-  m_Layer: 0
-  m_Name: SteamManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &50768809
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 50768808}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
 --- !u!1001 &53611070
 Prefab:
   m_ObjectHideFlags: 0
@@ -2025,7 +1997,6 @@ MonoBehaviour:
   GamesText: {fileID: 1125746970}
   RoomsGrid: {fileID: 149241560}
   spawnTransform: {fileID: 1278725537}
-  steamManager_GO: {fileID: 50768808}
 --- !u!4 &1657443037
 Transform:
   m_ObjectHideFlags: 0

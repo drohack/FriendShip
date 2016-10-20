@@ -107,7 +107,6 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
             playerArea.SetActive(true);
             photonVoiceRecorder.enabled = true;
             ovrCameraRig.gameObject.AddComponent<OVRCameraRig>();
-            ovrCameraRig.gameObject.AddComponent<OVRManager>();
         }
 
         m_animLayerIndexPointL = animatorL.GetLayerIndex(Const.AnimLayerNamePoint);

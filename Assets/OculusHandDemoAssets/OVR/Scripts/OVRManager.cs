@@ -591,6 +591,8 @@ public class OVRManager : MonoBehaviour
 		OVRPlugin.occlusionMesh = false;
 
 		OVRPlugin.ignoreVrFocus = runInBackground;
+
+        DontDestroyOnLoad(this);
 	}
 
 	private void Update()
