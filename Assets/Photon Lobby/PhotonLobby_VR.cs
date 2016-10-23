@@ -107,7 +107,8 @@ public class PhotonLobby_VR : MonoBehaviour
         Instantiate(Resources.Load("Oculus/OvrRig"), spawnTransform.position, spawnTransform.rotation);
 #else
         //Instantiate [SteamVR] and ViveRig
-        Instantiate(Resources.Load("Vive/[SteamVR]"), Vector3.zero, Quaternion.identity);
+        if (!GameObject.Find("[SteamVR]"))
+            Instantiate(Resources.Load("Vive/[SteamVR]"), Vector3.zero, Quaternion.identity);
         Instantiate(Resources.Load("Vive/ViveRig"), spawnTransform.position, spawnTransform.rotation);
 #endif
     }

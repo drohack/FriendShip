@@ -269,7 +269,7 @@ public class Vive_Hand : MonoBehaviour
 
             if (m_grabVolumeEnabled && m_trackedObject != null)
             {
-                SteamVR_Controller.Input((int)m_trackedObject.index).TriggerHapticPulse(500);
+                SteamVR_Controller.Input((int)m_trackedObject.index).TriggerHapticPulse(1000);
             }
         }
     }

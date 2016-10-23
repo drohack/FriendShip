@@ -31,8 +31,8 @@ public class RecenterController : MonoBehaviour
             deviceL = SteamVR_Controller.Input((int)trackedObjL.index);
         if (trackedObjR != null && Convert.ToInt32(trackedObjR.index) != -1)
             deviceR = SteamVR_Controller.Input((int)trackedObjR.index);
-        if ((deviceL != null && deviceL.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad))
-            || (deviceR != null && deviceR.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad)))
+        if ((deviceL != null && deviceL.GetPressDown(SteamVR_Controller.ButtonMask.ApplicationMenu))
+            || (deviceR != null && deviceR.GetPressDown(SteamVR_Controller.ButtonMask.ApplicationMenu)))
         {
             UnityEngine.VR.InputTracking.Recenter();
         }
