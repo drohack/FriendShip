@@ -1,10 +1,21 @@
 fileFormatVersion: 2
 guid: a5a6a70209b6e6345bfe18b02314a54e
-timeCreated: 1446783318
-licenseType: Store
+timeCreated: 1477275728
+licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - loadingScreen: {instanceID: 0}
+  - progressBarEmpty: {instanceID: 0}
+  - progressBarFull: {instanceID: 0}
+  - loadingScreenTransform: {instanceID: 0}
+  - progressBarTransform: {instanceID: 0}
+  - front: {fileID: 2800000, guid: fa4548ad94c2d83408e4832cb52b3808, type: 3}
+  - back: {fileID: 2800000, guid: eda4bd6d252439b41b0f56ec1a822d81, type: 3}
+  - left: {fileID: 2800000, guid: 8dc621d4bf2257d46b70fc5bf5cf7793, type: 3}
+  - right: {fileID: 2800000, guid: dc50478561d166742b7206869f0f7173, type: 3}
+  - top: {fileID: 2800000, guid: 33c801107d7185e4d89e4c724077701c, type: 3}
+  - bottom: {fileID: 2800000, guid: d25e878d3680bb7469ab24b7c2a8ad1e, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

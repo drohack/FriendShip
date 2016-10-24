@@ -3077,7 +3077,11 @@ public static class PhotonNetwork
 
         PhotonNetwork.isMessageQueueRunning = false;
         networkingPeer.loadingLevelAndPausedNetwork = true;
-        SceneManager.LoadScene(levelNumber);
+#if VIVE
+        SteamVR_LoadLevel.Begin(levelNumber);
+#else
+	    SceneManager.LoadScene(int levelNumber);
+#endif
     }
 
     /// <summary>Wraps loading a level to pause the network mesage-queue. Optionally syncs the loaded level in a room.</summary>
@@ -3103,7 +3107,11 @@ public static class PhotonNetwork
 
         PhotonNetwork.isMessageQueueRunning = false;
         networkingPeer.loadingLevelAndPausedNetwork = true;
-        SceneManager.LoadScene(levelName);
+#if VIVE
+        SteamVR_LoadLevel.Begin(levelName);
+#else
+	    SceneManager.LoadScene(levelName);
+#endif
     }
 
 

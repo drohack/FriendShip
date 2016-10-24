@@ -22,8 +22,11 @@ public class SteamVR_LoadLevel : MonoBehaviour
 		get { return (_active != null) ? _active.renderTexture : null; }
 	}
 
-	// Name of level to load.
-	public string levelName;
+    // Number of level to load.
+    public int levelNumber = -1;
+
+    // Name of level to load.
+    public string levelName;
 
 	// Name of internal process to launch (instead of levelName).
 	public string internalProcessPath;
@@ -96,12 +99,25 @@ public class SteamVR_LoadLevel : MonoBehaviour
 
 	public void Trigger()
 	{
-		if (!loading && !string.IsNullOrEmpty(levelName))
-			StartCoroutine("LoadLevel");
+		if (!loading && (!string.IsNullOrEmpty(levelName) || levelNumber != -1))
+            StartCoroutine("LoadLevel");
 	}
 
-	// Helper function to quickly and simply load a level from script.
-	public static void Begin(string levelName,
+    // Helper function to quickly and simply load a level from script.
+    public static void Begin(int levelNumber,
+        bool showGrid = false, float fadeOutTime = 0.5f,
+        float r = 0.0f, float g = 0.0f, float b = 0.0f, float a = 1.0f)
+    {
+        var loader = new GameObject("loader").AddComponent<SteamVR_LoadLevel>();
+        loader.levelNumber = levelNumber;
+        loader.showGrid = showGrid;
+        loader.fadeOutTime = fadeOutTime;
+        loader.backgroundColor = new Color(r, g, b, a);
+        loader.Trigger();
+    }
+
+    // Helper function to quickly and simply load a level from script.
+    public static void Begin(string levelName,
 		bool showGrid = false, float fadeOutTime = 0.5f,
 		float r = 0.0f, float g = 0.0f, float b = 0.0f, float a = 1.0f)
 	{
@@ -361,19 +377,33 @@ public class SteamVR_LoadLevel : MonoBehaviour
 			if (loadAsync)
 			{
 				Application.backgroundLoadingPriority = ThreadPriority.Low;
-				async = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(levelName, mode);
+                if (!string.IsNullOrEmpty(levelName))
+                {
+                    async = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(levelName, mode);
+                }
+                else
+                {
+                    async = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(levelNumber, mode);
+                }
 
-				// Performing this in a while loop instead seems to help smooth things out.
-				//yield return async;
-				while (!async.isDone)
+                // Performing this in a while loop instead seems to help smooth things out.
+                //yield return async;
+                while (!async.isDone)
 				{
 					yield return null;
 				}
 			}
 			else
 			{
-				UnityEngine.SceneManagement.SceneManager.LoadScene(levelName, mode);
-			}
+                if (!string.IsNullOrEmpty(levelName))
+                {
+                    UnityEngine.SceneManagement.SceneManager.LoadScene(levelName, mode);
+                }
+                else
+                {
+                    UnityEngine.SceneManagement.SceneManager.LoadScene(levelNumber, mode);
+                }
+            }
 		}
 
 		yield return null;
