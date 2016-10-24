@@ -24,6 +24,7 @@ TagManager:
   - Player_Text
   - Console_Text
   - Mastermind
+  - '[SteamVR]'
   layers:
   - Default
   - TransparentFX
