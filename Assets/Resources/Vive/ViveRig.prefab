@@ -247,6 +247,7 @@ GameObject:
   - 114: {fileID: 114000013706597314}
   - 114: {fileID: 114000013712050052}
   - 114: {fileID: 114000011589404628}
+  - 114: {fileID: 114000010230963182}
   m_Layer: 0
   m_Name: LeftHandPf
   m_TagString: Hand
@@ -1515,6 +1516,7 @@ GameObject:
   - 114: {fileID: 114000011859208512}
   - 114: {fileID: 114000013431824720}
   - 114: {fileID: 114000014213387300}
+  - 114: {fileID: 114000012327706600}
   m_Layer: 0
   m_Name: RightHandPf
   m_TagString: Hand
@@ -4235,6 +4237,17 @@ MonoBehaviour:
   - {x: 1.65, y: 0.01, z: -1.275}
   - {x: -1.65, y: 0.01, z: -1.275}
   - {x: -1.65, y: 0.01, z: 1.275}
+--- !u!114 &114000010230963182
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010535963074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2412d940b77cc2c43be9fa7c98cb7624, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114000010752013132
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4342,6 +4355,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_showGizmos: 0
+--- !u!114 &114000012327706600
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013117992346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2412d940b77cc2c43be9fa7c98cb7624, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114000013358267758
 MonoBehaviour:
   m_ObjectHideFlags: 1

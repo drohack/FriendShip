@@ -6,6 +6,8 @@ public class PhotonNetworkViveRig : Photon.MonoBehaviour
     [SerializeField]
     MeshRenderer meshRenderer;
     [SerializeField]
+    SteamVR_ControllerManager controllerManager;
+    [SerializeField]
     Transform cameraHead_Transform;
     [SerializeField]
     Camera cameraHead_Camera;
@@ -111,9 +113,7 @@ public class PhotonNetworkViveRig : Photon.MonoBehaviour
             recenterController.trackedObjR = trackedObjectR;
             meshRenderer.enabled = true;
             gameObject.AddComponent<SteamVR_PlayArea>();
-            SteamVR_ControllerManager controllerManager = gameObject.AddComponent<SteamVR_ControllerManager>();
-            controllerManager.left = LeftHandPf_GO;
-            controllerManager.right = RightHandPf_GO;
+            controllerManager.enabled = true;
             cameraHead_Camera.enabled = true;
             cameraHead_TrackedObject.enabled = true;
             cameraHead_GUILayer.enabled = true;

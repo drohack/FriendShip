@@ -1384,6 +1384,7 @@ GameObject:
   - 114: {fileID: 114000011038607804}
   - 114: {fileID: 114000013137003834}
   - 23: {fileID: 23000013759850914}
+  - 114: {fileID: 114000010142613160}
   m_Layer: 0
   m_Name: ViveRigPhoton
   m_TagString: Player
@@ -4320,6 +4321,22 @@ Light:
   m_BounceIntensity: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114000010142613160
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012951389116}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3b47c2980b93bc48844a54641dab5b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  left: {fileID: 1000010535963074}
+  right: {fileID: 1000013117992346}
+  objects:
+  - {fileID: 1000010535963074}
+  - {fileID: 1000013117992346}
 --- !u!114 &114000011038607804
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4356,14 +4373,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2543700e82e2f44ea4757f818481f3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_showGizmos: 1
+  m_showGizmos: 0
 --- !u!114 &114000011589404628
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010535963074}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d37c2cf88f7c59f4c8cf5d3812568143, type: 3}
   m_Name: 
@@ -4419,12 +4436,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010535963074}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c2543700e82e2f44ea4757f818481f3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_showGizmos: 1
+  m_showGizmos: 0
 --- !u!114 &114000012637378272
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4451,6 +4468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meshRenderer: {fileID: 23000013759850914}
+  controllerManager: {fileID: 114000010142613160}
   cameraHead_Transform: {fileID: 4000010944412608}
   cameraHead_Camera: {fileID: 20000014097336300}
   cameraHead_TrackedObject: {fileID: 114000011623265672}
@@ -4490,7 +4508,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010535963074}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b7053109161edcd448ed7b982825b4cf, type: 3}
   m_Name: 
@@ -4572,7 +4590,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010535963074}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a2aba836d89ac62439ea0720c9cc3799, type: 3}
   m_Name: 
@@ -4588,7 +4606,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010535963074}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58e80f3d5dfe9ae4595cc395b3db1982, type: 3}
   m_Name: 
@@ -5641,7 +5659,7 @@ ParticleSystem:
   moveWithTransform: 0
   autoRandomSeed: 1
   scalingMode: 2
-  randomSeed: 822993766
+  randomSeed: -13585783
   InitialModule:
     serializedVersion: 2
     enabled: 1
@@ -7360,7 +7378,7 @@ ParticleSystem:
   moveWithTransform: 0
   autoRandomSeed: 1
   scalingMode: 2
-  randomSeed: 1899097381
+  randomSeed: 779326859
   InitialModule:
     serializedVersion: 2
     enabled: 1

@@ -542,23 +542,4 @@ public class Vive_Hand : MonoBehaviour
             GrabbableRelease(Vector3.zero, Vector3.zero);
         }
     }
-
-    private void OnHideRenderModels(params object[] args)
-    {
-        bool hidden = (bool)args[0];
-        var meshRenderer = GetComponent<MeshRenderer>();
-        if (meshRenderer != null)
-            meshRenderer.enabled = !hidden;
-        foreach (var child in transform.GetComponentsInChildren<MeshRenderer>())
-            child.enabled = !hidden;
-    }
-
-    void OnEnable()
-    {
-#if UNITY_EDITOR
-        if (!Application.isPlaying)
-            return;
-#endif
-        SteamVR_Utils.Event.Listen("hide_render_models", OnHideRenderModels);
-    }
 }
