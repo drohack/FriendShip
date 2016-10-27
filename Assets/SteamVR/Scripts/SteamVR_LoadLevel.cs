@@ -307,8 +307,8 @@ public class SteamVR_LoadLevel : MonoBehaviour
 		{
             front = (Texture)Resources.Load("Skybox/Sunny_01A_front");
             back = (Texture)Resources.Load("Skybox/Sunny_01A_back");
-            left = (Texture)Resources.Load("Skybox/Sunny_01A_left");
-            right = (Texture)Resources.Load("Skybox/Sunny_01A_right");
+            left = (Texture)Resources.Load("Skybox/Sunny_01A_right");
+            right = (Texture)Resources.Load("Skybox/Sunny_01A_left");
             top = (Texture)Resources.Load("Skybox/Sunny_01A_up");
             bottom = (Texture)Resources.Load("Skybox/Sunny_01A_down");
             if (front != null)
