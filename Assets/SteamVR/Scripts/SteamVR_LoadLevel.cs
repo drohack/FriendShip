@@ -411,6 +411,10 @@ public class SteamVR_LoadLevel : MonoBehaviour
                 }
             }
 		}
+		
+		//reset variables
+		levelName = null;
+		levelNumber = -1;
 
 		yield return null;
 
