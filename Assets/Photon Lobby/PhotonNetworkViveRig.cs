@@ -112,7 +112,6 @@ public class PhotonNetworkViveRig : Photon.MonoBehaviour
             recenterController.trackedObjL = trackedObjectL;
             recenterController.trackedObjR = trackedObjectR;
             meshRenderer.enabled = true;
-            gameObject.AddComponent<SteamVR_PlayArea>();
             controllerManager.enabled = true;
             cameraHead_Camera.enabled = true;
             cameraHead_TrackedObject.enabled = true;
