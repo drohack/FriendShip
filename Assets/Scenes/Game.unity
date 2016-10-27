@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 1.0941287, g: 1.9218234, b: 2.6273057, a: 1}
+  m_IndirectSpecularColor: {r: 1.235621, g: 4.214178, b: 8.338344, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1934,18 +1934,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3d35cd3fc2850a149ab9522064df3edd, type: 2}
   m_IsPrefabParent: 0
---- !u!114 &117181930 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114000010392865868, guid: 3d35cd3fc2850a149ab9522064df3edd,
-    type: 2}
-  m_PrefabInternal: {fileID: 117181929}
-  m_Script: {fileID: 11500000, guid: d207456ff4b5f5c488bf87d59bb0ece5, type: 3}
---- !u!114 &117181931 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114000013753881854, guid: 3d35cd3fc2850a149ab9522064df3edd,
-    type: 2}
-  m_PrefabInternal: {fileID: 117181929}
-  m_Script: {fileID: 11500000, guid: 7affe5b157470eb45955b53f7fbc34e2, type: 3}
 --- !u!1001 &118388418
 Prefab:
   m_ObjectHideFlags: 0
@@ -11164,18 +11152,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3d35cd3fc2850a149ab9522064df3edd, type: 2}
   m_IsPrefabParent: 0
---- !u!114 &759249728 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114000010392865868, guid: 3d35cd3fc2850a149ab9522064df3edd,
-    type: 2}
-  m_PrefabInternal: {fileID: 759249727}
-  m_Script: {fileID: 11500000, guid: d207456ff4b5f5c488bf87d59bb0ece5, type: 3}
---- !u!114 &759249729 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114000013753881854, guid: 3d35cd3fc2850a149ab9522064df3edd,
-    type: 2}
-  m_PrefabInternal: {fileID: 759249727}
-  m_Script: {fileID: 11500000, guid: 7affe5b157470eb45955b53f7fbc34e2, type: 3}
 --- !u!1 &759550762
 GameObject:
   m_ObjectHideFlags: 0
@@ -11661,7 +11637,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 823141854}
   - 114: {fileID: 823141853}
-  - 114: {fileID: 823141855}
   m_Layer: 0
   m_Name: PhotonGameManager
   m_TagString: Untagged
@@ -11686,14 +11661,6 @@ MonoBehaviour:
   player2Spawn: {fileID: 636014930}
   player3Spawn: {fileID: 1283454463}
   player4Spawn: {fileID: 1425116929}
-  p1_scoreTextScript: {fileID: 1394797753}
-  p2_scoreTextScript: {fileID: 1552621873}
-  p3_scoreTextScript: {fileID: 117181931}
-  p4_scoreTextScript: {fileID: 759249729}
-  p1_consoleTextScript: {fileID: 1394797752}
-  p2_consoleTextScript: {fileID: 1552621872}
-  p3_consoleTextScript: {fileID: 117181930}
-  p4_consoleTextScript: {fileID: 759249728}
 --- !u!4 &823141854
 Transform:
   m_ObjectHideFlags: 0
@@ -11707,28 +11674,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 14
---- !u!114 &823141855
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 823141852}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c83e06d07b8f654981913996327bdf4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AutoConnect: 1
-  AutoDisconnect: 0
-  AutoTransmit: 1
-  SamplingRate: 48000
-  Delay: 40
-  Bitrate: 30000
-  VoiceDetection: 1
-  VoiceDetectionThreshold: 0.01
-  PlayDelayMs: 200
-  DebugLostPercent: 0
-  DebugInfo: 0
 --- !u!1 &825337413
 GameObject:
   m_ObjectHideFlags: 0
@@ -16738,18 +16683,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3d35cd3fc2850a149ab9522064df3edd, type: 2}
   m_IsPrefabParent: 0
---- !u!114 &1394797752 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114000010392865868, guid: 3d35cd3fc2850a149ab9522064df3edd,
-    type: 2}
-  m_PrefabInternal: {fileID: 1394797751}
-  m_Script: {fileID: 11500000, guid: d207456ff4b5f5c488bf87d59bb0ece5, type: 3}
---- !u!114 &1394797753 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114000013753881854, guid: 3d35cd3fc2850a149ab9522064df3edd,
-    type: 2}
-  m_PrefabInternal: {fileID: 1394797751}
-  m_Script: {fileID: 11500000, guid: 7affe5b157470eb45955b53f7fbc34e2, type: 3}
 --- !u!1 &1396815824
 GameObject:
   m_ObjectHideFlags: 0
@@ -18647,18 +18580,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3d35cd3fc2850a149ab9522064df3edd, type: 2}
   m_IsPrefabParent: 0
---- !u!114 &1552621872 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114000010392865868, guid: 3d35cd3fc2850a149ab9522064df3edd,
-    type: 2}
-  m_PrefabInternal: {fileID: 1552621871}
-  m_Script: {fileID: 11500000, guid: d207456ff4b5f5c488bf87d59bb0ece5, type: 3}
---- !u!114 &1552621873 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114000013753881854, guid: 3d35cd3fc2850a149ab9522064df3edd,
-    type: 2}
-  m_PrefabInternal: {fileID: 1552621871}
-  m_Script: {fileID: 11500000, guid: 7affe5b157470eb45955b53f7fbc34e2, type: 3}
 --- !u!1 &1581084681
 GameObject:
   m_ObjectHideFlags: 0

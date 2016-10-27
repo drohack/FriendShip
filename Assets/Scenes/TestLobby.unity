@@ -2058,6 +2058,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1657443037}
   - 114: {fileID: 1657443036}
+  - 114: {fileID: 1657443038}
   m_Layer: 0
   m_Name: PhotonLobbyVR
   m_TagString: Untagged
@@ -2099,6 +2100,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
+--- !u!114 &1657443038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1657443035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c83e06d07b8f654981913996327bdf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AutoConnect: 1
+  AutoDisconnect: 0
+  AutoTransmit: 1
+  SamplingRate: 24000
+  Delay: 40
+  Bitrate: 30000
+  VoiceDetection: 0
+  VoiceDetectionThreshold: 0.01
+  PlayDelayMs: 200
+  DebugLostPercent: 0
+  DebugInfo: 0
 --- !u!4 &1716381811 stripped
 Transform:
   m_PrefabParentObject: {fileID: 424844, guid: 414f3c7f2b7b70f4d9b4fd6d63eafaf8, type: 2}
