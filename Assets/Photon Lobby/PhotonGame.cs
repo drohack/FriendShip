@@ -24,7 +24,11 @@ public class PhotonGame : Photon.MonoBehaviour
         // in case we started this demo with the wrong scene being active, simply load the menu scene
         if (!PhotonNetwork.connected)
         {
-            SceneManager.LoadScene(PhotonLobby_VR.SceneNameMenu);
+#if VIVE
+            SteamVR_LoadLevel.Begin(PhotonLobby_VR.SceneNameMenu);
+#else
+	        SceneManager.LoadScene(levelName);
+#endif
             return;
         }
 
@@ -56,7 +60,11 @@ public class PhotonGame : Photon.MonoBehaviour
         Debug.Log("OnLeftRoom (local)");
 
         // back to main menu
-        SceneManager.LoadScene(PhotonLobby_VR.SceneNameMenu);
+#if VIVE
+        SteamVR_LoadLevel.Begin(PhotonLobby_VR.SceneNameMenu);
+#else
+	    SceneManager.LoadScene(levelName);
+#endif
     }
 
     public void OnDisconnectedFromPhoton()
@@ -64,7 +72,11 @@ public class PhotonGame : Photon.MonoBehaviour
         Debug.Log("OnDisconnectedFromPhoton");
 
         // back to main menu
-        SceneManager.LoadScene(PhotonLobby_VR.SceneNameMenu);
+#if VIVE
+        SteamVR_LoadLevel.Begin(PhotonLobby_VR.SceneNameMenu);
+#else
+	    SceneManager.LoadScene(levelName);
+#endif
     }
 
     public void OnPhotonInstantiate(PhotonMessageInfo info)
@@ -114,7 +126,11 @@ public class PhotonGame : Photon.MonoBehaviour
         Debug.Log("OnFailedToConnectToPhoton");
 
         // back to main menu
-        SceneManager.LoadScene(PhotonLobby_VR.SceneNameMenu);
+#if VIVE
+        SteamVR_LoadLevel.Begin(PhotonLobby_VR.SceneNameMenu);
+#else
+	    SceneManager.LoadScene(levelName);
+#endif
     }
 
     void OnLevelWasLoaded(int level)

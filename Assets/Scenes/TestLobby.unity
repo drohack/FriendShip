@@ -25,7 +25,7 @@ RenderSettings:
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 0
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 7d1430089afb5854892670b854d1d684, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -836,6 +836,94 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 679333149}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &696746757
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 696746759}
+  - 114: {fileID: 696746758}
+  - 114: {fileID: 696746760}
+  m_Layer: 0
+  m_Name: '[SteamVR_LoadLevel]'
+  m_TagString: '[SteamVR_LoadLevel]'
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &696746758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 696746757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5a6a70209b6e6345bfe18b02314a54e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelNumber: -1
+  levelName: 
+  internalProcessPath: 
+  internalProcessArgs: 
+  loadAdditive: 0
+  loadAsync: 1
+  loadingScreen: {fileID: 0}
+  progressBarEmpty: {fileID: 0}
+  progressBarFull: {fileID: 0}
+  loadingScreenWidthInMeters: 6
+  progressBarWidthInMeters: 3
+  loadingScreenDistance: 0
+  loadingScreenTransform: {fileID: 0}
+  progressBarTransform: {fileID: 0}
+  front: {fileID: 2800000, guid: 04fe43ecb79cd774e9d0b406c1be3a3d, type: 3}
+  back: {fileID: 2800000, guid: eacdacbb571a9b3428e0c3fe07a13edd, type: 3}
+  left: {fileID: 2800000, guid: d6c92bdec67b78243ab82bdb56fa17b6, type: 3}
+  right: {fileID: 2800000, guid: fd39f16b4ed5d2945adcc43021952223, type: 3}
+  top: {fileID: 2800000, guid: b02736cc01ffd1742842e4c14440744a, type: 3}
+  bottom: {fileID: 2800000, guid: d73eca0620c16654c80e8d2fddee9f37, type: 3}
+  backgroundColor: {r: 0, g: 0, b: 0, a: 1}
+  showGrid: 0
+  fadeOutTime: 20
+  fadeInTime: 20
+  postLoadSettleTime: 0
+  loadingScreenFadeInTime: 1
+  loadingScreenFadeOutTime: 0.25
+  autoTriggerOnEnable: 0
+--- !u!4 &696746759
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 696746757}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+--- !u!114 &696746760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 696746757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13a43e992568b8e48b4bd489b9d96f40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  front: {fileID: 2800000, guid: fa4548ad94c2d83408e4832cb52b3808, type: 3}
+  back: {fileID: 2800000, guid: eda4bd6d252439b41b0f56ec1a822d81, type: 3}
+  left: {fileID: 2800000, guid: 8dc621d4bf2257d46b70fc5bf5cf7793, type: 3}
+  right: {fileID: 2800000, guid: dc50478561d166742b7206869f0f7173, type: 3}
+  top: {fileID: 2800000, guid: 33c801107d7185e4d89e4c724077701c, type: 3}
+  bottom: {fileID: 2800000, guid: c0428893629c1404f990e1c9667aa5f3, type: 3}
+  StereoCellSize: 2
+  StereoIpdMm: 64
 --- !u!1 &741390954 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 182762, guid: e5542e8668cb9294da98303173d553a4, type: 2}
@@ -1997,6 +2085,7 @@ MonoBehaviour:
   GamesText: {fileID: 1125746970}
   RoomsGrid: {fileID: 149241560}
   spawnTransform: {fileID: 1278725537}
+  SteamVR_LoadLevel: {fileID: 696746757}
 --- !u!4 &1657443037
 Transform:
   m_ObjectHideFlags: 0

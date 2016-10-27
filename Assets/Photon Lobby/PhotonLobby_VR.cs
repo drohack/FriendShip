@@ -48,6 +48,9 @@ public class PhotonLobby_VR : MonoBehaviour
     [SerializeField]
     Transform spawnTransform;
 
+    [SerializeField]
+    GameObject SteamVR_LoadLevel;
+
     public void Awake()
     {
 #if OCULUS
@@ -71,6 +74,22 @@ public class PhotonLobby_VR : MonoBehaviour
 
         // if you wanted more debug out, turn this on:
         // PhotonNetwork.logLevel = NetworkLogLevel.Full;
+
+        //Spawn the correct VR rig
+#if OCULUS
+        //Instantiate OvrRig
+        Instantiate(Resources.Load("Oculus/OvrRig"), spawnTransform.position, spawnTransform.rotation);
+#else
+        //Instantiate [SteamVR] and ViveRig
+        if (!GameObject.FindGameObjectWithTag("[SteamVR]"))
+            Instantiate(Resources.Load("Vive/[SteamVR]"), Vector3.zero, Quaternion.identity);
+        if(GameObject.FindGameObjectsWithTag("[SteamVR_LoadLevel]").Length == 0)
+        {
+            SteamVR_LoadLevel.SetActive(true);
+            DontDestroyOnLoad(SteamVR_LoadLevel);
+        }
+        Instantiate(Resources.Load("Vive/ViveRig"), spawnTransform.position, spawnTransform.rotation);
+#endif
 
         showLobby = true;
     }
@@ -100,17 +119,6 @@ public class PhotonLobby_VR : MonoBehaviour
                 PhotonNetwork.playerName = "Guest" + Random.Range(1, 9999);
             }
         }
-
-        //Spawn the correct VR rig
-#if OCULUS
-        //Instantiate OvrRig
-        Instantiate(Resources.Load("Oculus/OvrRig"), spawnTransform.position, spawnTransform.rotation);
-#else
-        //Instantiate [SteamVR] and ViveRig
-        if (!GameObject.FindGameObjectWithTag("[SteamVR]"))
-            Instantiate(Resources.Load("Vive/[SteamVR]"), Vector3.zero, Quaternion.identity);
-        Instantiate(Resources.Load("Vive/ViveRig"), spawnTransform.position, spawnTransform.rotation);
-#endif
     }
 
     void RoomListUpdate()

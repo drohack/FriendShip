@@ -3080,7 +3080,7 @@ public static class PhotonNetwork
 #if VIVE
         SteamVR_LoadLevel.Begin(levelNumber);
 #else
-	    SceneManager.LoadScene(int levelNumber);
+	    SceneManager.LoadScene(levelNumber);
 #endif
     }
 

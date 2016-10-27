@@ -305,7 +305,13 @@ public class SteamVR_LoadLevel : MonoBehaviour
 		var compositor = OpenVR.Compositor;
 		if (compositor != null)
 		{
-			if (front != null)
+            front = (Texture)Resources.Load("Skybox/Sunny_01A_front");
+            back = (Texture)Resources.Load("Skybox/Sunny_01A_back");
+            left = (Texture)Resources.Load("Skybox/Sunny_01A_left");
+            right = (Texture)Resources.Load("Skybox/Sunny_01A_right");
+            top = (Texture)Resources.Load("Skybox/Sunny_01A_up");
+            bottom = (Texture)Resources.Load("Skybox/Sunny_01A_down");
+            if (front != null)
 			{
 				SteamVR_Skybox.SetOverride(front, back, left, right, top, bottom);
 
