@@ -4298,7 +4298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d37c2cf88f7c59f4c8cf5d3812568143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  index: 4
+  index: -1
   origin: {fileID: 0}
   isValid: 0
 --- !u!114 &114000011623265672
@@ -4543,7 +4543,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d37c2cf88f7c59f4c8cf5d3812568143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  index: 3
+  index: -1
   origin: {fileID: 0}
   isValid: 0
 --- !u!124 &124000013833390706
