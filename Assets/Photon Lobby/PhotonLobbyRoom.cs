@@ -80,7 +80,7 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
 #if VIVE
             SteamVR_LoadLevel.Begin(PhotonLobby_VR.SceneNameMenu);
 #else
-	        SceneManager.LoadScene(levelName);
+	        SceneManager.LoadScene(PhotonLobby_VR.SceneNameMenu);
 #endif
             return;
         }
@@ -229,7 +229,7 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
 #if VIVE
         SteamVR_LoadLevel.Begin(PhotonLobby_VR.SceneNameMenu);
 #else
-	    SceneManager.LoadScene(levelName);
+	    SceneManager.LoadScene(PhotonLobby_VR.SceneNameMenu);
 #endif
     }
 
@@ -243,7 +243,7 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
 #if VIVE
         SteamVR_LoadLevel.Begin(PhotonLobby_VR.SceneNameMenu);
 #else
-	    SceneManager.LoadScene(levelName);
+	    SceneManager.LoadScene(PhotonLobby_VR.SceneNameMenu);
 #endif
     }
 
@@ -338,7 +338,7 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
 #if VIVE
         SteamVR_LoadLevel.Begin(PhotonLobby_VR.SceneNameMenu);
 #else
-	    SceneManager.LoadScene(levelName);
+	    SceneManager.LoadScene(PhotonLobby_VR.SceneNameMenu);
 #endif
     }
 
