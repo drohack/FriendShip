@@ -94,4 +94,14 @@ MonoBehaviour:
   - RpcUpdateText
   - CmdSendReadyCommand
   - RPCLowerReadyLever
+  - CmdTurnOnAmbientLight
+  - CmdTurnOnGravity
+  - RPCLowerHandle
+  - RPCRaisHandle
+  - RPCAmbientLight
+  - StartHazards
+  - TurnOnGravity
+  - TurnOnAmbientLight
+  - RPCRotateBackPanel
+  - RPCRaiseHandle
   DisableAutoOpenWizard: 1

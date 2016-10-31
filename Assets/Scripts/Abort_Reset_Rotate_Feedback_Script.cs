@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Abort_Reset_Feedback_Script : Photon.MonoBehaviour
+public class Abort_Reset_Rotate_Feedback_Script : Photon.MonoBehaviour
 {
+    public float smooth = 1f;
+    public Vector3 targetAngles;
+    public bool isRotating = false;
+
     // Use this for initialization
     void Start()
     {
@@ -12,7 +16,25 @@ public class Abort_Reset_Feedback_Script : Photon.MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isRotating)
+        {
+            transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, targetAngles, smooth * Time.deltaTime);
+            float angleDifference = Mathf.Abs(transform.eulerAngles.y - targetAngles.y);
+            if (angleDifference <= 1f)
+                isRotating = false;
+        }
+    }
 
+    [PunRPC]
+    void RPCRotateBackPanel()
+    {
+        if (!isRotating)
+        {
+            targetAngles = transform.eulerAngles + 180f * Vector3.up;
+            if (targetAngles.y > 360)
+                targetAngles.y -= 360;
+            isRotating = true;
+        }
     }
 
     public void p1_Resetting()

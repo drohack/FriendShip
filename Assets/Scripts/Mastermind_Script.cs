@@ -75,23 +75,34 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private int numFufilled = 0;
     private PhotonPlayer[] players;
 
+    // Hazards
+    private GameObject[] hazardsList; // The list of all hazard modules in current round
+    private bool isHazardRunning = false;
+    private int hCommand = -1;
+    private Color defaultAmbientLight;
+    private Vector3 defaultGravity;
+    private int ambientLightCommand = 0;
+    private int gravityCommand = 1;
+    private GameObject plutoniumLight;
+    private GameObject gravityLever;
+
     // Player Objects
     GameObject p1_PlayerControlDeck;
     GameObject p2_PlayerControlDeck;
     GameObject p3_PlayerControlDeck;
     GameObject p4_PlayerControlDeck;
-    GameObject p1_PlayerAbortResetPanel;
-    GameObject p2_PlayerAbortResetPanel;
-    GameObject p3_PlayerAbortResetPanel;
-    GameObject p4_PlayerAbortResetPanel;
+    GameObject p1_BackPanel;
+    GameObject p2_BackPanel;
+    GameObject p3_BackPanel;
+    GameObject p4_BackPanel;
     Command_Feedback_Script p1_CommandFeedbackScript;
     Command_Feedback_Script p2_CommandFeedbackScript;
     Command_Feedback_Script p3_CommandFeedbackScript;
     Command_Feedback_Script p4_CommandFeedbackScript;
-    Abort_Reset_Feedback_Script p1_AbortResetScript;
-    Abort_Reset_Feedback_Script p2_AbortResetScript;
-    Abort_Reset_Feedback_Script p3_AbortResetScript;
-    Abort_Reset_Feedback_Script p4_AbortResetScript;
+    Abort_Reset_Rotate_Feedback_Script p1_AbortResetScript;
+    Abort_Reset_Rotate_Feedback_Script p2_AbortResetScript;
+    Abort_Reset_Rotate_Feedback_Script p3_AbortResetScript;
+    Abort_Reset_Rotate_Feedback_Script p4_AbortResetScript;
     Score_Text_Script p1_scoreTextScript;
     Score_Text_Script p2_scoreTextScript;
     Score_Text_Script p3_scoreTextScript;
@@ -254,43 +265,47 @@ public class Mastermind_Script : Photon.MonoBehaviour
         if (playerPosOccupied[0] == true)
         {
             p1_PlayerControlDeck = GameObject.Find("Player Control Deck 1");
-            p1_PlayerAbortResetPanel = GameObject.Find("Abort Reset Panel 1");
+            p1_BackPanel = GameObject.Find("Back Panel 1");
             p1_CommandFeedbackScript = p1_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
             p1_scoreTextScript = p1_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
             p1_consoleTextScript = p1_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
             p1_consoleTimerScript = p1_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
-            p1_AbortResetScript = p1_PlayerAbortResetPanel.GetComponent<Abort_Reset_Feedback_Script>();
+            p1_AbortResetScript = p1_BackPanel.GetComponent<Abort_Reset_Rotate_Feedback_Script>();
         }
         if (playerPosOccupied[1] == true)
         {
             p2_PlayerControlDeck = GameObject.Find("Player Control Deck 2");
-            p2_PlayerAbortResetPanel = GameObject.Find("Abort Reset Panel 2");
+            p2_BackPanel = GameObject.Find("Back Panel 2");
             p2_scoreTextScript = p2_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
             p2_consoleTextScript = p2_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
             p2_consoleTimerScript = p2_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
             p2_CommandFeedbackScript = p2_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
-            p2_AbortResetScript = p2_PlayerAbortResetPanel.GetComponent<Abort_Reset_Feedback_Script>();
+            p2_AbortResetScript = p2_BackPanel.GetComponent<Abort_Reset_Rotate_Feedback_Script>();
         }
         if (playerPosOccupied[2] == true)
         {
             p3_PlayerControlDeck = GameObject.Find("Player Control Deck 3");
-            p3_PlayerAbortResetPanel = GameObject.Find("Abort Reset Panel 3");
+            p3_BackPanel = GameObject.Find("Back Panel 3");
             p3_scoreTextScript = p3_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
             p3_consoleTextScript = p3_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
             p3_consoleTimerScript = p3_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
             p3_CommandFeedbackScript = p3_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
-            p3_AbortResetScript = p3_PlayerAbortResetPanel.GetComponent<Abort_Reset_Feedback_Script>();
+            p3_AbortResetScript = p3_BackPanel.GetComponent<Abort_Reset_Rotate_Feedback_Script>();
         }
         if (playerPosOccupied[3] == true)
         {
             p4_PlayerControlDeck = GameObject.Find("Player Control Deck 4");
-            p4_PlayerAbortResetPanel = GameObject.Find("Abort Reset Panel 4");
+            p4_BackPanel = GameObject.Find("Back Panel 4");
             p4_scoreTextScript = p4_PlayerControlDeck.transform.Find("Score_Text").GetComponent<Score_Text_Script>();
             p4_consoleTextScript = p4_PlayerControlDeck.transform.Find("Console/Console_Text").GetComponent<Console_Text_Script>();
             p4_consoleTimerScript = p4_PlayerControlDeck.transform.Find("Console/Timer").GetComponent<Console_Timer_Script>();
             p4_CommandFeedbackScript = p4_PlayerControlDeck.transform.Find("Command Feedback").GetComponent<Command_Feedback_Script>();
-            p4_AbortResetScript = p4_PlayerAbortResetPanel.GetComponent<Abort_Reset_Feedback_Script>();
+            p4_AbortResetScript = p4_BackPanel.GetComponent<Abort_Reset_Rotate_Feedback_Script>();
         }
+
+        //Hazards initialize
+        defaultAmbientLight = RenderSettings.ambientLight;
+        defaultGravity = Physics.gravity;
     }
 
     //##################################################################################################################################
@@ -310,6 +325,9 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
         //Destroy all Modules inside of moduleList
         DestroyAllModules();
+
+        //Destroy all Hazard modules
+        DestroyAllHazards();
 
         //Set all timers to 0
         if (playerPosOccupied[0] == true)
@@ -377,6 +395,9 @@ public class Mastermind_Script : Photon.MonoBehaviour
         //Generate the random modules
         GenerateAllPlayerModules();
 
+        //Generate Hazards
+        IntantiateHazards();
+
         //Start the next round!
         UpdateAllConsoles(" START!");
         yield return new WaitForSeconds(1);
@@ -390,6 +411,9 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
         //Start Timer object
         timerScript.StartTimer(levelTimeoutSeconds, levelStartTime);
+
+        //Start Hazards
+        StartCoroutine("RunHazards");
     }
 
     private void SetupLevel()
@@ -1078,6 +1102,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
     {
         isGameOver = true;
 
+        StopCoroutine("RunHazards");
+
         //Stop Timer object
         timerScript.StopTimer(true);
 
@@ -1108,6 +1134,9 @@ public class Mastermind_Script : Photon.MonoBehaviour
             {
                 //Stop Timer
                 timerScript.StopTimer(false);
+
+                StopCoroutine("RunHazards");
+                ResetHazards();
 
                 //Increase total score by (level * 10) & % time remaning in round
                 totalScore += level * 10;
@@ -1954,5 +1983,165 @@ public class Mastermind_Script : Photon.MonoBehaviour
             player.GetPhotonView().RPC("RpcLeaveRoom", PhotonTargets.Others);
         }
         PhotonNetwork.LeaveRoom();
+    }
+
+    //##################################################################################################################################
+    //                                                          Hazards
+    //##################################################################################################################################
+
+    private void IntantiateHazards()
+    {
+        //Create a list of transforms for the different hazards
+        System.Collections.Generic.List<Transform> plutoniumLights = new System.Collections.Generic.List<Transform>();
+        System.Collections.Generic.List<Transform> gravityLevers = new System.Collections.Generic.List<Transform>();
+
+        //Populate the hazard transform lists with only the transfroms from the players in the game
+        if (playerPosOccupied[0] == true)
+        {
+            plutoniumLights.Add(p1_BackPanel.transform.Find("Hazards/Hazard Controls/Plutonium Lights"));
+            gravityLevers.Add(p1_BackPanel.transform.Find("Hazards/Hazard Controls/Gravity Lever"));
+        }
+        if (playerPosOccupied[1] == true)
+        {
+            plutoniumLights.Add(p2_BackPanel.transform.Find("Hazards/Hazard Controls/Plutonium Lights"));
+            gravityLevers.Add(p2_BackPanel.transform.Find("Hazards/Hazard Controls/Gravity Lever"));
+        }
+        if (playerPosOccupied[2] == true)
+        {
+            plutoniumLights.Add(p3_BackPanel.transform.Find("Hazards/Hazard Controls/Plutonium Lights"));
+            gravityLevers.Add(p3_BackPanel.transform.Find("Hazards/Hazard Controls/Gravity Lever"));
+        }
+        if (playerPosOccupied[3] == true)
+        {
+            plutoniumLights.Add(p4_BackPanel.transform.Find("Hazards/Hazard Controls/Plutonium Lights"));
+            gravityLevers.Add(p4_BackPanel.transform.Find("Hazards/Hazard Controls/Gravity Lever"));
+        }
+
+        //Instantiate one of the hazards on an existing player's Back Panel
+        int plPosition = Random.Range(0, numPlayers);
+        int glPosition = Random.Range(0, numPlayers);
+
+        //Get player num so the Hazard can get the correct Back Panel parent
+        object[] plData = new object[1];
+        object[] glData = new object[1];
+        int count = -1;
+        int plPlayerNum = 0;
+        for (int i=0; i<playerPosOccupied.Length; i++)
+        {
+            if (playerPosOccupied[i])
+                count++;
+            if (count == plPosition)
+            {
+                plPlayerNum = i + 1;
+                break;
+            }
+        }
+        plData[0] = plPlayerNum;
+        count = -1;
+        int glPlayerNum = 0;
+        for (int i = 0; i < playerPosOccupied.Length; i++)
+        {
+            if (playerPosOccupied[i])
+                count++;
+            if (count == glPosition)
+            {
+                glPlayerNum = i + 1;
+                break;
+            }
+        }
+        glData[0] = glPlayerNum;
+
+        plutoniumLight = PhotonNetwork.InstantiateSceneObject("Hazards/Plutonium Lights", plutoniumLights[plPosition].position, plutoniumLights[plPosition].rotation, 0, plData);
+        gravityLever = PhotonNetwork.InstantiateSceneObject("Hazards/Gravity Lever", gravityLevers[glPosition].position, gravityLevers[glPosition].rotation, 0, glData);
+
+        hazardsList = new GameObject[2] { plutoniumLight, gravityLever };
+    }
+
+    void DestroyAllHazards()
+    {
+        //Destroy all Modules on all clients
+        if (hazardsList != null)
+        {
+            foreach (GameObject hazard in hazardsList)
+            {
+                hazard.GetPhotonView().RPC("RPCDestroy", PhotonTargets.All);
+            }
+        }
+    }
+
+    IEnumerator RunHazards()
+    {
+        // Continously run starting a new Hazard at random intervals based on level difficulty
+        while(true)
+        {
+            if (!isHazardRunning)
+            {
+                //Get maximum amount of time to wait for the next hazard (minimum of 10 seconds)
+                float maxWait = easyPercent * levelTimeoutSeconds;
+                if (maxWait < 10)
+                    maxWait = 10f;
+
+                float randWait = Random.Range(0f, maxWait);
+
+                //Wait a random amount of time before firing off the next Hazard
+                yield return new WaitForSeconds(maxWait);
+
+                isHazardRunning = true;
+                //Roll for which Hazard to start
+                photonView.RPC("StartHazards", PhotonTargets.All, Random.Range(0, 2));
+            }
+            else
+            {
+                // Hazard already running, wait 1 second before you check again
+                yield return new WaitForSeconds(1);
+            }
+        }
+    }
+
+    [PunRPC]
+    void StartHazards(int randHCommand)
+    {
+        hCommand = randHCommand;
+        if (randHCommand == ambientLightCommand)
+        {
+            //Turn off ambient lights
+            RenderSettings.ambientLight = Color.black;
+        }
+        else if (randHCommand == gravityCommand)
+        {
+            //Turn off gravity (set the lever as OFF)
+            if(PhotonNetwork.isMasterClient)
+                gravityLever.GetPhotonView().RPC("RPCLowerHandle", PhotonTargets.All, null);
+            Physics.gravity = Vector3.zero;
+        }
+    }
+
+    private void ResetHazards()
+    {
+        photonView.RPC("TurnOnAmbientLight", PhotonTargets.All, null);
+        photonView.RPC("TurnOnGravity", PhotonTargets.All, null);
+        gravityLever.GetPhotonView().RPC("RPCRaiseHandle", PhotonTargets.All, null);
+    }
+
+    [PunRPC]
+    public void TurnOnAmbientLight()
+    {
+        if (hCommand == ambientLightCommand)
+        {
+            RenderSettings.ambientLight = defaultAmbientLight;
+            isHazardRunning = false;
+            hCommand = -1;
+        }
+    }
+
+    [PunRPC]
+    void TurnOnGravity()
+    {
+        if (hCommand == gravityCommand)
+        {
+            Physics.gravity = defaultGravity;
+            isHazardRunning = false;
+            hCommand = -1;
+        }
     }
 }

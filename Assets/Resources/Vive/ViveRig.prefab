@@ -4274,7 +4274,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   left: {fileID: 1000010535963074}
   right: {fileID: 1000013117992346}
-  objects: []
+  objects:
+  - {fileID: 1000010535963074}
+  - {fileID: 1000013117992346}
 --- !u!114 &114000011475648260
 MonoBehaviour:
   m_ObjectHideFlags: 1

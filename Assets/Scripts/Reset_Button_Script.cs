@@ -27,6 +27,8 @@ public class Reset_Button_Script : Photon.MonoBehaviour
             playerNum = (int)data[0];
         }
 
+        transform.parent = GameObject.Find("Back Panel " + playerNum).transform;
+
         handleScript = transform.Find("Handle").GetComponent<Highlight_Handle_Top_Script>();
         anim = transform.Find("Handle").GetComponent<Animator>();
         isButtonDown = false;

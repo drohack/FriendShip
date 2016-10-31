@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Abort_Button_Script : Photon.MonoBehaviour
+public class Rotate_Button_Script : Photon.MonoBehaviour
 {
 
     private Highlight_Handle_Top_Script handleScript;
@@ -12,29 +12,29 @@ public class Abort_Button_Script : Photon.MonoBehaviour
 
     Mastermind_Script mastermindScript;
 
+    Abort_Reset_Rotate_Feedback_Script abortResetRotateFeedbackScript;
+
     //Network variables
-    public string newName;
-    public bool abortStatus = false;
     public int playerNum;
 
     // Use this for initialization
-    void Start()
-    {
+    void Start() {
         //Load Network data
         object[] data = photonView.instantiationData;
-        if (data != null)
+        if(data != null)
         {
             playerNum = (int)data[0];
         }
 
         transform.parent = GameObject.Find("Back Panel " + playerNum).transform;
+        abortResetRotateFeedbackScript = transform.parent.gameObject.GetComponent<Abort_Reset_Rotate_Feedback_Script>();
 
         handleScript = transform.Find("Handle").GetComponent<Highlight_Handle_Top_Script>();
         anim = transform.Find("Handle").GetComponent<Animator>();
         isButtonDown = false;
         isAnimating = false;
         isLocked = false;
-        
+
         mastermindScript = GameObject.FindGameObjectWithTag("Mastermind").GetComponent<Mastermind_Script>();
     }
 
@@ -45,21 +45,18 @@ public class Abort_Button_Script : Photon.MonoBehaviour
         {
             isLocked = false;
             isButtonDown = false;
-            abortStatus = false;
             photonView.RPC("RPCPlayAnim", PhotonTargets.Others, "Button_Up_Anim");
             StartCoroutine(WaitForAnimation(anim, "Button_Up_Anim"));
-            photonView.RPC("CmdSendAbortCommand", PhotonTargets.MasterClient, abortStatus, playerNum);
         }
 
         if (!isAnimating && !isLocked && !isButtonDown && (handleScript.isGrabbing || handleScript.isColliding))
         {
             isLocked = true;
             isButtonDown = true;
-            abortStatus = true;
             //send tapped rCommand to Server
             photonView.RPC("RPCPlayAnim", PhotonTargets.Others, "Button_Down_Anim");
             StartCoroutine(WaitForAnimation(anim, "Button_Down_Anim"));
-            photonView.RPC("CmdSendAbortCommand", PhotonTargets.MasterClient, abortStatus, playerNum);
+            abortResetRotateFeedbackScript.photonView.RPC("RPCRotateBackPanel", PhotonTargets.All, null);
         }
     }
 
@@ -73,12 +70,6 @@ public class Abort_Button_Script : Photon.MonoBehaviour
         } while (animation.GetCurrentAnimatorStateInfo(0).IsName(animationName) && !animation.IsInTransition(0));
 
         isAnimating = false;
-    }
-
-    [PunRPC]
-    void CmdSendAbortCommand(bool sentAbortStatus, int sentPlayerNum)
-    {
-        mastermindScript.AbortCheck(sentAbortStatus, sentPlayerNum);
     }
 
     [PunRPC]
