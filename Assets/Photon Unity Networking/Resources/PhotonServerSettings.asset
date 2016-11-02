@@ -104,4 +104,10 @@ MonoBehaviour:
   - TurnOnAmbientLight
   - RPCRotateBackPanel
   - RPCRaiseHandle
+  - CmdRESIZENormal
+  - CmdTurnOffStatic
+  - CmdVentFog
+  - RESIZENormal
+  - TurnOffStatic
+  - VentFog
   DisableAutoOpenWizard: 1

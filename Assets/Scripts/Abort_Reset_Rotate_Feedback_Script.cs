@@ -6,6 +6,7 @@ public class Abort_Reset_Rotate_Feedback_Script : Photon.MonoBehaviour
     public float smooth = 1f;
     public Vector3 targetAngles;
     public bool isRotating = false;
+    public bool isAbortResetFacing = false;
 
     // Use this for initialization
     void Start()
@@ -21,7 +22,10 @@ public class Abort_Reset_Rotate_Feedback_Script : Photon.MonoBehaviour
             transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, targetAngles, smooth * Time.deltaTime);
             float angleDifference = Mathf.Abs(transform.eulerAngles.y - targetAngles.y);
             if (angleDifference <= 1f)
+            {
                 isRotating = false;
+                isAbortResetFacing = !isAbortResetFacing;
+            }
         }
     }
 

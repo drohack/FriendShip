@@ -76,15 +76,30 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private PhotonPlayer[] players;
 
     // Hazards
+    private const int numHazards = 4;
     private GameObject[] hazardsList; // The list of all hazard modules in current round
-    private bool isHazardRunning = false;
-    private int hCommand = -1;
+    private bool[] activeHazardsList;
+    private bool isWaitingForHazard = false;
+    // ambient light
+    private int ambientLightIndex = 0;
     private Color defaultAmbientLight;
-    private Vector3 defaultGravity;
-    private int ambientLightCommand = 0;
-    private int gravityCommand = 1;
     private GameObject plutoniumLight;
-    private GameObject gravityLever;
+    // fog valve
+    private int fogValveIndex = 1;
+    private float defaultFogDensity;
+    private GameObject fogValve;
+    // resize button
+    private int resizeButtonIndex = 2;
+    private Vector3 defaultScale;
+    private GameObject resizeButton;
+    // static lever
+    private int staticLeverIndex = 3;
+    private float defaultStatic;
+    private GameObject staticLever;
+    // gravity
+    //private int gravityIndex = 1;
+    //private Vector3 defaultGravity;
+    //private GameObject gravityLever;
 
     // Player Objects
     GameObject p1_PlayerControlDeck;
@@ -305,8 +320,10 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
         //Hazards initialize
         defaultAmbientLight = RenderSettings.ambientLight;
-        defaultGravity = Physics.gravity;
-    }
+        defaultFogDensity = RenderSettings.fogDensity;
+        defaultScale = GameObject.FindGameObjectWithTag("Player").transform.localScale;
+        defaultStatic = 0f;
+}
 
     //##################################################################################################################################
     //                                                      LEVEL SETUP
@@ -1993,68 +2010,83 @@ public class Mastermind_Script : Photon.MonoBehaviour
     {
         //Create a list of transforms for the different hazards
         System.Collections.Generic.List<Transform> plutoniumLights = new System.Collections.Generic.List<Transform>();
-        System.Collections.Generic.List<Transform> gravityLevers = new System.Collections.Generic.List<Transform>();
+        System.Collections.Generic.List<Transform> fogValves = new System.Collections.Generic.List<Transform>();
+        System.Collections.Generic.List<Transform> resizeButtons = new System.Collections.Generic.List<Transform>();
+        System.Collections.Generic.List<Transform> staticLevers = new System.Collections.Generic.List<Transform>();
 
         //Populate the hazard transform lists with only the transfroms from the players in the game
         if (playerPosOccupied[0] == true)
         {
             plutoniumLights.Add(p1_BackPanel.transform.Find("Hazards/Hazard Controls/Plutonium Lights"));
-            gravityLevers.Add(p1_BackPanel.transform.Find("Hazards/Hazard Controls/Gravity Lever"));
+            fogValves.Add(p1_BackPanel.transform.Find("Hazards/Hazard Controls/Fog Valve"));
+            resizeButtons.Add(p1_BackPanel.transform.Find("Hazards/Hazard Controls/RESIZE Button"));
+            staticLevers.Add(p1_BackPanel.transform.Find("Hazards/Hazard Controls/Static Lever"));
         }
         if (playerPosOccupied[1] == true)
         {
             plutoniumLights.Add(p2_BackPanel.transform.Find("Hazards/Hazard Controls/Plutonium Lights"));
-            gravityLevers.Add(p2_BackPanel.transform.Find("Hazards/Hazard Controls/Gravity Lever"));
+            fogValves.Add(p2_BackPanel.transform.Find("Hazards/Hazard Controls/Fog Valve"));
+            resizeButtons.Add(p2_BackPanel.transform.Find("Hazards/Hazard Controls/RESIZE Button"));
+            staticLevers.Add(p2_BackPanel.transform.Find("Hazards/Hazard Controls/Static Lever"));
         }
         if (playerPosOccupied[2] == true)
         {
             plutoniumLights.Add(p3_BackPanel.transform.Find("Hazards/Hazard Controls/Plutonium Lights"));
-            gravityLevers.Add(p3_BackPanel.transform.Find("Hazards/Hazard Controls/Gravity Lever"));
+            fogValves.Add(p3_BackPanel.transform.Find("Hazards/Hazard Controls/Fog Valve"));
+            resizeButtons.Add(p3_BackPanel.transform.Find("Hazards/Hazard Controls/RESIZE Button"));
+            staticLevers.Add(p3_BackPanel.transform.Find("Hazards/Hazard Controls/Static Lever"));
         }
         if (playerPosOccupied[3] == true)
         {
             plutoniumLights.Add(p4_BackPanel.transform.Find("Hazards/Hazard Controls/Plutonium Lights"));
-            gravityLevers.Add(p4_BackPanel.transform.Find("Hazards/Hazard Controls/Gravity Lever"));
+            fogValves.Add(p4_BackPanel.transform.Find("Hazards/Hazard Controls/Fog Valve"));
+            resizeButtons.Add(p4_BackPanel.transform.Find("Hazards/Hazard Controls/RESIZE Button"));
+            staticLevers.Add(p4_BackPanel.transform.Find("Hazards/Hazard Controls/Static Lever"));
         }
 
         //Instantiate one of the hazards on an existing player's Back Panel
         int plPosition = Random.Range(0, numPlayers);
-        int glPosition = Random.Range(0, numPlayers);
+        int fvPosition = Random.Range(0, numPlayers);
+        int rbPosition = Random.Range(0, numPlayers);
+        int slPosition = Random.Range(0, numPlayers);
 
         //Get player num so the Hazard can get the correct Back Panel parent
         object[] plData = new object[1];
-        object[] glData = new object[1];
+        object[] fvData = new object[1];
+        object[] rbData = new object[1];
+        object[] slData = new object[1];
         int count = -1;
-        int plPlayerNum = 0;
+        int plPlayerNum = -1;
+        int fvPlayerNum = -1;
+        int rbPlayerNum = -1;
+        int slPlayerNum = -1;
         for (int i=0; i<playerPosOccupied.Length; i++)
         {
             if (playerPosOccupied[i])
                 count++;
-            if (count == plPosition)
-            {
+            if (plPlayerNum == -1 && count == plPosition)
                 plPlayerNum = i + 1;
-                break;
-            }
+            if (fvPlayerNum == -1 && count == fvPosition)
+                fvPlayerNum = i + 1;
+            if (rbPlayerNum == -1 && count == rbPosition)
+                rbPlayerNum = i + 1;
+            if (slPlayerNum == -1 && count == slPosition)
+                slPlayerNum = i + 1;
         }
         plData[0] = plPlayerNum;
-        count = -1;
-        int glPlayerNum = 0;
-        for (int i = 0; i < playerPosOccupied.Length; i++)
-        {
-            if (playerPosOccupied[i])
-                count++;
-            if (count == glPosition)
-            {
-                glPlayerNum = i + 1;
-                break;
-            }
-        }
-        glData[0] = glPlayerNum;
+        fvData[0] = fvPlayerNum;
+        rbData[0] = rbPlayerNum;
+        slData[0] = slPlayerNum;
 
         plutoniumLight = PhotonNetwork.InstantiateSceneObject("Hazards/Plutonium Lights", plutoniumLights[plPosition].position, plutoniumLights[plPosition].rotation, 0, plData);
-        gravityLever = PhotonNetwork.InstantiateSceneObject("Hazards/Gravity Lever", gravityLevers[glPosition].position, gravityLevers[glPosition].rotation, 0, glData);
+        fogValve = PhotonNetwork.InstantiateSceneObject("Hazards/Fog Valve", fogValves[fvPosition].position, fogValves[fvPosition].rotation, 0, fvData);
+        resizeButton = PhotonNetwork.InstantiateSceneObject("Hazards/RESIZE Button", resizeButtons[rbPosition].position, resizeButtons[rbPosition].rotation, 0, rbData);
+        staticLever = PhotonNetwork.InstantiateSceneObject("Hazards/Static Lever", staticLevers[slPosition].position, staticLevers[slPosition].rotation, 0, slData);
 
-        hazardsList = new GameObject[2] { plutoniumLight, gravityLever };
+        hazardsList = new GameObject[numHazards] { plutoniumLight, fogValve, resizeButton, staticLever };
+        activeHazardsList = new bool[numHazards] { false, false, false, false };
+
+        isWaitingForHazard = false;
     }
 
     void DestroyAllHazards()
@@ -2074,21 +2106,32 @@ public class Mastermind_Script : Photon.MonoBehaviour
         // Continously run starting a new Hazard at random intervals based on level difficulty
         while(true)
         {
-            if (!isHazardRunning)
+            if (!isWaitingForHazard && !IsAllHazardsActive())
             {
+                isWaitingForHazard = true;
+
                 //Get maximum amount of time to wait for the next hazard (minimum of 10 seconds)
                 float maxWait = easyPercent * levelTimeoutSeconds;
                 if (maxWait < 10)
                     maxWait = 10f;
-
-                float randWait = Random.Range(0f, maxWait);
+                
 
                 //Wait a random amount of time before firing off the next Hazard
-                yield return new WaitForSeconds(maxWait);
+                yield return new WaitForSeconds(randWait);
 
-                isHazardRunning = true;
-                //Roll for which Hazard to start
-                photonView.RPC("StartHazards", PhotonTargets.All, Random.Range(0, 2));
+                //Roll for which Hazard to start (don't start one that's already going)
+                int randHazardIndex = 0;
+                if (!IsAllHazardsActive())
+                {
+                    do
+                    {
+                        randHazardIndex = Random.Range(0, numHazards);
+                    } while (activeHazardsList[randHazardIndex]);
+
+                    isWaitingForHazard = false;
+
+                    photonView.RPC("StartHazards", PhotonTargets.All, randHazardIndex);
+                }
             }
             else
             {
@@ -2098,50 +2141,150 @@ public class Mastermind_Script : Photon.MonoBehaviour
         }
     }
 
-    [PunRPC]
-    void StartHazards(int randHCommand)
+    private bool IsAllHazardsActive()
     {
-        hCommand = randHCommand;
-        if (randHCommand == ambientLightCommand)
+        bool isAllActive = true;
+        foreach (bool h in activeHazardsList)
+        {
+            if (!h)
+            {
+                isAllActive = false;
+                break;
+            }
+        }
+        return isAllActive;
+    }
+
+    [PunRPC]
+    void StartHazards(int randHazardIndex)
+    {
+        activeHazardsList[randHazardIndex] = true;
+
+        if (randHazardIndex == ambientLightIndex)
         {
             //Turn off ambient lights
             RenderSettings.ambientLight = Color.black;
         }
-        else if (randHCommand == gravityCommand)
+        else if (randHazardIndex == fogValveIndex)
         {
-            //Turn off gravity (set the lever as OFF)
-            if(PhotonNetwork.isMasterClient)
-                gravityLever.GetPhotonView().RPC("RPCLowerHandle", PhotonTargets.All, null);
-            Physics.gravity = Vector3.zero;
+            //Increase the fog density
+            RenderSettings.fogDensity = defaultFogDensity * 50;
+        }
+        else if (randHazardIndex == resizeButtonIndex)
+        {
+            //Increase the scale of all Player objects by 3x
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        }
+        else if (randHazardIndex == staticLeverIndex)
+        {
+            // Turn up static (lower the static lever)
+            if (PhotonNetwork.isMasterClient)
+                staticLever.GetPhotonView().RPC("RPCLowerHandle", PhotonTargets.All, null);
+            // For each Main Camera that has the script "NoiseAndGrain" turn it on
+            foreach (GameObject camera in GameObject.FindGameObjectsWithTag("MainCamera"))
+            {
+                if (camera.GetComponent<UnityStandardAssets.ImageEffects.NoiseAndGrain>() != null)
+                {
+                    camera.GetComponent<UnityStandardAssets.ImageEffects.NoiseAndGrain>().enabled = true;
+                }
+            }
+        }
+        //else if (randHazardIndex == gravityIndex)
+        //{
+        //    //Turn off gravity (set the lever as OFF)
+        //    if(PhotonNetwork.isMasterClient)
+        //        gravityLever.GetPhotonView().RPC("RPCLowerHandle", PhotonTargets.All, null);
+        //    Physics.gravity = Vector3.zero;
+        //}
+    }
+
+    IEnumerator IncreaseFog()
+    {
+        while(RenderSettings.fogDensity <= (defaultFogDensity * 50))
+        {
+            RenderSettings.fogDensity = Mathf.Lerp(defaultFogDensity, (defaultFogDensity * 50), Time.deltaTime);
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    IEnumerator DecreaseFog()
+    {
+        while (RenderSettings.fogDensity >= defaultFogDensity)
+        {
+            RenderSettings.fogDensity = Mathf.Lerp(RenderSettings.fogDensity, defaultFogDensity, Time.deltaTime);
+            yield return new WaitForSeconds(0.1f);
         }
     }
 
     private void ResetHazards()
     {
         photonView.RPC("TurnOnAmbientLight", PhotonTargets.All, null);
-        photonView.RPC("TurnOnGravity", PhotonTargets.All, null);
-        gravityLever.GetPhotonView().RPC("RPCRaiseHandle", PhotonTargets.All, null);
+        photonView.RPC("VentFog", PhotonTargets.All, null);
+        photonView.RPC("RESIZENormal", PhotonTargets.All, null);
+        photonView.RPC("TurnOffStatic", PhotonTargets.All, null);
+        staticLever.GetPhotonView().RPC("RPCRaiseHandle", PhotonTargets.All, null);
+        //photonView.RPC("TurnOnGravity", PhotonTargets.All, null);
+        //gravityLever.GetPhotonView().RPC("RPCRaiseHandle", PhotonTargets.All, null);
+
+        for (int i = 0; i < activeHazardsList.Length; i++)
+            activeHazardsList[i] = false;
     }
 
     [PunRPC]
     public void TurnOnAmbientLight()
     {
-        if (hCommand == ambientLightCommand)
+        if (activeHazardsList[ambientLightIndex])
         {
             RenderSettings.ambientLight = defaultAmbientLight;
-            isHazardRunning = false;
-            hCommand = -1;
+            activeHazardsList[ambientLightIndex] = false;
         }
     }
 
     [PunRPC]
-    void TurnOnGravity()
+    public void VentFog()
     {
-        if (hCommand == gravityCommand)
+        if (activeHazardsList[fogValveIndex])
         {
-            Physics.gravity = defaultGravity;
-            isHazardRunning = false;
-            hCommand = -1;
+            RenderSettings.fogDensity = defaultFogDensity;
+            activeHazardsList[fogValveIndex] = false;
         }
     }
+
+    [PunRPC]
+    public void RESIZENormal()
+    {
+        if (activeHazardsList[resizeButtonIndex])
+        {
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+                player.transform.localScale = defaultScale;
+            activeHazardsList[resizeButtonIndex] = false;
+        }
+    }
+
+    [PunRPC]
+    void TurnOffStatic()
+    {
+        if (activeHazardsList[staticLeverIndex])
+        {
+            // For each Main Camera that has the script "NoiseAndGrain" turn it on
+            foreach (GameObject camera in GameObject.FindGameObjectsWithTag("MainCamera"))
+            {
+                if (camera.GetComponent<UnityStandardAssets.ImageEffects.NoiseAndGrain>() != null)
+                {
+                    camera.GetComponent<UnityStandardAssets.ImageEffects.NoiseAndGrain>().enabled = false;
+                }
+            }
+            activeHazardsList[staticLeverIndex] = false;
+        }
+    }
+
+    //[PunRPC]
+    //void TurnOnGravity()
+    //{
+    //    if (activeHazardsList[gravityIndex])
+    //    {
+    //        Physics.gravity = defaultGravity;
+    //        activeHazardsList[gravityIndex] = false;
+    //    }
+    //}
 }

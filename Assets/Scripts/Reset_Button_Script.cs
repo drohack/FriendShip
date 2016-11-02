@@ -11,6 +11,7 @@ public class Reset_Button_Script : Photon.MonoBehaviour
     private bool isLocked = false;
 
     Mastermind_Script mastermindScript;
+    Abort_Reset_Rotate_Feedback_Script feedbackScript;
 
     //Network variables
     public string newName;
@@ -36,6 +37,7 @@ public class Reset_Button_Script : Photon.MonoBehaviour
         isLocked = false;
         
         mastermindScript = GameObject.FindGameObjectWithTag("Mastermind").GetComponent<Mastermind_Script>();
+        feedbackScript = transform.parent.gameObject.GetComponent<Abort_Reset_Rotate_Feedback_Script>();
     }
 
     // Update is called once per frame
@@ -48,7 +50,8 @@ public class Reset_Button_Script : Photon.MonoBehaviour
             resetStatus = false;
             photonView.RPC("RPCPlayAnim", PhotonTargets.Others, "Button_Up_Anim");
             StartCoroutine(WaitForAnimation(anim, "Button_Up_Anim"));
-            photonView.RPC("CmdSendResetCommand", PhotonTargets.MasterClient, resetStatus, playerNum);
+            if (feedbackScript.isAbortResetFacing)
+                photonView.RPC("CmdSendResetCommand", PhotonTargets.MasterClient, resetStatus, playerNum);
         }
 
         if (!isAnimating && !isLocked && !isButtonDown && (handleScript.isGrabbing || handleScript.isColliding))
@@ -59,7 +62,8 @@ public class Reset_Button_Script : Photon.MonoBehaviour
             //send tapped rCommand to Server
             photonView.RPC("RPCPlayAnim", PhotonTargets.Others, "Button_Down_Anim");
             StartCoroutine(WaitForAnimation(anim, "Button_Down_Anim"));
-            photonView.RPC("CmdSendResetCommand", PhotonTargets.MasterClient, resetStatus, playerNum);
+            if (feedbackScript.isAbortResetFacing)
+                photonView.RPC("CmdSendResetCommand", PhotonTargets.MasterClient, resetStatus, playerNum);
         }
     }
 

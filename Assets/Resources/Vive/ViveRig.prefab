@@ -1645,7 +1645,8 @@ GameObject:
   - 4: {fileID: 4000012993320478}
   - 20: {fileID: 20000010139351218}
   - 124: {fileID: 124000013833390706}
-  - 114: {fileID: 114000013469712724}
+  - 114: {fileID: 114000010043625486}
+  - 114: {fileID: 114000011111839118}
   m_Layer: 0
   m_Name: Camera (eye)
   m_TagString: MainCamera
@@ -4211,6 +4212,32 @@ Light:
   m_BounceIntensity: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114000010043625486
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013308933738}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9191284b058eef549b7108b5f04e1117, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  intensityMultiplier: 3.5
+  generalIntensity: 0.5
+  blackIntensity: 1
+  whiteIntensity: 1
+  midGrey: 0.2
+  dx11Grain: 0
+  softness: 0
+  monochrome: 0
+  intensities: {x: 1, y: 1, z: 1}
+  tiling: {x: 64, y: 64, z: 64}
+  monochromeTiling: 64
+  filterMode: 1
+  noiseTexture: {fileID: 2800000, guid: 7a632f967e8ad42f5bd275898151ab6a, type: 3}
+  noiseShader: {fileID: 4800000, guid: b0249d8c935344451aa4de6db76f0688, type: 3}
+  dx11NoiseShader: {fileID: 4800000, guid: 8b30686bb4322ab42ad5eb50a0210b58, type: 3}
 --- !u!114 &114000010152694402
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4277,6 +4304,20 @@ MonoBehaviour:
   objects:
   - {fileID: 1000010535963074}
   - {fileID: 1000013117992346}
+--- !u!114 &114000011111839118
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013308933738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bca9ccf900ccc84c887d783321d27e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _head: {fileID: 4000010944412608}
+  _ears: {fileID: 4000011901385178}
+  wireframe: 0
 --- !u!114 &114000011475648260
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4436,20 +4477,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_showGizmos: 0
---- !u!114 &114000013469712724
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013308933738}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bca9ccf900ccc84c887d783321d27e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _head: {fileID: 4000010944412608}
-  _ears: {fileID: 4000011901385178}
-  wireframe: 0
 --- !u!114 &114000013706597314
 MonoBehaviour:
   m_ObjectHideFlags: 1
