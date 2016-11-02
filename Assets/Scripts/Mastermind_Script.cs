@@ -2115,6 +2115,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 if (maxWait < 10)
                     maxWait = 10f;
                 
+                float randWait = Random.Range((maxWait / 4f), maxWait);
 
                 //Wait a random amount of time before firing off the next Hazard
                 yield return new WaitForSeconds(randWait);
@@ -2174,6 +2175,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         {
             //Increase the scale of all Player objects by 3x
             foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+                player.transform.localScale = player.transform.localScale * 2.5f;
         }
         else if (randHazardIndex == staticLeverIndex)
         {
