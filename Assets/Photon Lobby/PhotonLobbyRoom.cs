@@ -92,6 +92,16 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
 
         //Disable Main Camera (we will be using the OvrRigPhoton's camera
         GameObject.Find("Main Camera").SetActive(false);
+
+        //wait till you've finished adding the other player to join the room
+        StartCoroutine(SpawnOvrRigPhoton());
+
+        //Update room name on player join
+        string roomName = " " + PhotonNetwork.room.name;
+        p1_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
+        p2_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
+        p3_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
+        p4_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
     }
 
     public void Start()
@@ -295,6 +305,8 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
         PhotonNetwork.player.SetCustomProperties(ht3);
         isOtherPlayerJoining = false;
 
+        PhotonNetwork.SendOutgoingCommands();    // send immediately! because: in most cases the client will begin to load and not send for a while
+
         UpdatePlayerText();
     }
 
@@ -340,19 +352,6 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
 #else
 	    SceneManager.LoadScene(PhotonLobby_VR.SceneNameMenu);
 #endif
-    }
-
-    void OnLevelWasLoaded(int level)
-    {
-        //wait till you've finished adding the other player to join the room
-        StartCoroutine(SpawnOvrRigPhoton());
-        
-        //Update room name on player join
-        string roomName = " " + PhotonNetwork.room.name;
-        p1_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
-        p2_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
-        p3_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
-        p4_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
     }
 
     private System.Collections.IEnumerator SpawnOvrRigPhoton()
