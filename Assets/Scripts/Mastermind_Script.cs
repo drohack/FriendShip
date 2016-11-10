@@ -83,8 +83,11 @@ public class Mastermind_Script : Photon.MonoBehaviour
     // ambient light
     private int ambientLightIndex = 0;
     private Color defaultAmbientLight;
+    private float defaultDirectionalLightIntensity;
     private GameObject plutoniumLight;
+    private Light directionalLight;
     // fog valve
+    private bool isIncreasingFog = false;
     private int fogValveIndex = 1;
     private float defaultFogDensity;
     private GameObject fogValve;
@@ -96,6 +99,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private int staticLeverIndex = 3;
     private float defaultStatic;
     private GameObject staticLever;
+    private AudioSource staticAudio;
     // gravity
     //private int gravityIndex = 1;
     //private Vector3 defaultGravity;
@@ -319,10 +323,13 @@ public class Mastermind_Script : Photon.MonoBehaviour
         }
 
         //Hazards initialize
+        directionalLight = GameObject.Find("Directional Light").GetComponent<Light>();
+        defaultDirectionalLightIntensity = directionalLight.intensity;
         defaultAmbientLight = RenderSettings.ambientLight;
         defaultFogDensity = RenderSettings.fogDensity;
         defaultScale = GameObject.FindGameObjectWithTag("Player").transform.localScale;
         defaultStatic = 0f;
+        staticAudio = GameObject.Find("HazardsExtra").GetComponent<AudioSource>();
 }
 
     //##################################################################################################################################
@@ -1977,6 +1984,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
         //PhotonNetwork.LeaveRoom();
         if (PhotonNetwork.isMasterClient)
         {
+            ResetHazards();
+
             GameObject[] objects = GameObject.FindObjectsOfType<GameObject>();
             foreach (GameObject o in objects)
             {
@@ -1995,6 +2004,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
     public void AbortGame()
     {
+        ResetHazards();
         foreach (GameObject player in playerModules)
         {
             player.GetPhotonView().RPC("RpcLeaveRoom", PhotonTargets.Others);
@@ -2118,7 +2128,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 float randWait = Random.Range((maxWait / 4f), maxWait);
 
                 //Wait a random amount of time before firing off the next Hazard
-                yield return new WaitForSeconds(randWait);
+                yield return new WaitForSeconds(5);
 
                 //Roll for which Hazard to start (don't start one that's already going)
                 int randHazardIndex = 0;
@@ -2165,11 +2175,14 @@ public class Mastermind_Script : Photon.MonoBehaviour
         {
             //Turn off ambient lights
             RenderSettings.ambientLight = Color.black;
+            directionalLight.intensity = 0f;
         }
         else if (randHazardIndex == fogValveIndex)
         {
             //Increase the fog density
-            RenderSettings.fogDensity = defaultFogDensity * 50;
+            isIncreasingFog = true;
+            StartCoroutine("IncreaseFog");
+            //RenderSettings.fogDensity = defaultFogDensity * 50;
         }
         else if (randHazardIndex == resizeButtonIndex)
         {
@@ -2190,6 +2203,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                     camera.GetComponent<UnityStandardAssets.ImageEffects.NoiseAndGrain>().enabled = true;
                 }
             }
+            staticAudio.Play();
         }
         //else if (randHazardIndex == gravityIndex)
         //{
@@ -2202,19 +2216,27 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
     IEnumerator IncreaseFog()
     {
-        while(RenderSettings.fogDensity <= (defaultFogDensity * 50))
+        float elapsedTime = 0f;
+        float totalTime = 6.0f;
+        float startingFogDensity = RenderSettings.fogDensity;
+        while (RenderSettings.fogDensity <= (defaultFogDensity * 50) && isIncreasingFog)
         {
-            RenderSettings.fogDensity = Mathf.Lerp(defaultFogDensity, (defaultFogDensity * 50), Time.deltaTime);
-            yield return new WaitForSeconds(0.1f);
+            elapsedTime += Time.deltaTime;
+            RenderSettings.fogDensity = Mathf.Lerp(startingFogDensity, (defaultFogDensity * 50), (elapsedTime / totalTime));
+            yield return null;
         }
     }
 
     IEnumerator DecreaseFog()
     {
-        while (RenderSettings.fogDensity >= defaultFogDensity)
+        float elapsedTime = 0f;
+        float totalTime = 3.0f;
+        float startingFogDensity = RenderSettings.fogDensity;
+        while (RenderSettings.fogDensity >= defaultFogDensity && !isIncreasingFog)
         {
-            RenderSettings.fogDensity = Mathf.Lerp(RenderSettings.fogDensity, defaultFogDensity, Time.deltaTime);
-            yield return new WaitForSeconds(0.1f);
+            elapsedTime += Time.deltaTime;
+            RenderSettings.fogDensity = Mathf.Lerp(startingFogDensity, defaultFogDensity, (elapsedTime / totalTime));
+            yield return null;
         }
     }
 
@@ -2238,6 +2260,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         if (activeHazardsList[ambientLightIndex])
         {
             RenderSettings.ambientLight = defaultAmbientLight;
+            directionalLight.intensity = defaultDirectionalLightIntensity;
             activeHazardsList[ambientLightIndex] = false;
         }
     }
@@ -2247,7 +2270,10 @@ public class Mastermind_Script : Photon.MonoBehaviour
     {
         if (activeHazardsList[fogValveIndex])
         {
-            RenderSettings.fogDensity = defaultFogDensity;
+            isIncreasingFog = false;
+            StopCoroutine("IncreaseFog");
+            StartCoroutine("DecreaseFog");
+            //RenderSettings.fogDensity = defaultFogDensity;
             activeHazardsList[fogValveIndex] = false;
         }
     }
@@ -2276,6 +2302,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                     camera.GetComponent<UnityStandardAssets.ImageEffects.NoiseAndGrain>().enabled = false;
                 }
             }
+            staticAudio.Stop();
             activeHazardsList[staticLeverIndex] = false;
         }
     }
