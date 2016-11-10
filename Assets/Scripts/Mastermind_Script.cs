@@ -2128,7 +2128,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 float randWait = Random.Range((maxWait / 4f), maxWait);
 
                 //Wait a random amount of time before firing off the next Hazard
-                yield return new WaitForSeconds(5);
+                yield return new WaitForSeconds(randWait);
 
                 //Roll for which Hazard to start (don't start one that's already going)
                 int randHazardIndex = 0;
