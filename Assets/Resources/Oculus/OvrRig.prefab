@@ -168,8 +168,8 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 409152}
-  - {fileID: 4000013354370990}
   - {fileID: 4000012267703616}
+  - {fileID: 4000013354370990}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &437332
@@ -3153,7 +3153,7 @@ Transform:
   - {fileID: 4000013635172316}
   - {fileID: 4000011996224602}
   m_Father: {fileID: 415636}
-  m_RootOrder: 2
+  m_RootOrder: 1
 --- !u!4 &4000012332039956
 Transform:
   m_ObjectHideFlags: 1
@@ -3494,7 +3494,7 @@ Transform:
   - {fileID: 4000011907845348}
   - {fileID: 4000010509830446}
   m_Father: {fileID: 415636}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!4 &4000013376549994
 Transform:
   m_ObjectHideFlags: 1
@@ -5541,7 +5541,7 @@ ParticleSystem:
   moveWithTransform: 0
   autoRandomSeed: 1
   scalingMode: 2
-  randomSeed: -2085908077
+  randomSeed: -903943327
   InitialModule:
     serializedVersion: 2
     enabled: 1
@@ -7260,7 +7260,7 @@ ParticleSystem:
   moveWithTransform: 0
   autoRandomSeed: 1
   scalingMode: 2
-  randomSeed: 434387239
+  randomSeed: -1441428317
   InitialModule:
     serializedVersion: 2
     enabled: 1

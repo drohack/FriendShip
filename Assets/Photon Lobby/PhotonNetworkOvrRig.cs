@@ -4,10 +4,12 @@ using OVRTouchSample;
 
 public class PhotonNetworkOvrRig : Photon.MonoBehaviour
 {
-    [SerializeField]
-    Transform ovrCameraRig;
-    [SerializeField]
     Transform centerEyeAnchor;
+
+    [SerializeField]
+    Transform EyesAndMouth;
+    [SerializeField]
+    PhotonVoiceRecorder photonVoiceRecorder;
     [SerializeField]
     Transform LeftHandPf;
     [SerializeField]
@@ -50,8 +52,6 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
     SkinnedMeshRenderer skinnedMeshRendererR;
     [SerializeField]
     GameObject playerArea;
-    [SerializeField]
-    PhotonVoiceRecorder photonVoiceRecorder;
 
     private static class Const
     {
@@ -86,10 +86,28 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
     {
         if (photonView.isMine)
         {
-            // Enable your own camera and scripts
+            // Move your saved OVRCameraRig to this object
+            GameObject ovrCameraRig = GameObject.Find("OVRCameraRig");
+            ovrCameraRig.transform.position = transform.position;
+            ovrCameraRig.transform.rotation = transform.rotation;
+            ovrCameraRig.transform.parent = transform;
+
+            // Remove the Player_Head from the saved OVRCameraRig so we can use the networked one
+            centerEyeAnchor = ovrCameraRig.transform.Find("TrackingSpace/CenterEyeAnchor");
+            Destroy(centerEyeAnchor.Find("Player_Head").gameObject);
+
+            // Move your Ears&Mouth to the OVRCameraRig's centerEyeAnchor
+            photonVoiceRecorder.enabled = true;
+            EyesAndMouth.parent = centerEyeAnchor;
+            EyesAndMouth.localPosition = Vector3.zero;
+            EyesAndMouth.localRotation = Quaternion.identity;
+
+            // Set your LeftHandPf/RightHandPf's "Touch Anchor"
+            handScriptL.m_touchAnchor = ovrCameraRig.transform.Find("TrackingSpace/LeftHandAnchor").gameObject;
+            handScriptR.m_touchAnchor = ovrCameraRig.transform.Find("TrackingSpace/RightHandAnchor").gameObject;
+
+            // Enable nessesary components
             gameObject.AddComponent<RecenterController>();
-            centerEyeAnchor.GetComponent<Camera>().enabled = true;
-            centerEyeAnchor.GetComponent<AudioListener>().enabled = true;
             trackedControllerL.enabled = true;
             handScriptL.enabled = true;
             velocityTrackerL.enabled = true;
@@ -105,8 +123,6 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
             r_hand_world.SetActive(true);
             GrabVolumeBigR.SetActive(true);
             playerArea.SetActive(true);
-            photonVoiceRecorder.enabled = true;
-            ovrCameraRig.gameObject.AddComponent<OVRCameraRig>();
         }
 
         m_animLayerIndexPointL = animatorL.GetLayerIndex(Const.AnimLayerNamePoint);
@@ -236,8 +252,8 @@ public class PhotonNetworkOvrRig : Photon.MonoBehaviour
         if (!photonView.isMine)
         {
             //Update remote player (smooth this, this looks good, at the cost of some accuracy)
-            centerEyeAnchor.position = Vector3.Lerp(centerEyeAnchor.position, centerEyeAnchorPos, Time.deltaTime * 20);
-            centerEyeAnchor.rotation = Quaternion.Lerp(centerEyeAnchor.rotation, centerEyeAnchorRot, Time.deltaTime * 20);
+            EyesAndMouth.position = Vector3.Lerp(EyesAndMouth.position, centerEyeAnchorPos, Time.deltaTime * 20);
+            EyesAndMouth.rotation = Quaternion.Lerp(EyesAndMouth.rotation, centerEyeAnchorRot, Time.deltaTime * 20);
             LeftHandPf.position = Vector3.Lerp(LeftHandPf.position, LeftHandPfPos, Time.deltaTime * 20);
             LeftHandPf.rotation = Quaternion.Lerp(LeftHandPf.rotation, LeftHandPfRot, Time.deltaTime * 20);
             RightHandPf.position = Vector3.Lerp(RightHandPf.position, RightHandPfPos, Time.deltaTime * 20);

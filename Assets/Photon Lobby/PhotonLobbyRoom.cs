@@ -91,7 +91,7 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
         isP4Ready = false;
 
         //Disable Main Camera (we will be using the OvrRigPhoton's camera
-        GameObject.Find("Main Camera").SetActive(false);
+        //GameObject.Find("Main Camera").SetActive(false);
 
         //wait till you've finished adding the other player to join the room
         StartCoroutine(SpawnOvrRigPhoton());

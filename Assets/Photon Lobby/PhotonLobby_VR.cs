@@ -51,6 +51,8 @@ public class PhotonLobby_VR : MonoBehaviour
     [SerializeField]
     GameObject SteamVR_LoadLevel;
 
+    private GameObject ovrRig;
+
     public void Awake()
     {
 #if OCULUS
@@ -78,7 +80,7 @@ public class PhotonLobby_VR : MonoBehaviour
         //Spawn the correct VR rig
 #if OCULUS
         //Instantiate OvrRig
-        Instantiate(Resources.Load("Oculus/OvrRig"), spawnTransform.position, spawnTransform.rotation);
+        ovrRig = (GameObject)Instantiate(Resources.Load("Oculus/OvrRig"), spawnTransform.position, spawnTransform.rotation);
 #else
         //Instantiate [SteamVR] and ViveRig
         if (!GameObject.FindGameObjectWithTag("[SteamVR]"))
@@ -202,7 +204,7 @@ public class PhotonLobby_VR : MonoBehaviour
             // Save name
             PlayerPrefs.SetString("playerName", PhotonNetwork.playerName);
 
-            if (!string.IsNullOrEmpty(ErrorDialog))
+            /*if (!string.IsNullOrEmpty(ErrorDialog))
             {
                 GUILayout.Label(ErrorDialog);
 
@@ -211,7 +213,7 @@ public class PhotonLobby_VR : MonoBehaviour
                     this.timeToClearDialog = 0;
                     ErrorDialog = "";
                 }
-            }
+            }*/
 
             UsersText.GetComponent<Text>().text = (PhotonNetwork.countOfPlayers + " users are online in " + PhotonNetwork.countOfRooms + " rooms.");
 
@@ -285,7 +287,14 @@ public class PhotonLobby_VR : MonoBehaviour
     public void CreateGame()
     {
         Debug.Log("trying to create a game");
-       
+
+#if OCULUS
+        //Save your OVRCameraRig to be added to your PlayerObject
+        Transform ovrCameraRig = ovrRig.transform.Find("OVRCameraRig");
+        ovrCameraRig.parent = null;
+        DontDestroyOnLoad(ovrCameraRig);
+#endif
+
         //Set yourself as the first position and update your pPos
         playerPosOccupied = new bool[4] { true, false, false, false };
         Hashtable ht2 = new Hashtable() { { PhotonConstants.pPos, 0 } };
@@ -306,6 +315,14 @@ public class PhotonLobby_VR : MonoBehaviour
     public void JoinRoom(string joinGameName)
     {
         Debug.Log("Joining Room: " + joinGameName);
+
+#if OCULUS
+        //Save your OVRCameraRig to be added to your PlayerObject
+        Transform ovrCameraRig = ovrRig.transform.Find("OVRCameraRig");
+        ovrCameraRig.parent = null;
+        DontDestroyOnLoad(ovrCameraRig);
+#endif
+
         PhotonNetwork.player.customProperties.Clear();
         PhotonNetwork.JoinRoom(joinGameName);
     }

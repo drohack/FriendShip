@@ -51,7 +51,7 @@ namespace OVRTouchSample
         private bool m_parentHeldObject = false;
 
         [SerializeField]
-        private GameObject m_touchAnchor = null;
+        public GameObject m_touchAnchor = null;
         
         [SerializeField]
         private OVRInput.Controller m_handedness;
