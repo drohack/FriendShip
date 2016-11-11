@@ -2005,7 +2005,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
     public void AbortGame()
     {
         ResetHazards();
-        foreach (GameObject player in playerModules)
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {
             player.GetPhotonView().RPC("RpcLeaveRoom", PhotonTargets.Others);
         }

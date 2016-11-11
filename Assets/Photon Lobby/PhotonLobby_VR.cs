@@ -30,7 +30,7 @@ public class PhotonLobby_VR : MonoBehaviour
 
     private bool connectFailed = false;
 
-    public static readonly string SceneNameMenu = "TestLobby";
+    public static readonly string SceneNameMenu = "MainMenu";
 
     public static readonly string SceneNameGame = "Game";
 
