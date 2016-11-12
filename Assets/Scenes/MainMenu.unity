@@ -2825,6 +2825,11 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 305487702}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &305748559 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000013449826146, guid: 166555219dfae4445a13b43c4fc70b41,
+    type: 2}
+  m_PrefabInternal: {fileID: 1602501793}
 --- !u!1 &315079122 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100006, guid: 5179df6493981f84ba685939134ce169, type: 3}
@@ -2915,6 +2920,10 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: photonMainMenu_Script
+      value: 
+      objectReference: {fileID: 750288354}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
   m_IsPrefabParent: 0
@@ -3883,25 +3892,13 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: photonMainMenu_Script
+      value: 
+      objectReference: {fileID: 750288354}
     - target: {fileID: 1000013065769004, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_Name
       value: RoomButton3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.25000015
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.25000027
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 0.25000012
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000013065769004, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
@@ -7729,6 +7726,10 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: photonMainMenu_Script
+      value: 
+      objectReference: {fileID: 750288354}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
   m_IsPrefabParent: 0
@@ -10718,7 +10719,7 @@ GameObject:
   - 114: {fileID: 750288354}
   - 114: {fileID: 750288353}
   m_Layer: 0
-  m_Name: PhotonLobbyVR
+  m_Name: PhotonMainMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10757,14 +10758,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3400b7510652344ca188b6944a92bed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Skin: {fileID: 0}
-  WidthAndHeight: {x: 600, y: 400}
-  ListItemPrefab: {fileID: 1000012235825670, guid: fd198a5ad6ca61a43b672ce11539570b,
-    type: 2}
   LobbyTitle: {fileID: 2104333289}
   UsersText: {fileID: 1585431409}
   GamesText: {fileID: 961684273}
-  RoomsGrid: {fileID: 466936172}
   spawnTransform: {fileID: 592993266}
   SteamVR_LoadLevel: {fileID: 881226189}
 --- !u!4 &750288355
@@ -11495,6 +11491,10 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: photonMainMenu_Script
+      value: 
+      objectReference: {fileID: 750288354}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
   m_IsPrefabParent: 0
@@ -11908,6 +11908,10 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: photonMainMenu_Script
+      value: 
+      objectReference: {fileID: 750288354}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
   m_IsPrefabParent: 0
@@ -12710,6 +12714,10 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: photonMainMenu_Script
+      value: 
+      objectReference: {fileID: 750288354}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
   m_IsPrefabParent: 0
@@ -12805,15 +12813,15 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 961684273}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.0625, y: 0.0625, z: 0.2}
+  m_LocalPosition: {x: 0, y: 0, z: -0.04}
+  m_LocalScale: {x: 0.051, y: 0.051, z: 0.2}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 151977970}
   m_RootOrder: 2
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 35.4, y: -34.5}
+  m_AnchoredPosition: {x: 34.2, y: -30.39}
   m_SizeDelta: {x: 200, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &961684275
@@ -12848,7 +12856,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Games
+  m_Text: 'No games
+
+    in session'
 --- !u!222 &961684276
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -17401,6 +17411,10 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: photonMainMenu_Script
+      value: 
+      objectReference: {fileID: 750288354}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
   m_IsPrefabParent: 0
@@ -17503,6 +17517,10 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: photonMainMenu_Script
+      value: 
+      objectReference: {fileID: 750288354}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
   m_IsPrefabParent: 0
@@ -19617,7 +19635,7 @@ RectTransform:
   m_GameObject: {fileID: 1585431409}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.9999999}
+  m_LocalScale: {x: 0.09, y: 0.09, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 151977970}
@@ -19659,7 +19677,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: X users online in X rooms
+  m_Text: XXX users online in XXX rooms
 --- !u!222 &1585431412
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -19709,8 +19727,12 @@ Prefab:
       propertyPath: m_Name
       value: RoomButton1
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 114000011967141126, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
+    - target: {fileID: 114000010745593982, guid: 166555219dfae4445a13b43c4fc70b41,
+        type: 2}
+      propertyPath: photonMainMenu_Script
+      value: 
+      objectReference: {fileID: 750288354}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &1594724113 stripped
@@ -19718,29 +19740,6 @@ Transform:
   m_PrefabParentObject: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41,
     type: 2}
   m_PrefabInternal: {fileID: 1594724112}
---- !u!1 &1594724114 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1000013449826146, guid: 166555219dfae4445a13b43c4fc70b41,
-    type: 2}
-  m_PrefabInternal: {fileID: 1594724112}
---- !u!1 &1594724115 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1000013065769004, guid: 166555219dfae4445a13b43c4fc70b41,
-    type: 2}
-  m_PrefabInternal: {fileID: 1594724112}
---- !u!114 &1594724116
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1594724115}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0d9343c33a7fdb4cb70c8d458d25525, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  photonLobby_VR_Script: {fileID: 0}
-  gameName: {fileID: 1594724114}
 --- !u!1001 &1602501793
 Prefab:
   m_ObjectHideFlags: 0
@@ -19800,6 +19799,14 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: photonMainMenu_Script
+      value: 
+      objectReference: {fileID: 750288354}
+    - target: {fileID: 0}
+      propertyPath: gameName
+      value: 
+      objectReference: {fileID: 305748559}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
   m_IsPrefabParent: 0
@@ -24746,7 +24753,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Create or Join Room
+  m_Text: Create or Join a Room
 --- !u!222 &2104333292
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -26,6 +26,7 @@ TagManager:
   - Mastermind
   - '[SteamVR]'
   - '[SteamVR_LoadLevel]'
+  - RoomButton
   layers:
   - Default
   - TransparentFX

@@ -9,7 +9,7 @@ public class LobbyButtonScript : Photon.MonoBehaviour
     private bool isButtonDown = false;
     private bool isAnimating = false;
     private bool isLocked = false;
-    [SerializeField] public PhotonMainMenu photonLobby_VR_Script;
+    [SerializeField] public PhotonMainMenu photonMainMenu_Script;
     public GameObject gameName;
     
 
@@ -34,7 +34,7 @@ public class LobbyButtonScript : Photon.MonoBehaviour
         {
             isLocked = false;
             isButtonDown = false;
-            photonLobby_VR_Script.JoinRoom(gameName.GetComponent<TextMesh>().text);
+            photonMainMenu_Script.JoinRoom(gameName.GetComponent<TextMesh>().text);
             StartCoroutine(WaitForAnimation(anim, "Button_Up_Anim"));
         }
 

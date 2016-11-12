@@ -16,15 +16,11 @@ using System.Collections.Generic;
 
 public class PhotonMainMenu : MonoBehaviour
 {
-    public GUISkin Skin;
-    public Vector2 WidthAndHeight = new Vector2(600, 400);
-    private string roomName = "myRoom";
-    public GameObject ListItemPrefab;
     public GameObject LobbyTitle;
     public GameObject UsersText;
     public GameObject GamesText;
 
-    public GameObject RoomsGrid;
+    private GameObject[] RoomButtonList;
 
     private Vector2 scrollPos = Vector2.zero;
 
@@ -52,6 +48,8 @@ public class PhotonMainMenu : MonoBehaviour
     GameObject SteamVR_LoadLevel;
 
     private GameObject ovrRig;
+
+    private bool isTitleUpdated = false;
 
     public void Awake()
     {
@@ -98,6 +96,8 @@ public class PhotonMainMenu : MonoBehaviour
 
     void Start()
     {
+        RoomButtonList = GameObject.FindGameObjectsWithTag("RoomButton");
+
         InvokeRepeating("RoomListUpdate", 1.0f, 1.0f);
         PhotonNetwork.player.customProperties.Clear();
 
@@ -127,48 +127,76 @@ public class PhotonMainMenu : MonoBehaviour
     {
         if (PhotonNetwork.GetRoomList().Length == 0)
         {
-            GamesText.GetComponent<Text>().text = ("Currently no games are available.");
+            GamesText.GetComponent<Text>().text = ("No games\nin session");
         }
         else
         {
-            GamesText.GetComponent<Text>().text = (PhotonNetwork.GetRoomList().Length + " rooms available:");
-
             // Room listing: simply call GetRoomList: no need to fetch/poll whatever!
-            int numberOfGames = 0;
-            foreach (RoomInfo roomInfo in PhotonNetwork.GetRoomList())
-            {
-                numberOfGames++;
-                bool roomExists = false;
+            RoomInfo[] RoomList = PhotonNetwork.GetRoomList();
+            GamesText.GetComponent<Text>().text = (RoomList.Length + " games\nin session");
 
-                foreach (Transform child in RoomsGrid.transform)
+            // For each RoomButton disable it if that Room is either invisible (in a game) or no longer exist
+            foreach (GameObject roomButton in RoomButtonList)
+            {
+                // Only care about active RoomButtons
+                if (roomButton.GetActive())
                 {
-                    Debug.Log(child.GetChild(0).GetComponent<TextMesh>().text + " is compared to " + roomInfo.name);
-                    if (roomInfo.name == child.GetChild(0).GetComponent<TextMesh>().text)
+                    bool roomExists = false;
+                    bool isVisible = false;
+                    string roomButtonName = roomButton.transform.Find("GameName").GetComponent<TextMesh>().text;
+                    // For each Room in RoomList check to see if the RoomButton still exists and if it is visible
+                    foreach (RoomInfo roomInfo in RoomList)
                     {
-                        roomExists = true;
-                        child.GetChild(1).GetComponent<TextMesh>().text = (roomInfo.playerCount + "/" + roomInfo.maxPlayers);
+                        if (roomInfo.name.Equals(roomButtonName))
+                        {
+                            roomExists = true;
+                            if (roomInfo.visible)
+                                isVisible = true;
+                            break;
+                        }
                     }
-                    else
+                    // If the room does not exist OR is not visible disable the RoomButton
+                    if (!roomExists || !isVisible)
                     {
-                        Debug.Log("Name does not exist on button #: " + numberOfGames);
+                        roomButton.SetActive(false);
                     }
                 }
+            }
 
-                // If the room wasn't found look through each button available and find first open Button to use for room
-                if (!roomExists)
+            // For each visible Room updated/add them to a RoomButton
+            foreach (RoomInfo roomInfo in RoomList)
+            {
+                // Only display games that are not already running (even if they are full)
+                if (roomInfo.visible)
                 {
-                    int numberOfButton = 0;
-                    foreach (Transform child in RoomsGrid.transform)
+                    bool roomExists = false;
+
+                    // Check all of the RoomButtons to see if the game is already associated with a RoomButton
+                    // If it is update the PlayerCount
+                    foreach (GameObject roomButton in RoomButtonList)
                     {
-                        numberOfButton++;
-                        int buttonAvailable = 0;
-                        if (child.GetChild(0).GetComponent<TextMesh>().text == "Empty")
+                        string roomButtonName = roomButton.transform.Find("GameName").GetComponent<TextMesh>().text;
+                        //Debug.Log(childGameName + " is compared to " + roomInfo.name);
+                        if (roomInfo.name.Equals(roomButtonName))
                         {
-                            buttonAvailable = numberOfButton;
-                            child.gameObject.SetActive(true);
-                            child.GetChild(0).GetComponent<TextMesh>().text = (roomInfo.name);
-                            child.GetChild(1).GetComponent<TextMesh>().text = (roomInfo.playerCount + "/" + roomInfo.maxPlayers);
+                            roomExists = true;
+                            roomButton.transform.Find("PlayerCount").GetComponent<TextMesh>().text = (roomInfo.playerCount + "/" + roomInfo.maxPlayers);
                             break;
+                        }
+                    }
+
+                    // If the room wasn't found look through each button available and find first open Button to use for room
+                    if (!roomExists)
+                    {
+                        foreach (GameObject roomButton in RoomButtonList)
+                        {
+                            if (!roomButton.GetActive())
+                            {
+                                roomButton.gameObject.SetActive(true);
+                                roomButton.transform.Find("GameName").GetComponent<TextMesh>().text = (roomInfo.name);
+                                roomButton.transform.Find("PlayerCount").GetComponent<TextMesh>().text = (roomInfo.playerCount + "/" + roomInfo.maxPlayers);
+                                break;
+                            }
                         }
                     }
                 }
@@ -184,83 +212,34 @@ public class PhotonMainMenu : MonoBehaviour
             {
                 if (PhotonNetwork.connecting)
                 {
-                    LobbyTitle.GetComponent<Text>().text = ("Connecting to: " + PhotonNetwork.ServerAddress);
+                    LobbyTitle.GetComponent<Text>().text = ("Connecting to Server");
+                    Debug.Log("Connecting to: " + PhotonNetwork.ServerAddress);
                 }
                 else
                 {
-                    LobbyTitle.GetComponent<Text>().text = ("Not connected. Check console output. Detailed connection state: " + PhotonNetwork.connectionStateDetailed + " Server: " + PhotonNetwork.ServerAddress);
+                    Debug.LogError("Not connected. Check console output. Detailed connection state: " + PhotonNetwork.connectionStateDetailed + " Server: " + PhotonNetwork.ServerAddress);
                 }
 
                 if (this.connectFailed)
                 {
-                    LobbyTitle.GetComponent<Text>().text = ("Connection failed. Check setup and use Setup Wizard to fix configuration.");
+                    LobbyTitle.GetComponent<Text>().text = ("CONNECTION FAILED");
                 }
-
-                return;
             }
-
-            LobbyTitle.GetComponent<Text>().text = ("Join or Create Room");
-
-            // Save name
-            PlayerPrefs.SetString("playerName", PhotonNetwork.playerName);
-
-            /*if (!string.IsNullOrEmpty(ErrorDialog))
+            else
             {
-                GUILayout.Label(ErrorDialog);
-
-                if (this.timeToClearDialog < Time.time)
+                if (!isTitleUpdated)
                 {
-                    this.timeToClearDialog = 0;
-                    ErrorDialog = "";
+                    LobbyTitle.GetComponent<Text>().text = ("Join or Create a Room");
+
+                    // Save name
+                    PlayerPrefs.SetString("playerName", PhotonNetwork.playerName);
+
+                    isTitleUpdated = true;
                 }
-            }*/
 
-            UsersText.GetComponent<Text>().text = (PhotonNetwork.countOfPlayers + " users are online in " + PhotonNetwork.countOfRooms + " rooms.");
-
-            
+                UsersText.GetComponent<Text>().text = (PhotonNetwork.countOfPlayers + " users are online in " + PhotonNetwork.countOfRooms + " rooms.");
+            }
         }
-        //else if (showRoom)
-        //{
-        //    Rect content = new Rect((Screen.width - this.WidthAndHeight.x) / 2, (Screen.height - this.WidthAndHeight.y) / 2, this.WidthAndHeight.x, this.WidthAndHeight.y);
-        //    GUI.Box(content, "Room: " + this.roomName);
-        //    GUILayout.BeginArea(content);
-
-        //    GUILayout.Space(40);
-
-        //    // Display all players
-        //    foreach (PhotonPlayer player in PhotonNetwork.playerList)
-        //    {
-        //        GUILayout.BeginHorizontal();
-        //        GUILayout.Label(player.name);
-        //        if (GUILayout.Button("Start", GUILayout.Width(150)))
-        //        {
-        //            //Set player as started.
-        //        }
-        //        GUILayout.EndHorizontal();
-        //    }
-
-        //    GUILayout.Space(15);
-
-        //    // Buttons
-        //    GUILayout.BeginHorizontal();
-        //    if (GUILayout.Button("Return to Lobby"))
-        //    {
-        //        //Remove yourself from the list of ocu
-
-        //        PhotonNetwork.LeaveRoom();  // we will load the menu level when we successfully left the room
-        //        showRoom = false;
-        //        showLobby = true;
-        //    }
-
-        //    if (PhotonNetwork.isMasterClient && GUILayout.Button("Start Game"))
-        //    {
-        //        Debug.Log("pPosOccupied: " + playerPosOccupied[0] + ", " + playerPosOccupied[1] + ", " + playerPosOccupied[2] + ", " + playerPosOccupied[3]);
-        //        PhotonNetwork.LoadLevel(SceneNameGame); //Start Game
-        //    }
-        //    GUILayout.EndHorizontal();
-
-        //    GUILayout.EndArea();
-        //}
     }
     public string ErrorDialog
     {
@@ -307,7 +286,7 @@ public class PhotonMainMenu : MonoBehaviour
         roomOptions.CustomRoomProperties = new Hashtable() { { PhotonConstants.pPosOccupied, playerPosOccupied } };
         roomOptions.IsVisible = true;
         roomOptions.MaxPlayers = 4;
-        PhotonNetwork.CreateRoom(this.roomName, roomOptions, TypedLobby.Default);
+        PhotonNetwork.CreateRoom(PhotonNetwork.player.name, roomOptions, TypedLobby.Default);
         
 
     }

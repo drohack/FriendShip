@@ -107,10 +107,10 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000011369610422}
   - 23: {fileID: 23000012165228044}
-  - 114: {fileID: 114000011967141126}
+  - 114: {fileID: 114000010745593982}
   m_Layer: 0
   m_Name: RoomButton
-  m_TagString: Untagged
+  m_TagString: RoomButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -179,7 +179,7 @@ Transform:
   m_GameObject: {fileID: 1000013065769004}
   m_LocalRotation: {x: -0.27059805, y: 0.27059805, z: 0.6532815, w: 0.6532815}
   m_LocalPosition: {x: 2.736, y: 5.25, z: -0.338}
-  m_LocalScale: {x: 0.25000006, y: 0.25000012, z: 0.25000003}
+  m_LocalScale: {x: 0.25000015, y: 0.25000027, z: 0.25000012}
   m_LocalEulerAnglesHint: {x: -45, y: 0, z: 90}
   m_Children:
   - {fileID: 4000010516414072}
@@ -497,7 +497,7 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4278190080
---- !u!114 &114000011967141126
+--- !u!114 &114000010745593982
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -508,8 +508,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0d9343c33a7fdb4cb70c8d458d25525, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  photonLobby_VR_Script: {fileID: 0}
-  gameName: {fileID: 0}
+  photonMainMenu_Script: {fileID: 0}
+  gameName: {fileID: 1000013449826146}
 --- !u!114 &114000012123427894
 MonoBehaviour:
   m_ObjectHideFlags: 1
