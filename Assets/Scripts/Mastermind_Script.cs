@@ -2120,12 +2120,12 @@ public class Mastermind_Script : Photon.MonoBehaviour
             {
                 isWaitingForHazard = true;
 
-                //Get maximum amount of time to wait for the next hazard (minimum of 10 seconds)
-                float maxWait = easyPercent * levelTimeoutSeconds;
-                if (maxWait < 10)
-                    maxWait = 10f;
+                //Get maximum amount of time to wait for the next hazard (minimum of 20 seconds)
+                float maxWait = (1f - hardPercent) * levelTimeoutSeconds;
+                if (maxWait < 20)
+                    maxWait = 20f;
                 
-                float randWait = Random.Range((maxWait / 4f), maxWait);
+                float randWait = Random.Range((maxWait / 3f), maxWait);
 
                 //Wait a random amount of time before firing off the next Hazard
                 yield return new WaitForSeconds(randWait);
