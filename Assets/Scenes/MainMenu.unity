@@ -2825,11 +2825,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 305487702}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &305748559 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1000013449826146, guid: 166555219dfae4445a13b43c4fc70b41,
-    type: 2}
-  m_PrefabInternal: {fileID: 1602501793}
 --- !u!1 &315079122 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100006, guid: 5179df6493981f84ba685939134ce169, type: 3}
@@ -2904,23 +2899,8 @@ Prefab:
       propertyPath: m_Name
       value: RoomButton10
       objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.25000033
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.25000057
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 0.25000024
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000013065769004, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
+    - target: {fileID: 114000010745593982, guid: 166555219dfae4445a13b43c4fc70b41,
+        type: 2}
       propertyPath: photonMainMenu_Script
       value: 
       objectReference: {fileID: 750288354}
@@ -3900,6 +3880,15 @@ Prefab:
       propertyPath: m_Name
       value: RoomButton3
       objectReference: {fileID: 0}
+    - target: {fileID: 1000013065769004, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000010745593982, guid: 166555219dfae4445a13b43c4fc70b41,
+        type: 2}
+      propertyPath: photonMainMenu_Script
+      value: 
+      objectReference: {fileID: 750288354}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
   m_IsPrefabParent: 0
@@ -7710,23 +7699,8 @@ Prefab:
       propertyPath: m_Name
       value: RoomButton7
       objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.25000015
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.25000027
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 0.25000012
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000013065769004, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
+    - target: {fileID: 114000010745593982, guid: 166555219dfae4445a13b43c4fc70b41,
+        type: 2}
       propertyPath: photonMainMenu_Script
       value: 
       objectReference: {fileID: 750288354}
@@ -10761,6 +10735,7 @@ MonoBehaviour:
   LobbyTitle: {fileID: 2104333289}
   UsersText: {fileID: 1585431409}
   GamesText: {fileID: 961684273}
+  RoomsGrid: {fileID: 466936173}
   spawnTransform: {fileID: 592993266}
   SteamVR_LoadLevel: {fileID: 881226189}
 --- !u!4 &750288355
@@ -11475,23 +11450,8 @@ Prefab:
       propertyPath: m_Name
       value: RoomButton9
       objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.25000033
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.25000057
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 0.25000024
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000013065769004, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
+    - target: {fileID: 114000010745593982, guid: 166555219dfae4445a13b43c4fc70b41,
+        type: 2}
       propertyPath: photonMainMenu_Script
       value: 
       objectReference: {fileID: 750288354}
@@ -11892,23 +11852,8 @@ Prefab:
       propertyPath: m_Name
       value: RoomButton5
       objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.25000024
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.25000042
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 0.25000018
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000013065769004, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
+    - target: {fileID: 114000010745593982, guid: 166555219dfae4445a13b43c4fc70b41,
+        type: 2}
       propertyPath: photonMainMenu_Script
       value: 
       objectReference: {fileID: 750288354}
@@ -12694,27 +12639,12 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.25000015
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.25000027
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 0.25000012
-      objectReference: {fileID: 0}
     - target: {fileID: 1000013065769004, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_Name
       value: RoomButton6
       objectReference: {fileID: 0}
-    - target: {fileID: 1000013065769004, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
+    - target: {fileID: 114000010745593982, guid: 166555219dfae4445a13b43c4fc70b41,
+        type: 2}
       propertyPath: photonMainMenu_Script
       value: 
       objectReference: {fileID: 750288354}
@@ -17395,23 +17325,8 @@ Prefab:
       propertyPath: m_Name
       value: RoomButton8
       objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.25000024
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.25000042
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 0.25000018
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000013065769004, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
+    - target: {fileID: 114000010745593982, guid: 166555219dfae4445a13b43c4fc70b41,
+        type: 2}
       propertyPath: photonMainMenu_Script
       value: 
       objectReference: {fileID: 750288354}
@@ -17501,23 +17416,8 @@ Prefab:
       propertyPath: m_Name
       value: RoomButton4
       objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.25000024
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.25000042
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 0.25000018
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000013065769004, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
+    - target: {fileID: 114000010745593982, guid: 166555219dfae4445a13b43c4fc70b41,
+        type: 2}
       propertyPath: photonMainMenu_Script
       value: 
       objectReference: {fileID: 750288354}
@@ -19783,30 +19683,11 @@ Prefab:
       propertyPath: m_Name
       value: RoomButton2
       objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.25000006
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.25000012
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 0.25000003
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000013065769004, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
+    - target: {fileID: 114000010745593982, guid: 166555219dfae4445a13b43c4fc70b41,
+        type: 2}
       propertyPath: photonMainMenu_Script
       value: 
       objectReference: {fileID: 750288354}
-    - target: {fileID: 0}
-      propertyPath: gameName
-      value: 
-      objectReference: {fileID: 305748559}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
   m_IsPrefabParent: 0
