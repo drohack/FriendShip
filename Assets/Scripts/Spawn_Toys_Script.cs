@@ -18,7 +18,7 @@ public class Spawn_Toys_Script : Photon.MonoBehaviour
     IEnumerator WaitForPlayersToSpawn()
     {
         //Wait for all players to load into the scene
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.Contains(PhotonLobby.SceneNameGame))
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.Contains(PhotonMainMenu_2D.SceneNameGame))
         {
             bool areAllPlayersReady = false;
             do

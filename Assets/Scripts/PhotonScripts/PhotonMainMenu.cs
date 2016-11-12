@@ -14,7 +14,7 @@ using UnityEngine.UI;
 using Steamworks;
 using System.Collections.Generic;
 
-public class PhotonLobby_VR : MonoBehaviour
+public class PhotonMainMenu : MonoBehaviour
 {
     public GUISkin Skin;
     public Vector2 WidthAndHeight = new Vector2(600, 400);

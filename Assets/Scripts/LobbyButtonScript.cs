@@ -9,7 +9,7 @@ public class LobbyButtonScript : Photon.MonoBehaviour
     private bool isButtonDown = false;
     private bool isAnimating = false;
     private bool isLocked = false;
-    [SerializeField] public PhotonLobby_VR photonLobby_VR_Script;
+    [SerializeField] public PhotonMainMenu photonLobby_VR_Script;
     public GameObject gameName;
     
 

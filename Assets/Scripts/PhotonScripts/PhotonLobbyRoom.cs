@@ -80,7 +80,7 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
 #if VIVE
             SteamVR_LoadLevel.Begin(PhotonLobby_VR.SceneNameMenu);
 #else
-	        SceneManager.LoadScene(PhotonLobby_VR.SceneNameMenu);
+	        SceneManager.LoadScene(PhotonMainMenu.SceneNameMenu);
 #endif
             return;
         }
@@ -239,7 +239,7 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
 #if VIVE
         SteamVR_LoadLevel.Begin(PhotonLobby_VR.SceneNameMenu);
 #else
-	    SceneManager.LoadScene(PhotonLobby_VR.SceneNameMenu);
+	    SceneManager.LoadScene(PhotonMainMenu.SceneNameMenu);
 #endif
     }
 
@@ -253,7 +253,7 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
 #if VIVE
         SteamVR_LoadLevel.Begin(PhotonLobby_VR.SceneNameMenu);
 #else
-	    SceneManager.LoadScene(PhotonLobby_VR.SceneNameMenu);
+	    SceneManager.LoadScene(PhotonMainMenu.SceneNameMenu);
 #endif
     }
 
@@ -350,7 +350,7 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
 #if VIVE
         SteamVR_LoadLevel.Begin(PhotonLobby_VR.SceneNameMenu);
 #else
-	    SceneManager.LoadScene(PhotonLobby_VR.SceneNameMenu);
+	    SceneManager.LoadScene(PhotonMainMenu.SceneNameMenu);
 #endif
     }
 
@@ -480,7 +480,7 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
                     }
                     PhotonNetwork.room.visible = false;
                     PhotonNetwork.room.open = false;
-                    PhotonNetwork.LoadLevel(PhotonLobby_VR.SceneNameGame); //Start Game
+                    PhotonNetwork.LoadLevel(PhotonMainMenu.SceneNameGame); //Start Game
                 }
             }
         }

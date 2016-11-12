@@ -11,7 +11,7 @@ using Oculus.Platform;
 using Oculus.Platform.Models;
 using ExitGames.Client.Photon;
 
-public class PhotonLobby : MonoBehaviour
+public class PhotonMainMenu_2D : MonoBehaviour
 {
     public GUISkin Skin;
     public Vector2 WidthAndHeight = new Vector2(600, 400);

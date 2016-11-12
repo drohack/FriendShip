@@ -1998,7 +1998,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                     PhotonNetwork.Destroy(o);
                 }
             }
-            PhotonNetwork.LoadLevel(PhotonLobby_VR.SceneNameLobbyRoom);
+            PhotonNetwork.LoadLevel(PhotonMainMenu.SceneNameLobbyRoom);
         }
     }
 
