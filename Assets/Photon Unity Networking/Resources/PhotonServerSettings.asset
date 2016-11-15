@@ -110,4 +110,7 @@ MonoBehaviour:
   - RESIZENormal
   - TurnOffStatic
   - VentFog
+  - RPCplaySong
+  - RPCgetSong
+  - RPCgetTimestamp
   DisableAutoOpenWizard: 1

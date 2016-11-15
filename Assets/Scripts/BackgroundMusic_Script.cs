@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BackgroundMusic_Script : MonoBehaviour {
+public class BackgroundMusic_Script : Photon.MonoBehaviour {
     public AudioClip[] songList;
     public AudioSource BackGroundMusicSource;
 
@@ -19,22 +19,58 @@ public class BackgroundMusic_Script : MonoBehaviour {
 
         BackGroundMusicSource = GetComponent<AudioSource>();
 
-        if (!BackGroundMusicSource.playOnAwake)
+        if (PhotonNetwork.isMasterClient)
         {
-            BackGroundMusicSource.clip = songList[Random.Range(0, songList.Length)];
-            BackGroundMusicSource.Play();
+            if (!BackGroundMusicSource.playOnAwake)
+            {
+                BackGroundMusicSource.clip = songList[Random.Range(0, songList.Length)];
+                BackGroundMusicSource.Play();
+            }
         }
-
-
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-        if (!BackGroundMusicSource.isPlaying)
+        if (PhotonNetwork.isMasterClient)
         {
-            BackGroundMusicSource.clip = songList[Random.Range(0, songList.Length)];
-            BackGroundMusicSource.Play();
+            if (!BackGroundMusicSource.isPlaying)
+            {
+                BackGroundMusicSource.clip = songList[Random.Range(0, songList.Length)];
+                BackGroundMusicSource.Play();
+                photonView.RPC("RPCPlaySong", PhotonTargets.Others, "BackGroundMusicSource.clip", "0");
+            }
         }
-	}
+        Debug.Log("audio.time: " + BackGroundMusicSource.time);
+        Debug.Log("audio.clip.length: " + BackGroundMusicSource.clip.length);
+        Debug.Log("audio.time / audio.clip.length: " + BackGroundMusicSource.time / BackGroundMusicSource.clip.length);
+    }
+
+    public void playSong(AudioClip song, float timestamp)
+    {
+        BackGroundMusicSource.clip = song;
+        BackGroundMusicSource.time = BackGroundMusicSource.clip.length * timestamp;
+        BackGroundMusicSource.Play();
+    }
+
+    [PunRPC]
+    void RPCplaySong(AudioClip song, float timestamp)
+    {
+        BackGroundMusicSource.clip = song;
+        BackGroundMusicSource.time = BackGroundMusicSource.clip.length * timestamp;
+        BackGroundMusicSource.Play();
+    }
+
+    [PunRPC]
+    AudioClip RPCgetSong()
+    {
+        return BackGroundMusicSource.clip;
+    }
+
+    [PunRPC]
+    float RPCgetTimestamp()
+    {
+        float timestamp = BackGroundMusicSource.time / BackGroundMusicSource.clip.length;
+        return timestamp;
+    }
 }
