@@ -11018,9 +11018,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3400b7510652344ca188b6944a92bed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LobbyTitle: {fileID: 2104333289}
-  UsersText: {fileID: 1585431409}
-  GamesText: {fileID: 961684273}
+  LobbyTitle: {fileID: 2104333291}
+  UsersText: {fileID: 1585431411}
+  GamesText: {fileID: 961684275}
   RoomsGrid: {fileID: 466936173}
   spawnTransform: {fileID: 592993266}
   SteamVR_LoadLevel: {fileID: 881226189}

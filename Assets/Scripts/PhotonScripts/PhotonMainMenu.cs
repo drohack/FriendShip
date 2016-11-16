@@ -16,9 +16,9 @@ using System.Collections.Generic;
 
 public class PhotonMainMenu : MonoBehaviour
 {
-    public GameObject LobbyTitle;
-    public GameObject UsersText;
-    public GameObject GamesText;
+    public Text LobbyTitle;
+    public Text UsersText;
+    public Text GamesText;
 
     public Transform RoomsGrid;
     private GameObject[] RoomButtonList;
@@ -137,11 +137,11 @@ public class PhotonMainMenu : MonoBehaviour
         RoomInfo[] RoomList = PhotonNetwork.GetRoomList();
         if (RoomList.Length == 0)
         {
-            GamesText.GetComponent<Text>().text = ("No games\nin session");
+            GamesText.text = ("No games\nin session");
         }
         else
         {
-            GamesText.GetComponent<Text>().text = (RoomList.Length + " games\nin session");
+            GamesText.text = (RoomList.Length + " games\nin session");
         }
 
         // For each RoomButton disable it if that Room is either invisible (in a game) or no longer exist
@@ -220,7 +220,7 @@ public class PhotonMainMenu : MonoBehaviour
             {
                 if (PhotonNetwork.connecting)
                 {
-                    LobbyTitle.GetComponent<Text>().text = ("Connecting to Server");
+                    LobbyTitle.text = ("Connecting to Server");
                     Debug.Log("Connecting to: " + PhotonNetwork.ServerAddress);
                 }
                 else
@@ -230,7 +230,7 @@ public class PhotonMainMenu : MonoBehaviour
 
                 if (this.connectFailed)
                 {
-                    LobbyTitle.GetComponent<Text>().text = ("CONNECTION FAILED");
+                    LobbyTitle.text = ("CONNECTION FAILED");
                 }
             }
             else
@@ -239,7 +239,7 @@ public class PhotonMainMenu : MonoBehaviour
                 {
                     Debug.Log("Connected!");
 
-                    LobbyTitle.GetComponent<Text>().text = ("Join or Create a Room");
+                    LobbyTitle.text = ("Join or Create a Room");
 
                     // Save name
                     PlayerPrefs.SetString("playerName", PhotonNetwork.playerName);
@@ -247,7 +247,7 @@ public class PhotonMainMenu : MonoBehaviour
                     isTitleUpdated = true;
                 }
 
-                UsersText.GetComponent<Text>().text = (PhotonNetwork.countOfPlayers + " users are online in " + PhotonNetwork.countOfRooms + " rooms.");
+                UsersText.text = (PhotonNetwork.countOfPlayers + " users are online in " + PhotonNetwork.countOfRooms + " rooms.");
             }
         }
     }
@@ -270,6 +270,26 @@ public class PhotonMainMenu : MonoBehaviour
         {
             User u = msg.GetUser();
             PhotonNetwork.playerName = u.OculusID;
+        }
+    }
+
+    System.Collections.IEnumerator UpdateLobbyTitleText(string tempText)
+    {
+        LobbyTitle.text = tempText;
+
+        //Wait for 3 seconds then change it back to default
+        yield return new WaitForSeconds(3f);
+
+        if (!PhotonNetwork.connected)
+        {
+            if (PhotonNetwork.connecting)
+                LobbyTitle.text = ("Connecting to Server");
+            if (this.connectFailed)
+                LobbyTitle.text = ("CONNECTION FAILED");
+        }
+        else
+        {
+            LobbyTitle.text = ("Join or Create a Room");
         }
     }
 
@@ -297,20 +317,11 @@ public class PhotonMainMenu : MonoBehaviour
         roomOptions.IsVisible = true;
         roomOptions.MaxPlayers = 4;
         PhotonNetwork.CreateRoom(PhotonNetwork.player.name, roomOptions, TypedLobby.Default);
-        
-
     }
 
     public void JoinRoom(string joinGameName)
     {
         Debug.Log("Joining Room: " + joinGameName);
-
-#if OCULUS
-        //Save your OVRCameraRig to be added to your PlayerObject
-        Transform ovrCameraRig = ovrRig.transform.Find("OVRCameraRig");
-        ovrCameraRig.parent = null;
-        DontDestroyOnLoad(ovrCameraRig);
-#endif
 
         PhotonNetwork.player.customProperties.Clear();
         PhotonNetwork.JoinRoom(joinGameName);
@@ -320,22 +331,31 @@ public class PhotonMainMenu : MonoBehaviour
     public void OnJoinedRoom()
     {
         Debug.Log("OnJoinedRoom");
+#if OCULUS
+        //Save your OVRCameraRig to be added to your PlayerObject
+        Transform ovrCameraRig = GameObject.FindGameObjectWithTag("Player").transform.Find("OVRCameraRig");
+        ovrCameraRig.parent = null;
+        DontDestroyOnLoad(ovrCameraRig);
+#endif
     }
 
     public void OnPhotonCreateRoomFailed()
     {
+        StartCoroutine(UpdateLobbyTitleText("ERROR: Can't create room"));
         ErrorDialog = "Error: Can't create room (room name maybe already used).";
         Debug.Log("OnPhotonCreateRoomFailed got called. This can happen if the room exists (even if not visible). Try another room name.");
     }
 
     public void OnPhotonJoinRoomFailed(object[] cause)
     {
+        StartCoroutine(UpdateLobbyTitleText("Unable to join room"));
         ErrorDialog = "Error: Can't join room (full or unknown room name). " + cause[1];
         Debug.Log("OnPhotonJoinRoomFailed got called. This can happen if the room is not existing or full or closed.");
     }
 
     public void OnPhotonRandomJoinFailed()
     {
+        StartCoroutine(UpdateLobbyTitleText("No rooms found"));
         ErrorDialog = "Error: Can't join random room (none found).";
         Debug.Log("OnPhotonRandomJoinFailed got called. Happens if no room is available (or all full or invisible or closed). JoinrRandom filter-options can limit available rooms.");
     }
