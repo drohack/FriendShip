@@ -2869,11 +2869,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 4.4
+      value: 4.3
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0.57
+      value: 0.477
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalRotation.x
@@ -2904,6 +2904,10 @@ Prefab:
       propertyPath: photonMainMenu_Script
       value: 
       objectReference: {fileID: 750288354}
+    - target: {fileID: 1000013065769004, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
   m_IsPrefabParent: 0
@@ -3961,11 +3965,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 5.25
+      value: 5.2
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -0.34
+      value: -0.437
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalRotation.x
@@ -7784,11 +7788,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 4.4
+      value: 4.3
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0.53
+      value: 0.477
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalRotation.x
@@ -7819,6 +7823,10 @@ Prefab:
       propertyPath: photonMainMenu_Script
       value: 
       objectReference: {fileID: 750288354}
+    - target: {fileID: 1000013065769004, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
   m_IsPrefabParent: 0
@@ -8266,7 +8274,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 471054, guid: e5542e8668cb9294da98303173d553a4, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 1.477
+      value: 1.42
       objectReference: {fileID: 0}
     - target: {fileID: 471054, guid: e5542e8668cb9294da98303173d553a4, type: 2}
       propertyPath: m_LocalRotation.x
@@ -11024,6 +11032,7 @@ MonoBehaviour:
   RoomsGrid: {fileID: 466936173}
   spawnTransform: {fileID: 592993266}
   SteamVR_LoadLevel: {fileID: 881226189}
+  roomButton: {fileID: 838429243}
 --- !u!4 &750288355
 Transform:
   m_ObjectHideFlags: 0
@@ -11779,6 +11788,11 @@ Transform:
   - {fileID: 452394364}
   m_Father: {fileID: 0}
   m_RootOrder: 8
+--- !u!1 &838429243 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000013065769004, guid: 166555219dfae4445a13b43c4fc70b41,
+    type: 2}
+  m_PrefabInternal: {fileID: 1594724112}
 --- !u!1001 &855105095
 Prefab:
   m_ObjectHideFlags: 0
@@ -11792,11 +11806,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 4.4
+      value: 4.3
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0.53
+      value: 0.477
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalRotation.x
@@ -11827,6 +11841,10 @@ Prefab:
       propertyPath: photonMainMenu_Script
       value: 
       objectReference: {fileID: 750288354}
+    - target: {fileID: 1000013065769004, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
   m_IsPrefabParent: 0
@@ -12194,11 +12212,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 5.25
+      value: 5.2
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -0.34
+      value: -0.437
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalRotation.x
@@ -12229,6 +12247,10 @@ Prefab:
       propertyPath: photonMainMenu_Script
       value: 
       objectReference: {fileID: 750288354}
+    - target: {fileID: 1000013065769004, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
   m_IsPrefabParent: 0
@@ -12985,11 +13007,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 4.4
+      value: 4.3
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0.5
+      value: 0.477
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalRotation.x
@@ -13020,6 +13042,10 @@ Prefab:
       propertyPath: photonMainMenu_Script
       value: 
       objectReference: {fileID: 750288354}
+    - target: {fileID: 1000013065769004, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
   m_IsPrefabParent: 0
@@ -17829,11 +17855,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 4.4
+      value: 4.3
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0.54
+      value: 0.477
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalRotation.x
@@ -17864,6 +17890,10 @@ Prefab:
       propertyPath: photonMainMenu_Script
       value: 
       objectReference: {fileID: 750288354}
+    - target: {fileID: 1000013065769004, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
   m_IsPrefabParent: 0
@@ -17920,11 +17950,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 5.25
+      value: 5.2
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -0.34
+      value: -0.437
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalRotation.x
@@ -17955,6 +17985,10 @@ Prefab:
       propertyPath: photonMainMenu_Script
       value: 
       objectReference: {fileID: 750288354}
+    - target: {fileID: 1000013065769004, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
   m_IsPrefabParent: 0
@@ -18084,7 +18118,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 471054, guid: e5542e8668cb9294da98303173d553a4, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 1.477
+      value: 1.42
       objectReference: {fileID: 0}
     - target: {fileID: 471054, guid: e5542e8668cb9294da98303173d553a4, type: 2}
       propertyPath: m_LocalRotation.x
@@ -20131,11 +20165,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 5.25
+      value: 5.2
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -0.338
+      value: -0.437
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalRotation.x
@@ -20157,15 +20191,19 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1000013065769004, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
-      propertyPath: m_Name
-      value: RoomButton1
-      objectReference: {fileID: 0}
     - target: {fileID: 114000010745593982, guid: 166555219dfae4445a13b43c4fc70b41,
         type: 2}
       propertyPath: photonMainMenu_Script
       value: 
       objectReference: {fileID: 750288354}
+    - target: {fileID: 1000013065769004, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
+      propertyPath: m_Name
+      value: RoomButton1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000013065769004, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
   m_IsPrefabParent: 0
@@ -20187,11 +20225,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 5.25
+      value: 5.2
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -0.34
+      value: -0.437
       objectReference: {fileID: 0}
     - target: {fileID: 4000011369610422, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
       propertyPath: m_LocalRotation.x
@@ -20217,11 +20255,10 @@ Prefab:
       propertyPath: m_Name
       value: RoomButton2
       objectReference: {fileID: 0}
-    - target: {fileID: 114000010745593982, guid: 166555219dfae4445a13b43c4fc70b41,
-        type: 2}
-      propertyPath: photonMainMenu_Script
-      value: 
-      objectReference: {fileID: 750288354}
+    - target: {fileID: 1000013065769004, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 166555219dfae4445a13b43c4fc70b41, type: 2}
   m_IsPrefabParent: 0
@@ -20247,7 +20284,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 471054, guid: e5542e8668cb9294da98303173d553a4, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 1.48
+      value: 1.42
       objectReference: {fileID: 0}
     - target: {fileID: 471054, guid: e5542e8668cb9294da98303173d553a4, type: 2}
       propertyPath: m_LocalRotation.x

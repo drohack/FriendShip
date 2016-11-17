@@ -52,6 +52,10 @@ public class PhotonMainMenu : MonoBehaviour
 
     private bool isTitleUpdated = false;
 
+    [SerializeField]
+    private GameObject roomButton;
+    private Vector2 roomButtonDefaultBounds;
+
     public void Awake()
     {
 #if OCULUS
@@ -106,7 +110,7 @@ public class PhotonMainMenu : MonoBehaviour
             count++;
         }
 
-        InvokeRepeating("RoomListUpdate", 1.0f, 1.0f);
+        InvokeRepeating("RoomListUpdate", 1.0f, 0.1f);
         PhotonNetwork.player.customProperties.Clear();
 
         // generate a name for this player, if none is assigned yet
@@ -129,6 +133,10 @@ public class PhotonMainMenu : MonoBehaviour
                 PhotonNetwork.playerName = "Guest" + Random.Range(1, 9999);
             }
         }
+
+        roomButton.SetActive(true);
+        roomButtonDefaultBounds = TextMeshArea(roomButton.transform.Find("GameName").GetComponent<TextMesh>());
+        roomButton.SetActive(false);
     }
 
     void RoomListUpdate()
@@ -202,7 +210,32 @@ public class PhotonMainMenu : MonoBehaviour
                         if (!roomButton.GetActive())
                         {
                             roomButton.gameObject.SetActive(true);
-                            roomButton.transform.Find("GameName").GetComponent<TextMesh>().text = (roomInfo.name);
+                            TextMesh roomName = roomButton.transform.Find("GameName").GetComponent<TextMesh>();
+                            roomName.text = (roomInfo.name);
+                            //Resize the room name to fit (you wont get exact as font size is an integer)
+                            if (TextMeshArea(roomName).y > roomButtonDefaultBounds.y)
+                            {
+                                while (TextMeshArea(roomName).y > roomButtonDefaultBounds.y)
+                                {
+                                    roomName.fontSize--;
+                                }
+                            }
+                            else if (TextMeshArea(roomName).y < roomButtonDefaultBounds.y)
+                            {
+                                while (TextMeshArea(roomName).y < roomButtonDefaultBounds.y)
+                                {
+                                    if (TextMeshArea(roomName).x > roomButtonDefaultBounds.x)
+                                        break;
+                                    roomName.fontSize++;
+                                }
+                            }
+                            else if (TextMeshArea(roomName).x > roomButtonDefaultBounds.x)
+                            {
+                                while (TextMeshArea(roomName).x > roomButtonDefaultBounds.x)
+                                {
+                                    roomName.fontSize--;
+                                }
+                            }
                             roomButton.transform.Find("PlayerCount").GetComponent<TextMesh>().text = (roomInfo.playerCount + "/" + roomInfo.maxPlayers);
                             break;
                         }
@@ -291,6 +324,15 @@ public class PhotonMainMenu : MonoBehaviour
         {
             LobbyTitle.text = ("Join or Create a Room");
         }
+    }
+
+    Vector2 TextMeshArea(TextMesh textmesh)
+    {
+        Quaternion rotation = textmesh.gameObject.transform.rotation;
+        textmesh.gameObject.transform.rotation = new Quaternion();
+        Vector2 ret = new Vector2(textmesh.GetComponent<Renderer>().bounds.size.x, textmesh.GetComponent<Renderer>().bounds.size.y);
+        textmesh.gameObject.transform.rotation = rotation;
+        return ret;
     }
 
     public void CreateGame()
