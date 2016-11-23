@@ -56,6 +56,12 @@ public class PhotonMainMenu : MonoBehaviour
     private GameObject roomButton;
     private Vector2 roomButtonDefaultBounds;
 
+    [SerializeField]
+    private TextMesh pagesText;
+
+    private int currentPage = 1;
+    private int maxPages = 1;
+
     public void Awake()
     {
 #if OCULUS
@@ -146,10 +152,39 @@ public class PhotonMainMenu : MonoBehaviour
         if (RoomList.Length == 0)
         {
             GamesText.text = ("No games\nin session");
+            currentPage = 1;
+            maxPages = 1;
         }
         else
         {
             GamesText.text = (RoomList.Length + " games\nin session");
+
+            //set maxPages
+            maxPages = Mathf.CeilToInt(RoomList.Length / 10f);
+
+            //if you're outside the bounds, go to the max
+            if (currentPage > maxPages)
+            {
+                currentPage = maxPages;
+                foreach (GameObject roomButton in RoomButtonList)
+                {
+                    roomButton.SetActive(false);
+                }
+            }
+        }
+
+        pagesText.text = currentPage + " / " + maxPages;
+
+        //Create a temporary list of Rooms to display only holding the rooms for this page
+        RoomInfo[] DisplayRoomList = new RoomInfo[10];
+        int count = 0;
+        for (int i = ((currentPage - 1)*10); i<(currentPage * 10); i++)
+        {
+            //Break if it's not a full list
+            if (i >= RoomList.Length)
+                break;
+            DisplayRoomList[count] = RoomList[i];
+            count++;
         }
 
         // For each RoomButton disable it if that Room is either invisible (in a game) or no longer exist
@@ -161,15 +196,18 @@ public class PhotonMainMenu : MonoBehaviour
                 bool roomExists = false;
                 bool isVisible = false;
                 string roomButtonName = roomButton.transform.Find("GameName").GetComponent<TextMesh>().text;
-                // For each Room in RoomList check to see if the RoomButton still exists and if it is visible
-                foreach (RoomInfo roomInfo in RoomList)
+                // For each Room in DisplayRoomList check to see if the RoomButton still exists and if it is visible
+                foreach (RoomInfo roomInfo in DisplayRoomList)
                 {
-                    if (roomInfo.name.Equals(roomButtonName))
+                    if (roomInfo != null)
                     {
-                        roomExists = true;
-                        if (roomInfo.visible)
-                            isVisible = true;
-                        break;
+                        if (roomInfo.name.Equals(roomButtonName))
+                        {
+                            roomExists = true;
+                            if (roomInfo.visible)
+                                isVisible = true;
+                            break;
+                        }
                     }
                 }
                 // If the room does not exist OR is not visible disable the RoomButton
@@ -180,64 +218,67 @@ public class PhotonMainMenu : MonoBehaviour
             }
         }
 
-        // For each visible Room updated/add them to a RoomButton
-        foreach (RoomInfo roomInfo in RoomList)
+        // For each visible Room on this page updated/add them to a RoomButton
+        foreach (RoomInfo roomInfo in DisplayRoomList)
         {
-            // Only display games that are not already running (even if they are full)
-            if (roomInfo.visible)
+            if (roomInfo != null)
             {
-                bool roomExists = false;
-
-                // Check all of the RoomButtons to see if the game is already associated with a RoomButton
-                // If it is update the PlayerCount
-                foreach (GameObject roomButton in RoomButtonList)
+                // Only display games that are not already running (even if they are full)
+                if (roomInfo.visible)
                 {
-                    string roomButtonName = roomButton.transform.Find("GameName").GetComponent<TextMesh>().text;
-                    //Debug.Log(childGameName + " is compared to " + roomInfo.name);
-                    if (roomInfo.name.Equals(roomButtonName))
-                    {
-                        roomExists = true;
-                        roomButton.transform.Find("PlayerCount").GetComponent<TextMesh>().text = (roomInfo.playerCount + "/" + roomInfo.maxPlayers);
-                        break;
-                    }
-                }
+                    bool roomExists = false;
 
-                // If the room wasn't found look through each button available and find first open Button to use for room
-                if (!roomExists)
-                {
+                    // Check all of the RoomButtons to see if the game is already associated with a RoomButton
+                    // If it is update the PlayerCount
                     foreach (GameObject roomButton in RoomButtonList)
                     {
-                        if (!roomButton.GetActive())
+                        string roomButtonName = roomButton.transform.Find("GameName").GetComponent<TextMesh>().text;
+                        //Debug.Log(childGameName + " is compared to " + roomInfo.name);
+                        if (roomInfo.name.Equals(roomButtonName) && roomButton.GetActive() == true)
                         {
-                            roomButton.gameObject.SetActive(true);
-                            TextMesh roomName = roomButton.transform.Find("GameName").GetComponent<TextMesh>();
-                            roomName.text = (roomInfo.name);
-                            //Resize the room name to fit (you wont get exact as font size is an integer)
-                            if (TextMeshArea(roomName).y > roomButtonDefaultBounds.y)
-                            {
-                                while (TextMeshArea(roomName).y > roomButtonDefaultBounds.y)
-                                {
-                                    roomName.fontSize--;
-                                }
-                            }
-                            else if (TextMeshArea(roomName).y < roomButtonDefaultBounds.y)
-                            {
-                                while (TextMeshArea(roomName).y < roomButtonDefaultBounds.y)
-                                {
-                                    if (TextMeshArea(roomName).x > roomButtonDefaultBounds.x)
-                                        break;
-                                    roomName.fontSize++;
-                                }
-                            }
-                            else if (TextMeshArea(roomName).x > roomButtonDefaultBounds.x)
-                            {
-                                while (TextMeshArea(roomName).x > roomButtonDefaultBounds.x)
-                                {
-                                    roomName.fontSize--;
-                                }
-                            }
+                            roomExists = true;
                             roomButton.transform.Find("PlayerCount").GetComponent<TextMesh>().text = (roomInfo.playerCount + "/" + roomInfo.maxPlayers);
                             break;
+                        }
+                    }
+
+                    // If the room wasn't found look through each button available and find first open Button to use for room
+                    if (!roomExists)
+                    {
+                        foreach (GameObject roomButton in RoomButtonList)
+                        {
+                            if (!roomButton.GetActive())
+                            {
+                                roomButton.gameObject.SetActive(true);
+                                TextMesh roomName = roomButton.transform.Find("GameName").GetComponent<TextMesh>();
+                                roomName.text = (roomInfo.name);
+                                //Resize the room name to fit (you wont get exact as font size is an integer)
+                                if (TextMeshArea(roomName).y > roomButtonDefaultBounds.y)
+                                {
+                                    while (TextMeshArea(roomName).y > roomButtonDefaultBounds.y)
+                                    {
+                                        roomName.fontSize--;
+                                    }
+                                }
+                                else if (TextMeshArea(roomName).y < roomButtonDefaultBounds.y)
+                                {
+                                    while (TextMeshArea(roomName).y < roomButtonDefaultBounds.y)
+                                    {
+                                        if (TextMeshArea(roomName).x > roomButtonDefaultBounds.x)
+                                            break;
+                                        roomName.fontSize++;
+                                    }
+                                }
+                                else if (TextMeshArea(roomName).x > roomButtonDefaultBounds.x)
+                                {
+                                    while (TextMeshArea(roomName).x > roomButtonDefaultBounds.x)
+                                    {
+                                        roomName.fontSize--;
+                                    }
+                                }
+                                roomButton.transform.Find("PlayerCount").GetComponent<TextMesh>().text = (roomInfo.playerCount + "/" + roomInfo.maxPlayers);
+                                break;
+                            }
                         }
                     }
                 }
@@ -335,6 +376,30 @@ public class PhotonMainMenu : MonoBehaviour
         return ret;
     }
 
+    public void UpdatePage(LobbyPageButtonScript.PageDirection pageDirection)
+    {
+        int originalPage = currentPage;
+        if (pageDirection.Equals(LobbyPageButtonScript.PageDirection.Up))
+            currentPage++;
+        else
+            currentPage--;
+
+        if (currentPage < 1)
+            currentPage = 1;
+        if (currentPage > maxPages)
+            currentPage = maxPages;
+
+        // If you actually changed pages clear the room button list & update
+        if (currentPage != originalPage)
+        {
+            foreach (GameObject roomButton in RoomButtonList)
+            {
+                roomButton.SetActive(false);
+            }
+            RoomListUpdate();
+        }
+    }
+
     public void CreateGame()
     {
         Debug.Log("trying to create a game");
@@ -383,7 +448,7 @@ public class PhotonMainMenu : MonoBehaviour
 
     public void OnPhotonCreateRoomFailed()
     {
-        StartCoroutine(UpdateLobbyTitleText("ERROR: Can't create room"));
+        StartCoroutine(UpdateLobbyTitleText("Failed to create room"));
         ErrorDialog = "Error: Can't create room (room name maybe already used).";
         Debug.Log("OnPhotonCreateRoomFailed got called. This can happen if the room exists (even if not visible). Try another room name.");
     }
