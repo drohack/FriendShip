@@ -25,7 +25,7 @@ public class PhotonGame : Photon.MonoBehaviour
         if (!PhotonNetwork.connected)
         {
 #if VIVE
-            SteamVR_LoadLevel.Begin(PhotonLobby_VR.SceneNameMenu);
+            SteamVR_LoadLevel.Begin(PhotonMainMenu.SceneNameMenu);
 #else
 	        SceneManager.LoadScene(PhotonMainMenu.SceneNameMenu);
 #endif
@@ -61,7 +61,7 @@ public class PhotonGame : Photon.MonoBehaviour
 
         // back to main menu
 #if VIVE
-        SteamVR_LoadLevel.Begin(PhotonLobby_VR.SceneNameMenu);
+        SteamVR_LoadLevel.Begin(PhotonMainMenu.SceneNameMenu);
 #else
 	    SceneManager.LoadScene(PhotonMainMenu.SceneNameMenu);
 #endif
@@ -73,7 +73,7 @@ public class PhotonGame : Photon.MonoBehaviour
 
         // back to main menu
 #if VIVE
-        SteamVR_LoadLevel.Begin(PhotonLobby_VR.SceneNameMenu);
+        SteamVR_LoadLevel.Begin(PhotonMainMenu.SceneNameMenu);
 #else
 	    SceneManager.LoadScene(PhotonMainMenu.SceneNameMenu);
 #endif
@@ -127,7 +127,7 @@ public class PhotonGame : Photon.MonoBehaviour
 
         // back to main menu
 #if VIVE
-        SteamVR_LoadLevel.Begin(PhotonLobby_VR.SceneNameMenu);
+        SteamVR_LoadLevel.Begin(PhotonMainMenu.SceneNameMenu);
 #else
 	    SceneManager.LoadScene(PhotonMainMenu.SceneNameMenu);
 #endif
