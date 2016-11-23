@@ -8786,6 +8786,7 @@ GameObject:
   - 4: {fileID: 638066140}
   - 102: {fileID: 638066142}
   - 23: {fileID: 638066141}
+  - 114: {fileID: 638066143}
   m_Layer: 0
   m_Name: Text
   m_TagString: Untagged
@@ -8801,7 +8802,7 @@ Transform:
   m_GameObject: {fileID: 638066139}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.600003}
-  m_LocalScale: {x: 0.020000009, y: 0.049999993, z: 0.10000006}
+  m_LocalScale: {x: 0.02000001, y: 0.08333333, z: 0.10000005}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 1700345009}
@@ -8846,11 +8847,7 @@ TextMesh:
   m_GameObject: {fileID: 638066139}
   m_Text: 'To Recenter your Camera
 
-    Press in the Thumb Stick
-
-    or
-
-    Press the top Menu button'
+    Press in the Thumb Stick'
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
@@ -8864,6 +8861,18 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4278190080
+--- !u!114 &638066143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 638066139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f149a60884195384cb4cb132097db1ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 638066142}
 --- !u!1 &649877257
 GameObject:
   m_ObjectHideFlags: 0
@@ -21849,7 +21858,7 @@ Transform:
   m_GameObject: {fileID: 1700345003}
   m_LocalRotation: {x: -0.08052145, y: 0.3812272, z: 0.033353075, w: 0.9203639}
   m_LocalPosition: {x: 1.349, y: 1.183, z: -0.942}
-  m_LocalScale: {x: 0.8, y: 0.3, z: 0.03}
+  m_LocalScale: {x: 0.8, y: 0.18, z: 0.03}
   m_LocalEulerAnglesHint: {x: -10, y: 45, z: 0}
   m_Children:
   - {fileID: 638066140}
