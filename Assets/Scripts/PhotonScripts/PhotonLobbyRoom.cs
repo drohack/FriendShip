@@ -469,7 +469,7 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
                     GameObject[] objects = GameObject.FindObjectsOfType<GameObject>();
                     foreach (GameObject o in objects)
                     {
-                        if (o.GetComponent<PhotonView>() != null && !o.tag.Equals("Player") && !o.tag.Equals("MainCamera") && !o.tag.Equals("Console_Text"))
+                        if (o.GetComponent<PhotonView>() != null && !o.tag.Equals("Player") && !o.tag.Equals("EarsMouth") && !o.tag.Equals("MainCamera") && !o.tag.Equals("Console_Text"))
                         {
                             if(!o.GetPhotonView().isMine)
                             {

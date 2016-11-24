@@ -1007,7 +1007,7 @@ GameObject:
   - 114: {fileID: 114000012598934752}
   m_Layer: 0
   m_Name: Ears&Mouth
-  m_TagString: Untagged
+  m_TagString: EarsMouth
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
