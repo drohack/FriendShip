@@ -431,7 +431,15 @@ public class PhotonMainMenu : MonoBehaviour
         Debug.Log("Joining Room: " + joinGameName);
 
         PhotonNetwork.player.customProperties.Clear();
-        PhotonNetwork.JoinRoom(joinGameName);
+        if(PhotonNetwork.JoinRoom(joinGameName))
+        {
+#if OCULUS
+            //Save your OVRCameraRig to be added to your PlayerObject
+            Transform ovrCameraRig = GameObject.FindGameObjectWithTag("Player").transform.Find("OVRCameraRig");
+            ovrCameraRig.parent = null;
+            DontDestroyOnLoad(ovrCameraRig);
+#endif
+        }
     }
 
     // We have two options here: we either joined(by title, list or random) or created a room.
