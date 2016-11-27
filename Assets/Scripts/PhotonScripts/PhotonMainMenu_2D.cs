@@ -329,7 +329,7 @@ public class PhotonMainMenu_2D : MonoBehaviour
 
         Debug.Log("pPosOccupied: " + playerPosOccupied[0] + ", " + playerPosOccupied[1] + ", " + playerPosOccupied[2] + ", " + playerPosOccupied[3]);
 
-        PhotonNetwork.LoadLevel(SceneNameRoom); //Start Game
+        //PhotonNetwork.LoadLevel(SceneNameRoom); //Start Game
     }
 
     public void OnDisconnectedFromPhoton()

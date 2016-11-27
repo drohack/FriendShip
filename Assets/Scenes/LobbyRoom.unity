@@ -16400,6 +16400,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1335902841}
   - 82: {fileID: 1335902840}
+  - 114: {fileID: 1335902843}
   - 114: {fileID: 1335902842}
   m_Layer: 0
   m_Name: BackgroundMusic
@@ -16503,7 +16504,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 1335902839}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9f671b60acfb414f93e223b1c9032c2, type: 3}
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 78
+  instantiationId: 78
+  isRuntimeInstantiated: 0
+--- !u!114 &1335902843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1335902839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64276f298f0dd2944a49e5b5a40b46cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   songList: []

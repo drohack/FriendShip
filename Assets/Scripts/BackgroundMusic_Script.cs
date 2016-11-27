@@ -21,11 +21,15 @@ public class BackgroundMusic_Script : Photon.MonoBehaviour {
 
         if (PhotonNetwork.isMasterClient)
         {
-            if (!BackGroundMusicSource.playOnAwake)
-            {
-                BackGroundMusicSource.clip = songList[Random.Range(0, songList.Length)];
-                BackGroundMusicSource.Play();
-            }
+            //Start the first song
+            BackGroundMusicSource.clip = songList[Random.Range(0, songList.Length)];
+            BackGroundMusicSource.Play();
+        }
+        else
+        {
+            //You joined the room, get the song from the Master Client
+            Debug.Log("Requesting song");
+            photonView.RPC("RPCRequestSong", PhotonTargets.MasterClient, PhotonNetwork.player.name);
         }
 	}
 	
@@ -34,43 +38,47 @@ public class BackgroundMusic_Script : Photon.MonoBehaviour {
     {
         if (PhotonNetwork.isMasterClient)
         {
+            //If the current clip finishes play a new one and send RPCPlaySong to all clients
             if (!BackGroundMusicSource.isPlaying)
             {
                 BackGroundMusicSource.clip = songList[Random.Range(0, songList.Length)];
                 BackGroundMusicSource.Play();
-                photonView.RPC("RPCPlaySong", PhotonTargets.Others, "BackGroundMusicSource.clip", "0");
+                photonView.RPC("RPCPlaySong", PhotonTargets.Others, BackGroundMusicSource.clip.name, "0", null);
             }
+            //Debug.Log("audio.time: " + BackGroundMusicSource.time);
+            //Debug.Log("audio.clip.length: " + BackGroundMusicSource.clip.length);
+            //Debug.Log("audio.time / audio.clip.length: " + BackGroundMusicSource.time / BackGroundMusicSource.clip.length);
         }
-        Debug.Log("audio.time: " + BackGroundMusicSource.time);
-        Debug.Log("audio.clip.length: " + BackGroundMusicSource.clip.length);
-        Debug.Log("audio.time / audio.clip.length: " + BackGroundMusicSource.time / BackGroundMusicSource.clip.length);
-    }
-
-    public void playSong(AudioClip song, float timestamp)
-    {
-        BackGroundMusicSource.clip = song;
-        BackGroundMusicSource.time = BackGroundMusicSource.clip.length * timestamp;
-        BackGroundMusicSource.Play();
     }
 
     [PunRPC]
-    void RPCplaySong(AudioClip song, float timestamp)
+    void RPCRequestSong(string name)
     {
-        BackGroundMusicSource.clip = song;
-        BackGroundMusicSource.time = BackGroundMusicSource.clip.length * timestamp;
-        BackGroundMusicSource.Play();
-    }
-
-    [PunRPC]
-    AudioClip RPCgetSong()
-    {
-        return BackGroundMusicSource.clip;
-    }
-
-    [PunRPC]
-    float RPCgetTimestamp()
-    {
+        //A user has requested your song, send the RPCPlaySong with correct song and timestamp
+        Debug.Log("Song requested by: " + name);
         float timestamp = BackGroundMusicSource.time / BackGroundMusicSource.clip.length;
-        return timestamp;
+        photonView.RPC("RPCPlaySong", PhotonTargets.Others, BackGroundMusicSource.clip.name, timestamp, name);
+    }
+
+    [PunRPC]
+    void RPCPlaySong(string songName, float timestamp, string name)
+    {
+        Debug.Log("RPCPlaySong: " + songName + " @" + timestamp + " from: " + name);
+        //If name is null send it to everyone, else only start playing for the user that requested it
+        if (name == null || name.Equals(PhotonNetwork.player.name))
+        {
+            AudioClip clip = null;
+            foreach (AudioClip ac in songList)
+            {
+                if (ac.name.Equals(songName))
+                {
+                    clip = ac;
+                    break;
+                }
+            }
+            BackGroundMusicSource.clip = clip;
+            BackGroundMusicSource.time = BackGroundMusicSource.clip.length * timestamp;
+            BackGroundMusicSource.Play();
+        }
     }
 }

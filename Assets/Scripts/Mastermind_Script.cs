@@ -323,11 +323,14 @@ public class Mastermind_Script : Photon.MonoBehaviour
         }
 
         //Hazards initialize
+        hazardsList = new GameObject[numHazards] { plutoniumLight, fogValve, resizeButton, staticLever };
+        activeHazardsList = new bool[numHazards] { false, false, false, false };
+
         directionalLight = GameObject.Find("Directional Light").GetComponent<Light>();
         defaultDirectionalLightIntensity = directionalLight.intensity;
         defaultAmbientLight = RenderSettings.ambientLight;
         defaultFogDensity = RenderSettings.fogDensity;
-        defaultScale = GameObject.FindGameObjectWithTag("Player").transform.localScale;
+        //defaultScale = GameObject.FindGameObjectWithTag("Player").transform.localScale;
         defaultStatic = 0f;
         staticAudio = GameObject.Find("HazardsExtra").GetComponent<AudioSource>();
 }
@@ -2093,9 +2096,6 @@ public class Mastermind_Script : Photon.MonoBehaviour
         resizeButton = PhotonNetwork.InstantiateSceneObject("Hazards/RESIZE Button", resizeButtons[rbPosition].position, resizeButtons[rbPosition].rotation, 0, rbData);
         staticLever = PhotonNetwork.InstantiateSceneObject("Hazards/Static Lever", staticLevers[slPosition].position, staticLevers[slPosition].rotation, 0, slData);
 
-        hazardsList = new GameObject[numHazards] { plutoniumLight, fogValve, resizeButton, staticLever };
-        activeHazardsList = new bool[numHazards] { false, false, false, false };
-
         isWaitingForHazard = false;
     }
 
@@ -2169,6 +2169,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
     [PunRPC]
     void StartHazards(int randHazardIndex)
     {
+        Debug.Log("StartHazards: " + randHazardIndex);
         activeHazardsList[randHazardIndex] = true;
 
         if (randHazardIndex == ambientLightIndex)

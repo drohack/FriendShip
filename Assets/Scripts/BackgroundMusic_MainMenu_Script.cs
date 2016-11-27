@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BackgroundMusic_LobbyRoom_Script : MonoBehaviour
+public class BackgroundMusic_MainMenu_Script : MonoBehaviour
 {
     public AudioClip[] songList;
     public AudioSource BackGroundMusicSource;
@@ -25,8 +25,6 @@ public class BackgroundMusic_LobbyRoom_Script : MonoBehaviour
             BackGroundMusicSource.clip = songList[Random.Range(0, songList.Length)];
             BackGroundMusicSource.Play();
         }
-
-
     }
 
     // Update is called once per frame
