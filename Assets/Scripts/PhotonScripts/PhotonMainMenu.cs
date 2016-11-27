@@ -404,13 +404,6 @@ public class PhotonMainMenu : MonoBehaviour
     {
         Debug.Log("trying to create a game");
 
-#if OCULUS
-        //Save your OVRCameraRig to be added to your PlayerObject
-        Transform ovrCameraRig = ovrRig.transform.Find("OVRCameraRig");
-        ovrCameraRig.parent = null;
-        DontDestroyOnLoad(ovrCameraRig);
-#endif
-
         //Set yourself as the first position and update your pPos
         playerPosOccupied = new bool[4] { true, false, false, false };
         Hashtable ht2 = new Hashtable() { { PhotonConstants.pPos, 0 } };
@@ -418,12 +411,19 @@ public class PhotonMainMenu : MonoBehaviour
         isOtherPlayerJoining = false;
 
         //Create room 
-        
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.CustomRoomProperties = new Hashtable() { { PhotonConstants.pPosOccupied, playerPosOccupied } };
         roomOptions.IsVisible = true;
         roomOptions.MaxPlayers = 4;
-        PhotonNetwork.CreateRoom(PhotonNetwork.player.name, roomOptions, TypedLobby.Default);
+        if(PhotonNetwork.CreateRoom(PhotonNetwork.player.name, roomOptions, TypedLobby.Default))
+        {
+#if OCULUS
+            //Save your OVRCameraRig to be added to your PlayerObject
+            Transform ovrCameraRig = GameObject.FindGameObjectWithTag("Player").transform.Find("OVRCameraRig");
+            ovrCameraRig.parent = null;
+            DontDestroyOnLoad(ovrCameraRig);
+#endif
+        }
     }
 
     public void JoinRoom(string joinGameName)
@@ -446,12 +446,6 @@ public class PhotonMainMenu : MonoBehaviour
     public void OnJoinedRoom()
     {
         Debug.Log("OnJoinedRoom");
-#if OCULUS
-        //Save your OVRCameraRig to be added to your PlayerObject
-        Transform ovrCameraRig = GameObject.FindGameObjectWithTag("Player").transform.Find("OVRCameraRig");
-        ovrCameraRig.parent = null;
-        DontDestroyOnLoad(ovrCameraRig);
-#endif
     }
 
     public void OnPhotonCreateRoomFailed()

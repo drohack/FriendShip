@@ -22,7 +22,7 @@ public class Command_Array : MonoBehaviour {
     //sci-fi stuff
     public readonly ArrayList buttonCommandArray_MEDIUM = new ArrayList
     {
-        "Interdimensional Time Warp",
+        "Interdimensional Warp",
         "Ludicrous Speed",
         "Space Highway",
         "Bicentennial Man",
@@ -269,7 +269,7 @@ public class Command_Array : MonoBehaviour {
         "[̲̅$̲̅(̲̅5̲̅)̲̅$̲̅]",
         "[_]3",
         "())_CRAYON_))>",
-        "{ o }====(:::)",
+        "{ o }====(:::)",
         "இڿڰۣ-ڰۣ—"
         };
     //Sliders
