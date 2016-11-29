@@ -329,7 +329,6 @@ public class Mastermind_Script : Photon.MonoBehaviour
         defaultDirectionalLightIntensity = directionalLight.intensity;
         defaultAmbientLight = RenderSettings.ambientLight;
         defaultFogDensity = RenderSettings.fogDensity;
-        //defaultScale = GameObject.FindGameObjectWithTag("Player").transform.localScale;
         defaultStatic = 0f;
         staticAudio = GameObject.Find("HazardsExtra").GetComponent<AudioSource>();
 }
@@ -2185,18 +2184,18 @@ public class Mastermind_Script : Photon.MonoBehaviour
             //Increase the fog density
             isIncreasingFog = true;
             StartCoroutine("IncreaseFog");
-            //RenderSettings.fogDensity = defaultFogDensity * 50;
         }
         else if (randHazardIndex == resizeButtonIndex)
         {
-            //Increase the scale of all Player objects by 3x
+            //Increase the scale of all Player objects by 2.5x
+            defaultScale = GameObject.FindGameObjectWithTag("Player").transform.localScale;
             foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
                 player.transform.localScale = player.transform.localScale * 2.5f;
         }
         else if (randHazardIndex == staticLeverIndex)
         {
             // Turn up static (lower the static lever)
-            if (PhotonNetwork.isMasterClient)
+            if (staticLever.GetPhotonView().isMine)
                 staticLever.GetPhotonView().RPC("RPCLowerHandle", PhotonTargets.All, null);
             // For each Main Camera that has the script "NoiseAndGrain" turn it on
             foreach (GameObject camera in GameObject.FindGameObjectsWithTag("MainCamera"))
