@@ -43,7 +43,7 @@ public class BackgroundMusic_Script : Photon.MonoBehaviour {
             {
                 BackGroundMusicSource.clip = songList[Random.Range(0, songList.Length)];
                 BackGroundMusicSource.Play();
-                photonView.RPC("RPCPlaySong", PhotonTargets.Others, BackGroundMusicSource.clip.name, "0", null);
+                photonView.RPC("RPCPlaySong", PhotonTargets.Others, BackGroundMusicSource.clip.name, 0f, null);
             }
             //Debug.Log("audio.time: " + BackGroundMusicSource.time);
             //Debug.Log("audio.clip.length: " + BackGroundMusicSource.clip.length);
