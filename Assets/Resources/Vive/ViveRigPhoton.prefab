@@ -1114,6 +1114,7 @@ GameObject:
   - 20: {fileID: 20000014097336300}
   - 114: {fileID: 114000011623265672}
   - 92: {fileID: 92000013311003350}
+  - 114: {fileID: 114000012756021186}
   m_Layer: 0
   m_Name: Camera (head)
   m_TagString: Untagged
@@ -4497,6 +4498,20 @@ MonoBehaviour:
   isTrans: 0
   AudioClip: {fileID: 0}
   LoopAudioClip: 1
+--- !u!114 &114000012756021186
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012358341342}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bca9ccf900ccc84c887d783321d27e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _head: {fileID: 0}
+  _ears: {fileID: 0}
+  wireframe: 0
 --- !u!114 &114000013137003834
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4515,7 +4530,7 @@ MonoBehaviour:
   cameraHead_TrackedObject: {fileID: 114000011623265672}
   cameraHead_GUILayer: {fileID: 92000013311003350}
   eye_Camera: {fileID: 20000010139351218}
-  eye_SteamVRCamera: {fileID: 0}
+  eye_SteamVRCamera: {fileID: 114000012756021186}
   eye_FlareLayer: {fileID: 124000013833390706}
   ears_AudioListener: {fileID: 81000010778908960}
   ears_SteamVREars: {fileID: 114000011817213700}
