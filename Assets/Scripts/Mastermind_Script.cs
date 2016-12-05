@@ -454,7 +454,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         levelTimeoutSeconds = Mathf.Pow(Mathf.Sqrt(25), (-0.1f * (level - 1)) + 2) + 75;
         //Number of seconds for each command before it times out
         //At level ONE this starts at 10 seconds, by level 5 this is 9 seconds, and by level 10 this is 8 seconds (converging to 7 second by level 30)
-        commandTimeoutSeconds = Mathf.Pow(Mathf.Sqrt(4), (-0.2f * (level - 1)) + 2) + 6;
+        commandTimeoutSeconds = Mathf.Pow(Mathf.Sqrt(3), (-0.2f * (level - 1)) + 2) + 7;
         //The base number of modules a player can start with (this number will be varied +/- 1
         //At level ONE this starts at 3 modules per player, by level 5 this is 7 modules, by level 8 this maxes out at 8 modules always for all players (converging to 8 modules)
         int baseNumModulesPerPlayer = Mathf.RoundToInt(-Mathf.Pow(Mathf.Sqrt(8), (-0.3f * (level - 1)) + 1.54f) + 8);
