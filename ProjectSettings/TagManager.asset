@@ -28,6 +28,7 @@ TagManager:
   - '[SteamVR_LoadLevel]'
   - RoomButton
   - EarsMouth
+  - StaticLever
   layers:
   - Default
   - TransparentFX

@@ -450,10 +450,10 @@ public class Mastermind_Script : Photon.MonoBehaviour
         //At level ONE this score is -10, by level 5 this is -4, by level 10 this is -2 (converging to -2)
         scoreToLose = Mathf.RoundToInt(-Mathf.Pow(Mathf.Sqrt(8), (-0.3f * (level - 1)) + 2) - 2);
         //Number of seconds for the level before Game Over
-        //At level ONE this is 100 seconds (10 seconds per command), by level 5 this is 85.195 seconds, by level 10 this is 76.493 seconds (converging to 70 seconds by level 25)
-        levelTimeoutSeconds = Mathf.Pow(Mathf.Sqrt(30), (-0.1f * (level - 1)) + 2) + 70;
+        //At level ONE this is 100 seconds (10 seconds per command), by level 5 this is 88.133 seconds, by level 10 this is 80.873 seconds (converging to 75 seconds by level 25)
+        levelTimeoutSeconds = Mathf.Pow(Mathf.Sqrt(25), (-0.1f * (level - 1)) + 2) + 75;
         //Number of seconds for each command before it times out
-        //At level ONE this starts at 10 seconds, by level 5 this is 8 seconds, and by level 10 this is 7 seconds (converging to 6 second by level 30)
+        //At level ONE this starts at 10 seconds, by level 5 this is 9 seconds, and by level 10 this is 8 seconds (converging to 7 second by level 30)
         commandTimeoutSeconds = Mathf.Pow(Mathf.Sqrt(4), (-0.2f * (level - 1)) + 2) + 6;
         //The base number of modules a player can start with (this number will be varied +/- 1
         //At level ONE this starts at 3 modules per player, by level 5 this is 7 modules, by level 8 this maxes out at 8 modules always for all players (converging to 8 modules)
@@ -475,6 +475,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         usedCommandArray = new ArrayList();
 
         // Set percent of EASY, MEDIUM, and HARD modules to spawn by level
+        // hardPercent also controls the Hazards
         switch (level)
         {
             case 1:
@@ -503,34 +504,34 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 hardPercent = 0.1f;
                 break;
             case 6:
-                easyPercent = 0.1f;
+                easyPercent = 0.25f;
                 mediumPercent = 0.6f;
-                hardPercent = 0.3f;
+                hardPercent = 0.15f;
                 break;
             case 7:
-                easyPercent = 0.05f;
-                mediumPercent = 0.55f;
-                hardPercent = 0.4f;
+                easyPercent = 0.2f;
+                mediumPercent = 0.6f;
+                hardPercent = 0.2f;
                 break;
             case 8:
-                easyPercent = 0.05f;
-                mediumPercent = 0.35f;
-                hardPercent = 0.6f;
+                easyPercent = 0.15f;
+                mediumPercent = 0.55f;
+                hardPercent = 0.3f;
                 break;
             case 9:
-                easyPercent = 0.05f;
-                mediumPercent = 0.25f;
-                hardPercent = 0.7f;
+                easyPercent = 0.1f;
+                mediumPercent = 0.5f;
+                hardPercent = 0.4f;
                 break;
             case 10:
                 easyPercent = 0.05f;
-                mediumPercent = 0.15f;
-                hardPercent = 0.8f;
+                mediumPercent = 0.45f;
+                hardPercent = 0.5f;
                 break;
             default:
                 easyPercent = 0.05f;
-                mediumPercent = 0.15f;
-                hardPercent = 0.8f;
+                mediumPercent = 0.35f;
+                hardPercent = 0.6f;
                 break;
         }
     }
@@ -2126,7 +2127,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
                 if (maxWait < 20)
                     maxWait = 20f;
                 
-                float randWait = Random.Range((maxWait / 3f), maxWait);
+                float randWait = Random.Range((maxWait / 2f), maxWait);
 
                 //Wait a random amount of time before firing off the next Hazard
                 yield return new WaitForSeconds(randWait);
@@ -2195,7 +2196,11 @@ public class Mastermind_Script : Photon.MonoBehaviour
         else if (randHazardIndex == staticLeverIndex)
         {
             // Turn up static (lower the static lever)
-            if (staticLever.GetPhotonView().isMine)
+            if (staticLever == null)
+            {
+                staticLever = GameObject.FindGameObjectWithTag("StaticLever");
+            }
+            if (staticLever != null && staticLever.GetPhotonView() != null && staticLever.GetPhotonView().isMine)
                 staticLever.GetPhotonView().RPC("RPCLowerHandle", PhotonTargets.All, null);
             // For each Main Camera that has the script "NoiseAndGrain" turn it on
             foreach (GameObject camera in GameObject.FindGameObjectsWithTag("MainCamera"))
@@ -2248,7 +2253,12 @@ public class Mastermind_Script : Photon.MonoBehaviour
         photonView.RPC("VentFog", PhotonTargets.All, null);
         photonView.RPC("RESIZENormal", PhotonTargets.All, null);
         photonView.RPC("TurnOffStatic", PhotonTargets.All, null);
-        staticLever.GetPhotonView().RPC("RPCRaiseHandle", PhotonTargets.All, null);
+        if (staticLever == null)
+        {
+            staticLever = GameObject.FindGameObjectWithTag("StaticLever");
+        }
+        if (staticLever != null && staticLever.GetPhotonView() != null && staticLever.GetPhotonView().isMine)
+            staticLever.GetPhotonView().RPC("RPCRaiseHandle", PhotonTargets.All, null);
         //photonView.RPC("TurnOnGravity", PhotonTargets.All, null);
         //gravityLever.GetPhotonView().RPC("RPCRaiseHandle", PhotonTargets.All, null);
 
