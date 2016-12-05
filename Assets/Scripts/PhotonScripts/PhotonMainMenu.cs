@@ -107,6 +107,22 @@ public class PhotonMainMenu : MonoBehaviour
 
     void Start()
     {
+#if OCULUS
+    Entitlements.IsUserEntitledToApplication().OnComplete(
+        (Message msg) =>
+        {
+            if (msg.IsError)
+            {
+                // User is NOT entitled.
+                Debug.LogError("User is not entitled");
+            }
+            else
+            {
+                // User IS entitled
+            }
+        }
+    );
+#endif
         // Build RoomButtonList
         RoomButtonList = new GameObject[RoomsGrid.childCount];
         int count = 0;
