@@ -33,7 +33,23 @@ public class Leave_Button_Script : Photon.MonoBehaviour {
             //send tapped rCommand to Server
             photonView.RPC("RPCPlayAnim", PhotonTargets.Others, "Button_Down_Anim");
             StartCoroutine(WaitForAnimation(anim, "Button_Down_Anim"));
-            PhotonNetwork.LeaveRoom();  // we will load the menu level when we successfully left the room
+            // we will load the menu level when we successfully left the room
+            if (PhotonNetwork.LeaveRoom())
+            {
+                //Destroy all of your networked objects incase you want to re-join the room
+                GameObject[] objects = GameObject.FindObjectsOfType<GameObject>();
+                foreach (GameObject o in objects)
+                {
+                    if (o.GetComponent<PhotonView>() != null)
+                    {
+                        if (!o.GetPhotonView().isMine)
+                        {
+                            PhotonNetwork.RemoveRPCs(o.GetPhotonView());
+                        }
+                        PhotonNetwork.Destroy(o);
+                    }
+                }
+            }
         }
     }
 

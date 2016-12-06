@@ -95,6 +95,9 @@ public class PhotonGame : Photon.MonoBehaviour
 
         if (PhotonNetwork.isMasterClient)
         {
+            //Remove all RPC's of that player
+            PhotonNetwork.RemoveRPCs(otherPlayer);
+
             //End the game
             if (mastermind != null)
             {

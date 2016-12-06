@@ -391,15 +391,21 @@ public class PhotonMainMenu_2D : MonoBehaviour
     {
         Debug.Log(otherPlayer.name + " disconnected from the room.");
 
-        //Open up player position
-        if (PhotonNetwork.isMasterClient && otherPlayer.customProperties.ContainsKey(PhotonConstants.pPos) && PhotonNetwork.room.customProperties.ContainsKey(PhotonConstants.pPosOccupied))
+        if (PhotonNetwork.isMasterClient)
         {
-            int otherPlayerPos = (int)otherPlayer.customProperties[PhotonConstants.pPos];
-            playerPosOccupied = (bool[])PhotonNetwork.room.customProperties[PhotonConstants.pPosOccupied];
-            playerPosOccupied[otherPlayerPos] = false;
-            Hashtable ht = new Hashtable() { { PhotonConstants.pPosOccupied , playerPosOccupied } };
-            PhotonNetwork.room.SetCustomProperties(ht);
-            otherPlayer.customProperties.Clear();
+            //Remove all RPC's of that player
+            PhotonNetwork.RemoveRPCs(otherPlayer);
+
+            //Open up player position
+            if (otherPlayer.customProperties.ContainsKey(PhotonConstants.pPos) && PhotonNetwork.room.customProperties.ContainsKey(PhotonConstants.pPosOccupied))
+            {
+                int otherPlayerPos = (int)otherPlayer.customProperties[PhotonConstants.pPos];
+                playerPosOccupied = (bool[])PhotonNetwork.room.customProperties[PhotonConstants.pPosOccupied];
+                playerPosOccupied[otherPlayerPos] = false;
+                Hashtable ht = new Hashtable() { { PhotonConstants.pPosOccupied, playerPosOccupied } };
+                PhotonNetwork.room.SetCustomProperties(ht);
+                otherPlayer.customProperties.Clear();
+            }
         }
     }
 }

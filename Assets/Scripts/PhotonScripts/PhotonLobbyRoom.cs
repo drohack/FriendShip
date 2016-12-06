@@ -97,7 +97,7 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
         StartCoroutine(SpawnOvrRigPhoton());
 
         //Update room name on player join
-        string roomName = " " + PhotonNetwork.room.name;
+        string roomName = PhotonNetwork.room.name + "'s Room";
         p1_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
         p2_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
         p3_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
@@ -322,6 +322,9 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
             isP3Ready = false;
             isP4Ready = false;
 
+            //Remove all RPC's of that player
+            PhotonNetwork.RemoveRPCs(otherPlayer);
+
             //Open up player position
             if (otherPlayer.customProperties.ContainsKey(PhotonConstants.pPos) && PhotonNetwork.room.customProperties.ContainsKey(PhotonConstants.pPosOccupied))
             {
@@ -423,19 +426,19 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
                     p4_name = player.name;
             }
 
-            text = "Player 1: " + p1_name;
+            text = "Friend 1: " + p1_name;
             if (isP1Ready)
                 text += " ✓";
             text += System.Environment.NewLine;
-            text += "Player 2: " + p2_name;
+            text += "Friend 2: " + p2_name;
             if (isP2Ready)
                 text += " ✓";
             text += System.Environment.NewLine;
-            text += "Player 3: " + p3_name;
+            text += "Friend 3: " + p3_name;
             if (isP3Ready)
                 text += " ✓";
             text += System.Environment.NewLine;
-            text += "Player 4: " + p4_name;
+            text += "Friend 4: " + p4_name;
             if (isP4Ready)
                 text += " ✓";
 
