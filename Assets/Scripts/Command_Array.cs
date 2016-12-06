@@ -38,7 +38,18 @@ public class Command_Array : MonoBehaviour {
         "Voltcannon",
         "A-guage",
         "T-guage",
-        "F-guage"
+        "F-guage",
+        "Runners",
+        "Camera",
+        "Jumbotron",
+        "Shrink Ray",
+        "Tiger Blood",
+        "All Range Mode",
+        "Depthfinder",
+        "Interns",
+        "Secretary",
+        "Coffee Pot",
+        "Doorbell"
     };
     public readonly ArrayList buttonCommandArray_MEDIUM = new ArrayList
     {
@@ -57,7 +68,17 @@ public class Command_Array : MonoBehaviour {
         "Stage 1 Rockets",
         "Stage 2 Rockets",
         "Stage 3 Rockets",
-        "Docking Probe"
+        "Docking Probe",
+        "Space Elevator",
+        "Space Bridge",
+        "Floating Orb",
+        "Cosmic Ray",
+        "Cosmic Sphere",
+        "Prism Lance",
+        "Vorpal Cone",
+        "Astral Projection",
+        "Holodeck",
+        "Astral Plane"
     };
     public readonly ArrayList buttonCommandArray_HARD = new ArrayList
     {
@@ -89,7 +110,12 @@ public class Command_Array : MonoBehaviour {
         "Cable",
         "Intercom",
         "The World",
-        "Screen"
+        "Screen",
+        "Stereo",
+        "DJ",
+        "TV Station",
+        "Olympics",
+        "Reruns"
     };
     public readonly ArrayList dialCommandArray_MEDIUM = new ArrayList
     {
@@ -156,7 +182,12 @@ public class Command_Array : MonoBehaviour {
         "Security System",
         "Darklatch",
         "Ionsock",
-        "Monothrust"
+        "Monothrust",
+        "Explosions",
+        "Racket",
+        "Fashion Police",
+        "Grammar Police",
+        "Fusion Core"
     };
     public readonly ArrayList lLeverCommandArray_MEDIUM = new ArrayList
     {
@@ -171,7 +202,12 @@ public class Command_Array : MonoBehaviour {
         "Shark Repelant",
         "Nano-bots",
         "Replicators",
-        "Cryogenics"
+        "Cryogenics",
+        "Pressure Simulator",
+        "Gravity",
+        "Nuance Machine",
+        "Test Tubes",
+        "Escape Pods"
     };
     public readonly ArrayList lLeverCommandArray_HARD = new ArrayList
     {
@@ -214,7 +250,12 @@ public class Command_Array : MonoBehaviour {
         "Computer",
         "Game",
         "Application",
-        "Tablet"
+        "Tablet",
+        "Bluetooth",
+        "Analyzer",
+        "High Beams",
+        "Defroster",
+        "Windshield Wipers"
     };
     public readonly ArrayList lightswitchCommandArray_MEDIUM = new ArrayList
     {
@@ -229,7 +270,10 @@ public class Command_Array : MonoBehaviour {
         "Vorpal Cone of the Krakens",
         "Unspeakably Clear Box",
         "Glorified Rugged Switch",
-        "Animatronics"
+        "Animatronics",
+        "Cone of Frost",
+        "Death Magnet of Vuu",
+        "Shoddy Switch"
         };
     public readonly ArrayList lightswitchCommandArray_HARD = new ArrayList
     {
@@ -260,7 +304,12 @@ public class Command_Array : MonoBehaviour {
         "Ship's Power Grid",
         "Weapons",
         "The Economy",
-        "Brain"
+        "Brain",
+        "Morning",
+        "Sun",
+        "Election",
+        "Country",
+        "Widgets" 
         };
     public readonly ArrayList plutoniumBatteryCommandArray_MEDIUM = new ArrayList
     {
@@ -310,7 +359,12 @@ public class Command_Array : MonoBehaviour {
         "Resistance",
         "Pitch",
         "Yaw",
-        "Roll"
+        "Roll",
+        "Caring",
+        "Overdrive",
+        "Fun",
+        "Melancholy",
+        "Winter"
         };
     public readonly ArrayList shifterCommandArray_MEDIUM = new ArrayList
     {
@@ -324,7 +378,10 @@ public class Command_Array : MonoBehaviour {
         "Zero-gravity Wrench",
         "Flux Screwdriver",
         "Singularity Vise",
-        "Catalytic Chronohammer"
+        "Catalytic Chronohammer",
+        "Liver Massager",
+        "Drupal Counter",
+        "Organ-O-Matic"
         };
     public readonly ArrayList shifterCommandArray_HARD = new ArrayList
     {
