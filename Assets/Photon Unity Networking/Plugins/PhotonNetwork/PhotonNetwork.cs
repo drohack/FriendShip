@@ -3080,7 +3080,7 @@ public static class PhotonNetwork
 #if VIVE
         SteamVR_LoadLevel.Begin(levelNumber);
 #else
-	    SceneManager.LoadScene(levelNumber);
+        StaticCoroutine.DoCoroutine(levelNumber);
 #endif
     }
 
@@ -3110,10 +3110,9 @@ public static class PhotonNetwork
 #if VIVE
         SteamVR_LoadLevel.Begin(levelName);
 #else
-	    SceneManager.LoadScene(levelName);
+        StaticCoroutine.DoCoroutine(levelName);
 #endif
     }
-
 
     /// <summary>
     /// This operation makes Photon call your custom web-service by name (path) with the given parameters.

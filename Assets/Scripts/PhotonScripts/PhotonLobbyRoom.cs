@@ -80,7 +80,7 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
 #if VIVE
             SteamVR_LoadLevel.Begin(PhotonMainMenu.SceneNameMenu);
 #else
-	        SceneManager.LoadScene(PhotonMainMenu.SceneNameMenu);
+	        SceneManager.LoadSceneAsync(PhotonMainMenu.SceneNameMenu);
 #endif
             return;
         }
@@ -97,7 +97,7 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
         StartCoroutine(SpawnOvrRigPhoton());
 
         //Update room name on player join
-        string roomName = PhotonNetwork.room.name + "'s Room";
+        string roomName = " " + PhotonNetwork.room.name + "'s Room";
         p1_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
         p2_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
         p3_ConsoleText.photonView.RPC("RpcTypeText", PhotonTargets.All, roomName);
@@ -239,7 +239,7 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
 #if VIVE
         SteamVR_LoadLevel.Begin(PhotonMainMenu.SceneNameMenu);
 #else
-	    SceneManager.LoadScene(PhotonMainMenu.SceneNameMenu);
+	    SceneManager.LoadSceneAsync(PhotonMainMenu.SceneNameMenu);
 #endif
     }
 
@@ -253,7 +253,7 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
 #if VIVE
         SteamVR_LoadLevel.Begin(PhotonMainMenu.SceneNameMenu);
 #else
-	    SceneManager.LoadScene(PhotonMainMenu.SceneNameMenu);
+	    SceneManager.LoadSceneAsync(PhotonMainMenu.SceneNameMenu);
 #endif
     }
 
@@ -353,7 +353,7 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
 #if VIVE
         SteamVR_LoadLevel.Begin(PhotonMainMenu.SceneNameMenu);
 #else
-	    SceneManager.LoadScene(PhotonMainMenu.SceneNameMenu);
+	    SceneManager.LoadSceneAsync(PhotonMainMenu.SceneNameMenu);
 #endif
     }
 
