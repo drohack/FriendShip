@@ -175,6 +175,10 @@ public class Mastermind_Script : Photon.MonoBehaviour
     public bool p4_Resetting = false;   // Is the player pressing their reset button?
     public bool p4_Aborting = false;    // Is the player pressing their abort button? 
 
+#if VIVE
+    private static Steamworks.SteamLeaderboard_t s_currentLeaderboard = new Steamworks.SteamLeaderboard_t();
+#endif
+
     //##################################################################################################################################
     //                                              INITIAL LOAD OF MASTERMIND
     //##################################################################################################################################
@@ -203,7 +207,21 @@ public class Mastermind_Script : Photon.MonoBehaviour
             //Wait for all the players to load into the scene before starting the game
             StartCoroutine(WaitForPlayersToSpawn());
         }
+
+#if VIVE
+        //Find the Leaderboard from Steam so we can save to it on GameOver
+        Steamworks.CallResult<Steamworks.LeaderboardFindResult_t> m_findResult = new Steamworks.CallResult<Steamworks.LeaderboardFindResult_t>();
+        Steamworks.SteamAPICall_t hSteamAPICall = Steamworks.SteamUserStats.FindLeaderboard("Players" + numPlayers);
+        m_findResult.Set(hSteamAPICall, OnLeaderboardFindResult);
+#endif
     }
+
+#if VIVE
+    static void OnLeaderboardFindResult(Steamworks.LeaderboardFindResult_t pCallback, bool failure)
+    {
+        s_currentLeaderboard = pCallback.m_hSteamLeaderboard;
+    }
+#endif
 
     IEnumerator WaitForPlayersToSpawn()
     {
@@ -1135,6 +1153,15 @@ public class Mastermind_Script : Photon.MonoBehaviour
 
         UpdateAllConsoles("Level: " + level + " \n Final Score: " + totalScore);
 
+        //Update Leaderboard
+#if OCULUS
+        Oculus.Platform.Leaderboards.WriteEntry("Players" + numPlayers, totalScore);
+#elif VIVE
+        Steamworks.SteamAPICall_t hSteamAPICall = Steamworks.SteamUserStats.UploadLeaderboardScore(s_currentLeaderboard, Steamworks.ELeaderboardUploadScoreMethod.k_ELeaderboardUploadScoreMethodKeepBest, totalScore, null, 0);
+        Steamworks.CallResult<Steamworks.LeaderboardScoreUploaded_t> m_uploadResult = new Steamworks.CallResult<Steamworks.LeaderboardScoreUploaded_t>();
+        m_uploadResult.Set(hSteamAPICall, OnScoreUploaded);
+#endif
+
         if (playerPosOccupied[0] == true)
             p1_scoreTextScript.photonView.RPC("GameOver", PhotonTargets.All, true);
         if (playerPosOccupied[1] == true)
@@ -1145,12 +1172,19 @@ public class Mastermind_Script : Photon.MonoBehaviour
             p4_scoreTextScript.photonView.RPC("GameOver", PhotonTargets.All, true);
     }
 
-    //##################################################################################################################################
-    //                                                        UPDATE
-    //##################################################################################################################################
+#if VIVE
+    static void OnScoreUploaded(Steamworks.LeaderboardScoreUploaded_t pCallback, bool failure)
+    {
+        //Score was uploaded
+    }
+#endif
 
-    // Update is called once per frame
-    void Update()
+        //##################################################################################################################################
+        //                                                        UPDATE
+        //##################################################################################################################################
+
+        // Update is called once per frame
+        void Update()
     {
         if (PhotonNetwork.isMasterClient && !isLoadingNextLevel && !isGameOver)
         {

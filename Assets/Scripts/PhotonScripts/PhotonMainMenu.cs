@@ -7,11 +7,14 @@
 using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
+#if OCULUS
 using Oculus.Platform;
 using Oculus.Platform.Models;
+#elif VIVE
+using Steamworks;
+#endif
 using ExitGames.Client.Photon;
 using UnityEngine.UI;
-using Steamworks;
 using System.Collections.Generic;
 
 public class PhotonMainMenu : MonoBehaviour
@@ -56,11 +59,39 @@ public class PhotonMainMenu : MonoBehaviour
     private GameObject roomButton;
     private Vector2 roomButtonDefaultBounds;
 
+    //Page vairables
     [SerializeField]
     private TextMesh pagesText;
-
     private int currentPage = 1;
     private int maxPages = 1;
+
+    //Leaderboard variables
+    [SerializeField]
+    private TextMesh players1TextMesh;
+    [SerializeField]
+    private TextMesh players2TextMesh;
+    [SerializeField]
+    private TextMesh players3TextMesh;
+    [SerializeField]
+    private TextMesh players4TextMesh;
+    private static long players1Score = -999;
+    private static long players2Score = -999;
+    private static long players3Score = -999;
+    private static long players4Score = -999;
+    private static bool isPlayers1ScoreLoaded = false;
+    private static bool isPlayers2ScoreLoaded = false;
+    private static bool isPlayers3ScoreLoaded = false;
+    private static bool isPlayers4ScoreLoaded = false;
+#if VIVE
+    private static bool isPlayers1LeaderboardLoaded = false;
+    private static bool isPlayers2LeaderboardLoaded = false;
+    private static bool isPlayers3LeaderboardLoaded = false;
+    private static bool isPlayers4LeaderboardLoaded = false;
+    private static SteamLeaderboard_t players1Leaderboard;
+    private static SteamLeaderboard_t players2Leaderboard;
+    private static SteamLeaderboard_t players3Leaderboard;
+    private static SteamLeaderboard_t players4Leaderboard;
+#endif
 
     public void Awake()
     {
@@ -90,7 +121,7 @@ public class PhotonMainMenu : MonoBehaviour
 #if OCULUS
         //Instantiate OvrRig
         ovrRig = (GameObject)Instantiate(Resources.Load("Oculus/OvrRig"), spawnTransform.position, spawnTransform.rotation);
-#else
+#elif VIVE
         //Instantiate [SteamVR] and ViveRig
         if (!GameObject.FindGameObjectWithTag("[SteamVR]"))
             Instantiate(Resources.Load("Vive/[SteamVR]"), Vector3.zero, Quaternion.identity);
@@ -107,32 +138,8 @@ public class PhotonMainMenu : MonoBehaviour
 
     void Start()
     {
-#if OCULUS
-    Entitlements.IsUserEntitledToApplication().OnComplete(
-        (Message msg) =>
-        {
-            if (msg.IsError)
-            {
-                // User is NOT entitled.
-                Debug.LogError("User is not entitled");
-            }
-            else
-            {
-                // User IS entitled
-            }
-        }
-    );
-#endif
-        // Build RoomButtonList
-        RoomButtonList = new GameObject[RoomsGrid.childCount];
-        int count = 0;
-        foreach (Transform child in RoomsGrid)
-        {
-            RoomButtonList[count] = child.gameObject;
-            count++;
-        }
+        StartCoroutine(Initialize());
 
-        InvokeRepeating("RoomListUpdate", 1.0f, 0.1f);
         PhotonNetwork.player.customProperties.Clear();
 
         // generate a name for this player, if none is assigned yet
@@ -143,7 +150,7 @@ public class PhotonMainMenu : MonoBehaviour
             {
 #if OCULUS
                 Users.GetLoggedInUser().OnComplete(GetLoggedInOculusUserCallback);
-#else
+#elif VIVE
                 if(SteamManager.Initialized) 
                 {
                     PhotonNetwork.playerName = SteamFriends.GetPersonaName();
@@ -156,10 +163,252 @@ public class PhotonMainMenu : MonoBehaviour
             }
         }
 
+#if VIVE
+        if (SteamManager.Initialized)
+        {
+            //Find the Leaderboard from Steam so we can get the player's highscores later
+            CallResult<Steamworks.LeaderboardFindResult_t> m_findResult1 = new CallResult<LeaderboardFindResult_t>();
+            CallResult<Steamworks.LeaderboardFindResult_t> m_findResult2 = new CallResult<LeaderboardFindResult_t>();
+            CallResult<Steamworks.LeaderboardFindResult_t> m_findResult3 = new CallResult<LeaderboardFindResult_t>();
+            CallResult<Steamworks.LeaderboardFindResult_t> m_findResult4 = new CallResult<LeaderboardFindResult_t>();
+            SteamAPICall_t hSteamAPICall1 = SteamUserStats.FindLeaderboard("Players1");
+            SteamAPICall_t hSteamAPICall2 = SteamUserStats.FindLeaderboard("Players2");
+            SteamAPICall_t hSteamAPICall3 = SteamUserStats.FindLeaderboard("Players3");
+            SteamAPICall_t hSteamAPICall4 = SteamUserStats.FindLeaderboard("Players4");
+            m_findResult1.Set(hSteamAPICall1, OnLeaderboardFindResult1);
+            m_findResult2.Set(hSteamAPICall2, OnLeaderboardFindResult2);
+            m_findResult3.Set(hSteamAPICall3, OnLeaderboardFindResult3);
+            m_findResult4.Set(hSteamAPICall4, OnLeaderboardFindResult4);
+        }
+#endif
+    }
+
+#if VIVE
+    static void OnLeaderboardFindResult1(LeaderboardFindResult_t pCallback, bool failure)
+    {
+        players1Leaderboard = pCallback.m_hSteamLeaderboard;
+        isPlayers1LeaderboardLoaded = true;
+    }
+    static void OnLeaderboardFindResult2(LeaderboardFindResult_t pCallback, bool failure)
+    {
+        players2Leaderboard = pCallback.m_hSteamLeaderboard;
+        isPlayers1LeaderboardLoaded = true;
+    }
+    static void OnLeaderboardFindResult3(LeaderboardFindResult_t pCallback, bool failure)
+    {
+        players3Leaderboard = pCallback.m_hSteamLeaderboard;
+        isPlayers1LeaderboardLoaded = true;
+    }
+    static void OnLeaderboardFindResult4(LeaderboardFindResult_t pCallback, bool failure)
+    {
+        players4Leaderboard = pCallback.m_hSteamLeaderboard;
+        isPlayers1LeaderboardLoaded = true;
+    }
+#endif
+
+    System.Collections.IEnumerator Initialize()
+    {
+        yield return new WaitForEndOfFrame();
+
+#if OCULUS
+        //Entitlement check - see if the user should be able to use this application
+        Entitlements.IsUserEntitledToApplication().OnComplete(
+            (Message msg) =>
+            {
+                if (msg.IsError)
+                {
+                // User is NOT entitled.
+                Debug.LogError("User is not entitled");
+                }
+                else
+                {
+                // User IS entitled
+            }
+            }
+        );
+#elif VIVE
+        while (!isPlayers1LeaderboardLoaded && !isPlayers2LeaderboardLoaded && !isPlayers3LeaderboardLoaded && !isPlayers4LeaderboardLoaded)
+        {
+            yield return null;
+        }
+        StartCoroutine(LoadLeaderboards());
+#endif
+
+        // Build RoomButtonList
+        RoomButtonList = new GameObject[RoomsGrid.childCount];
+        int count = 0;
+        foreach (Transform child in RoomsGrid)
+        {
+            RoomButtonList[count] = child.gameObject;
+            count++;
+        }
+
+        InvokeRepeating("RoomListUpdate", 1.0f, 0.1f);
+
         roomButton.SetActive(true);
         roomButtonDefaultBounds = TextMeshArea(roomButton.transform.Find("GameName").GetComponent<TextMesh>());
         roomButton.SetActive(false);
     }
+
+    System.Collections.IEnumerator LoadLeaderboards()
+    {
+#if OCULUS
+        //Load Leaderboards
+        Oculus.Platform.Leaderboards.GetEntries("Players1", 500, LeaderboardFilterType.Friends, LeaderboardStartAt.Top).OnComplete(
+        (Message<LeaderboardEntryList> msg) => {
+            if (msg.IsError)
+            {
+                // Network error or something.
+            }
+            else
+            {
+                LeaderboardEntryList players1List = msg.Data;
+                foreach (LeaderboardEntry entry in players1List)
+                {
+                    //Only find your score
+                    if (entry.User.OculusID.Equals(PhotonNetwork.playerName))
+                    {
+                        players1Score = entry.Score;
+                        break;
+                    }
+                }
+            }
+            isPlayers1ScoreLoaded = true;
+        });
+        Oculus.Platform.Leaderboards.GetEntries("Players2", 500, LeaderboardFilterType.Friends, LeaderboardStartAt.Top).OnComplete(
+        (Message<LeaderboardEntryList> msg) => {
+            if (msg.IsError)
+            {
+                // Network error or something.
+            }
+            else
+            {
+                LeaderboardEntryList players2List = msg.Data;
+                foreach (LeaderboardEntry entry in players2List)
+                {
+                    //Only find your score
+                    if (entry.User.OculusID.Equals(PhotonNetwork.playerName))
+                    {
+                        players2Score = entry.Score;
+                        break;
+                    }
+                }
+            }
+            isPlayers2ScoreLoaded = true;
+        });
+        Oculus.Platform.Leaderboards.GetEntries("Players3", 500, LeaderboardFilterType.Friends, LeaderboardStartAt.Top).OnComplete(
+        (Message<LeaderboardEntryList> msg) => {
+            if (msg.IsError)
+            {
+                // Network error or something.
+            }
+            else
+            {
+                LeaderboardEntryList players3List = msg.Data;
+                foreach (LeaderboardEntry entry in players3List)
+                {
+                    //Only find your score
+                    if (entry.User.OculusID.Equals(PhotonNetwork.playerName))
+                    {
+                        players3Score = entry.Score;
+                        break;
+                    }
+                }
+            }
+            isPlayers3ScoreLoaded = true;
+        });
+        Oculus.Platform.Leaderboards.GetEntries("Players4", 500, LeaderboardFilterType.Friends, LeaderboardStartAt.Top).OnComplete(
+        (Message<LeaderboardEntryList> msg) => {
+            if (msg.IsError)
+            {
+                // Network error or something.
+            }
+            else
+            {
+                LeaderboardEntryList players4List = msg.Data;
+                foreach (LeaderboardEntry entry in players4List)
+                {
+                    //Only find your score
+                    if (entry.User.OculusID.Equals(PhotonNetwork.playerName))
+                    {
+                        players4Score = entry.Score;
+                        break;
+                    }
+                }
+            }
+            isPlayers4ScoreLoaded = true;
+        });
+#elif VIVE
+        CSteamID[] prgUsers = { SteamUser.GetSteamID() };
+        CallResult<LeaderboardScoresDownloaded_t> m_findResult1 = new CallResult<LeaderboardScoresDownloaded_t>();
+        CallResult<LeaderboardScoresDownloaded_t> m_findResult2 = new CallResult<LeaderboardScoresDownloaded_t>();
+        CallResult<LeaderboardScoresDownloaded_t> m_findResult3 = new CallResult<LeaderboardScoresDownloaded_t>();
+        CallResult<LeaderboardScoresDownloaded_t> m_findResult4 = new CallResult<LeaderboardScoresDownloaded_t>();
+        SteamAPICall_t hSteamAPICall1 = SteamUserStats.DownloadLeaderboardEntriesForUsers(players1Leaderboard, prgUsers, 1);
+        SteamAPICall_t hSteamAPICall2 = SteamUserStats.DownloadLeaderboardEntriesForUsers(players2Leaderboard, prgUsers, 1);
+        SteamAPICall_t hSteamAPICall3 = SteamUserStats.DownloadLeaderboardEntriesForUsers(players3Leaderboard, prgUsers, 1);
+        SteamAPICall_t hSteamAPICall4 = SteamUserStats.DownloadLeaderboardEntriesForUsers(players4Leaderboard, prgUsers, 1);
+        m_findResult1.Set(hSteamAPICall1, OnPlayers1LeaderboardDownloaded);
+        m_findResult2.Set(hSteamAPICall2, OnPlayers2LeaderboardDownloaded);
+        m_findResult3.Set(hSteamAPICall3, OnPlayers3LeaderboardDownloaded);
+        m_findResult4.Set(hSteamAPICall4, OnPlayers4LeaderboardDownloaded);
+#endif
+
+        //Wait for scores to populate
+        while (!isPlayers1ScoreLoaded && !isPlayers2ScoreLoaded && !isPlayers3ScoreLoaded && !isPlayers4ScoreLoaded)
+        {
+            yield return null;
+        }
+
+        //Update the Tablet_Scoreboard
+        if (players1Score != -999)
+            players1TextMesh.text = players1Score.ToString();
+        if (players2Score != -999)
+            players2TextMesh.text = players2Score.ToString();
+        if (players3Score != -999)
+            players3TextMesh.text = players3Score.ToString();
+        if (players4Score != -999)
+            players4TextMesh.text = players4Score.ToString();
+    }
+
+#if VIVE
+    static void OnPlayers1LeaderboardDownloaded(LeaderboardScoresDownloaded_t pCallback, bool failure)
+    {
+        LeaderboardEntry_t leaderboardEntry;
+        int[] details = new int[1];       // we know this is how many we've stored previously
+        SteamUserStats.GetDownloadedLeaderboardEntry(pCallback.m_hSteamLeaderboardEntries, 0, out leaderboardEntry, details, 1);
+        if (leaderboardEntry.m_steamIDUser == SteamUser.GetSteamID())
+            players1Score = leaderboardEntry.m_nScore;
+        isPlayers1ScoreLoaded = true;
+    }
+    static void OnPlayers2LeaderboardDownloaded(LeaderboardScoresDownloaded_t pCallback, bool failure)
+    {
+        LeaderboardEntry_t leaderboardEntry;
+        int[] details = new int[1];       // we know this is how many we've stored previously
+        SteamUserStats.GetDownloadedLeaderboardEntry(pCallback.m_hSteamLeaderboardEntries, 0, out leaderboardEntry, details, 1);
+        if (leaderboardEntry.m_steamIDUser == SteamUser.GetSteamID())
+            players2Score = leaderboardEntry.m_nScore;
+        isPlayers2ScoreLoaded = true;
+    }
+    static void OnPlayers3LeaderboardDownloaded(LeaderboardScoresDownloaded_t pCallback, bool failure)
+    {
+        LeaderboardEntry_t leaderboardEntry;
+        int[] details = new int[1];       // we know this is how many we've stored previously
+        SteamUserStats.GetDownloadedLeaderboardEntry(pCallback.m_hSteamLeaderboardEntries, 0, out leaderboardEntry, details, 1);
+        if (leaderboardEntry.m_steamIDUser == SteamUser.GetSteamID())
+            players3Score = leaderboardEntry.m_nScore;
+        isPlayers3ScoreLoaded = true;
+    }
+    static void OnPlayers4LeaderboardDownloaded(LeaderboardScoresDownloaded_t pCallback, bool failure)
+    {
+        LeaderboardEntry_t leaderboardEntry;
+        int[] details = new int[1];       // we know this is how many we've stored previously
+        SteamUserStats.GetDownloadedLeaderboardEntry(pCallback.m_hSteamLeaderboardEntries, 0, out leaderboardEntry, details, 1);
+        if (leaderboardEntry.m_steamIDUser == SteamUser.GetSteamID())
+            players4Score = leaderboardEntry.m_nScore;
+        isPlayers4ScoreLoaded = true;
+    }
+#endif
 
     void RoomListUpdate()
     {
@@ -354,14 +603,17 @@ public class PhotonMainMenu : MonoBehaviour
         }
     }
 
+#if OCULUS
     private void GetLoggedInOculusUserCallback(Message msg)
     {
         if (!msg.IsError)
         {
             User u = msg.GetUser();
             PhotonNetwork.playerName = u.OculusID;
+            StartCoroutine(LoadLeaderboards());
         }
     }
+#endif
 
     System.Collections.IEnumerator UpdateLobbyTitleText(string tempText)
     {
