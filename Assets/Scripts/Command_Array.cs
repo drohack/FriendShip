@@ -26,7 +26,7 @@ public class Command_Array : MonoBehaviour {
         "Virtual Reality",
         "Simulated Reality",
         "Robot Arm",
-        "Ejecter Seats",
+        "Ejector Seats",
         "Spacehorn",
         "Prime Directive",
         "Society",
@@ -36,9 +36,10 @@ public class Command_Array : MonoBehaviour {
         "The Unseen",
         "Monorotor",
         "Voltcannon",
-        "A-guage",
-        "T-guage",
-        "F-guage"
+        "A-gauge",
+        "T-gauge",
+        "F-gauge",
+        "Contingency Measures"
     };
     public readonly ArrayList buttonCommandArray_MEDIUM = new ArrayList
     {
@@ -46,6 +47,7 @@ public class Command_Array : MonoBehaviour {
         "Inter - dimensional Warp",
         "Ludicrous Speed",
         "Space Highway",
+        "Laser Beams",
         "Bicentennial Man",
         "Psychometry",
         "Pyrokinesis",
@@ -156,7 +158,9 @@ public class Command_Array : MonoBehaviour {
         "Security System",
         "Darklatch",
         "Ionsock",
-        "Monothrust"
+        "Monothrust",
+        "The Alarms",
+        "Autopilot"
     };
     public readonly ArrayList lLeverCommandArray_MEDIUM = new ArrayList
     {
@@ -171,7 +175,13 @@ public class Command_Array : MonoBehaviour {
         "Shark Repelant",
         "Nano-bots",
         "Replicators",
-        "Cryogenics"
+        "Cryogenics",
+        "Super Computers",
+        "Atmospheric Regulators",
+        "The Cool Space Alarms",
+        "Artificial Gravity",
+        "The Jetpacks",
+        "Auto Navigation Systems"
     };
     public readonly ArrayList lLeverCommandArray_HARD = new ArrayList
     {
@@ -214,7 +224,8 @@ public class Command_Array : MonoBehaviour {
         "Computer",
         "Game",
         "Application",
-        "Tablet"
+        "Tablet",
+        "Spam Filters"
     };
     public readonly ArrayList lightswitchCommandArray_MEDIUM = new ArrayList
     {
@@ -260,7 +271,11 @@ public class Command_Array : MonoBehaviour {
         "Ship's Power Grid",
         "Weapons",
         "The Economy",
-        "Brain"
+        "Brain",
+        "Drumming Bunny",
+        "Cellular Comm Device",
+        "Water Purifiers",
+        "Air Purifiers"
         };
     public readonly ArrayList plutoniumBatteryCommandArray_MEDIUM = new ArrayList
     {
@@ -310,7 +325,10 @@ public class Command_Array : MonoBehaviour {
         "Resistance",
         "Pitch",
         "Yaw",
-        "Roll"
+        "Roll",
+        "Hype",
+        "Attitude",
+        "Prestige"
         };
     public readonly ArrayList shifterCommandArray_MEDIUM = new ArrayList
     {
@@ -324,7 +342,11 @@ public class Command_Array : MonoBehaviour {
         "Zero-gravity Wrench",
         "Flux Screwdriver",
         "Singularity Vise",
-        "Catalytic Chronohammer"
+        "Catalytic Chronohammer",
+        "Ultrasonic Screwdriver",
+        "Oversized Laser Probe",
+        "Anti-Gravity Hammer",
+        "Antimatter Tape Measure"
         };
     public readonly ArrayList shifterCommandArray_HARD = new ArrayList
     {
@@ -409,7 +431,8 @@ public class Command_Array : MonoBehaviour {
         "Main Hatch",
         "Screws",
         "Bolts",
-        "Guitar Strings"
+        "Guitar Strings",
+        "Tape Decks"
     };
     public readonly ArrayList valveCommandArray_MEDIUM = new ArrayList
     {
