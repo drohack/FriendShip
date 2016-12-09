@@ -17,7 +17,7 @@ public class Spawn_Toys_Script : Photon.MonoBehaviour
 
     IEnumerator WaitForPlayersToSpawn()
     {
-        yield return new WaitForSeconds(0.001f); 
+        yield return new WaitForEndOfFrame(); 
 
         //Wait for all players to load into the scene
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.Contains(PhotonMainMenu.SceneNameGame))
