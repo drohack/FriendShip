@@ -140,8 +140,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private bool p1_isDisplayStart = true;
     public bool p1_isDisplayingCommand = false;
     private float p1_gWaitSystem;         // Variables for the custom WaitForSeconds function
-    private int p1_gridX = 4;           // The grid which the random game objects get placed
-    private int p1_gridY = 2;           // The grid which the random game objects get placed
+    private int p1_gridX = 0;           // The grid which the random game objects get placed
+    private int p1_gridY = 0;           // The grid which the random game objects get placed
     public bool p1_Resetting = false;   // Is the player pressing their reset button?
     public bool p1_Aborting = false;    // Is the player pressing their abort button?    
 
@@ -150,8 +150,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private bool p2_isDisplayStart = true;
     public bool p2_isDisplayingCommand = false;
     private float p2_gWaitSystem;         // Variables for the custom WaitForSeconds function
-    private int p2_gridX = 4;           // The grid which the random game objects get placed
-    private int p2_gridY = 2;           // The grid which the random game objects get placed
+    private int p2_gridX = 0;           // The grid which the random game objects get placed
+    private int p2_gridY = 0;           // The grid which the random game objects get placed
     public bool p2_Resetting = false;   // Is the player pressing their reset button?
     public bool p2_Aborting = false;    // Is the player pressing their abort button?    
 
@@ -160,8 +160,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private bool p3_isDisplayStart = true;
     public bool p3_isDisplayingCommand = false;
     private float p3_gWaitSystem;         // Variables for the custom WaitForSeconds function
-    private int p3_gridX = 4;           // The grid which the random game objects get placed
-    private int p3_gridY = 2;           // The grid which the random game objects get placed
+    private int p3_gridX = 0;           // The grid which the random game objects get placed
+    private int p3_gridY = 0;           // The grid which the random game objects get placed
     public bool p3_Resetting = false;   // Is the player pressing their reset button?
     public bool p3_Aborting = false;    // Is the player pressing their abort button? 
 
@@ -170,8 +170,8 @@ public class Mastermind_Script : Photon.MonoBehaviour
     private bool p4_isDisplayStart = true;
     public bool p4_isDisplayingCommand = false;
     private float p4_gWaitSystem;         // Variables for the custom WaitForSeconds function
-    private int p4_gridX = 4;           // The grid which the random game objects get placed
-    private int p4_gridY = 2;           // The grid which the random game objects get placed
+    private int p4_gridX = 0;           // The grid which the random game objects get placed
+    private int p4_gridY = 0;           // The grid which the random game objects get placed
     public bool p4_Resetting = false;   // Is the player pressing their reset button?
     public bool p4_Aborting = false;    // Is the player pressing their abort button? 
 
@@ -394,7 +394,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         //Set up level variables (score to win this round, number of seconds for each command, number of modules to spawn per player)
         SetupLevel();
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(5);
 
         //Count down from 3 to next level
         //Generate new modules
@@ -426,6 +426,21 @@ public class Mastermind_Script : Photon.MonoBehaviour
         p3_isDisplayStart = true;
         p4_isDisplayStart = true;
 
+        UpdateAllConsoles(" Generating Hazards...");
+
+        //Generate Hazards
+        IntantiateHazards();
+
+        yield return new WaitForSeconds(2f);
+
+        UpdateAllConsoles(" Generating Modules...");
+
+        //Generate the random modules
+        GenerateAllPlayerModules();
+
+        Debug.Log((p1_gridX * p1_gridY) + (p2_gridX * p2_gridY) + (p3_gridX * p3_gridY) + (p4_gridX * p4_gridY));
+        yield return new WaitForSeconds((p1_gridX * p1_gridY) + (p2_gridX * p2_gridY) + (p3_gridX * p3_gridY) + (p4_gridX * p4_gridY));
+
         //Play countdown
         UpdateAllConsoles(" Ready in");
         yield return new WaitForSeconds(1);
@@ -435,25 +450,19 @@ public class Mastermind_Script : Photon.MonoBehaviour
             yield return new WaitForSeconds(1);
         }
 
-        //Generate the random modules
-        GenerateAllPlayerModules();
-
-        //Generate Hazards
-        IntantiateHazards();
-
         //Start the next round!
         UpdateAllConsoles(" START!");
+
+        //Start Timer object
+        levelStartTime = System.DateTime.Now;
+        timerScript.StartTimer(levelTimeoutSeconds, levelStartTime);
+
         yield return new WaitForSeconds(1);
 
         p1_isDisplayStart = false;
         p2_isDisplayStart = false;
         p3_isDisplayStart = false;
         p4_isDisplayStart = false;
-
-        levelStartTime = System.DateTime.Now;
-
-        //Start Timer object
-        timerScript.StartTimer(levelTimeoutSeconds, levelStartTime);
 
         //Start Hazards
         StartCoroutine("RunHazards");
@@ -468,26 +477,39 @@ public class Mastermind_Script : Photon.MonoBehaviour
         //At level ONE this score is -10, by level 5 this is -4, by level 10 this is -2 (converging to -2)
         scoreToLose = Mathf.RoundToInt(-Mathf.Pow(Mathf.Sqrt(8), (-0.3f * (level - 1)) + 2) - 2);
         //Number of seconds for the level before Game Over
-        //At level ONE this is 100 seconds (10 seconds per command), by level 5 this is 88.133 seconds, by level 10 this is 80.873 seconds (converging to 75 seconds by level 25)
-        levelTimeoutSeconds = Mathf.Pow(Mathf.Sqrt(25), (-0.1f * (level - 1)) + 2) + 75;
+        //At level ONE this is 100 seconds (10 seconds per command), by level 5 this is 90.986 seconds, by level 10 this is 85.195 seconds (converging to 80 seconds by level 25)
+        //Add an extra second to display the "START!" message
+        levelTimeoutSeconds = Mathf.Pow(Mathf.Sqrt(20), (-0.1f * (level - 1)) + 2) + 80 + 1;
         //Number of seconds for each command before it times out
         //At level ONE this starts at 10 seconds, by level 5 this is 9 seconds, and by level 10 this is 8 seconds (converging to 7 second by level 30)
         commandTimeoutSeconds = Mathf.Pow(Mathf.Sqrt(3), (-0.2f * (level - 1)) + 2) + 7;
         //The base number of modules a player can start with (this number will be varied +/- 1
         //At level ONE this starts at 3 modules per player, by level 5 this is 7 modules, by level 8 this maxes out at 8 modules always for all players (converging to 8 modules)
         int baseNumModulesPerPlayer = Mathf.RoundToInt(-Mathf.Pow(Mathf.Sqrt(8), (-0.3f * (level - 1)) + 1.54f) + 8);
-        int[] xyNumModules_p1 = GetNumXYModules(baseNumModulesPerPlayer);
-        p1_gridX = xyNumModules_p1[0];
-        p1_gridY = xyNumModules_p1[1];
-        int[] xyNumModules_p2 = GetNumXYModules(baseNumModulesPerPlayer);
-        p2_gridX = xyNumModules_p2[0];
-        p2_gridY = xyNumModules_p2[1];
-        int[] xyNumModules_p3 = GetNumXYModules(baseNumModulesPerPlayer);
-        p3_gridX = xyNumModules_p3[0];
-        p3_gridY = xyNumModules_p3[1];
-        int[] xyNumModules_p4 = GetNumXYModules(baseNumModulesPerPlayer);
-        p4_gridX = xyNumModules_p4[0];
-        p4_gridY = xyNumModules_p4[1];
+        if (playerPosOccupied[0] == true)
+        {
+            int[] xyNumModules_p1 = GetNumXYModules(baseNumModulesPerPlayer);
+            p1_gridX = xyNumModules_p1[0];
+            p1_gridY = xyNumModules_p1[1];
+        }
+        if (playerPosOccupied[1] == true)
+        {
+            int[] xyNumModules_p2 = GetNumXYModules(baseNumModulesPerPlayer);
+            p2_gridX = xyNumModules_p2[0];
+            p2_gridY = xyNumModules_p2[1];
+        }
+        if (playerPosOccupied[2] == true)
+        {
+            int[] xyNumModules_p3 = GetNumXYModules(baseNumModulesPerPlayer);
+            p3_gridX = xyNumModules_p3[0];
+            p3_gridY = xyNumModules_p3[1];
+        }
+        if (playerPosOccupied[3] == true)
+        {
+            int[] xyNumModules_p4 = GetNumXYModules(baseNumModulesPerPlayer);
+            p4_gridX = xyNumModules_p4[0];
+            p4_gridY = xyNumModules_p4[1];
+        }
 
         //Reset the usedCommandArray
         usedCommandArray = new ArrayList();
@@ -1149,7 +1171,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
         StopCoroutine("RunHazards");
 
         //Stop Timer object
-        timerScript.StopTimer(true);
+        timerScript.StopTimer();
 
         UpdateAllConsoles("Level: " + level + " \n Final Score: " + totalScore);
 
@@ -1193,7 +1215,7 @@ public class Mastermind_Script : Photon.MonoBehaviour
             if (levelScore >= scoreToWin)
             {
                 //Stop Timer
-                timerScript.StopTimer(false);
+                timerScript.StopTimer();
 
                 StopCoroutine("RunHazards");
                 ResetHazards();

@@ -258,7 +258,7 @@ public class PhotonMainMenu : MonoBehaviour
         (Message<LeaderboardEntryList> msg) => {
             if (msg.IsError)
             {
-                // Network error or something.
+                Debug.LogError("Unable to get Players1 Leaderboard");
             }
             else
             {
@@ -279,7 +279,7 @@ public class PhotonMainMenu : MonoBehaviour
         (Message<LeaderboardEntryList> msg) => {
             if (msg.IsError)
             {
-                // Network error or something.
+                Debug.LogError("Unable to get Players2 Leaderboard");
             }
             else
             {
@@ -300,7 +300,7 @@ public class PhotonMainMenu : MonoBehaviour
         (Message<LeaderboardEntryList> msg) => {
             if (msg.IsError)
             {
-                // Network error or something.
+                Debug.LogError("Unable to get Players3 Leaderboard");
             }
             else
             {
@@ -321,7 +321,7 @@ public class PhotonMainMenu : MonoBehaviour
         (Message<LeaderboardEntryList> msg) => {
             if (msg.IsError)
             {
-                // Network error or something.
+                Debug.LogError("Unable to get Players4 Leaderboard");
             }
             else
             {
@@ -355,7 +355,7 @@ public class PhotonMainMenu : MonoBehaviour
 #endif
 
         //Wait for scores to populate
-        while (!isPlayers1ScoreLoaded && !isPlayers2ScoreLoaded && !isPlayers3ScoreLoaded && !isPlayers4ScoreLoaded)
+        while (!isPlayers1ScoreLoaded || !isPlayers2ScoreLoaded || !isPlayers3ScoreLoaded || !isPlayers4ScoreLoaded)
         {
             yield return null;
         }
@@ -608,9 +608,14 @@ public class PhotonMainMenu : MonoBehaviour
     {
         if (!msg.IsError)
         {
+            Debug.Log("Got logged in user: " + msg.GetUser().OculusID);
             User u = msg.GetUser();
             PhotonNetwork.playerName = u.OculusID;
             StartCoroutine(LoadLeaderboards());
+        }
+        else
+        {
+            Debug.LogError(msg);
         }
     }
 #endif

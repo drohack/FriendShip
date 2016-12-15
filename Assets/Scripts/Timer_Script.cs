@@ -28,21 +28,21 @@ public class Timer_Script : Photon.MonoBehaviour
 
     public void StartTimer(float levelTimeoutSeconds, System.DateTime levelStartTime)
     {
+        //Reset timer
+        fillMaterial.color = Color.green;
+        fill.transform.localScale = fillOriginalLocalScale;
+
+        //Start new timer
         this.levelTimeoutSeconds = levelTimeoutSeconds;
         this.levelStartTime = levelStartTime;
         isRunning = true;
         photonView.RPC("RPCStartTimer", PhotonTargets.Others, levelTimeoutSeconds, levelStartTime.ToBinary());
     }
 
-    public void StopTimer(bool isGameOver)
+    public void StopTimer()
     {
         isRunning = false;
-        if (!isGameOver)
-        {
-            fillMaterial.color = Color.green;
-            fill.transform.localScale = fillOriginalLocalScale;
-        }
-        photonView.RPC("RPCStopTimer", PhotonTargets.Others, isGameOver);
+        photonView.RPC("RPCStopTimer", PhotonTargets.Others);
     }
 
     // Update is called once per frame
