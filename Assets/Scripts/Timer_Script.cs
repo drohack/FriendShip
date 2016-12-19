@@ -75,13 +75,8 @@ public class Timer_Script : Photon.MonoBehaviour
     }
 
     [PunRPC]
-    void RPCStopTimer(bool isGameOver)
+    void RPCStopTimer()
     {
         isRunning = false;
-        if (!isGameOver)
-        {
-            fillMaterial.color = Color.green;
-            fill.transform.localScale = fillOriginalLocalScale;
-        }
     }
 }
