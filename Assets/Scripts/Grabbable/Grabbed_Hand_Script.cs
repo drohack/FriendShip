@@ -23,6 +23,13 @@ public class Grabbed_Hand_Script : MonoBehaviour {
     private Grabbable m_grabbedGrabbable = null;
     private Hand_Pose m_grabbedHandPose = null;
     private FixedJoint fixedJoint = null;
+#if OCULUS
+    private OVRTouchSample.Hand m_hand = null;
+    private PhotonNetworkOvrRig parentRigScript = null;
+#elif VIVE
+    private Vive_Hand m_hand = null;
+    private PhotonNetworkViveRig parentRigScript = null;
+#endif
 
     public const float THRESH_THROW_SPEED = 1.0f;
 
@@ -43,10 +50,19 @@ public class Grabbed_Hand_Script : MonoBehaviour {
         // Get components
         m_rigidbody = this.GetComponent<Rigidbody>();
         m_velocityTracker = this.GetComponent<Velocity_Tracker>();
+#if OCULUS
+        m_hand = this.GetComponent<OVRTouchSample.Hand>();
+        if (transform.parent != null && transform.parent.GetComponent<PhotonNetworkOvrRig>() != null)
+            parentRigScript = transform.parent.GetComponent<PhotonNetworkOvrRig>();
+#elif VIVE
+        m_hand = this.GetComponent<Vive_Hand>();
+        if (transform.parent != null && transform.parent.GetComponent<PhotonNetworkViveRig>() != null)
+            parentRigScript = transform.parent.GetComponent<PhotonNetworkViveRig>();
+#endif
     }
-	
-	// Update is called once per frame
-	void FixedUpdate () {
+
+    // Update is called once per frame
+    void FixedUpdate () {
         
     }
 
@@ -83,10 +99,10 @@ public class Grabbed_Hand_Script : MonoBehaviour {
 
         if (closestGrabbable != null && !closestGrabbable.m_grabMode.Equals(Grabbable.GrabMode.None))
         {
-            if (this.GetComponent<OVRTouchSample.Hand>() != null)
+            if (m_hand != null)
             {
                 // Disable grab volumes to prevent overlaps
-                this.GetComponent<OVRTouchSample.Hand>().GrabVolumeEnable(false);
+                m_hand.GrabVolumeEnable(false);
             }
 
             // Only run if object GrabMode is "Drag" or "Rotate"
@@ -96,9 +112,9 @@ public class Grabbed_Hand_Script : MonoBehaviour {
                 m_rigidbody.isKinematic = false;
                 // disable the hand geometry
                 m_skinnedMeshRenderer.enabled = false;
-                if (transform.parent != null && transform.parent.GetComponent<PhotonNetworkOvrRig>() != null)
+                if (parentRigScript != null)
                 {
-                    transform.parent.GetComponent<PhotonNetworkOvrRig>().ToggleMeshRenderer(m_handedness, m_skinnedMeshRenderer.enabled);
+                    parentRigScript.ToggleMeshRenderer(m_handedness, m_skinnedMeshRenderer.enabled);
                 }
             }
         }
@@ -139,9 +155,9 @@ public class Grabbed_Hand_Script : MonoBehaviour {
             {
                 // Enable hand geometry to pop back in
                 m_skinnedMeshRenderer.enabled = true;
-                if (transform.parent != null && transform.parent.GetComponent<PhotonNetworkOvrRig>() != null)
+                if (parentRigScript != null)
                 {
-                    transform.parent.GetComponent<PhotonNetworkOvrRig>().ToggleMeshRenderer(m_handedness, m_skinnedMeshRenderer.enabled);
+                    parentRigScript.ToggleMeshRenderer(m_handedness, m_skinnedMeshRenderer.enabled);
                 }
                 //set isKinematic to false so the hand doesn't bump into things
                 m_rigidbody.isKinematic = true;
@@ -168,11 +184,11 @@ public class Grabbed_Hand_Script : MonoBehaviour {
             // Release the grabbable
             GrabbableRelease(linearVelocity, angularVelocity, false);
         }
-
-        if (this.GetComponent<OVRTouchSample.Hand>() != null)
+        
+        if (m_hand != null)
         {
             // Re-enable grab volumes to allow overlap events
-            this.GetComponent<OVRTouchSample.Hand>().GrabVolumeEnable(true);
+            m_hand.GrabVolumeEnable(true);
         }
     }
 
@@ -182,8 +198,8 @@ public class Grabbed_Hand_Script : MonoBehaviour {
         m_grabbedGrabbable = grabbable;
         m_grabbedGrabbable.GrabBegin(this, grabPoint);
         m_grabbedHandPose = m_grabbedGrabbable.HandPose;
-        if (this.GetComponent<OVRTouchSample.Hand>() != null)
-            this.GetComponent<OVRTouchSample.Hand>().m_grabbedHandPose = m_grabbedHandPose;
+        if (m_hand != null)
+            m_hand.m_grabbedHandPose = m_grabbedHandPose;
     }
 
     //==============================================================================
@@ -192,8 +208,8 @@ public class Grabbed_Hand_Script : MonoBehaviour {
         m_grabbedGrabbable.GrabEnd(linearVelocity, angularVelocity, isOffhandGrab);
         m_grabbedHandPose = null;
         m_grabbedGrabbable = null;
-        if (this.GetComponent<OVRTouchSample.Hand>() != null)
-            this.GetComponent<OVRTouchSample.Hand>().m_grabbedHandPose = m_grabbedHandPose;
+        if (m_hand != null)
+            m_hand.m_grabbedHandPose = m_grabbedHandPose;
     }
 
     //==============================================================================

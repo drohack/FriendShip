@@ -3,13 +3,14 @@ guid: 12b8887327f832349b5b734459636b19
 timeCreated: 1460095154
 licenseType: Free
 TrueTypeFontImporter:
-  serializedVersion: 3
-  fontSize: 90
+  serializedVersion: 4
+  fontSize: 40
   forceTextureCase: -2
-  characterSpacing: 1
-  characterPadding: 0
+  characterSpacing: 0
+  characterPadding: 1
   includeFontData: 1
-  fontNames: []
+  fontNames:
+  - Arial
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
