@@ -211,6 +211,12 @@ public class Grabbable : MonoBehaviour
             m_SpringJoint.connectedBody.angularDrag = k_AngularDrag;
         }
 
+        if (transform.parent != null && (transform.parent.gameObject.name.Contains("Valve") || transform.parent.gameObject.name.Contains("valve")))
+        {
+            m_SpringJoint.autoConfigureConnectedAnchor = false;
+            m_SpringJoint.connectedAnchor = new Vector3(0.45f, 0.45f, 0.4f);
+        }
+
         // Send grab begin message
         GrabbableGrabMsg grabMsg = new GrabbableGrabMsg()
         {

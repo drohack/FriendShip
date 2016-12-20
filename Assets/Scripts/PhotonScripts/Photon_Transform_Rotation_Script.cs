@@ -224,7 +224,7 @@ public class Photon_Transform_Rotation_Script : Photon.MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (!photonView.isMine && !isLoading)
         {
