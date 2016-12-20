@@ -93,8 +93,11 @@ public class PhotonMainMenu : MonoBehaviour
     private static SteamLeaderboard_t players4Leaderboard;
 #endif
 
+    float deltaTime = 0.0f;
+
     public void Awake()
     {
+        UnityEngine.Application.targetFrameRate = -1;
 #if OCULUS
         //Initialize the Oculus Platform.
         Oculus.Platform.Core.Initialize("1219926394692968");
@@ -417,6 +420,10 @@ public class PhotonMainMenu : MonoBehaviour
         if (RoomList.Length == 0)
         {
             GamesText.text = ("No games\nin session");
+            //float msec = deltaTime * 1000.0f;
+            //float fps = 1.0f / deltaTime;
+            //string text = string.Format("{0:0.0} ms \n({1:0.} fps)", msec, fps);
+            //GamesText.text = text;
             currentPage = 1;
             maxPages = 1;
         }
@@ -553,6 +560,7 @@ public class PhotonMainMenu : MonoBehaviour
 
     void Update()
     {
+        deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
         if (showLobby)
         {
             if (!PhotonNetwork.connected)
