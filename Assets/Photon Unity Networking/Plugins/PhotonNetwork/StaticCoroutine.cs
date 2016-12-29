@@ -13,7 +13,7 @@ internal class StaticCoroutine : MonoBehaviour
         {
             if (instance == null)
             {
-                instance = PhotonVoiceNetwork.instance.gameObject.AddComponent<StaticCoroutine>();
+                instance = new StaticCoroutine();
             }
             return instance;
         }

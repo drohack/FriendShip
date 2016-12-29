@@ -73,6 +73,7 @@ public class PhotonVoiceSettings : MonoBehaviour
             if (instance == null)
             {
                 instance = this;
+                DontDestroyOnLoad(this);
             }
             else
             {
