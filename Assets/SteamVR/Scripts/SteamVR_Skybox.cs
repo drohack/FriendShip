@@ -5,7 +5,9 @@
 //=============================================================================
 
 using UnityEngine;
+#if VIVE
 using Valve.VR;
+#endif
 
 public class SteamVR_Skybox : MonoBehaviour
 {
@@ -65,6 +67,7 @@ public class SteamVR_Skybox : MonoBehaviour
 		return null;
 	}
 
+
 	static public void SetOverride(
 		Texture front = null,
 		Texture back = null,
@@ -73,7 +76,8 @@ public class SteamVR_Skybox : MonoBehaviour
 		Texture top = null,
 		Texture bottom = null )
 	{
-		var compositor = OpenVR.Compositor;
+#if VIVE
+        var compositor = OpenVR.Compositor;
 		if (compositor != null)
 		{
 			var handles = new Texture[] { front, back, left, right, top, bottom };
@@ -94,13 +98,16 @@ public class SteamVR_Skybox : MonoBehaviour
 					Debug.Log("Ensure skybox textures are not compressed and have no mipmaps.");
 			}
 		}
+#endif
 	}
 
 	static public void ClearOverride()
 	{
-		var compositor = OpenVR.Compositor;
+#if VIVE
+        var compositor = OpenVR.Compositor;
 		if (compositor != null)
 			compositor.ClearSkyboxOverride();
+#endif
 	}
 
 	void OnEnable()
