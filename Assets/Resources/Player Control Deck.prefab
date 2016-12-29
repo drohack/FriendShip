@@ -23,7 +23,7 @@ GameObject:
   - 23: {fileID: 23000010926781164}
   - 54: {fileID: 54000013543841428}
   - 64: {fileID: 64000013507409174}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: table_surface
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - 64: {fileID: 64000011775771322}
   - 33: {fileID: 33000011456683656}
   - 23: {fileID: 23000010038193874}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Side Table
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000012379677852}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SpawnColliders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011382179810}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player Control Deck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000011340976906}
   - 108: {fileID: 108000011955096026}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Fail Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000013399376398}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Console
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   - 4: {fileID: 4000011182094598}
   - 114: {fileID: 114000013890859640}
   - 114: {fileID: 114000013802967178}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Command Feedback
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,7 +138,7 @@ GameObject:
   - 33: {fileID: 33000010249218028}
   - 65: {fileID: 65000012345475860}
   - 23: {fileID: 23000012711191110}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wall2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157,7 +157,7 @@ GameObject:
   - 23: {fileID: 23000011477690352}
   - 114: {fileID: 114000010392865868}
   - 114: {fileID: 114000013124515078}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Console_Text
   m_TagString: Console_Text
   m_Icon: {fileID: 0}
@@ -172,7 +172,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000010905270024}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Modules
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -188,7 +188,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000013602858834}
   - 108: {fileID: 108000013518923164}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Success Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -204,7 +204,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000010662042150}
   - 54: {fileID: 54000012497520526}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -220,7 +220,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000014004509302}
   - 82: {fileID: 82000011516493852}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Fail Audio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,7 +237,7 @@ GameObject:
   - 4: {fileID: 4000013951854134}
   - 33: {fileID: 33000012567452674}
   - 23: {fileID: 23000010135496616}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: table_leg_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -256,7 +256,7 @@ GameObject:
   - 23: {fileID: 23000014177830630}
   - 54: {fileID: 54000012836220856}
   - 64: {fileID: 64000011928425838}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: table_base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -274,7 +274,7 @@ GameObject:
   - 33: {fileID: 33000014059186066}
   - 65: {fileID: 65000011317315942}
   - 23: {fileID: 23000010719866690}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wall1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -290,7 +290,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000013803014172}
   - 65: {fileID: 65000010548145834}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Collider1
   m_TagString: PlutoniumSpawn
   m_Icon: {fileID: 0}
@@ -305,7 +305,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011941984746}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Table
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -323,7 +323,7 @@ GameObject:
   - 33: {fileID: 33000013940916722}
   - 65: {fileID: 65000011795121394}
   - 23: {fileID: 23000012602186184}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wall3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -340,7 +340,7 @@ GameObject:
   - 4: {fileID: 4000011991663220}
   - 33: {fileID: 33000012484502440}
   - 23: {fileID: 23000012886848866}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: table_leg_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -358,7 +358,7 @@ GameObject:
   - 33: {fileID: 33000010885799194}
   - 136: {fileID: 136000013751412658}
   - 23: {fileID: 23000012082465646}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Case
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -375,7 +375,7 @@ GameObject:
   - 4: {fileID: 4000012229260214}
   - 54: {fileID: 54000010853839800}
   - 64: {fileID: 64000010930142006}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: table_legs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -391,7 +391,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000013654909420}
   - 65: {fileID: 65000012348818518}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Collider2
   m_TagString: PlutoniumSpawn
   m_Icon: {fileID: 0}
@@ -408,7 +408,7 @@ GameObject:
   - 4: {fileID: 4000011294097122}
   - 114: {fileID: 114000010370046504}
   - 114: {fileID: 114000013107021102}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Timer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -426,7 +426,7 @@ GameObject:
   - 33: {fileID: 33000013027263530}
   - 136: {fileID: 136000012468450582}
   - 23: {fileID: 23000011423957774}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -442,7 +442,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000010245262368}
   - 108: {fileID: 108000012028410590}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -461,7 +461,7 @@ GameObject:
   - 23: {fileID: 23000012415648702}
   - 54: {fileID: 54000013370211830}
   - 64: {fileID: 64000012625906096}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Console_Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -478,7 +478,7 @@ GameObject:
   - 4: {fileID: 4000013428649928}
   - 33: {fileID: 33000013530906630}
   - 23: {fileID: 23000012887780528}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -497,7 +497,7 @@ GameObject:
   - 23: {fileID: 23000011182593938}
   - 114: {fileID: 114000013753881854}
   - 114: {fileID: 114000013007817392}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Score_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -513,7 +513,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000010395699420}
   - 82: {fileID: 82000011041146680}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Success Audio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -666,10 +666,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010583606340}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1.07}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -1.07, y: 0, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
   m_Children:
   - {fileID: 4000010245262368}
   - {fileID: 4000013428649928}
