@@ -12270,9 +12270,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c83e06d07b8f654981913996327bdf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AutoConnect: 0
-  AutoDisconnect: 0
-  AutoTransmit: 0
+  AutoConnect: 1
+  AutoDisconnect: 1
+  AutoTransmit: 1
   SamplingRate: 24000
   Delay: 40
   Bitrate: 30000
