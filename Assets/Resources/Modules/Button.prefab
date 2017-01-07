@@ -8,7 +8,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 487678}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Labels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ GameObject:
   - 95: {fileID: 9569586}
   - 114: {fileID: 11487824}
   - 114: {fileID: 11440464}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - 4: {fileID: 454274}
   - 33: {fileID: 3383734}
   - 23: {fileID: 2389020}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Case
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,7 +61,7 @@ GameObject:
   - 4: {fileID: 400200}
   - 33: {fileID: 3350586}
   - 23: {fileID: 2333208}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78,7 +78,7 @@ GameObject:
   - 4: {fileID: 490452}
   - 102: {fileID: 10291866}
   - 23: {fileID: 2343638}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,9 +94,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 471054}
   - 23: {fileID: 2376058}
-  - 114: {fileID: 11451538}
-  - 114: {fileID: 11423424}
-  m_Layer: 0
+  - 114: {fileID: 114000013218302922}
+  m_Layer: 8
   m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +112,7 @@ GameObject:
   - 4: {fileID: 404870}
   - 33: {fileID: 3353814}
   - 23: {fileID: 2347822}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Shaft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,10 +179,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 182762}
-  m_LocalRotation: {x: -0.7071068, y: -0.7071068, z: 0.000000084293696, w: -0.000000034915587}
-  m_LocalPosition: {x: -0.2, y: 0.351, z: -0.025}
-  m_LocalScale: {x: 0.05699815, y: 0.05699815, z: 0.03455335}
-  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 90}
+  m_LocalRotation: {x: -0.27059805, y: 0.27059802, z: 0.65328157, w: 0.65328145}
+  m_LocalPosition: {x: 2.436, y: 3.5, z: 1.42}
+  m_LocalScale: {x: 0.3799879, y: 0.37998787, z: 0.27642697}
+  m_LocalEulerAnglesHint: {x: -45, y: 0, z: 90.00001}
   m_Children:
   - {fileID: 487678}
   - {fileID: 454274}
@@ -197,7 +196,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 103094}
   m_LocalRotation: {x: 0.70710677, y: 0.7071068, z: -0.00000008429369, w: -0.000000034915583}
-  m_LocalPosition: {x: 2.2, y: 0, z: -0.9}
+  m_LocalPosition: {x: -1.38, y: -0, z: -0.9}
   m_LocalScale: {x: 1.7544423, y: 1.7544425, z: 2.894075}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -368,7 +367,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 132908}
-  m_Mesh: {fileID: 4300014, guid: 2cffb117b21489d458e68d94e63d8a1e, type: 3}
+  m_Mesh: {fileID: 4300022, guid: 2cffb117b21489d458e68d94e63d8a1e, type: 3}
 --- !u!33 &3353814
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -419,7 +418,7 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 139118}
-  m_Text: FIRE!
+  m_Text: Create Game
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
@@ -433,31 +432,6 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4278190080
---- !u!114 &11423424
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 182762}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  prefixBackup: -1
-  observed: {fileID: 0}
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 1
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  isRuntimeInstantiated: 0
 --- !u!114 &11440464
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -473,21 +447,6 @@ MonoBehaviour:
   m_grabMode: 4
   m_allowOffhandGrab: 0
   m_grabPoints: []
---- !u!114 &11451538
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 182762}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b9e47de62cb357489386271966df647, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isButtonDown: 0
-  newName: 
-  rCommand: -1
-  playerNum: 0
 --- !u!114 &11487824
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -512,3 +471,15 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 182762}
   m_IsPrefabParent: 1
+--- !u!114 &114000013218302922
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 182762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30806f7b7b063284b9c645f96adaca5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  photonLobby_VR_Script: {fileID: 0}
