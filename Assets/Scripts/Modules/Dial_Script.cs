@@ -7,6 +7,7 @@ public class Dial_Script : Photon.MonoBehaviour
     Transform handleTransform;
     private Highlight_Handle_Top_Script handleScript;
     public int dialPosition;
+    Vector3 localEulerAngles;
 
     private bool isLocked = false;
 
@@ -90,8 +91,9 @@ public class Dial_Script : Photon.MonoBehaviour
             }
             else
             {
+                localEulerAngles = handleTransform.localEulerAngles;
                 //snap lever into place near edges 
-                if (handleTransform.localEulerAngles.y > 162)
+                if (localEulerAngles.y > 162)
                 {
                     handleTransform.localEulerAngles = new Vector3(0, 179.9f, 0);
 
@@ -106,7 +108,7 @@ public class Dial_Script : Photon.MonoBehaviour
                         photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandFive, dialPosition);
                     }
                 }
-                else if (handleTransform.localEulerAngles.y > 126 && handleTransform.localEulerAngles.y < 162)
+                else if (localEulerAngles.y > 126 && localEulerAngles.y < 162)
                 {
                     handleTransform.localEulerAngles = new Vector3(0, 144, 0);
 
@@ -121,7 +123,7 @@ public class Dial_Script : Photon.MonoBehaviour
                         photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandFour, dialPosition);
                     }
                 }
-                else if (handleTransform.localEulerAngles.y > 90 && handleTransform.localEulerAngles.y < 126)
+                else if (localEulerAngles.y > 90 && localEulerAngles.y < 126)
                 {
                     handleTransform.localEulerAngles = new Vector3(0, 108, 0);
 
@@ -136,7 +138,7 @@ public class Dial_Script : Photon.MonoBehaviour
                         photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandThree, dialPosition);
                     }
                 }
-                else if (handleTransform.localEulerAngles.y > 54 && handleTransform.localEulerAngles.y < 90)
+                else if (localEulerAngles.y > 54 && localEulerAngles.y < 90)
                 {
                     handleTransform.localEulerAngles = new Vector3(0, 72, 0);
 
@@ -151,7 +153,7 @@ public class Dial_Script : Photon.MonoBehaviour
                         photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandTwo, dialPosition);
                     }
                 }
-                else if (handleTransform.localEulerAngles.y > 18 && handleTransform.localEulerAngles.y < 54)
+                else if (localEulerAngles.y > 18 && localEulerAngles.y < 54)
                 {
                     handleTransform.localEulerAngles = new Vector3(0, 36, 0);
 
@@ -166,7 +168,7 @@ public class Dial_Script : Photon.MonoBehaviour
                         photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandOne, dialPosition);
                     }
                 }
-                else if (handleTransform.localEulerAngles.y < 18)
+                else if (localEulerAngles.y < 18)
                 {
                     handleTransform.localEulerAngles = new Vector3(0, 0, 0);
 

@@ -183,13 +183,15 @@ public class PhotonLobbyRoom : Photon.MonoBehaviour
         }
     }
 
+#if UNITY_EDITOR
     public void OnGUI()
     {
-        if (GUILayout.Button("Return to Lobby"))
+        if (GUI.Button(new Rect(10, 10, 120, 30), "Return to Lobby"))
         {
             PhotonNetwork.LeaveRoom();  // we will load the menu level when we successfully left the room
         }
     }
+#endif
 
     public void OnMasterClientSwitched(PhotonPlayer player)
     {

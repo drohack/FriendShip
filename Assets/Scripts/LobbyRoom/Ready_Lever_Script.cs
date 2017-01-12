@@ -7,6 +7,7 @@ public class Ready_Lever_Script : Photon.MonoBehaviour {
     Transform handleTransform;
     [SerializeField]
     Highlight_Handle_Top_Script handleScript;
+    Vector3 localEulerAngles;
 
     PhotonLobbyRoom photonLobbyRoomScript;
 
@@ -76,7 +77,8 @@ public class Ready_Lever_Script : Photon.MonoBehaviour {
             }
             else
             {
-                if (handleTransform.localEulerAngles.y < 90 || handleTransform.localEulerAngles.y > 342.5)
+                localEulerAngles = handleTransform.localEulerAngles;
+                if (localEulerAngles.y < 90 || localEulerAngles.y > 342.5)
                 {
                     handleTransform.localPosition = new Vector3(0, 0, handleTransform.localPosition.z);
                     handleTransform.localEulerAngles = new Vector3(
@@ -96,7 +98,7 @@ public class Ready_Lever_Script : Photon.MonoBehaviour {
                         photonView.RPC("CmdSendReadyCommand", PhotonTargets.MasterClient, isWLeverUp, playerPosition);
                     }
                 }
-                else if (handleTransform.localEulerAngles.y < 342.5 && handleTransform.localEulerAngles.y > 180)
+                else if (localEulerAngles.y < 342.5 && localEulerAngles.y > 180)
                 {
                     handleTransform.localPosition = new Vector3(-0.57f, 0, handleTransform.localPosition.z);
                     handleTransform.localEulerAngles = new Vector3(

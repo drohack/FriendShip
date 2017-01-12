@@ -6,6 +6,7 @@ public class Shifter_Script : Photon.MonoBehaviour
 
     private Transform handleTransform;
     private Highlight_Handle_Top_Script handleScript;
+    Vector3 localEulerAngles;
 
     public int shifterPosition;
     
@@ -91,7 +92,8 @@ public class Shifter_Script : Photon.MonoBehaviour
             }
             else
             {
-                if (handleTransform.localEulerAngles.z > 22.5 && handleTransform.localEulerAngles.z < 180)
+                localEulerAngles = handleTransform.localEulerAngles;
+                if (localEulerAngles.z > 22.5 && localEulerAngles.z < 180)
                 {
                     handleTransform.localEulerAngles = new Vector3(
                         0f,
@@ -110,7 +112,7 @@ public class Shifter_Script : Photon.MonoBehaviour
                         photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandTwo, shifterPosition);
                     }
                 }
-                else if (handleTransform.localEulerAngles.z > 337.5 || handleTransform.localEulerAngles.z < 22.5)
+                else if (localEulerAngles.z > 337.5 || localEulerAngles.z < 22.5)
                 {
                     handleTransform.localEulerAngles = new Vector3(
                         0f,
@@ -129,7 +131,7 @@ public class Shifter_Script : Photon.MonoBehaviour
                         photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandOne, shifterPosition);
                     }
                 }
-                else if (handleTransform.localEulerAngles.z < 337.5 && handleTransform.localEulerAngles.z > 180)
+                else if (localEulerAngles.z < 337.5 && localEulerAngles.z > 180)
                 {
                     handleTransform.localEulerAngles = new Vector3(
                         0f,

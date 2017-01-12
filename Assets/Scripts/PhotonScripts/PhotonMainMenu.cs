@@ -19,6 +19,7 @@ using System.Collections.Generic;
 
 public class PhotonMainMenu : MonoBehaviour
 {
+    public Canvas tableCanvas;
     public Text LobbyTitle;
     public Text UsersText;
     public Text GamesText;
@@ -146,7 +147,7 @@ public class PhotonMainMenu : MonoBehaviour
         //Default sendRate = 20 (msg/second)
         //Default sendRateOnSerialize = 10 (msg/second)
         PhotonNetwork.sendRate = 5;
-        PhotonNetwork.sendRateOnSerialize = 5;
+        PhotonNetwork.sendRateOnSerialize = 3;
 
         // generate a name for this player, if none is assigned yet
         if (String.IsNullOrEmpty(PhotonNetwork.playerName))
@@ -255,6 +256,8 @@ public class PhotonMainMenu : MonoBehaviour
         roomButton.SetActive(true);
         roomButtonDefaultBounds = TextMeshArea(roomButton.transform.Find("GameName").GetComponent<TextMesh>());
         roomButton.SetActive(false);
+
+        tableCanvas.pixelPerfect = false;
     }
 
     System.Collections.IEnumerator LoadLeaderboards()
@@ -557,6 +560,20 @@ public class PhotonMainMenu : MonoBehaviour
             }
         }
     }
+
+#if UNITY_EDITOR
+    void OnGUI()
+    {
+        if (GUI.Button(new Rect(10, 10, 100, 30), "Create Game"))
+        {
+            CreateGame();
+        }
+        if (GUI.Button(new Rect(10, 40, 100, 30), "Join Game"))
+        {
+            PhotonNetwork.JoinRandomRoom();
+        }
+    }
+#endif
 
     void Update()
     {

@@ -7,6 +7,7 @@ public class Pullcord_Script : Photon.MonoBehaviour
     Transform handleTransform;
     private Highlight_Handle_Top_Script handleScript;
     private ConfigurableJoint handleJoint = null;
+    Vector3 localPosition;
 
     public bool isDown = false;
     private float linearLimit = -2;
@@ -78,6 +79,7 @@ public class Pullcord_Script : Photon.MonoBehaviour
         }
         else
         {
+            localPosition = handleTransform.localPosition;
             //If there is no current handle joint and you own this object, add a handle joint
             if (handleJoint == null)
             {
@@ -85,21 +87,21 @@ public class Pullcord_Script : Photon.MonoBehaviour
             }
 
             // If you are holding the handle and it is all the way down send the tapped command once
-            if (handleScript.isGrabbing && handleTransform.localPosition.y <= linearLimit && !isDown)
+            if (handleScript.isGrabbing && localPosition.y <= linearLimit && !isDown)
             {
                 isDown = true;
                 //send command tapped to the Server
                 photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommand, isDown);
             }
             // Else if not holding the handle and it's at the maximum, set handle just above maximum so it bounces back to the center (it locks at maximum)
-            else if (!handleScript.isGrabbing && handleTransform.localPosition.y <= linearLimit)
+            else if (!handleScript.isGrabbing && localPosition.y <= linearLimit)
             {
-                handleTransform.localPosition = new Vector3(handleTransform.localPosition.x, linearLimit + 0.01f, handleTransform.localPosition.z);
+                handleTransform.localPosition = new Vector3(localPosition.x, linearLimit + 0.01f, localPosition.z);
                 isDown = false;
                 photonView.RPC("RPCUpdateIsDown", PhotonTargets.Others, isDown);
             }
             // Else if the handle is above the maximum and the last isDown sent was "true" let others know it's now false
-            else if (handleTransform.localPosition.y > linearLimit && isDown == true)
+            else if (localPosition.y > linearLimit && isDown == true)
             {
                 isDown = false;
                 photonView.RPC("RPCUpdateIsDown", PhotonTargets.Others, isDown);

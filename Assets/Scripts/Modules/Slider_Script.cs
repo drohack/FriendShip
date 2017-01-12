@@ -7,7 +7,8 @@ public class Slider_Script : Photon.MonoBehaviour
     Transform handleTransform;
     private Highlight_Handle_Top_Script handleScript;
     public int sliderPosition;
-    
+    Vector3 localPosition;
+
     private bool isLocked = true;
 
     Mastermind_Script mastermindScript;
@@ -93,8 +94,9 @@ public class Slider_Script : Photon.MonoBehaviour
             }
             else
             {
+                localPosition = handleTransform.localPosition;
                 //snap lever into place near edges (on = handleTransform.localPosition.z == 0; off = handleTransform.localPosition.z == 45)
-                if (handleTransform.localPosition.z > 1.066)
+                if (localPosition.z > 1.066)
                 {
                     handleTransform.localPosition = new Vector3(0, 0, 1.6f);
 
@@ -109,7 +111,7 @@ public class Slider_Script : Photon.MonoBehaviour
                         photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandThree, sliderPosition);
                     }
                 }
-                else if (handleTransform.localPosition.z > 0 && handleTransform.localPosition.z < 1.066)
+                else if (localPosition.z > 0 && localPosition.z < 1.066)
                 {
                     handleTransform.localPosition = new Vector3(0, 0, 0.533f);
 
@@ -124,7 +126,7 @@ public class Slider_Script : Photon.MonoBehaviour
                         photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandTwo, sliderPosition);
                     }
                 }
-                else if (handleTransform.localPosition.z > -1.066 && handleTransform.localPosition.z < 0)
+                else if (localPosition.z > -1.066 && localPosition.z < 0)
                 {
                     handleTransform.localPosition = new Vector3(0, 0, -0.533f);
 
@@ -139,7 +141,7 @@ public class Slider_Script : Photon.MonoBehaviour
                         photonView.RPC("CmdSendTappedCommand", PhotonTargets.MasterClient, rCommandOne, sliderPosition);
                     }
                 }
-                else if (handleTransform.localPosition.z < -1.066)
+                else if (localPosition.z < -1.066)
                 {
                     handleTransform.localPosition = new Vector3(0, 0, -1.6f);
 

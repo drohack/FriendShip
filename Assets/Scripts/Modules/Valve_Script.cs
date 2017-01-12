@@ -8,7 +8,8 @@ public class Valve_Script : Photon.MonoBehaviour
     private Highlight_Handle_Top_Script handleScript;
     public float valveLastRotation;
     public float valveTotalRotation;
-    
+    Vector3 localEulerAngles;
+
     private bool isCommandSent = false;
 
     Mastermind_Script mastermindScript;
@@ -87,6 +88,7 @@ public class Valve_Script : Photon.MonoBehaviour
         }
         else {
             handleTransform.localPosition = new Vector3(0, 0, 0);
+            localEulerAngles = handleTransform.localEulerAngles;
 
             // If the valve was let go and we already sent the command, set the released position to be the new zero
             if (!handleScript.isGrabbing && isCommandSent)
@@ -95,7 +97,7 @@ public class Valve_Script : Photon.MonoBehaviour
                 isCommandSent = false;
                 handleTransform.GetComponent<HingeJoint>().useSpring = true;
                 JointSpring springJoint = handleTransform.GetComponent<HingeJoint>().spring;
-                float targetPosition = (handleTransform.localEulerAngles.z > 180) ? (handleTransform.localEulerAngles.z - 360) : handleTransform.localEulerAngles.z;
+                float targetPosition = (localEulerAngles.z > 180) ? (localEulerAngles.z - 360) : localEulerAngles.z;
                 springJoint.targetPosition = targetPosition;
                 handleTransform.GetComponent<HingeJoint>().spring = springJoint;
             }
@@ -106,18 +108,18 @@ public class Valve_Script : Photon.MonoBehaviour
             }
 
             // Check for edge cases as localEulerAngle only goes from 0 to 359 then starts over at 0
-            if (handleTransform.localEulerAngles.z - valveLastRotation < -300)
+            if (localEulerAngles.z - valveLastRotation < -300)
             {
                 valveLastRotation -= 360;
             }
-            else if (handleTransform.localEulerAngles.z - valveLastRotation > 300)
+            else if (localEulerAngles.z - valveLastRotation > 300)
             {
                 valveLastRotation += 360;
             }
             // Update total rotation to the difference between the last rotation and the current rotation
-            valveTotalRotation += handleTransform.localEulerAngles.z - valveLastRotation;
+            valveTotalRotation += localEulerAngles.z - valveLastRotation;
             //Debug.Log("Total rotation: " + valveTotalRotation + " isCommandSent: " + isCommandSent);
-            valveLastRotation = handleTransform.localEulerAngles.z;
+            valveLastRotation = localEulerAngles.z;
 
             // Only need to send the command once
             if (!isCommandSent)
