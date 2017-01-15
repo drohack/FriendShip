@@ -570,7 +570,15 @@ public class PhotonMainMenu : MonoBehaviour
         }
         if (GUI.Button(new Rect(10, 40, 100, 30), "Join Game"))
         {
-            PhotonNetwork.JoinRandomRoom();
+            if (PhotonNetwork.JoinRandomRoom())
+            {
+#if OCULUS
+                //Save your OVRCameraRig to be added to your PlayerObject
+                Transform ovrCameraRig = GameObject.FindGameObjectWithTag("Player").transform.Find("OVRCameraRig");
+                ovrCameraRig.parent = null;
+                DontDestroyOnLoad(ovrCameraRig);
+#endif
+            }
         }
     }
 #endif

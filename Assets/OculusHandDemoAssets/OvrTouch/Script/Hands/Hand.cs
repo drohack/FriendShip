@@ -180,12 +180,17 @@ namespace OVRTouchSample
             if (m_clipA != null) m_hapticsClipA = new OVRHapticsClip(m_clipA);
         }
 
+        private float interval = 0.1f;
+        private float nextUpdate = 0f;
         private void Update()
         {
-            ParticleSystem.EmissionModule emission = m_particles.emission;
-            var rateCurve = emission.rate;
-            rateCurve.constantMax = m_velocityTracker.TrackedLinearVelocity.magnitude * m_particleEmissionRateVelocityScale;
-            emission.rate = rateCurve;
+            if (Time.time >= nextUpdate)
+            {
+                ParticleSystem.EmissionModule emission = m_particles.emission;
+                var rateCurve = emission.rate;
+                rateCurve.constantMax = m_velocityTracker.TrackedLinearVelocity.magnitude * m_particleEmissionRateVelocityScale;
+                emission.rate = rateCurve;
+            }
 
             float prevFlex = m_flex;
             float prevTrigger = m_trigger;
