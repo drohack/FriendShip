@@ -42,7 +42,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 7
-  m_GIWorkflowMode: 1
+  m_GIWorkflowMode: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -2495,54 +2495,45 @@ Prefab:
       propertyPath: m_Name
       value: Player Control Deck 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114000013107021102, guid: 3d35cd3fc2850a149ab9522064df3edd,
-        type: 2}
-      propertyPath: viewIdField
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000013107021102, guid: 3d35cd3fc2850a149ab9522064df3edd,
-        type: 2}
-      propertyPath: instantiationId
-      value: 20
-      objectReference: {fileID: 0}
     - target: {fileID: 114000013124515078, guid: 3d35cd3fc2850a149ab9522064df3edd,
         type: 2}
       propertyPath: viewIdField
-      value: 26
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114000013124515078, guid: 3d35cd3fc2850a149ab9522064df3edd,
         type: 2}
       propertyPath: instantiationId
-      value: 26
+      value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114000013007817392, guid: 3d35cd3fc2850a149ab9522064df3edd,
+    - target: {fileID: 114000013107021102, guid: 3d35cd3fc2850a149ab9522064df3edd,
         type: 2}
       propertyPath: viewIdField
-      value: 27
+      value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 114000013007817392, guid: 3d35cd3fc2850a149ab9522064df3edd,
+    - target: {fileID: 114000013107021102, guid: 3d35cd3fc2850a149ab9522064df3edd,
         type: 2}
       propertyPath: instantiationId
-      value: 27
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 114000013802967178, guid: 3d35cd3fc2850a149ab9522064df3edd,
         type: 2}
       propertyPath: viewIdField
-      value: 28
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 114000013802967178, guid: 3d35cd3fc2850a149ab9522064df3edd,
         type: 2}
       propertyPath: instantiationId
-      value: 28
+      value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 1000013248434622, guid: 3d35cd3fc2850a149ab9522064df3edd, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 102000012487919842, guid: 3d35cd3fc2850a149ab9522064df3edd,
+    - target: {fileID: 114000013007817392, guid: 3d35cd3fc2850a149ab9522064df3edd,
         type: 2}
-      propertyPath: m_Text
-      value: 
+      propertyPath: viewIdField
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013007817392, guid: 3d35cd3fc2850a149ab9522064df3edd,
+        type: 2}
+      propertyPath: instantiationId
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3d35cd3fc2850a149ab9522064df3edd, type: 2}

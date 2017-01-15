@@ -97,6 +97,7 @@ namespace OVRTouchSample
         public float m_thumbsUp = 0.0f;
         public bool canPoint;
         public bool canThumbsUp;
+        private Grabbed_Hand_Script grabbedHandScript;
 
         // HAPTICS
         public const float HAPTIC_OVERLAP_AMPLITUDE = 0.25f;
@@ -138,8 +139,8 @@ namespace OVRTouchSample
             );
             if (canRelease)
             {
-                if (this.GetComponent<Grabbed_Hand_Script>() != null)
-                    this.GetComponent<Grabbed_Hand_Script>().GrabEnd();
+                if (grabbedHandScript != null)
+                    grabbedHandScript.GrabEnd();
             }
         }
         private void Awake()
@@ -178,6 +179,8 @@ namespace OVRTouchSample
             // Haptics
             m_hapticsChannel = m_handedness == OVRInput.Controller.LTouch ? OVRHaptics.LeftChannel : OVRHaptics.RightChannel;
             if (m_clipA != null) m_hapticsClipA = new OVRHapticsClip(m_clipA);
+
+            grabbedHandScript = this.GetComponent<Grabbed_Hand_Script>();
         }
 
         private float interval = 0.1f;
@@ -257,8 +260,8 @@ namespace OVRTouchSample
         {
             if (m_grabbedObj != null)
             {
-                if (this.GetComponent<Grabbed_Hand_Script>() != null)
-                    this.GetComponent<Grabbed_Hand_Script>().GrabEnd();
+                if (grabbedHandScript != null)
+                    grabbedHandScript.GrabEnd();
             }
         }
 
@@ -378,14 +381,14 @@ namespace OVRTouchSample
         {
             if (((m_flex >= THRESH_GRAB_BEGIN) && (prevFlex < THRESH_GRAB_BEGIN)) || ((m_trigger >= THRESH_GRAB_BEGIN) && (prevTrigger < THRESH_GRAB_BEGIN)))
             {
-                if (this.GetComponent<Grabbed_Hand_Script>() != null)
-                    this.GetComponent<Grabbed_Hand_Script>().GrabBegin(m_grabCandidates);
+                if (grabbedHandScript != null)
+                    grabbedHandScript.GrabBegin(m_grabCandidates);
             }
             else if (((m_flex <= THRESH_GRAB_END) && (prevFlex > THRESH_GRAB_END) && (m_trigger <= THRESH_GRAB_END)) ||
                 ((m_trigger <= THRESH_GRAB_END) && (prevTrigger > THRESH_GRAB_END) && (m_flex <= THRESH_GRAB_END)))
             {
-                if (this.GetComponent<Grabbed_Hand_Script>() != null)
-                    this.GetComponent<Grabbed_Hand_Script>().GrabEnd();
+                if (grabbedHandScript != null)
+                    grabbedHandScript.GrabEnd();
             }
         }
 
