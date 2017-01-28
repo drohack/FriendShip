@@ -228,7 +228,7 @@ public class Photon_Transform_Rotation_Script : Photon.MonoBehaviour
         }
     }
 
-    private float interval = 0.05f;
+    private float interval = 0.01f;
     private float nextUpdate = 0f;
     // Update is called once per frame
     void Update()
