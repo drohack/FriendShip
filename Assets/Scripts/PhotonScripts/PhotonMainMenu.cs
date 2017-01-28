@@ -147,7 +147,7 @@ public class PhotonMainMenu : MonoBehaviour
         //Default sendRate = 20 (msg/second)
         //Default sendRateOnSerialize = 10 (msg/second)
         PhotonNetwork.sendRate = 10;
-        PhotonNetwork.sendRateOnSerialize = 7;
+        PhotonNetwork.sendRateOnSerialize = 5;
 
         // generate a name for this player, if none is assigned yet
         if (String.IsNullOrEmpty(PhotonNetwork.playerName))
