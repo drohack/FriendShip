@@ -32,21 +32,13 @@ namespace UnityStandardAssets.Water
         private int m_OldRefractionTextureSize;
         private static bool s_InsideWater;
 
-
-        private float interval = 0.01f;
-        private float nextUpdate = 0f;
+        
         // This is called when it's known that the object will be rendered by some
         // camera. We render reflections / refractions and do other updates here.
         // Because the script executes in edit mode, reflections for the scene view
         // camera will just work!
         public void OnWillRenderObject()
         {
-            if (Time.time < nextUpdate)
-            {
-                return;
-            }
-            nextUpdate = Time.time + interval;
-
             if (!enabled || !GetComponent<Renderer>() || !GetComponent<Renderer>().sharedMaterial ||
                 !GetComponent<Renderer>().enabled)
             {
